@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>弹窗 - 扩展管理器</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			overflow-x: hidden;
+			-webkit-user-select: none;
+		}
+
+		::-webkit-scrollbar {
+			width: 5px;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: #D8D8D8;
+		}
+
+		.gclearfix {
+			zoom: 1;
+		}
+
+		.gclearfix:after {
+			clear: both;
+			content: '';
+			display: block;
+			height: 0;
+			visibility: hidden;
+		}
+
+		#wrap {
+			width: 496px;
+			min-height: 125px;
+			padding: 20px;
+			box-sizing: border-box;
+			position: relative;
+		}
+
+		.list li {
+			width: 50px;
+			height: 50px;
+			float: left;
+			list-style: none;
+			margin: 13px;
+			border-radius: 2px;
+			cursor: pointer;
+		}
+
+		.list li.hover {
+			-webkit-filter: grayscale(0) !important;
+			filter: grayscale(0) !important;
+			opacity: 1 !important;
+		}
+
+		.list li.hover img {
+			transform: scale(1.3);
+			-webkit-transform: scale(1.3);
+		}
+
+		/*.list li:active {
+			-webkit-filter: blur(1px) !important;
+			filter: blur(1px) !important;
+		}*/
+
+		.list li img {
+			width: 50px;
+			height: 50px;
+			-webkit-transition: .2s ease-in-out;
+			transition: .2s ease-in-out;
+		}
+
+		#showList {
+			border-bottom: 2px dashed #ccc;
+			padding: 0 0 10px 0;
+			margin: 0 0 10px 0;
+		}
+
+		#showList:empty {
+			border-bottom: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		#showList[locked] li {
+			position: relative;
+		}
+
+		#showList[locked] li img {
+			opacity: .6;
+			-webkit-filter: grayscale(1);
+			filter: grayscale(1);
+		}
+
+		#showList[locked] li:after {
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 999;
+			content: "";
+			display: block;
+			height: 16px;
+			width: 16px;
+			background: url("icon/icon-lock.png") top right no-repeat;
+			background-size: contain;
+		}
+
+		#hideList li {
+			opacity: .6;
+			-webkit-filter: grayscale(1);
+			filter: grayscale(1);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap">
+		<ul id="showList" class="gclearfix list"></ul>
+		<ul id="hideList" class="gclearfix list"></ul>
+	</div>
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/popup.min.js"></script>
+</body>
+
+</html>

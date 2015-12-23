@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>选项配置 - 扩展管理器</title>
+	<style type="text/css">
+		.gclearfix:after{display:block;clear:both;visibility:hidden;height:0;content:'';}
+		.gclearfix{zoom:1;}
+		*{
+			padding: 0;
+			margin: 0;
+			font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+			text-rendering: geometricPrecision;
+		}
+		body{
+			padding: 20px;
+		}
+		button, select{
+			width: 80px;
+			height: 30px;
+			line-height: 30px;
+			display: block;
+			background: #25b75a;
+			color: #fff;
+			border-radius: 2px;
+			border: none;
+			font-size: 14px;
+			outline: none;
+			cursor: pointer;
+			border: 1px solid #439E64;
+			margin: 10px 0 0 0;
+			letter-spacing: 2px;
+		}
+		button:hover, select:hover{
+			background: #1FAB52;
+		}
+		.list{
+			background: #efefef;
+			margin: 30px 20px;
+			padding: 20px;
+			border-radius: 2px;
+		}
+		.list h1{
+			font-size: 24px;
+			font-weight: normal;
+			line-height: 48px;
+		}
+
+		.list .list-plugins{
+			list-style: none;
+			margin: 10px 0 0 0;
+		}
+		.list .list-plugins li{
+			height: 40px;
+			width: 40px;
+			float: left;
+			margin: 0 20px 20px 0;
+		}
+		.list .list-plugins li[locked]{
+			position: relative;
+		}
+		.list .list-plugins li[locked] img{
+			opacity: .4;
+    		-webkit-filter: grayscale(1);
+    		filter: grayscale(1);
+		}
+		.list .list-plugins li[locked]:after{
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 999;
+			content: "";
+			display: block;
+			height: 14px;
+			width: 14px;
+    		background: url("icon/icon-lock.png") top right no-repeat;
+    		background-size: contain;
+		}
+		.list .list-plugins li img{
+			width: 100%;
+			height: 100%;
+		}
+
+		.tips{
+			font-family: 微软雅黑;
+			color: rgb(255, 255, 255);
+			padding: 0px 20px;
+			text-align: center;
+			width: 200px;
+			font-size: 20px;
+			position: fixed;
+			top: -38px;
+			left: 50%;
+			margin-left: -100px;
+			z-index: 9999999;
+			transition: 0.2s;
+			-webkit-transition: 0.2s;
+			opacity: 0;
+			cursor: pointer;
+			height: 36px;
+			line-height: 36px;
+			background : #25b75a;
+			border : 1px solid #439E64;
+		}
+		ul li{
+			font-size: 16px;
+			line-height: 30px;
+			color: #636363;
+			margin: 0 0 0 18px;
+		}
+		p.describe{
+			font-size: 14px;
+			margin: 20px 0 0 0;
+			color: #636363;
+		}
+		p.describe::before{
+			content: "*";
+		}
+		p.describe::after{
+			content: "*";
+		}
+		ul li em{
+			background: #E2E2E2;
+			border-radius: 4px;
+			font-style: normal;
+			padding: 1px 4px;
+			margin: 0 3px;
+		}
+	</style>
+</head>
+<body>
+	<div id="_TOOLS_STATUS__" class="tips"></div>
+
+	<div class="list">
+		<h1>显示列数：</h1>
+		<p>
+			<select id="js-sel-column">
+				<option value="9">9列</option>
+				<option value="8">8列</option>
+				<option value="7">7列</option>
+				<option value="6" selected>6列</option>
+				<option value="5">5列</option>
+				<option value="4">4列</option>
+				<option value="3">3列</option>
+			</select>
+		</p>
+	</div>
+
+	<div class="list">
+		<h1>闪电管理：</h1>
+		<p class="describe">
+			在浏览器右上角弹窗的空白区域快速双击，闪电般关闭所有扩展（已被锁定的扩展+主题插件除外）
+		</p>
+		<p class="describe" style="margin: 30px 0 0 0;">
+			点击高亮图标进行锁定↓
+		</p>
+		<ul id="_PLUGINS_LIST_" class="list-plugins gclearfix"></ul>
+	</div>
+
+	<div class="list">
+		<h1>扩展排序：</h1>
+		<button id="js-clear-rank">重置</button>
+		<p class="describe">
+			根据开启的频率进行计算排序
+		</p>
+	</div>
+
+	<div class="list">
+		<h1>扩展卸载：</h1>
+		<p class="describe">
+			在扩展图标上“右击”进行卸载
+		</p>
+	</div>
+
+	<!-- <div class="list">
+		<h1>纯净指示灯：</h1>
+		<p class="describe">
+			在扩展图标上“右击”进行卸载
+		</p>
+	</div> -->
+
+	<div class="list">
+		<h1>其它：</h1>
+		<p class="describe">
+			如果用起来还不错，请上 <a href="https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco" target="_blank">Chrome网上应用店</a> 给好评，将激励开发者持续完善 :-）
+		</p>
+	</div>
+
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/options.min.js"></script>
+</body>
+</html>
