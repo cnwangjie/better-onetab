@@ -21,13 +21,27 @@
 	/**
 	 * [选择扩展显示的列数]
 	 */
-	$('#js-sel-column').change(function(){
-		localStorage.setItem("_showColumn_", $(this).val());
-		showTips('设置成功!');
+	var setColumnTimer = null,
+		setColumnShow = $('#js-sel-column-show'),
+		setColumnRange = $('#js-sel-column');
+	function setColumn(num){
+		localStorage.setItem("_showColumn_", num);
+		setColumnShow.html(num)
+		if(setColumnTimer){
+			clearTimeout(setColumnTimer);
+			setColumnTimer = null;
+		}
+		setColumnTimer = setTimeout(function(){
+			showTips('设置成功!');
+		}, 600)
+	}
+	setColumnRange.on("input chnage", function(){
+		setColumn($(this).val());
 	});
 	var _column_ = localStorage.getItem("_showColumn_");
 	if(_column_){
-		$('#js-sel-column').val(_column_);
+		setColumnRange.val(_column_);
+		setColumnShow.html(_column_)
 	}
 
 	/**

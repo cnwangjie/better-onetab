@@ -140,9 +140,9 @@
 	<div id="_TOOLS_STATUS__" class="tips"></div>
 
 	<div class="list">
-		<h1>显示列数：</h1>
+		<h1>显示列数：<span id="js-sel-column-show">7</span></h1>
 		<p>
-			<select id="js-sel-column">
+			<!-- <select id="js-sel-column">
 				<option value="9">9列</option>
 				<option value="8">8列</option>
 				<option value="7">7列</option>
@@ -150,7 +150,39 @@
 				<option value="5">5列</option>
 				<option value="4">4列</option>
 				<option value="3">3列</option>
-			</select>
+			</select> -->
+			<style media="screen">
+				#js-sel-column {
+					width: 400px;
+					height: 4px;
+					background: rgba(37, 183, 90, .8);
+					border: 1px solid #439E64;
+					-webkit-border-radius: 4px;
+					-webkit-appearance: none !important;
+					outline: none;
+					margin: 10px 0 0 0;
+				}
+
+				#js-sel-column::-webkit-slider-thumb{
+					width: 28px;
+					height: 28px;
+
+					background: -webkit-gradient(
+						linear,
+						left top,
+						left bottom,
+						from(#fff),
+						to(#ccc)
+					);
+
+					border: 1px solid #666;
+					-webkit-box-shadow: 0 0 6px #666;
+					-webkit-border-radius: 14px;
+					-webkit-appearance: none !important;
+				}
+
+			</style>
+			<input type="range" id="js-sel-column" min="3" max="9" step="1">
 		</p>
 	</div>
 
