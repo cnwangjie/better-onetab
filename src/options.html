@@ -48,7 +48,7 @@
 
 		.list .list-plugins{
 			list-style: none;
-			margin: 10px 0 0 0;
+			margin: 20px 0 0 0;
 		}
 		.list .list-plugins li{
 			height: 40px;
@@ -134,6 +134,36 @@
 			padding: 1px 4px;
 			margin: 0 3px;
 		}
+
+		#js-sel-column {
+			width: 400px;
+			height: 4px;
+			background: rgba(37, 183, 90, .8);
+			border: 1px solid #439E64;
+			-webkit-border-radius: 4px;
+			-webkit-appearance: none !important;
+			outline: none;
+			margin: 10px 0 0 0;
+		}
+
+		#js-sel-column::-webkit-slider-thumb{
+			width: 28px;
+			height: 28px;
+			cursor: pointer;
+
+			background: -webkit-gradient(
+				linear,
+				left top,
+				left bottom,
+				from(#fff),
+				to(#ccc)
+			);
+
+			border: 1px solid #666;
+			-webkit-box-shadow: 0 0 6px #666;
+			-webkit-border-radius: 14px;
+			-webkit-appearance: none !important;
+		}
 	</style>
 </head>
 <body>
@@ -151,37 +181,6 @@
 				<option value="4">4列</option>
 				<option value="3">3列</option>
 			</select> -->
-			<style media="screen">
-				#js-sel-column {
-					width: 400px;
-					height: 4px;
-					background: rgba(37, 183, 90, .8);
-					border: 1px solid #439E64;
-					-webkit-border-radius: 4px;
-					-webkit-appearance: none !important;
-					outline: none;
-					margin: 10px 0 0 0;
-				}
-
-				#js-sel-column::-webkit-slider-thumb{
-					width: 28px;
-					height: 28px;
-
-					background: -webkit-gradient(
-						linear,
-						left top,
-						left bottom,
-						from(#fff),
-						to(#ccc)
-					);
-
-					border: 1px solid #666;
-					-webkit-box-shadow: 0 0 6px #666;
-					-webkit-border-radius: 14px;
-					-webkit-appearance: none !important;
-				}
-
-			</style>
 			<input type="range" id="js-sel-column" min="3" max="9" step="1">
 		</p>
 	</div>
@@ -192,7 +191,7 @@
 			在浏览器右上角弹窗的空白区域快速双击，闪电般关闭所有扩展（已被锁定的扩展+主题插件除外）
 		</p>
 		<p class="describe" style="margin: 30px 0 0 0;">
-			点击高亮图标进行锁定↓
+			点击下面的图标配置“锁定”或“解锁”
 		</p>
 		<ul id="_PLUGINS_LIST_" class="list-plugins gclearfix"></ul>
 	</div>
@@ -213,6 +212,24 @@
 	</div>
 
 	<!-- <div class="list">
+		<h1>图标右击：</h1>
+		<select id="js-rightclick">
+			<option value="uninstall">
+				卸载
+			</option>
+			<option value="lock">
+				锁定
+			</option>
+			<option value="option">
+				选项
+			</option>
+		</select>
+		<p class="describe">
+			选择右击图标的操作，比如“卸载”、“锁定（闪电管理中双击不会被关闭）”或“打开选项”
+		</p>
+	</div> -->
+
+	<!-- <div class="list">
 		<h1>纯净指示灯：</h1>
 		<p class="describe">
 			在扩展图标上“右击”进行卸载
@@ -222,16 +239,16 @@
 	<div class="list">
 		<h1>其它：</h1>
 		<p class="describe">
-			如果用起来还不错，请上 <a href="https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco" target="_blank">Chrome网上应用店</a> 给好评，将激励开发者持续完善 :-）
+			如果用起来还不错，请上 <a href="https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco" target="_blank">Chrome网上应用店</a> 给好评，将激励开发者持续完善  :-)
 		</p>
 		<p class="describe">
-			另外，还可以给我2元的骄傲~
+			另外，还可以再给我2元的骄傲~
 			<br><br>
 			<img src="icon/pay.png" alt="" />
 		</p>
 	</div>
 
 	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/options.min.js"></script>
+	<script src="js/options.js"></script>
 </body>
 </html>

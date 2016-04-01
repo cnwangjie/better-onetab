@@ -1,4 +1,6 @@
 (function(){
+
+
 	/**
 	 * [showTips 显示提示]
 	 */
@@ -17,6 +19,8 @@
 			},1000);
 		}
 	}
+
+
 
 	/**
 	 * [选择扩展显示的列数]
@@ -43,6 +47,8 @@
 		setColumnRange.val(_column_);
 		setColumnShow.html(_column_)
 	}
+
+
 
 	/**
 	 * [清除rank存储数据]
@@ -90,6 +96,8 @@
 		$('#_PLUGINS_LIST_').html(listArr.join(""));
 	});
 
+
+
 	/**
 	 * [getPluginsByLocked 取出存储的锁定id列表]
 	 * @return {[type]} [description]
@@ -103,6 +111,8 @@
 			return {};
 		}
 	}
+
+
 
 	/**
 	 * 点击扩展，进行解锁与锁定
@@ -128,4 +138,20 @@
 		// 存储加锁内容
 		localStorage.setItem("_lockList_", JSON.stringify(idListObj));
 	})
+
+
+
+	/**
+	 * [选择图标右击操作]
+	 * @return {[type]} [description]
+	 */
+	var rightClickStorage = localStorage.getItem("_rightClick_") || "uninstall";
+	$("#js-rightclick").val(rightClickStorage).change(function(){
+		var val = $(this).val();
+		// 存储右击选项内容
+		localStorage.setItem("_rightClick_", val);
+		showTips('设置成功!');
+	})
+
+
 })();

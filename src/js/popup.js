@@ -36,7 +36,7 @@
                     img = obj.icons[obj.icons.length - 1].url;
                 }
 
-                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '">\
+                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'">\
 									<img src="' + img + '" alt="' + obj.name + '" width="60" height="60">\
 								</li>';
 
@@ -191,12 +191,22 @@
      * @param  {[type]} e){                		return false;   	} [description]
      * @return {[type]}      [description]
      */
+    var operRightClick = localStorage.getItem("_rightClick_") || "uninstall";
     $(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
         if (e.button === 2) {
-            chrome.management.uninstall($(this).data("id"), function() {
-                // location.reload(true);
-                refreshPlugin();
-            });
+            // 卸载扩展
+            if(operRightClick == 'uninstall'){
+                chrome.management.uninstall($(this).data("id"), function() {
+                    refreshPlugin();
+                });
+            }else if(operRightClick == 'lock'){
+
+            }else if(operRightClick == 'option'){
+                var url = $(this).data('optionurl');
+                if(url){
+                    window.open(url)
+                }
+            }
         }
     });
     $(document).on("contextmenu", function(e) {
