@@ -13,6 +13,7 @@
 		9: 684
 	};
 
+    // 设置popup页面宽度
     wrap.width(ratio_col[localStorage.getItem('_showColumn_')]);
 
     function refreshPlugin() {
@@ -36,9 +37,7 @@
                     img = obj.icons[obj.icons.length - 1].url;
                 }
 
-                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'">\
-									<img src="' + img + '" alt="' + obj.name + '" width="60" height="60">\
-								</li>';
+                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'"><img src="' + img + '" alt="' + obj.name + '" width="60" height="60"></li>';
 
                 // 根据扩展的状态，分别插入到不同的队列中
                 if (obj.enabled === false) {
@@ -49,12 +48,16 @@
 
             }
 
-            showListArr.sort(function(b, a) {
-                return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
-            });
-            hideListArr.sort(function(b, a) {
-                return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
-            });
+
+            if(!localStorage.getItem("_switch_rank_sort_")){
+                showListArr.sort(function(b, a) {
+                    return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
+                });
+                hideListArr.sort(function(b, a) {
+                    return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
+                });
+            }
+
 
             showList.html(showListArr.join(""));
             hideList.html(hideListArr.join(""));
@@ -187,28 +190,30 @@
 
 
     /**
-     * [右击卸载扩展]
+     * [右击图标功能]
      * @param  {[type]} e){                		return false;   	} [description]
      * @return {[type]}      [description]
      */
-    var operRightClick = localStorage.getItem("_rightClick_") || "uninstall";
-    $(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
-        if (e.button === 2) {
-            // 卸载扩展
-            if(operRightClick == 'uninstall'){
-                chrome.management.uninstall($(this).data("id"), function() {
-                    refreshPlugin();
-                });
-            }else if(operRightClick == 'lock'){
+    if(!localStorage.getItem("_switch_right_click_")){
+        var operRightClick = localStorage.getItem("_rightClick_") || "uninstall";
+        $(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
+            if (e.button === 2) {
+                // 卸载扩展
+                if(operRightClick == 'uninstall'){
+                    chrome.management.uninstall($(this).data("id"), function() {
+                        refreshPlugin();
+                    });
+                }else if(operRightClick == 'lock'){
 
-            }else if(operRightClick == 'option'){
-                var url = $(this).data('optionurl');
-                if(url){
-                    window.open(url)
+                }else if(operRightClick == 'option'){
+                    var url = $(this).data('optionurl');
+                    if(url){
+                        window.open(url)
+                    }
                 }
             }
-        }
-    });
+        });
+    }
     $(document).on("contextmenu", function(e) {
         // e.preventDefault();
         return false;

@@ -50,13 +50,54 @@
 
 
 
-	/**
-	 * [清除rank存储数据]
-	 */
+	// [扩展排序]清除rank存储数据
 	$('#js-clear-rank').click(function(){
 		localStorage.removeItem('_rankList_');
 		showTips('已清除!');
+	});
+
+
+
+
+	// 遍历查询哪些功能被禁用
+	$('[data-switch-id]').each(function(){
+		var t = $(this),
+			switch_id = t.data("switch-id"),
+			id = "_switch_" + switch_id + "_";
+
+		if(localStorage.getItem(id) === "close"){
+			t.closest(".list").addClass("switch-btn-close")
+		}
 	})
+
+
+
+
+	/**
+	 * [点击switch开关开启或关闭该功能]
+	 * @param  {[type]} '.switch-btn' [description]
+	 * @return {[type]}               [description]
+	 */
+	$('.switch-btn').click(function(){
+		var t = $(this),
+			wrap = t.closest(".list"),
+			id = "_switch_" + t.data("switch-id") + "_";
+
+		console.log(id);
+
+		// 切换开关样式
+		wrap.toggleClass("switch-btn-close");
+
+		if(wrap.hasClass("switch-btn-close")){
+			localStorage.setItem(id, "close")
+		}else{
+			localStorage.removeItem(id)
+		}
+	})
+
+
+
+
 
 	chrome.management.getAll(function(list){
 		var listArr = [];
@@ -86,9 +127,7 @@
 				}
 			}
 
-			var objStr = '<li data-id="'+ obj.id +'" title="'+ obj.name +'" '+lockAttr+'>\
-								<img src="'+ img +'" alt="'+ obj.name +'">\
-							</li>';
+			var objStr = '<li data-id="'+ obj.id +'" title="'+ obj.name +'" '+lockAttr+'><img src="'+ img +'" alt="'+ obj.name +'"></li>';
 
 			// 插入到队列中
 			listArr.push(objStr);

@@ -15,11 +15,11 @@
 		body{
 			padding: 20px;
 		}
-		button, select{
+		button, select, .switch-btn{
 			width: 80px;
 			height: 30px;
 			line-height: 30px;
-			display: block;
+			display: inline-block;
 			background: #25b75a;
 			color: #fff;
 			border-radius: 2px;
@@ -28,8 +28,9 @@
 			outline: none;
 			cursor: pointer;
 			border: 1px solid #439E64;
-			margin: 10px 0 0 0;
+			margin: 10px 10px 0 0;
 			letter-spacing: 2px;
+			vertical-align: middle;
 		}
 		button:hover, select:hover{
 			background: #1FAB52;
@@ -39,6 +40,8 @@
 			margin: 30px 20px;
 			padding: 20px;
 			border-radius: 2px;
+			-webkit-transition:.3s ease-in-out;
+			transition: .3s ease-in-out;
 		}
 		.list h1{
 			font-size: 24px;
@@ -125,7 +128,7 @@
 		}
 		p.describe img{
 			border-radius: 2px;
-			border: 2px solid #ccc;
+			border: 1px solid #DCDCDC;
 		}
 		ul li em{
 			background: #E2E2E2;
@@ -136,7 +139,7 @@
 		}
 
 		#js-sel-column {
-			width: 400px;
+			width: 260px;
 			height: 4px;
 			background: rgba(37, 183, 90, .8);
 			border: 1px solid #439E64;
@@ -147,8 +150,8 @@
 		}
 
 		#js-sel-column::-webkit-slider-thumb{
-			width: 28px;
-			height: 28px;
+			width: 24px;
+			height: 24px;
 			cursor: pointer;
 
 			background: -webkit-gradient(
@@ -164,6 +167,40 @@
 			-webkit-border-radius: 14px;
 			-webkit-appearance: none !important;
 		}
+		/*模拟ios开关*/
+		.switch-btn{
+			position: relative;
+			width: 56px;
+			border-radius: 20px;
+			border-color: #25b75a;
+		}
+		.switch-btn i{
+			position: absolute;
+			left: 26px;
+			top: 1px;
+			width: 28px;
+			height: 28px;
+			border-radius: 15px;
+			background: #fff;
+			box-shadow: 1px 1px 2px #5d5d5d;
+			-webkit-transition:.2s ease-in-out;
+			transition: .2s ease-in-out;
+		}
+		.switch-btn-close .switch-btn{
+			background: #fff;
+			border-color: #E2E2E2;
+		}
+		.switch-btn-close .switch-btn i{
+			left: 1px;
+		}
+		.switch-btn-close.list{
+			opacity: .6;
+		}
+		@media screen and (-webkit-min-device-pixel-ratio: 1.5) {
+			.switch-btn-close.list{
+				opacity: .4;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -172,15 +209,6 @@
 	<div class="list">
 		<h1>显示列数：<span id="js-sel-column-show">7</span></h1>
 		<p>
-			<!-- <select id="js-sel-column">
-				<option value="9">9列</option>
-				<option value="8">8列</option>
-				<option value="7">7列</option>
-				<option value="6" selected>6列</option>
-				<option value="5">5列</option>
-				<option value="4">4列</option>
-				<option value="3">3列</option>
-			</select> -->
 			<input type="range" id="js-sel-column" min="3" max="9" step="1">
 		</p>
 	</div>
@@ -198,7 +226,8 @@
 
 	<div class="list">
 		<h1>扩展排序：</h1>
-		<button id="js-clear-rank">重置</button>
+		<div class="switch-btn" data-switch-id="rank_sort"><i></i></div>
+		<button id="js-clear-rank">重置排序</button>
 		<p class="describe">
 			根据开启的频率进行计算排序
 		</p>
@@ -206,6 +235,7 @@
 
 	<div class="list">
 		<h1>扩展卸载：</h1>
+		<div class="switch-btn" data-switch-id="right_click"><i></i></div>
 		<p class="describe">
 			在扩展图标上“右击”进行卸载
 		</p>
@@ -249,6 +279,6 @@
 	</div>
 
 	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/options.js"></script>
+	<script src="js/options.min.js"></script>
 </body>
 </html>
