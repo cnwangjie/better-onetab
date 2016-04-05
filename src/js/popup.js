@@ -37,7 +37,7 @@
                     img = obj.icons[obj.icons.length - 1].url;
                 }
 
-                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'"><img src="' + img + '" alt="' + obj.name + '" width="60" height="60"></li>';
+                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'"><img src="' + img + '" alt="' + obj.name + '"></li>';
 
                 // 根据扩展的状态，分别插入到不同的队列中
                 if (obj.enabled === false) {
@@ -111,7 +111,7 @@
     /**
      * [扩展图标点击]
      */
-    $('#wrap').on('click', 'li', function() {
+    wrap.on('click', 'li', function() {
         var t = $(this),
             id = t.data('id'),
             // 当前状态被禁用，通过点击后开启
@@ -135,7 +135,7 @@
 	/**
      * [扩展图标鼠标滑过特效]
      */
-    $('#wrap').on("mouseenter", "li", function() {
+    wrap.on("mouseenter", "li", function() {
 		var t = $(this);
 		window["timer_"+t.data('id')] = setTimeout(function(){
         	t.addClass('hover');

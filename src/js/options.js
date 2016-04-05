@@ -53,7 +53,7 @@
 	// [扩展排序]清除rank存储数据
 	$('#js-clear-rank').click(function(){
 		localStorage.removeItem('_rankList_');
-		showTips('已清除!');
+		showTips('已重置排序!');
 	});
 
 
@@ -87,6 +87,7 @@
 
 		// 切换开关样式
 		wrap.toggleClass("switch-btn-close");
+		showTips('设置成功!');
 
 		if(wrap.hasClass("switch-btn-close")){
 			localStorage.setItem(id, "close")
