@@ -18,4 +18,8 @@
 
 
 ## 预览
-![image](assets/Chrome宣传册 - 屏幕截图.png)
+![image](assets/截图二.png)
+
+![image](assets/截图一.png)
+
+![image](assets/大图块.png)
