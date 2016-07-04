@@ -1,7 +1,7 @@
 {
 	"manifest_version" : 2,
 	"name" : "扩展管理器",
-	"version" : "3.2.1",
+	"version" : "3.3",
 	"description" : "一键管理Chrome浏览器的扩展，操作简单方便，减少扩展对资源的占用及浪费，绿色安全。",
 	"browser_action" : {
 		"default_icon" : "icon/browser_action_icon.png",
