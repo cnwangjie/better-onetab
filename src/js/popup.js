@@ -12,9 +12,12 @@
 		8: 608,
 		9: 684
 	};
-
     // 设置popup页面宽度
     wrap.width(ratio_col[localStorage.getItem('_showColumn_')]);
+    
+    var iconSize = localStorage.getItem('_showIconSize_') || 2;
+    wrap.addClass("icon-size-" + iconSize);
+    
 
     function refreshPlugin() {
         chrome.management.getAll(function(list) {
@@ -37,7 +40,7 @@
                     img = obj.icons[obj.icons.length - 1].url;
                 }
 
-                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'"><img src="' + img + '" alt="' + obj.name + '"></li>';
+                var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'" alt="' + obj.name + '" style="background-image:url('+ img +')"></li>';
 
                 // 根据扩展的状态，分别插入到不同的队列中
                 if (obj.enabled === false) {

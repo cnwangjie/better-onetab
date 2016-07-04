@@ -49,6 +49,35 @@
 	}
 
 
+	
+	var setIconSizeTimer = null,
+		setIconShow = $('#js-icon-size-show'),
+		setIconRange = $('#js-icon-size'),
+		iconSizeShowText = {
+			1: "缩小",
+			2: "标准",
+			3: "放大"
+		};
+	function setIconSize(num){
+		localStorage.setItem("_showIconSize_", num);
+		setIconShow.html(iconSizeShowText[num])
+		if(setIconSizeTimer){
+			clearTimeout(setIconSizeTimer);
+			setIconSizeTimer = null;
+		}
+		setIconSizeTimer = setTimeout(function(){
+			showTips('设置成功!');
+		}, 600)
+	}
+	setIconRange.on("input chnage", function(){
+		setIconSize($(this).val());
+	});
+	var _iconSize_ = localStorage.getItem("_showIconSize_");
+	if(_iconSize_){
+		setIconRange.val(_iconSize_);
+		setIconShow.html(iconSizeShowText[_iconSize_])
+	}
+
 
 	// [扩展排序]清除rank存储数据
 	$('#js-clear-rank').click(function(){
