@@ -1,5 +1,22 @@
 (function(){
-
+	
+	// 显示标题处理
+	document.title = chrome.i18n.getMessage("optionName") + " - " + chrome.i18n.getMessage("extName")
+	$("#showCols").html(chrome.i18n.getMessage("showCols"));
+	$("#iconSize").html(chrome.i18n.getMessage("iconSize"));
+	$("#speedManageName").html(chrome.i18n.getMessage("speedManageName"));
+	$("#speedManageDesc").html(chrome.i18n.getMessage("speedManageDesc"));
+	$("#speedManageLock").html(chrome.i18n.getMessage("speedManageLock"));
+	$("#rankName").html(chrome.i18n.getMessage("rankName"));
+	$("#rankDesc").html(chrome.i18n.getMessage("rankDesc"));
+	$("#rankBtn").html(chrome.i18n.getMessage("rankBtn"));
+	$("#uninstallName").html(chrome.i18n.getMessage("uninstallName"));
+	$("#uninstallDesc").html(chrome.i18n.getMessage("uninstallDesc"));
+	$("#otherName").html(chrome.i18n.getMessage("otherName"));
+	$("#otherDesc").html(chrome.i18n.getMessage("otherDesc"));
+	// 默认的图标大小文案
+	$("#js-icon-size-show").html(chrome.i18n.getMessage("sizeNormal"));
+	
 
 	/**
 	 * [showTips 显示提示]
@@ -36,7 +53,7 @@
 			setColumnTimer = null;
 		}
 		setColumnTimer = setTimeout(function(){
-			showTips('设置成功!');
+			showTips(chrome.i18n.getMessage("tipSetSuc"));
 		}, 600)
 	}
 	setColumnRange.on("input chnage", function(){
@@ -54,9 +71,9 @@
 		setIconShow = $('#js-icon-size-show'),
 		setIconRange = $('#js-icon-size'),
 		iconSizeShowText = {
-			1: "缩小",
-			2: "标准",
-			3: "放大"
+			1: chrome.i18n.getMessage("sizeSmall"),
+			2: chrome.i18n.getMessage("sizeNormal"),
+			3: chrome.i18n.getMessage("sizeBig")
 		};
 	function setIconSize(num){
 		localStorage.setItem("_showIconSize_", num);
@@ -66,7 +83,7 @@
 			setIconSizeTimer = null;
 		}
 		setIconSizeTimer = setTimeout(function(){
-			showTips('设置成功!');
+			showTips(chrome.i18n.getMessage("tipSetSuc"));
 		}, 600)
 	}
 	setIconRange.on("input chnage", function(){
@@ -80,9 +97,9 @@
 
 
 	// [扩展排序]清除rank存储数据
-	$('#js-clear-rank').click(function(){
+	$('.js-clear-rank').click(function(){
 		localStorage.removeItem('_rankList_');
-		showTips('已重置排序!');
+		showTips(chrome.i18n.getMessage("tipResetRank"));
 	});
 
 
@@ -112,11 +129,9 @@
 			wrap = t.closest(".list"),
 			id = "_switch_" + t.data("switch-id") + "_";
 
-		console.log(id);
-
 		// 切换开关样式
 		wrap.toggleClass("switch-btn-close");
-		showTips('设置成功!');
+		showTips(chrome.i18n.getMessage("tipSetSuc"));
 
 		if(wrap.hasClass("switch-btn-close")){
 			localStorage.setItem(id, "close")
@@ -217,10 +232,10 @@
 	var rightClickStorage = localStorage.getItem("_rightClick_") || "uninstall";
 	$("#js-rightclick").val(rightClickStorage).change(function(){
 		var val = $(this).val();
+		
 		// 存储右击选项内容
 		localStorage.setItem("_rightClick_", val);
-		showTips('设置成功!');
-	})
-
-
+		showTips(chrome.i18n.getMessage("tipSetSuc"));
+	});
+	
 })();

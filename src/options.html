@@ -2,14 +2,14 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>选项配置 - 扩展管理器</title>
+	<title></title>
 	<style type="text/css">
 		.gclearfix:after{display:block;clear:both;visibility:hidden;height:0;content:'';}
 		.gclearfix{zoom:1;}
 		*{
 			padding: 0;
 			margin: 0;
-			font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+			font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
 			text-rendering: geometricPrecision;
 		}
 		body{
@@ -85,7 +85,7 @@
 		}
 
 		.tips{
-			font-family: 微软雅黑;
+			font-family: MicrosoftYahei;
 			color: rgb(255, 255, 255);
 			padding: 0px 20px;
 			text-align: center;
@@ -207,45 +207,37 @@
 	<div id="_TOOLS_STATUS__" class="tips"></div>
 
 	<div class="list">
-		<h1>显示列数：<span id="js-sel-column-show">7</span></h1>
+		<h1><span id="showCols"></span><span id="js-sel-column-show">7</span></h1>
 		<p>
 			<input type="range" class="range-style" id="js-sel-column" min="3" max="9" step="1">
 		</p>
 	</div>
 	
 	<div class="list">
-		<h1>图标大小：<span id="js-icon-size-show">标准</span></h1>
+		<h1><span id="iconSize"></span><span id="js-icon-size-show"></span></h1>
 		<p>
 			<input type="range" class="range-style" id="js-icon-size" min="1" max="3" step="1">
 		</p>
 	</div>
 
 	<div class="list">
-		<h1>闪电管理：</h1>
-		<p class="describe">
-			在浏览器右上角弹窗的空白区域快速双击，闪电般关闭所有扩展（已被锁定的扩展+主题插件除外）
-		</p>
-		<p class="describe" style="margin: 30px 0 0 0;">
-			点击下面的图标“锁定”或“解锁”扩展
-		</p>
+		<h1><span id="speedManageName"></span></h1>
+		<p class="describe" id="speedManageDesc"></p>
+		<p class="describe" style="margin: 30px 0 0 0;" id="speedManageLock"></p>
 		<ul id="_PLUGINS_LIST_" class="list-plugins gclearfix"></ul>
 	</div>
 
 	<div class="list">
-		<h1>扩展排序：</h1>
+		<h1 id="rankName"></h1>
 		<div class="switch-btn" data-switch-id="rank_sort"><i></i></div>
-		<button id="js-clear-rank">重置排序</button>
-		<p class="describe">
-			根据开启的频率进行计算排序
-		</p>
+		<button id="rankBtn" class="js-clear-rank"></button>
+		<p class="describe" id="rankDesc"></p>
 	</div>
 
 	<div class="list">
-		<h1>扩展卸载：</h1>
+		<h1 id="uninstallName"></h1>
 		<div class="switch-btn" data-switch-id="right_click"><i></i></div>
-		<p class="describe">
-			在扩展图标上“右击”进行卸载
-		</p>
+		<p class="describe" id="uninstallDesc"></p>
 	</div>
 
 	<!-- <div class="list">
@@ -274,10 +266,8 @@
 	</div> -->
 
 	<div class="list">
-		<h1>其它：</h1>
-		<p class="describe">
-			如果用起来还不错，请上 <a href="https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco" target="_blank">Chrome网上应用店</a> 给好评、提建议，将激励开发者持续完善  :-)
-		</p>
+		<h1 id="otherName"></h1>
+		<p class="describe" id="otherDesc"></p>
 		<br>
 		<!-- <p class="describe">
 			另外，还可以再给我2元的骄傲~
