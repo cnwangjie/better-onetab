@@ -1,0 +1,62 @@
+{
+	"extName": {
+		"message": "Extension Manager"
+	},
+	"extDesr": {
+		"message": "Extension Manager"
+	},
+	"tipSetSuc": {
+		"message": "Success!"
+	},
+	"tipResetRank": {
+		"message": "Success!"
+	},
+	"sizeSmall": {
+		"message": "small"
+	},
+	"sizeNormal": {
+		"message": "normal"
+	},
+	"sizeBig": {
+		"message": "big"
+	},
+	"optionName": {
+		"message": "Options"
+	},
+	"showCols": {
+		"message": "Column:"
+	},
+	"iconSize": {
+		"message": "Size:"
+	},
+	"speedManageName": {
+		"message": "ThunderManage:"
+	},
+	"speedManageDesc": {
+		"message": ""
+	},
+	"speedManageLock": {
+		"message": "Left-click the icon"
+	},
+	"rankName": {
+		"message": "RankManage:"
+	},
+	"rankDesc": {
+		"message": "Rank by using"
+	},
+	"rankBtn": {
+		"message": "Reset"
+	},
+	"uninstallName": {
+		"message": "Uninstall："
+	},
+	"uninstallDesc": {
+		"message": "Right-click"
+	},
+	"otherName": {
+		"message": "Other："
+	},
+	"otherDesc": {
+		"message": "Thank You for using Extension Manager  :-) <a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chrome Web Store</a>"
+	}
+}

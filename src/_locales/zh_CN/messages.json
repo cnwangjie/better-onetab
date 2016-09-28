@@ -1,0 +1,62 @@
+{
+	"extName": {
+		"message": "扩展管理器（Extension Manager）"
+	},
+	"extDesr": {
+		"message": "一键管理Chrome扩展，操作简单方便，减少对资源的占用及浪费，绿色安全。"
+	},
+	"tipSetSuc": {
+		"message": "设置成功！"
+	},
+	"tipResetRank": {
+		"message": "已重置排序！"
+	},
+	"sizeSmall": {
+		"message": "缩小"
+	},
+	"sizeNormal": {
+		"message": "标准"
+	},
+	"sizeBig": {
+		"message": "放大"
+	},
+	"optionName": {
+		"message": "选项配置"
+	},
+	"showCols": {
+		"message": "显示列数："
+	},
+	"iconSize": {
+		"message": "图标大小："
+	},
+	"speedManageName": {
+		"message": "闪电管理："
+	},
+	"speedManageDesc": {
+		"message": "在浏览器右上角弹窗的空白区域快速双击，闪电般关闭所有扩展（已被锁定的扩展+主题插件除外）"
+	},
+	"speedManageLock": {
+		"message": "点击下面的图标“锁定”或“解锁”扩展"
+	},
+	"rankName": {
+		"message": "扩展排序："
+	},
+	"rankDesc": {
+		"message": "根据开启的频率进行计算排序"
+	},
+	"rankBtn": {
+		"message": "重置排序"
+	},
+	"uninstallName": {
+		"message": "扩展卸载："
+	},
+	"uninstallDesc": {
+		"message": "在扩展图标上“右击”进行卸载"
+	},
+	"otherName": {
+		"message": "其它："
+	},
+	"otherDesc": {
+		"message": "如果用起来还不错，请上 <a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chrome网上应用店</a> 给好评、提建议，将激励开发者持续完善  :-)"
+	}
+}
