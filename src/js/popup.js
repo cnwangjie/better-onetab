@@ -1,4 +1,8 @@
 (function() {
+    
+    // 显示标题处理
+    document.title = chrome.i18n.getMessage("extName")
+    
     var showList = $('#showList');
     var hideList = $('#hideList');
     var wrap = $('#wrap');
