@@ -21,7 +21,7 @@
 
 > 从 [`Google网上应用店`](https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8/gjldcdngmdknpinoemndlidpcabkggco) 下载
 
-> 如果用起来还不错，请上 Google网上应用店 给好评、提建议，将激励开发者持续完善 :-)
+> 如果用起来还不错，请登陆 Google网上应用店 给好评、提建议，将激励开发者持续完善 :-)
 
 
 
