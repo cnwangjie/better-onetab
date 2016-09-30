@@ -1,8 +1,8 @@
 {
 	"manifest_version" : 2,
 	"name" : "__MSG_extName__",
-	"version" : "3.4",
-	"default_locale": "zh_CN",
+	"version" : "4.0.0",
+	"default_locale": "en",
 	"description" : "__MSG_extDesr__",
 	"browser_action" : {
 		"default_icon" : "icon/browser_action_icon.png",

@@ -1,0 +1,62 @@
+{
+	"extName": {
+		"message": "Extension Manager"
+	},
+	"extDesr": {
+		"message": "Manage your Chrome extensions by one-touch. Simple, safe & resource-saving."
+	},
+	"tipSetSuc": {
+		"message": "Settings applied !"
+	},
+	"tipResetRank": {
+		"message": "Order reseted !"
+	},
+	"sizeSmall": {
+		"message": "Small"
+	},
+	"sizeNormal": {
+		"message": "Normal"
+	},
+	"sizeBig": {
+		"message": "Large"
+	},
+	"optionName": {
+		"message": "Options"
+	},
+	"showCols": {
+		"message": "Display Columns:  "
+	},
+	"iconSize": {
+		"message": "Icon Size:  "
+	},
+	"speedManageName": {
+		"message": "Quick Manage:"
+	},
+	"speedManageDesc": {
+		"message": "Double-click the blank area of the popup window to close all extensions(except for themes & locked extensions)"
+	},
+	"speedManageLock": {
+		"message": "Click the icon to lock/unlock the extension:"
+	},
+	"rankName": {
+		"message": "AutoSort:"
+	},
+	"rankDesc": {
+		"message": "Arrange extensions by applying frequency."
+	},
+	"rankBtn": {
+		"message": "Reset"
+	},
+	"uninstallName": {
+		"message": "Uninstall Extensions:"
+	},
+	"uninstallDesc": {
+		"message": "Right-click a certain extension icon in the popup window to uninstall it."
+	},
+	"otherName": {
+		"message": "Addition:"
+	},
+	"otherDesc": {
+		"message": "Give stars or advice on <a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chrome Webstore</a>. Your concern will encourage the developer to improve it   :-)"
+	}
+}

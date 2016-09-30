@@ -1,0 +1,62 @@
+{
+	"extName": {
+		"message": "拡張機能マネージャー"
+	},
+	"extDesr": {
+		"message": "ワンタッチで簡単、安全、省リソースにChrome拡張機能を管理することができます。"
+	},
+	"tipSetSuc": {
+		"message": "セッティング応用されました！"
+	},
+	"tipResetRank": {
+		"message": "リセットしました！"
+	},
+	"sizeSmall": {
+		"message": "小さい"
+	},
+	"sizeNormal": {
+		"message": "普通"
+	},
+	"sizeBig": {
+		"message": "大きい"
+	},
+	"optionName": {
+		"message": "オプション"
+	},
+	"showCols": {
+		"message": "ディスプレイ列数："
+	},
+	"iconSize": {
+		"message": "アイコン サイズ："
+	},
+	"speedManageName": {
+		"message": "速整理："
+	},
+	"speedManageDesc": {
+		"message": "ポップアップの空白スペースにダブルクリックすると、すべでの拡張機能（テーマとロックされた拡張機能を除いて）が一気に閉じられます。"
+	},
+	"speedManageLock": {
+		"message": "拡張機能をロック/アンロックしたいときは対応のアイコンをクリックしてください："
+	},
+	"rankName": {
+		"message": "自動並べ替え："
+	},
+	"rankDesc": {
+		"message": "起動頻度によって拡張機能を並べ替えます"
+	},
+	"rankBtn": {
+		"message": "リセット"
+	},
+	"uninstallName": {
+		"message": "拡張機能アンインストール："
+	},
+	"uninstallDesc": {
+		"message": "拡張機能をアンインストールしたいときは対応のアイコンを右クリックしてください"
+	},
+	"otherName": {
+		"message": "アディション："
+	},
+	"otherDesc": {
+		"message": "お役に立てれば幸いですが、<a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chromeウェブストア</a>でスターやアドバイスをくれれば、開発者も喜んで拡張機能の改善を続きます。:-)"
+	}
+}
