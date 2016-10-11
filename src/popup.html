@@ -116,6 +116,22 @@
 			-webkit-filter: grayscale(1);
 			filter: grayscale(1);
 		}
+		#showList.hideListIsNull{
+			border-bottom: none;
+			padding: 0;
+			margin: 0;
+		}
+		.allListIsEmpty .tips{
+			display: block;
+		}
+		.tips{
+			display: none;
+			font-size: 28px;
+			text-align: center;
+			height: 85px;
+			line-height: 84px;
+			color: #d8d8d8;
+		}
 	</style>
 </head>
 
@@ -123,9 +139,12 @@
 	<div id="wrap">
 		<ul id="showList" class="gclearfix list"></ul>
 		<ul id="hideList" class="gclearfix list"></ul>
+		<div class="tips">
+			没有可管理的扩展或应用
+		</div>
 	</div>
 	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/popup.min.js"></script>
+	<script src="js/popup.js"></script>
 </body>
 
 </html>
