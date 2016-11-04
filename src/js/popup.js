@@ -210,8 +210,8 @@
 
 	/**
 	 * [右击图标功能]
-	 * @param  {[type]} e){                		return false;   	} [description]
-	 * @return {[type]}      [description]
+	 * @param  {[type]} e){return false;} [description]
+	 * @return {[type]} [description]
 	 */
 	if(!localStorage.getItem("_switch_right_click_")){
 		var operRightClick = localStorage.getItem("_rightClick_") || "uninstall";
@@ -237,5 +237,4 @@
 		// e.preventDefault();
 		return false;
 	});
-
 })();
