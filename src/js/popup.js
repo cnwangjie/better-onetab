@@ -83,21 +83,23 @@
 	 * @param {[type]} showListIdArr [description]
 	 */
 	function addIconBadge(){
-		var lockedListObj = getPluginsByLocked();
-		var unlockCount = 0;
-		
-		$("#showList li").each(function(index, item){
-			var id = $(item).data("id");
-			if(lockedListObj[id] !== "1"){
-				unlockCount++;
+		if(!localStorage.getItem("_switch_show_badge_")){
+			var lockedListObj = getPluginsByLocked();
+			var unlockCount = 0;
+			
+			$("#showList li").each(function(index, item){
+				var id = $(item).data("id");
+				if(lockedListObj[id] !== "1"){
+					unlockCount++;
+				}
+			})
+			
+			if(unlockCount === 0){
+				chrome.browserAction.setBadgeText({text: ""});
+			}else{
+				chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
+				chrome.browserAction.setBadgeText({text: unlockCount+""});
 			}
-		})
-		
-		if(unlockCount === 0){
-			chrome.browserAction.setBadgeText({text: ""});	
-		}else{
-			chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
-			chrome.browserAction.setBadgeText({text: unlockCount+""});
 		}
 	}
 

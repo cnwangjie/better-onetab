@@ -58,5 +58,11 @@
 	},
 	"otherDesc": {
 		"message": "お役に立てれば幸いですが、<a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chromeウェブストア</a>でスターやアドバイスをくれれば、開発者も喜んで拡張機能の改善を続きます。:-)"
+	},
+	"showBadgeName": {
+		"message": "視野角マーク"
+	},
+	"showBadgeDesc": {
+		"message": "現在（ロックされた拡張子を除く）有効に機能拡張の数は添え字で表示されます"
 	}
 }

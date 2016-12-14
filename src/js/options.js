@@ -14,6 +14,9 @@
 	$("#uninstallDesc").html(chrome.i18n.getMessage("uninstallDesc"));
 	$("#otherName").html(chrome.i18n.getMessage("otherName"));
 	$("#otherDesc").html(chrome.i18n.getMessage("otherDesc"));
+	$("#showBadgeName").html(chrome.i18n.getMessage("showBadgeName"));
+	$("#showBadgeDesc").html(chrome.i18n.getMessage("showBadgeDesc"));
+	
 	// 默认的图标大小文案
 	$("#js-icon-size-show").html(chrome.i18n.getMessage("sizeNormal"));
 	
@@ -237,5 +240,39 @@
 		localStorage.setItem("_rightClick_", val);
 		showTips(chrome.i18n.getMessage("tipSetSuc"));
 	});
+	
+	
+	$('[data-switch-id="show_badge"]').click(function(){
+		setTimeout(function(){
+			var status = localStorage.getItem("_switch_show_badge_");
+			if(status === "close"){
+				chrome.browserAction.setBadgeText({text: ""});
+			}else{
+				try{
+					var unlockCount = 0;
+					var lockListObj = JSON.parse(localStorage.getItem("_lockList_"));
+					chrome.management.getAll(function(list) {
+						var showListIdArr = [];
+						for (var i = 0; i < list.length; i++) {
+							var obj = list[i];
+
+							// 将当前扩展排除在外
+							if (obj.id !== chrome.app.getDetails().id && obj.type !== "theme" && obj.enabled) {
+								if(lockListObj[obj.id] !== "1"){
+									unlockCount++;
+								}
+							}
+						}
+						if(unlockCount === 0){
+							chrome.browserAction.setBadgeText({text: ""});
+						}else{
+							chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
+							chrome.browserAction.setBadgeText({text: unlockCount+""});
+						}
+					});
+				}catch(ex){}
+			}
+		}, 100);
+	})
 	
 })();
