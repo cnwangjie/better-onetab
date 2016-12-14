@@ -16,4 +16,7 @@
 		"48" : "icon/icon_48.png",
 		"128" : "icon/icon_128.png"
 	}
+	// "chrome_url_overrides": {
+	// 	"newtab": "options.html"
+	// }
 }

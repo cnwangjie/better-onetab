@@ -25,18 +25,15 @@
 
 	function refreshPlugin() {
 		chrome.management.getAll(function(list) {
-			var showListArr = [];
-			var hideListArr = [];
+			var showListHtmlArr = [];
+			var hideListHtmlArr = [];
 			for (var i = 0; i < list.length; i++) {
 				var obj = list[i];
-
-				// console.log(obj);
 
 				// 将当前扩展排除在外
 				if (obj.id === chrome.app.getDetails().id || obj.type === "theme") {
 					continue;
 				}
-
 
 				// 统一处理图标
 				var img = "";
@@ -48,35 +45,62 @@
 
 				// 根据扩展的状态，分别插入到不同的队列中
 				if (obj.enabled === false) {
-					hideListArr.push(objStr);
+					hideListHtmlArr.push(objStr);
 				} else {
-					showListArr.push(objStr);
+					showListHtmlArr.push(objStr);
 				}
 
 			}
 
-
 			if(!localStorage.getItem("_switch_rank_sort_")){
-				showListArr.sort(function(b, a) {
+				showListHtmlArr.sort(function(b, a) {
 					return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
 				});
-				hideListArr.sort(function(b, a) {
+				hideListHtmlArr.sort(function(b, a) {
 					return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
 				});
 			}
 
-			showList.html(showListArr.join(""));
-			if(hideListArr.length === 0){
+			showList.html(showListHtmlArr.join(""));
+			if(hideListHtmlArr.length === 0){
 				showList.addClass("hideListIsNull");
-				if(showListArr.length === 0){
+				if(showListHtmlArr.length === 0){
 					wrap.addClass("allListIsEmpty");
 				}
 			}
-			hideList.html(hideListArr.join(""));
+			hideList.html(hideListHtmlArr.join(""));
+			
+			// 角标处理
+			addIconBadge()
 		});
 	}
 	// 启动默认执行
 	refreshPlugin();
+	
+	
+	/**
+	 * [addIconBadge 给扩展图标添加角标，针对未加锁需要平时关闭的]
+	 * @param {[type]} showListIdArr [description]
+	 */
+	function addIconBadge(){
+		var lockedListObj = getPluginsByLocked();
+		var unlockCount = 0;
+		
+		$("#showList li").each(function(index, item){
+			var id = $(item).data("id");
+			if(lockedListObj[id] !== "1"){
+				unlockCount++;
+			}
+		})
+		
+		if(unlockCount === 0){
+			chrome.browserAction.setBadgeText({text: ""});	
+		}else{
+			chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
+			chrome.browserAction.setBadgeText({text: unlockCount+""});
+		}
+	}
+
 
 	var RankStorage = {
 		// 存储标识
@@ -148,6 +172,9 @@
 				// refreshPlugin();
 			});
 		}
+		
+		// 针对角标的处理
+		addIconBadge();
 	});
 
 
@@ -205,6 +232,10 @@
 				showList.removeAttr('locked');
 			}, 800);
 		}, 0);
+		
+		// 去掉角标
+		chrome.browserAction.setBadgeText({text:""})
+		
 	});
 
 
