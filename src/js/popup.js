@@ -24,8 +24,13 @@
 	
 
 	function refreshPlugin() {
+		
+		var listArrLocked = getPluginsByLocked();
+		
 		chrome.management.getAll(function(list) {
 			var showListHtmlArr = [];
+			// 显示的扩展分为被锁定的和未被锁定的，用于排序调整
+			var showAndLockedListHtmlArr = [];
 			var hideListHtmlArr = [];
 			for (var i = 0; i < list.length; i++) {
 				var obj = list[i];
@@ -41,13 +46,24 @@
 					img = obj.icons[obj.icons.length - 1].url;
 				}
 
-				var objStr = '<li data-id="' + obj.id + '" title="' + obj.name + '" data-optionurl="'+ obj.optionsUrl +'" alt="' + obj.name + '" style="background-image:url('+ img +')"></li>';
+				var locked = "";
+				var titleStr = obj.name;
+				if (listArrLocked && listArrLocked[obj.id] == 1) {
+					locked = "locked"
+					titleStr = "「已锁定」"+titleStr;
+				}
+
+				var objStr = '<li data-id="' + obj.id + '" title="' + titleStr + '" data-optionurl="'+ obj.optionsUrl +'" alt="' + obj.name + '" style="background-image:url('+ img +')" '+locked+'></li>';
 
 				// 根据扩展的状态，分别插入到不同的队列中
 				if (obj.enabled === false) {
 					hideListHtmlArr.push(objStr);
 				} else {
-					showListHtmlArr.push(objStr);
+					if(locked === "locked"){
+						showAndLockedListHtmlArr.unshift(objStr);
+					}else{
+						showListHtmlArr.push(objStr);
+					}
 				}
 
 			}
@@ -60,11 +76,14 @@
 					return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
 				});
 			}
+			
+			// 合并被锁定+未锁定的，始终让被锁定的扩展在前面
+			var showListAllArr = showAndLockedListHtmlArr.concat(showListHtmlArr);
 
-			showList.html(showListHtmlArr.join(""));
+			showList.html(showListAllArr.join(""));
 			if(hideListHtmlArr.length === 0){
 				showList.addClass("hideListIsNull");
-				if(showListHtmlArr.length === 0){
+				if(showListAllArr.length === 0){
 					wrap.addClass("allListIsEmpty");
 				}
 			}
@@ -213,13 +232,11 @@
 	 * [一键关闭全部扩展]
 	 */
 	$('body').on('dblclick', function() {
-		var listArrLocked = getPluginsByLocked();
 		var _showList = showList.find('li');
 		_showList.each(function(index, ele) {
 			var t = $(ele);
 			var id = t.data('id');
-			if (listArrLocked && listArrLocked[id] == 1) {
-				t.attr('locked', "");
+			if (t.attr("locked") === "") {
 				return;
 			}
 			hideList.append(t);
@@ -228,13 +245,6 @@
 			});
 		});
 
-		setTimeout(function() {
-			showList.attr('locked', '');
-			setTimeout(function() {
-				showList.removeAttr('locked');
-			}, 800);
-		}, 0);
-		
 		// 去掉角标
 		chrome.browserAction.setBadgeText({text:""})
 		
