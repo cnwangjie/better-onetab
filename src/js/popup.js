@@ -87,7 +87,10 @@
 			}
 			hideList.html(hideListHtmlArr.join(""));
 			
-			$("body").css("background", "#fff");
+			setTimeout(function(){
+				$("body").css("background", "#fff");
+				wrap.height(wrap.height()+1)
+			}, 200);
 			
 			// 角标处理
 			addIconBadge()
