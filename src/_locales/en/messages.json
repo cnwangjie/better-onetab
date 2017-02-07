@@ -64,5 +64,11 @@
 	},
 	"showBadgeDesc": {
 		"message": "Displays the number of extensions currently enabled (except for locked extents)"
+	},
+	"showExtName": {
+		"message": "Displays Extension Name"
+	},
+	"showExtNameDesc": {
+		"message": "The name is displayed when the mouse rolls over the extended icon"
 	}
 }

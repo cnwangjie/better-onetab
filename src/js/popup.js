@@ -47,13 +47,11 @@
 				}
 
 				var locked = "";
-				var titleStr = obj.name;
 				if (listArrLocked && listArrLocked[obj.id] == 1) {
 					locked = "locked"
-					titleStr = "「已锁定」"+titleStr;
 				}
 
-				var objStr = '<li data-id="' + obj.id + '" title="' + titleStr + '" data-optionurl="'+ obj.optionsUrl +'" alt="' + obj.name + '" style="background-image:url('+ img +')" '+locked+'></li>';
+				var objStr = '<li data-id="' + obj.id + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
 
 				// 根据扩展的状态，分别插入到不同的队列中
 				if (obj.enabled === false) {
@@ -88,6 +86,8 @@
 				}
 			}
 			hideList.html(hideListHtmlArr.join(""));
+			
+			$("body").css("background", "#fff");
 			
 			// 角标处理
 			addIconBadge()
@@ -202,12 +202,54 @@
 	/**
 	 * [扩展图标鼠标滑过特效]
 	 */
+	var $extName = $('#extName');
+	var isShowExtName = localStorage.getItem("_switch_show_extname_") !== "close";
+	// 根据图标大小，设置间距的阀值
+	var extNameXDistance = {
+		"1": 16,
+		"2": 20,
+		"3": 24
+	}
 	wrap.on("mouseenter", "li", function() {
 		var t = $(this);
+		
+		if(isShowExtName){
+			// 处理该扩展的内容和位置
+			var t_offset = t.offset();
+			var extNameXStart = t_offset.left + 50 - 10;
+			var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
+			var extWidth = $extName.html(t.attr("data-name")).outerWidth();
+			// 判断显示扩展名称后是否会超过页面边界		
+			if($("body").width() < extWidth + extNameXEnd){
+				extNameXStart = t_offset.left - extWidth + 10;
+				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
+			}
+			// 设置动画前的位置
+			$extName.css({
+				"top": t_offset.top + 15,
+				"left": extNameXStart
+			})
+		}
+		
 		window["timer_"+t.data('id')] = setTimeout(function(){
 			t.addClass('hover');
+			
+			// 为扩展名称添加动画属性，并设置最终的显示位置
+			if(isShowExtName){
+				$extName.addClass("extName-anim").css({
+					"left": extNameXEnd,
+					"opacity": 1
+				});
+			}
+			
 		}, 100);
 	}).on("mouseleave", "li", function() {
+		
+		// 初始化扩展名称
+		if(isShowExtName){
+			$extName.removeClass("extName-anim").attr("style", "").empty();
+		}
+		
 	   var t = $(this);
 	   t.removeClass('hover');
 	   clearTimeout(window["timer_"+t.data('id')]);

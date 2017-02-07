@@ -33,7 +33,7 @@
 		"message": "闪电管理："
 	},
 	"speedManageDesc": {
-		"message": "在浏览器右上角弹窗的空白区域快速双击，闪电般关闭所有扩展（已被锁定的扩展+主题插件除外）"
+		"message": "在扩展管理器弹窗的空白区域快速双击，闪电般关闭所有扩展（已被锁定的扩展+主题插件除外）"
 	},
 	"speedManageLock": {
 		"message": "点击下面的图标“锁定”或“解锁”扩展"
@@ -64,5 +64,11 @@
 	},
 	"showBadgeDesc": {
 		"message": "通过角标显示当前启用的扩展数（被锁定的扩展除外）"
+	},
+	"showExtName": {
+		"message": "显示扩展名"
+	},
+	"showExtNameDesc": {
+		"message": "鼠标滑过扩展图标时显示其名称"
 	}
 }

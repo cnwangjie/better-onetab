@@ -33,7 +33,7 @@
 		"message": "閃電管理："
 	},
 	"speedManageDesc": {
-		"message": "在瀏覽器右上角彈窗的空白區域快速雙擊，閃電般關閉所有擴展（已被鎖定的擴展+主題插件除外）"
+		"message": "在擴展管理器彈窗的空白區域快速雙擊，閃電般關閉所有擴展（已被鎖定的擴展+主題插件除外）"
 	},
 	"speedManageLock": {
 		"message": "點擊下面的圖標“鎖定”或“解鎖”擴展"
@@ -64,5 +64,11 @@
 	},
 	"showBadgeDesc": {
 		"message": "通過角標顯示當前啓用的擴展數（被鎖定的擴展除外）"
+	},
+	"showExtName": {
+		"message": "顯示擴展名"
+	},
+	"showExtNameDesc": {
+		"message": "鼠標滑過擴展圖標時顯示其名稱"
 	}
 }
