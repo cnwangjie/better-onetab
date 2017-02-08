@@ -63,12 +63,12 @@
 		"message": "Show badge"
 	},
 	"showBadgeDesc": {
-		"message": "Show the number of extensions currently enabled (except for locked extents)"
+		"message": "Show the number of extensions currently enabled (except for locked extensions)"
 	},
 	"showExtName": {
-		"message": "Show extension name"
+		"message": "Show name"
 	},
 	"showExtNameDesc": {
-		"message": "The name is displayed when the mouse rolls over the extended icon"
+		"message": "The name is displayed when the mouse rolls over the extensions icon"
 	}
 }
