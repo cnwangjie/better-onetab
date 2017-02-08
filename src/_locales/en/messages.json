@@ -12,25 +12,25 @@
 		"message": "Order reseted !"
 	},
 	"sizeSmall": {
-		"message": "Small"
+		"message": "smarll"
 	},
 	"sizeNormal": {
-		"message": "Normal"
+		"message": "normal"
 	},
 	"sizeBig": {
-		"message": "Large"
+		"message": "large"
 	},
 	"optionName": {
 		"message": "Options"
 	},
 	"showCols": {
-		"message": "Display Columns:  "
+		"message": "Show column:  "
 	},
 	"iconSize": {
-		"message": "Icon Size:  "
+		"message": "Icon size:  "
 	},
 	"speedManageName": {
-		"message": "Quick Manage:"
+		"message": "Quick manage:"
 	},
 	"speedManageDesc": {
 		"message": "Double-click the blank area of the popup window to close all extensions(except for themes & locked extensions)"
@@ -39,7 +39,7 @@
 		"message": "Click the icon to lock/unlock the extension:"
 	},
 	"rankName": {
-		"message": "AutoSort:"
+		"message": "Auto sort:"
 	},
 	"rankDesc": {
 		"message": "Arrange extensions by applying frequency."
@@ -48,7 +48,7 @@
 		"message": "Reset"
 	},
 	"uninstallName": {
-		"message": "Uninstall Extensions:"
+		"message": "Uninstall:"
 	},
 	"uninstallDesc": {
 		"message": "Right-click a certain extension icon in the popup window to uninstall it."
@@ -60,13 +60,13 @@
 		"message": "Give stars or advice on <a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chrome Webstore</a>. Your concern will encourage the developer to improve it   :-)"
 	},
 	"showBadgeName": {
-		"message": "Show Badge"
+		"message": "Show badge"
 	},
 	"showBadgeDesc": {
-		"message": "Displays the number of extensions currently enabled (except for locked extents)"
+		"message": "Show the number of extensions currently enabled (except for locked extents)"
 	},
 	"showExtName": {
-		"message": "Displays Extension Name"
+		"message": "Show extension name"
 	},
 	"showExtNameDesc": {
 		"message": "The name is displayed when the mouse rolls over the extended icon"
