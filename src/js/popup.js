@@ -88,8 +88,9 @@
 			hideList.html(hideListHtmlArr.join(""));
 			
 			setTimeout(function(){
+				$("body").css("background-color", "#fff");
 				wrap.height(wrap.height()+1)
-			}, 0);
+			}, 200);
 			
 			// 角标处理
 			addIconBadge()
