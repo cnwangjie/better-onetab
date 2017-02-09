@@ -8,7 +8,6 @@
 * 提升浏览性能
 
 
-
 ## 功能
 
 * 闪电管理
@@ -18,6 +17,8 @@
 
 
 ## 使用
+
+*`支持语言：English, 中文 (简体), 中文 (繁體), 日本語`*
 
 > 从 [`Google网上应用店`](https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco) 下载
 
