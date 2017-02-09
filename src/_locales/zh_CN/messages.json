@@ -2,6 +2,9 @@
 	"extName": {
 		"message": "扩展管理器（Extension Manager）"
 	},
+	"extNameShort": {
+		"message": "擴展管理器"
+	},
 	"extDesr": {
 		"message": "一键管理Chrome扩展，操作简单方便，减少对资源的占用及浪费，绿色安全。"
 	},

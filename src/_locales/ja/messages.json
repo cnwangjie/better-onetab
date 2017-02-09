@@ -2,6 +2,9 @@
 	"extName": {
 		"message": "拡張機能マネージャー"
 	},
+	"extNameShort": {
+		"message": "拡張機能マネージャー"
+	},
 	"extDesr": {
 		"message": "ワンタッチで簡単、安全、省リソースにChrome拡張機能を管理することができます。"
 	},

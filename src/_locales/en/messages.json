@@ -2,8 +2,11 @@
 	"extName": {
 		"message": "Extension Manager"
 	},
+	"extNameShort": {
+		"message": "Extension Manager"
+	},
 	"extDesr": {
-		"message": "Manage your Chrome extensions by one-touch. Simple, safe & resource-saving."
+		"message": "A chrome extensions manager built for speed, simplicity, and security."
 	},
 	"tipSetSuc": {
 		"message": "Settings applied !"
