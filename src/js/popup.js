@@ -6,6 +6,7 @@
 	var showList = $('#showList');
 	var hideList = $('#hideList');
 	var wrap = $('#wrap');
+	var isShowExtName = localStorage.getItem("_switch_show_extname_") !== "close";
 
 	var ratio_col = {
 		3: 228,
@@ -52,6 +53,16 @@
 				}
 
 				var objStr = '<li data-id="' + obj.id + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
+				
+				// 配置中是否显示名称，是则需要计算平均色
+				// 用最小尺寸的图标进行计算
+				if(isShowExtName){
+					(function(img, obj){
+						setTimeout(function(){
+							getColor(img, obj.id);
+						}, 0);
+					})(obj.icons[0].url, obj);
+				}
 
 				// 根据扩展的状态，分别插入到不同的队列中
 				if (obj.enabled === false) {
@@ -206,11 +217,10 @@
 	 * [扩展图标鼠标滑过特效]
 	 */
 	var $extName = $('#extName');
-	var isShowExtName = localStorage.getItem("_switch_show_extname_") !== "close";
 	// 根据图标大小，设置间距的阀值
 	var extNameXDistance = {
-		"1": 16,
-		"2": 20,
+		"1": 14,
+		"2": 18,
 		"3": 24
 	}
 	wrap.on("mouseenter", "li", function() {
@@ -222,23 +232,31 @@
 			var extNameXStart = t_offset.left + 50 - 10;
 			var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
 			var extWidth = $extName.html(t.attr("data-name")).outerWidth();
-			// 判断显示扩展名称后是否会超过页面边界		
+			// 判断显示扩展名称后是否会超过页面边界
 			if($("body").width() < extWidth + extNameXEnd){
 				extNameXStart = t_offset.left - extWidth + 10;
 				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
 			}
+			
 			// 设置动画前的位置
+			if(extColor[t.attr("data-id")]){
+				$extName.css("background-color", extColor[t.attr("data-id")].color);
+			}
 			$extName.css({
 				"top": t_offset.top + 15,
 				"left": extNameXStart
 			})
 		}
 		
+		var list = t.closest(".list");
+		clearTimeout(window["timer_disable_dinginess_" + list.attr("id")]);
+		
 		window["timer_"+t.data('id')] = setTimeout(function(){
 			t.addClass('hover');
 			
 			// 为扩展名称添加动画属性，并设置最终的显示位置
 			if(isShowExtName){
+				list.addClass("dinginess");
 				$extName.addClass("extName-anim").css({
 					"left": extNameXEnd,
 					"opacity": 1
@@ -247,15 +265,19 @@
 			
 		}, 100);
 	}).on("mouseleave", "li", function() {
+		var t = $(this),
+			list = t.closest(".list");
 		
 		// 初始化扩展名称
 		if(isShowExtName){
+			window["timer_disable_dinginess_" + list.attr("id")] = setTimeout(function(){
+				list.removeClass("dinginess");
+			}, 300)
 			$extName.removeClass("extName-anim").attr("style", "").empty();
 		}
 		
-	   var t = $(this);
-	   t.removeClass('hover');
-	   clearTimeout(window["timer_"+t.data('id')]);
+		t.removeClass('hover');
+		clearTimeout(window["timer_"+t.data('id')]);
    });
 
 
@@ -322,7 +344,96 @@
 		});
 	}
 	$(document).on("contextmenu", function(e) {
-		// e.preventDefault();
 		return false;
 	});
+	
+	
+	/**
+	 * [getColor 获取扩展图标的平均色值，用于扩展名称显示的底色]
+	 * @param  {[type]} imgUrl [图标url]
+	 * @param  {[type]} ele    [得到的色值放在Attr上]
+	 * @return {[type]}        [description]
+	 */
+	window.extColor = {};
+	window.getColor = function getColor(imgUrl, extId){
+		function getImageColor(img) {
+			var canvas = document.getElementById("getColorByCanvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+		  
+			var context = canvas.getContext("2d");
+		  
+			context.drawImage(img, 0, 0);
+		  
+			// 获取像素数据
+			var data = context.getImageData(0, 0, img.width, img.height).data;
+			
+		  	var r = 0;
+		  	var g = 0;
+		  	var b = 0;
+		  	
+		  	// 浅色阀值
+		  	var lightColor = 180;
+		  	
+			var substantialColor = 1000;
+		  
+			// 取所有像素的平均值
+			for (var row = 0; row < img.height; row++) {
+				for (var col = 0; col < img.width; col++) {
+					var r1 = data[((img.width * row) + col) * 4];
+					var g1 = data[((img.width * row) + col) * 4 + 1];
+					var b1 = data[((img.width * row) + col) * 4 + 2];
+					
+					// 获取图片有效色值位置
+					if(r1 != 255 && g1 != 255 && b1 != 255){
+						if(col < substantialColor){
+							substantialColor = col;
+						}
+					}
+					
+					if(!(r1 > lightColor && g1 > lightColor && b1 > lightColor)){
+						r += r1;
+						g += g1;
+						b += b1;
+					}
+				}
+			}
+		  
+			// 求取平均值
+			r /= (img.width * img.height);
+			g /= (img.width * img.height);
+			b /= (img.width * img.height);
+		  
+			// 将最终的值取整
+			r = Math.round(r);
+			g = Math.round(g);
+			b = Math.round(b);
+		  
+		  	var newColor = "rgb(" + r + "," + g + "," + b + ")";
+		  	if(r > lightColor && g > lightColor && b > lightColor){
+				newColor = "#5c5e6f";
+		  	}
+		  	
+		  	// 判断出是否为白色空图
+		  	if(substantialColor === 1000){
+		  		setTimeout(function(){
+		  			$("[data-id="+extId+"]").addClass("noicon");
+		  		}, 0);
+		  	}
+		  	
+			return {
+				color: newColor,
+				substantial: substantialColor
+			};
+		}
+		
+		var img = new Image();
+		img.crossOrigin = "Anonymous";
+		img.src = imgUrl;
+		
+		img.onload = function(){
+			var obj = getImageColor(img);
+			extColor[extId] = obj;
+		}
+	}
 })();

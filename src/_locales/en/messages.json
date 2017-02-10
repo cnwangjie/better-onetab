@@ -9,7 +9,7 @@
 		"message": "A chrome extensions manager built for speed, simplicity, and security."
 	},
 	"tipSetSuc": {
-		"message": "Settings applied !"
+		"message": "Settings saved !"
 	},
 	"tipResetRank": {
 		"message": "Order reseted !"

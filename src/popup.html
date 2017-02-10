@@ -28,7 +28,7 @@
 			zoom: 1;
 		}
 
-		.gclearfix:after {
+		.gclearfix::after {
 			clear: both;
 			content: '';
 			display: block;
@@ -67,10 +67,9 @@
 			opacity: 1 !important;
 			transform: scale(1.3);
 			-webkit-transform: scale(1.3);
-			/* background-color: #f7f7f7; */
 		}
 		
-		.list li[locked]:after {
+		.list li[locked]::after {
 			position: absolute;
 			top: 1px;
 			right: 1px;
@@ -83,6 +82,24 @@
 			border: 3px solid #5c5e6f;
 			box-shadow: 0px 0px 0px 1px #fff;
 			background: #46d5fe;
+		}
+		
+		.list li.noicon{
+			background-image: none !important;
+		}
+		.list li.noicon::before{
+			content: "";
+			display: block;
+			height: 38px;
+			width: 38px;
+			background-color: #efefef;
+			border: none;
+			margin: 6px auto;
+			border-radius: 2px;
+		}
+		
+		.dinginess li{
+			opacity: .2 !important;
 		}
 		
 		#wrap.icon-size-1 .list li{
@@ -145,15 +162,16 @@
 			left: 0;
 			z-index: 6;
 			
-			font-size: 12px;
-			height: 18px;
-			line-height: 18px;
-			color: #994500;
+			height: 22px;
+			line-height: 22px;
+			font-size: 14px;
+			color: #fff;
+			text-transform: capitalize;
 			
-			padding: 0 4px;
-			border: 1px solid #808080;
-			background: #ffffc2;
-			
+			padding: 0 7px;
+			border: none;
+			border-radius: 2px;
+			background-color: #5c5e6f;
 			opacity: 0;
 		}
 		.extName-anim{
@@ -170,8 +188,9 @@
 		<div class="tips">没有可管理的扩展或应用</div>
 	</div>
 	<label id="extName"></label>
+	<canvas id="getColorByCanvas" style="display: none;"></canvas>
 	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/popup.min.js"></script>
+	<script src="js/popup.js"></script>
 </body>
 
 </html>
