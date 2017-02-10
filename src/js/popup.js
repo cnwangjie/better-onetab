@@ -51,12 +51,18 @@
 				if (listArrLocked && listArrLocked[obj.id] == 1) {
 					locked = "locked"
 				}
+				
+				var className = "";
+				
+				if(!obj.icons || obj.icons.length == 0){
+					className = "noicon"
+				}
 
-				var objStr = '<li data-id="' + obj.id + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
+				var objStr = '<li class="'+ className +'" data-id="' + obj.id + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
 				
 				// 配置中是否显示名称，是则需要计算平均色
 				// 用最小尺寸的图标进行计算
-				if(isShowExtName){
+				if(isShowExtName && obj.icons && obj.icons.length > 0){
 					(function(img, obj){
 						setTimeout(function(){
 							getColor(img, obj.id);
