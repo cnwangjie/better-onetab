@@ -354,8 +354,8 @@
 	 * @param  {[type]} ele    [得到的色值放在Attr上]
 	 * @return {[type]}        [description]
 	 */
-	window.extColor = {};
-	window.getColor = function getColor(imgUrl, extId){
+	var extColor = {};
+	function getColor(imgUrl, extId){
 		function getImageColor(img) {
 			var canvas = document.getElementById("getColorByCanvas");
 			canvas.width = img.width;
