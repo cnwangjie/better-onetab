@@ -119,12 +119,6 @@
 			margin: 20px 0 0 0;
 			color: #636363;
 		}
-		/*p.describe::before{
-			content: "*";
-		}
-		p.describe::after{
-			content: "*";
-		}*/
 		p.describe a{
 			font-weight: bold;
 			color: #25b75a;
@@ -204,6 +198,17 @@
 				opacity: .4;
 			}
 		}
+		
+		#playDemo{
+			border: 3px solid #d2d2d2;
+			border-radius:6px;
+			margin: 10px 0 0 0;
+			width: 200px;
+			cursor: pointer;
+			
+			-webkit-transition:.3s ease-in-out;
+			transition: .3s ease-in-out;
+		}
 	</style>
 </head>
 <body>
@@ -226,7 +231,7 @@
 	<div class="list">
 		<h1><span id="speedManageName"></span></h1>
 		<p class="describe" id="speedManageDesc"></p>
-		<img src="http://7lrypv.com1.z0.glb.clouddn.com/2017-02-08%2011_15_26.gif" width="400" style="border: 2px solid #d2d2d2; border-radius:6px; margin: 10px 0 0 0;">
+		<img src="icon/play-demo.png" id="playDemo">
 		<p class="describe" style="margin: 30px 0 0 0;" id="speedManageLock"></p>
 		<ul id="_PLUGINS_LIST_" class="list-plugins gclearfix"></ul>
 	</div>
@@ -286,6 +291,6 @@
 	</div>
 
 	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/options.min.js"></script>
+	<script src="js/options.js"></script>
 </body>
 </html>
