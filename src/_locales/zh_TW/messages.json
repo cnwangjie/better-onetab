@@ -73,5 +73,38 @@
 	},
 	"showExtNameDesc": {
 		"message": "鼠標滑過擴展圖標時顯示其名稱"
+	},
+	"showExtNameDesc": {
+		"message": "鼠标滑过扩展图标时显示其名称"
+	},
+	"tipsTitle": {
+		"message": "尚未安裝其它擴展 :-)"
+	},
+	"tipsCon": {
+		"message": "去逛一逛"
+	},
+	"tipsUrl": {
+		"message": "Chrome線上應用程式商店"
+	},
+	"rightLock_unlock": {
+		"message": "解鎖"
+	},
+	"rightLock_lock": {
+		"message": "鎖定"
+	},
+	"rightOption": {
+		"message": "選項"
+	},
+	"rightUninstall": {
+		"message": "刪除"
+	},
+	"rightHomepage": {
+		"message": "主頁"
+	},
+	"rightMoreName": {
+		"message": "右鍵菜單"
+	},
+	"rightMoreDesc": {
+		"message": "在擴展圖標上右鍵可操作更多功能"
 	}
 }

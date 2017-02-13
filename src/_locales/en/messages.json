@@ -73,5 +73,35 @@
 	},
 	"showExtNameDesc": {
 		"message": "The name is displayed when the mouse rolls over the extensions icon"
+	},
+	"tipsTitle": {
+		"message": "No other extensions have been installed :-)"
+	},
+	"tipsCon": {
+		"message": "Go to the "
+	},
+	"tipsUrl": {
+		"message": "Chrome Web Store"
+	},
+	"rightLock_unlock": {
+		"message": "Unlock"
+	},
+	"rightLock_lock": {
+		"message": "Lock"
+	},
+	"rightOption": {
+		"message": "Options"	
+	},
+	"rightUninstall": {
+		"message": "Remove"
+	},
+	"rightHomepage": {
+		"message": "Homepage"
+	},
+	"rightMoreName": {
+		"message": "Right-click"
+	},
+	"rightMoreDesc": {
+		"message": "Right-click on the extended icon to operate more functions"
 	}
 }

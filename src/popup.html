@@ -1,193 +1,28 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/popup.min.css">
 	<title></title>
-	<style>
-		* {
-			padding: 0;
-			margin: 0;
-		}
-
-		body {
-			overflow-x: hidden;
-			-webkit-user-select: none;
-			position: relative;
-		}
-
-		::-webkit-scrollbar {
-			width: 5px;
-		}
-
-		::-webkit-scrollbar-thumb {
-			background: #D8D8D8;
-		}
-
-		.gclearfix {
-			zoom: 1;
-		}
-
-		.gclearfix::after {
-			clear: both;
-			content: '';
-			display: block;
-			height: 0;
-			visibility: hidden;
-		}
-
-		#wrap {
-			width: 496px;
-			min-height: 125px;
-			padding: 20px;
-			box-sizing: border-box;
-			position: relative;
-		}
-
-		.list li {
-			width: 50px;
-			height: 50px;
-			float: left;
-			list-style: none;
-			margin: 13px;
-			border-radius: 2px;
-			background-size: 50px 50px;
-			background-position: center;
-			background-repeat: no-repeat;
-			
-			-webkit-transition: .2s ease-in-out;
-			transition: .2s ease-in-out;
-			
-			-webkit-transform: translateZ(0);
-			transform: translateZ(0);
-		}
-		.list li.hover {
-			-webkit-filter: grayscale(0) !important;
-			filter: grayscale(0) !important;
-			opacity: 1 !important;
-			transform: scale(1.3);
-			-webkit-transform: scale(1.3);
-		}
-		
-		.list li[locked]::after {
-			position: absolute;
-			top: 1px;
-			right: 1px;
-			z-index: 999;
-			content: "";
-			display: block;
-			height: 6px;
-			width: 6px;
-			border-radius: 10px;
-			border: 3px solid #5c5e6f;
-			box-shadow: 0px 0px 0px 1px #fff;
-			background: #46d5fe;
-		}
-		
-		.list li.noicon{
-			background-image: none !important;
-		}
-		.list li.noicon::before{
-			content: " ";
-			display: block;
-			height: 38px;
-			width: 38px;
-			background-color: #d8d8d8;
-			border: none;
-			margin: 6px auto;
-			border-radius: 2px;
-		}
-		
-		.dinginess li{
-			opacity: .2 !important;
-		}
-		
-		#wrap.icon-size-1 .list li{
-			background-size: 38px 38px;
-		}
-		#wrap.icon-size-2 .list li{
-			background-size: 44px 44px;
-		}
-		#wrap.icon-size-3 .list li{
-			background-size: 50px 50px;	
-		}
-
-		#showList {
-			border-bottom: 2px dotted #E6E6E6;
-			padding: 0 0 10px 0;
-			margin: 0 0 10px 0;
-		}
-
-		#showList:empty {
-			border-bottom: none;
-			padding: 0;
-			margin: 0;
-		}
-
-		#showList[locked] li {
-			position: relative;
-		}
-
-		#showList[locked] li img {
-			opacity: .6;
-			-webkit-filter: grayscale(1);
-			filter: grayscale(1);
-		}
-
-		#hideList li {
-			opacity: .5;
-			-webkit-filter: grayscale(1);
-			filter: grayscale(1);
-		}
-		#showList.hideListIsNull{
-			border-bottom: none;
-			padding: 0;
-			margin: 0;
-		}
-		.allListIsEmpty .tips{
-			display: block;
-		}
-		.tips{
-			display: none;
-			font-size: 28px;
-			text-align: center;
-			height: 85px;
-			line-height: 84px;
-			color: #d8d8d8;
-		}
-		
-		#extName{
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 6;
-			
-			height: 22px;
-			line-height: 22px;
-			font-size: 14px;
-			color: #fff;
-			text-transform: capitalize;
-			
-			padding: 0 7px;
-			border: none;
-			border-radius: 2px;
-			background-color: #5c5e6f;
-			opacity: 0;
-		}
-		.extName-anim{
-			-webkit-transition: .2s ease-in-out;
-			transition: .2s ease-in-out;
-		}
-	</style>
 </head>
-
 <body>
 	<div id="wrap">
 		<ul id="showList" class="gclearfix list" locked></ul>
 		<ul id="hideList" class="gclearfix list"></ul>
-		<div class="tips">没有可管理的扩展或应用</div>
+		<div id="tips">
+			<span class="title"></span>
+			<span class="desc"><span class="con"></span><a href="https://chrome.google.com/webstore/category/extensions?hl=" target="_blank" class="url"></a></span>
+		</div>
 	</div>
 	<label id="extName"></label>
+	<div id="rightMenu">
+		<ul>
+			<li class="lock"></li>
+			<li class="option">选项</li>
+			<li class="uninstall">卸载</li>
+			<li class="homepage">主页</li>
+		</ul>
+	</div>
 	<canvas id="getColorByCanvas" style="display: none;"></canvas>
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="js/popup.min.js"></script>

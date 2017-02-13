@@ -73,5 +73,35 @@
 	},
 	"showExtNameDesc": {
 		"message": "アイコンの拡大の上にマウスの名前を表示します"
+	},
+	"tipsTitle": {
+		"message": "他の拡張機能をインストールしません :-)"
+	},
+	"tipsCon": {
+		"message": "の周りに行きます"
+	},
+	"tipsUrl": {
+		"message": "Chromeウェブストア"
+	},
+	"rightLock_unlock": {
+		"message": "アンロック"
+	},
+	"rightLock_lock": {
+		"message": "ロッキング"
+	},
+	"rightOption": {
+		"message": "オプション"
+	},
+	"rightUninstall": {
+		"message": "削除"
+	},
+	"rightHomepage": {
+		"message": "ホーム"
+	},
+	"rightMoreName": {
+		"message": "右メニュー"
+	},
+	"rightMoreDesc": {
+		"message": "拡張アイコンを右作動より多くの機能"
 	}
 }

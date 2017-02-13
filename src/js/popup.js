@@ -3,10 +3,26 @@
 	// 显示标题处理
 	document.title = chrome.i18n.getMessage("extName")
 	
+	// 国际化处理
+	$("#tips").attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
+	$("#tips .title").html(chrome.i18n.getMessage("tipsTitle"));
+	$("#tips .con").html(chrome.i18n.getMessage("tipsCon"));
+	$("#rightMenu li.option").html(chrome.i18n.getMessage("rightOption"))
+	$("#rightMenu li.uninstall").html(chrome.i18n.getMessage("rightUninstall"))
+	$("#rightMenu li.homepage").html(chrome.i18n.getMessage("rightHomepage"))
+	
+	var tips_url = $("#tips .url");
+	tips_url.html(chrome.i18n.getMessage("tipsUrl"));
+	// 设置访问Google应用商店的语言
+	tips_url.attr("href", tips_url.attr("href") + chrome.i18n.getMessage("@@ui_locale"));
+	
 	var showList = $('#showList');
 	var hideList = $('#hideList');
 	var wrap = $('#wrap');
 	var isShowExtName = localStorage.getItem("_switch_show_extname_") !== "close";
+	var isDisabledRightclick = localStorage.getItem("_switch_right_more_") !== "close";
+	var $extName = $('#extName');
+	var $rightMenu = $("#rightMenu");
 
 	var ratio_col = {
 		3: 228,
@@ -58,7 +74,7 @@
 					className = "noicon"
 				}
 
-				var objStr = '<li class="'+ className +'" data-id="' + obj.id + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
+				var objStr = '<li class="'+ className +'" data-id="' + obj.id + '" data-homepageurl="' + obj.homepageUrl + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
 				
 				// 配置中是否显示名称，是则需要计算平均色
 				// 用最小尺寸的图标进行计算
@@ -128,7 +144,7 @@
 			
 			$("#showList li").each(function(index, item){
 				var id = $(item).data("id");
-				if(lockedListObj[id] !== "1"){
+				if(lockedListObj && lockedListObj[id] !== "1"){
 					unlockCount++;
 				}
 			})
@@ -188,19 +204,27 @@
 	/**
 	 * [扩展图标点击]
 	 */
-	wrap.on('click', 'li', function() {
+	wrap.on('click', 'li', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
 		var t = $(this),
 			id = t.data('id'),
 			// 当前状态被禁用，通过点击后开启
 			isDisabled = t.closest('#hideList').length === 1;
 
 		if (id) {
+			
+			t.removeClass("hover");
+			
 			if (isDisabled) {
 				showList.append(t);
 				RankStorage.setRank(id);
 			} else {
 				hideList.append(t);
 			}
+			
+			t.attr("data-leftClick", (new Date)*1);
 			
 			if(hideList.find("li").length === 0){
 				showList.addClass("hideListIsNull");
@@ -217,12 +241,31 @@
 		// 针对角标的处理
 		addIconBadge();
 	});
+	
+	
+	function initExtNameAndRightClick(){
+		var rightLI = $("[data-right]");
+		
+		// 点击获取后，取消之前的右键菜单和hover状态
+		if(rightLI.length > 0){
+			// 右键菜单效果初始化
+			rightLI.removeAttr("data-right").removeClass("hover");
+			$rightMenu.removeAttr("style");
+			// 暗淡遮罩初始化
+			$(".dinginess").removeClass("dinginess");
+		}
+		
+		// 扩展名称初始化
+		$extName.removeClass("extName-anim").attr("style", "").empty();
+	}
+	$("body").on("click", function(){
+		initExtNameAndRightClick();
+	})
 
 
 	/**
 	 * [扩展图标鼠标滑过特效]
 	 */
-	var $extName = $('#extName');
 	// 根据图标大小，设置间距的阀值
 	var extNameXDistance = {
 		"1": 14,
@@ -230,7 +273,25 @@
 		"3": 24
 	}
 	wrap.on("mouseenter", "li", function() {
-		var t = $(this);
+		var t = $(this),
+			id = t.attr("data-id");
+		
+		var rightLI = $("[data-right]"),
+			rightLIID = rightLI.attr("data-id");
+		
+		// 判断是否进入的和正在显示右键菜单的是同一个扩展
+		if(id === rightLIID){
+			return false;
+		}
+		// 进入其它扩展后，取消之前的右键菜单和hover状态
+		if(rightLI.length > 0){
+			rightLI.removeAttr("data-right").removeClass("hover");
+			$rightMenu.removeAttr("style");
+			
+			// 取消另外一个列表的“暗淡”状态
+			var otherList = t.closest("#showList").length > 0 ? $("#hideList") : $("#showList");
+			otherList.removeClass("dinginess");
+		}
 		
 		if(isShowExtName){
 			// 处理该扩展的内容和位置
@@ -245,8 +306,8 @@
 			}
 			
 			// 设置动画前的位置
-			if(extColor[t.attr("data-id")]){
-				$extName.css("background-color", extColor[t.attr("data-id")].color);
+			if(extColor[id]){
+				$extName.css("background-color", extColor[id].color);
 			}
 			$extName.css({
 				"top": t_offset.top + 15,
@@ -258,6 +319,12 @@
 		clearTimeout(window["timer_disable_dinginess_" + list.attr("id")]);
 		
 		window["timer_"+t.data('id')] = setTimeout(function(){
+			
+			// 为了防止连接点击（不构成双击）
+			if((new Date)*1 < (t.attr("data-leftclick")*1 + 200)){
+				return;
+			}
+			
 			t.addClass('hover');
 			
 			// 为扩展名称添加动画属性，并设置最终的显示位置
@@ -274,6 +341,11 @@
 		var t = $(this),
 			list = t.closest(".list");
 		
+		// 判断是否打开了右键菜单
+		if(t.attr("data-right") != undefined){
+			return false;
+		}
+		
 		// 初始化扩展名称
 		if(isShowExtName){
 			window["timer_disable_dinginess_" + list.attr("id")] = setTimeout(function(){
@@ -283,6 +355,7 @@
 		}
 		
 		t.removeClass('hover');
+		
 		clearTimeout(window["timer_"+t.data('id')]);
    });
 
@@ -325,33 +398,139 @@
 
 
 	/**
-	 * [右击图标功能]
-	 * @param  {[type]} e){return false;} [description]
-	 * @return {[type]} [description]
+	 * [在扩展图标上右击打开扩展功能]
+	 * @param  {[type]} e) {		if        (e.button [description]
+	 * @return {[type]}    [description]
 	 */
-	if(!localStorage.getItem("_switch_right_click_")){
-		var operRightClick = localStorage.getItem("_rightClick_") || "uninstall";
-		$(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
-			if (e.button === 2) {
-				// 卸载扩展
-				if(operRightClick == 'uninstall'){
-					chrome.management.uninstall($(this).data("id"), function() {
-						refreshPlugin();
-					});
-				}else if(operRightClick == 'lock'){
-
-				}else if(operRightClick == 'option'){
-					var url = $(this).data('optionurl');
-					if(url){
-						window.open(url)
-					}
-				}
+	$(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
+		var t = $(this),
+			id = t.data("id"),
+			isLocked = t.attr("locked") != undefined,
+			optionUrl = t.data("optionurl"),
+			homepageUrl = t.data("homepageurl"),
+			curRightEle = $('[data-right]');
+			
+		if(curRightEle.length > 0 && curRightEle.data("id") === id){
+			initExtNameAndRightClick();
+		}
+			
+		if (e.button === 2 && t.hasClass("hover") && isDisabledRightclick) {
+			// 隐藏扩展名称
+			$extName.removeClass("extName-anim").attr("style", "").empty();
+			// 添加右键扩展标识
+			t.attr("data-right", "");
+			
+			// 处理该扩展的内容和位置
+			var t_offset = t.offset();
+			var extNameXStart = t_offset.left + 0.15*50 + 50 - 10;
+			var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
+			var rightMenuWidth = $rightMenu.outerWidth();
+			// 判断显示扩展名称后是否会超过页面边界
+			if($("body").width() < rightMenuWidth + extNameXEnd){
+				extNameXStart = t_offset.left - rightMenuWidth + 10;
+				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
 			}
-		});
-	}
+			
+			// 设置动画前的位置
+			if(extColor[t.attr("data-id")]){
+				$rightMenu.css("background-color", extColor[t.attr("data-id")].color);
+			}
+			$rightMenu.css({
+				"top": t_offset.top + (50*1.3-52)/2,
+				"left": extNameXStart
+			}).show();
+			
+			if(isLocked){
+				$rightMenu.find("li.lock").attr("locked", "");
+			}else{
+				$rightMenu.find("li.lock").removeAttr("locked");
+			}
+			if(!!$.trim(optionUrl)){
+				$rightMenu.find("li.option").removeAttr("disabled");
+			}else{
+				$rightMenu.find("li.option").attr("disabled", "");
+			}
+			
+			if(!!$.trim(homepageUrl)){
+				$rightMenu.find("li.homepage").removeAttr("disabled");
+			}else{
+				$rightMenu.find("li.homepage").attr("disabled", "");
+			}
+			
+			setTimeout(function(){
+				$rightMenu.css({
+					"left": extNameXEnd,
+					"opacity": 1
+				})
+			}, 0)
+			
+		}
+	});
 	$(document).on("contextmenu", function(e) {
 		return false;
 	});
+	
+	
+	$("#rightMenu").on("click", "li", function(e){
+		e.preventDefault();
+		e.stopPropagation()
+		var t = $(this),
+			li = $("[data-right]"),
+			id = li.attr("data-id");
+		
+		initExtNameAndRightClick();
+		
+		switch(t.attr("class")){
+			case "lock":
+				// 取出存储的锁定id列表
+				var idListObj = getPluginsByLocked();
+				// 判断当前扩展是否进行了加锁
+				if(t.attr("locked") === undefined){	// 当前未被加锁
+					li.attr("locked", "");
+					idListObj[id] = "1";
+				}else{
+					li.removeAttr("locked");
+					delete idListObj[id];
+				}
+				// 存储加锁内容
+				localStorage.setItem("_lockList_", JSON.stringify(idListObj));
+				break;
+			case "option":
+				if(t.attr("disabled") === undefined){
+					chrome.tabs.create({
+						"url": li.data("optionurl")
+					});
+				}
+				break;
+			case "homepage":
+				if(t.attr("disabled") === undefined){
+					chrome.tabs.create({
+						"url": li.data("homepageurl")
+					});
+				}
+				break;
+			case "uninstall":
+				chrome.management.uninstall(id, function(){});
+				break;
+			default:
+				break;
+		}
+	});
+	
+	
+	/**
+	 * [getPluginsByLocked 取出存储的锁定id列表]
+	 * @return {[type]} [description]
+	 */
+	function getPluginsByLocked(){
+		var idListStorage = localStorage.getItem("_lockList_");
+
+		if(idListStorage){
+			return JSON.parse(idListStorage);
+		}else{
+			return {};
+		}
+	}
 	
 	
 	/**

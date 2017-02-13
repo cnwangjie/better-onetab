@@ -18,6 +18,8 @@
 	$("#showBadgeDesc").html(chrome.i18n.getMessage("showBadgeDesc"));
 	$("#showExtName").html(chrome.i18n.getMessage("showExtName"));
 	$("#showExtNameDesc").html(chrome.i18n.getMessage("showExtNameDesc"));
+	$("#rightMoreName").html(chrome.i18n.getMessage("rightMoreName"))
+	$("#rightMoreDesc").html(chrome.i18n.getMessage("rightMoreDesc"))
 	
 	// 默认的图标大小文案
 	$("#js-icon-size-show").html(chrome.i18n.getMessage("sizeNormal"));
