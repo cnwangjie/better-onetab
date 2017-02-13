@@ -203,6 +203,8 @@ body {
 	
 	height: 52px;
 	width: 150px;
+	border-radius: 2px;
+	overflow: hidden;
 	
 	opacity: 0;
 	background-color: #efefef;
