@@ -216,6 +216,7 @@
 		if (id) {
 			
 			t.removeClass("hover");
+			$extName.removeClass("extName-anim").attr("style", "").empty();
 			
 			if (isDisabled) {
 				showList.append(t);
