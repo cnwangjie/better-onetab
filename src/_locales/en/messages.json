@@ -60,7 +60,7 @@
 		"message": "Addition:"
 	},
 	"otherDesc": {
-		"message": "Give stars or advice on <a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chrome Webstore</a>. Your concern will encourage the developer to improve it   :-)"
+		"message": "Give stars or advice on <a href='https://chrome.google.com/webstore/category/extensions?hl=en_US' target='_blank'>Chrome Webstore</a>. Your concern will encourage the developer to improve it   :-)"
 	},
 	"showBadgeName": {
 		"message": "Show badge"

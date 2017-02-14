@@ -60,7 +60,7 @@
 		"message": "其它："
 	},
 	"otherDesc": {
-		"message": "如果用起來還不錯，請登陸 <a href='https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88extension-manager%EF%BC%89/gjldcdngmdknpinoemndlidpcabkggco' target='_blank'>Chrome網上應用店</a> 給好評、提建議，將激勵開發者持續完善  :-)"
+		"message": "如果用起來還不錯，請登陸 <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-TW' target='_blank'>Chrome網上應用店</a> 給好評、提建議，將激勵開發者持續完善  :-)"
 	},
 	"showBadgeName": {
 		"message": "顯示角標"
