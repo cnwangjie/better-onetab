@@ -3,10 +3,9 @@
 .list li{width:50px;height:50px;float:left;list-style:none;margin:13px;border-radius:2px;background-size:50px 50px;background-position:center;background-repeat:no-repeat;position:relative;-webkit-transition:.2s ease-in-out;transition:.2s ease-in-out;-webkit-transform:translateZ(0);transform:translateZ(0)}
 .list li.hover{-webkit-filter:grayscale(0)!important;filter:grayscale(0)!important;opacity:1!important;transform:scale(1.3);-webkit-transform:scale(1.3)}
 .list li[locked]::after{position:absolute;top:1px;right:1px;z-index:999;content:"";display:block;height:6px;width:6px;border-radius:10px;border:3px solid #5c5e6f;box-shadow:0 0 0 1px #fff;background:#46d5fe}
-.list li.noicon{background-image:none!important}.list li.noicon::before{content:" ";display:block;height:38px;width:38px;background-color:#d8d8d8;border:0;margin:6px auto;border-radius:2px}
 .dinginess li{opacity:.2!important}#wrap.icon-size-1 .list li{background-size:38px 38px}#wrap.icon-size-2 .list li{background-size:44px 44px}#wrap.icon-size-3 .list li{background-size:50px 50px}
-#showList{border-bottom:2px dotted #e6e6e6;padding:0 0 10px 0;margin:0 0 10px 0}#showList:empty{border-bottom:0;padding:0;margin:0}#showList[locked] li{position:relative}
-#showList[locked] li img{opacity:.6;-webkit-filter:grayscale(1);filter:grayscale(1)}#hideList li{opacity:.5;-webkit-filter:grayscale(1);filter:grayscale(1)}
+#wrap.icon-size-3 .list li[locked]::after{top:-3px;right:-3px}#showList{border-bottom:2px dotted #e6e6e6;padding:0 0 10px 0;margin:0 0 10px 0}#showList:empty{border-bottom:0;padding:0;margin:0}
+#showList[locked] li{position:relative}#showList[locked] li img{opacity:.6;-webkit-filter:grayscale(1);filter:grayscale(1)}#hideList li{opacity:.5;-webkit-filter:grayscale(1);filter:grayscale(1)}
 #showList.hideListIsNull{border-bottom:0;padding:0;margin:0}.allListIsEmpty #tips{display:block}#tips{display:none;margin:40px auto}#tips .title{display:block;font-size:1.9em;text-align:center;line-height:54px;color:#c7c7c7}
 #tips[data-lan^=zh_] .title{font-size:2.4em}#tips .desc{display:block;font-size:1.1em;text-align:center;height:20px;line-height:20px;color:#d8d8d8}#tips .desc a{margin:0 0 0 2px;color:#c7e8d3;font-weight:bold;text-decoration:underline;outline:0}
 #extName{position:absolute;top:0;left:0;z-index:6;height:22px;line-height:22px;font-size:14px;color:#fff;text-transform:capitalize;padding:0 7px;border:0;border-radius:2px;background-color:#5c5e6f;opacity:0}

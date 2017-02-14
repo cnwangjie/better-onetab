@@ -23,6 +23,8 @@
 	var isDisabledRightclick = localStorage.getItem("_switch_right_more_") !== "close";
 	var $extName = $('#extName');
 	var $rightMenu = $("#rightMenu");
+	var defaultBgColor = "#5c5e6f";
+	var defaultIcon = "../icon/default-icon.png";
 
 	var ratio_col = {
 		3: 228,
@@ -59,8 +61,10 @@
 
 				// 统一处理图标
 				var img = "";
-				if (obj.icons) {
+				if (obj.icons && obj.icons.length > 0) {
 					img = obj.icons[obj.icons.length - 1].url;
+				}else{
+					img = defaultIcon;
 				}
 
 				var locked = "";
@@ -68,13 +72,7 @@
 					locked = "locked"
 				}
 				
-				var className = "";
-				
-				if(!obj.icons || obj.icons.length == 0){
-					className = "noicon"
-				}
-
-				var objStr = '<li class="'+ className +'" data-id="' + obj.id + '" data-homepageurl="' + obj.homepageUrl + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
+				var objStr = '<li data-id="' + obj.id + '" data-homepageurl="' + obj.homepageUrl + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
 				
 				// 配置中是否显示名称，是则需要计算平均色
 				// 用最小尺寸的图标进行计算
@@ -259,7 +257,7 @@
 		// 扩展名称初始化
 		$extName.removeClass("extName-anim").attr("style", "").empty();
 	}
-	$("body").on("click", function(){
+	$(document).on("click", function(){
 		initExtNameAndRightClick();
 	})
 
@@ -269,9 +267,9 @@
 	 */
 	// 根据图标大小，设置间距的阀值
 	var extNameXDistance = {
-		"1": 14,
-		"2": 18,
-		"3": 24
+		"1": 18,
+		"2": 22,
+		"3": 26
 	}
 	wrap.on("mouseenter", "li", function() {
 		var t = $(this),
@@ -358,7 +356,7 @@
 		t.removeClass('hover');
 		
 		clearTimeout(window["timer_"+t.data('id')]);
-   });
+	 });
 
 
 	/**
@@ -428,15 +426,13 @@
 			var rightMenuWidth = $rightMenu.outerWidth();
 			// 判断显示扩展名称后是否会超过页面边界
 			if($("body").width() < rightMenuWidth + extNameXEnd){
-				extNameXStart = t_offset.left - rightMenuWidth + 10;
+				extNameXStart = t_offset.left + 0.15*50 - rightMenuWidth + 10;
 				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
 			}
 			
 			// 设置动画前的位置
-			if(extColor[t.attr("data-id")]){
-				$rightMenu.css("background-color", extColor[t.attr("data-id")].color);
-			}
 			$rightMenu.css({
+				"background-color": extColor[id] ? extColor[id].color : defaultBgColor,
 				"top": t_offset.top + (50*1.3-52)/2,
 				"left": extNameXStart
 			}).show();
@@ -546,23 +542,23 @@
 			var canvas = document.getElementById("getColorByCanvas");
 			canvas.width = img.width;
 			canvas.height = img.height;
-		  
+			
 			var context = canvas.getContext("2d");
-		  
+			
 			context.drawImage(img, 0, 0);
-		  
+			
 			// 获取像素数据
 			var data = context.getImageData(0, 0, img.width, img.height).data;
 			
-		  	var r = 0;
-		  	var g = 0;
-		  	var b = 0;
-		  	
-		  	// 浅色阀值
-		  	var lightColor = 180;
-		  	
+				var r = 0;
+				var g = 0;
+				var b = 0;
+				
+				// 浅色阀值
+				var lightColor = 180;
+				
 			var substantialColor = 1000;
-		  
+			
 			// 取所有像素的平均值
 			for (var row = 0; row < img.height; row++) {
 				for (var col = 0; col < img.width; col++) {
@@ -584,29 +580,32 @@
 					}
 				}
 			}
-		  
+			
 			// 求取平均值
 			r /= (img.width * img.height);
 			g /= (img.width * img.height);
 			b /= (img.width * img.height);
-		  
+			
 			// 将最终的值取整
 			r = Math.round(r);
 			g = Math.round(g);
 			b = Math.round(b);
-		  
-		  	var newColor = "rgb(" + r + "," + g + "," + b + ")";
-		  	if(r > lightColor && g > lightColor && b > lightColor){
-				newColor = "#5c5e6f";
-		  	}
-		  	
-		  	// 判断出是否为白色空图
-		  	if(substantialColor === 1000){
-		  		setTimeout(function(){
-		  			$("[data-id="+extId+"]").addClass("noicon");
-		  		}, 0);
-		  	}
-		  	
+			
+			var newColor = "rgb(" + r + "," + g + "," + b + ")";
+			if(r > lightColor && g > lightColor && b > lightColor){
+			newColor = defaultBgColor;
+			}
+			
+			// 判断出是否为白色空图
+			if(substantialColor === 1000){
+				setTimeout(function(){
+					$("[data-id="+extId+"]").css({
+						"background-image": "url(" + defaultIcon + ")"
+					});
+				}, 0);
+				newColor = defaultBgColor;
+			}
+				
 			return {
 				color: newColor,
 				substantial: substantialColor

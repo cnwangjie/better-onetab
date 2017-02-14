@@ -77,20 +77,6 @@ body {
 	background: #46d5fe;
 }
 
-.list li.noicon{
-	background-image: none !important;
-}
-.list li.noicon::before{
-	content: " ";
-	display: block;
-	height: 38px;
-	width: 38px;
-	background-color: #d8d8d8;
-	border: none;
-	margin: 6px auto;
-	border-radius: 2px;
-}
-
 .dinginess li{
 	opacity: .2 !important;
 }
@@ -102,7 +88,11 @@ body {
 	background-size: 44px 44px;
 }
 #wrap.icon-size-3 .list li{
-	background-size: 50px 50px;	
+	background-size: 50px 50px;
+}
+#wrap.icon-size-3 .list li[locked]::after{
+	top: -3px;
+	right: -3px;
 }
 
 #showList {
