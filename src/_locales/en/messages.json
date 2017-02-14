@@ -6,7 +6,7 @@
 		"message": "Extension Manager"
 	},
 	"extDesr": {
-		"message": "A chrome extensions manager built for speed, simplicity, and security."
+		"message": "Manage extensions,quickly enable/disable,support batching operation. support custom layout and smart sorting. fast, simple and safe."
 	},
 	"tipSetSuc": {
 		"message": "Settings saved !"

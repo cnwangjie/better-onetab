@@ -2,8 +2,9 @@
 	"manifest_version" : 2,
 	"name" : "__MSG_extName__",
 	"short_name": "__MSG_extNameShort__",
-	"version" : "4.4.2",
+	"version" : "5.0.0",
 	"default_locale": "en",
+	"offline_enabled": true,
 	"description" : "__MSG_extDesr__",
 	"browser_action" : {
 		"default_icon" : "icon/browser_action_icon.png",
