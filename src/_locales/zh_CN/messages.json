@@ -106,5 +106,8 @@
 	},
 	"wrapAfterTipsCon": {
 		"message": "您好，请前往“扩展管理器-选项”页面查看是否进行了页面缩放？（地址栏最右侧放大镜）"
+	},
+	"emptyShowListCon": {
+		"message": "没有启用的扩展"
 	}
 }

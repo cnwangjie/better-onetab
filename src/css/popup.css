@@ -4,10 +4,32 @@
 }
 
 body {
-	/* overflow-x: hidden; */
 	-webkit-user-select: none;
 	position: relative;
 }
+/* body.dblClickAnim{
+	animation-name: bodyDblClickAnim;
+	-webkit-animation-name: bodyDblClickAnim;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-duration: 100ms;
+	-webkit-animation-duration: 100ms;
+	animation-direction: alternate;
+	-webkit-animation-direction: alternate;
+	animation-iteration-count: 2;
+	-webkit-animation-iteration-count: 2;
+}
+@keyframes bodyDblClickAnim {
+	0%{
+		background: #fff;
+	}
+	50%{
+		background: #ffeb3b;
+	}
+	100%{
+		background: #fff;
+	}
+} */
 
 ::-webkit-scrollbar {
 	width: 5px;
@@ -95,6 +117,45 @@ body {
 	border: 3px solid #5c5e6f;
 	box-shadow: 0px 0px 0px 1px #fff;
 	background: #46d5fe;
+	
+	animation-name: lockedAnim;
+	-webkit-animation-name: lockedAnim;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-duration: 400ms;
+	-webkit-animation-duration: 400ms;
+	animation-direction: alternate;
+	-webkit-animation-direction: alternate;
+	animation-iteration-count: 2;
+	-webkit-animation-iteration-count: 2;
+}
+@keyframes lockedAnim {
+	0%{
+		transform: scale(1);
+		-webkit-transform: scale(1);
+	}
+	50%{
+		transform: scale(1.4);
+		-webkit-transform: scale(1.4);
+	}
+	100%{
+		transform: scale(1);
+		-webkit-transform: scale(1);
+	}
+}
+@-webkit-keyframes lockedAnim {
+	0%{
+		transform: scale(1);
+		-webkit-transform: scale(1);
+	}
+	50%{
+		transform: scale(1.4);
+		-webkit-transform: scale(1.4);
+	}
+	100%{
+		transform: scale(1);
+		-webkit-transform: scale(1);
+	}
 }
 
 .dinginess li{
@@ -121,10 +182,48 @@ body {
 	margin: 0 0 10px 0;
 }
 
-#showList:empty {
-	border-bottom: none;
-	padding: 0;
-	margin: 0;
+#showList:empty::before{
+	display: block;
+	width: 97%;
+	height: 56px;
+	line-height: 56px;
+	margin: 0 auto 20px auto;
+	outline: 2px dotted #E6E6E6;
+	
+	font-size: 20px;
+	font-weight: 200;
+	color: #bbb;
+	text-align: center;
+	
+	content: "__MSG_emptyShowListCon__";
+	opacity: 0;
+	
+	animation-name: showEmptyTips;
+	-webkit-animation-name: showEmptyTips;
+	animation-delay: 250ms;
+	-webkit-animation-delay: 250ms;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-duration: 200ms;
+	-webkit-animation-duration: 200ms;
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+@keyframes showEmptyTips {
+	from{
+		opacity: 0;
+	}
+	to{
+		opacity: 1;
+	}
+}
+@-webkit-keyframes showEmptyTips {
+	from{
+		opacity: 0;
+	}
+	to{
+		opacity: 1;
+	}
 }
 
 #showList[locked] li {
@@ -142,10 +241,14 @@ body {
 	-webkit-filter: grayscale(1);
 	filter: grayscale(1);
 }
-#showList.hideListIsNull{
+#showList.hideListIsNull, #showList:empty{
 	border-bottom: none;
 	padding: 0;
 	margin: 0;
+}
+
+.allListIsEmpty #showList:empty{
+	display: none;
 }
 .allListIsEmpty #tips{
 	display: block;

@@ -109,5 +109,8 @@
 	},
 	"wrapAfterTipsCon": {
 		"message": "您好，請前往“擴展管理器 - 選項”頁面查看是否進行了頁面縮放嗎？（地址欄最右側放大鏡）"
+	},
+	"emptyShowListCon": {
+		"message": "沒有啟用的擴展"
 	}
 }

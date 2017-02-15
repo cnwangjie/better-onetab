@@ -106,5 +106,8 @@
 	},
 	"wrapAfterTipsCon": {
 		"message": "Hi, go to the 'Extension Manager - Options' page to see if the page has been zoomed. (The right side of the address bar)"
+	},
+	"emptyShowListCon": {
+		"message": "No Enabled Extensions!"
 	}
 }

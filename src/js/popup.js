@@ -211,7 +211,7 @@
 			// 当前状态被禁用，通过点击后开启
 			isDisabled = t.closest('#hideList').length === 1;
 
-		if (id) {
+		if (id && t.hasClass("hover")){
 			
 			t.removeClass("hover");
 			$extName.removeClass("extName-anim").attr("style", "").empty();
@@ -393,6 +393,15 @@
 		// 去掉角标
 		chrome.browserAction.setBadgeText({text:""})
 		
+		// $("body").addClass("dblClickAnim");
+		// setTimeout(function(){
+		// 	$("body").removeClass("dblClickAnim");
+		// }, 1000);
+		
+		var lockedList = $("#showList li[locked]").removeAttr("locked");
+		setTimeout(function(){
+			lockedList.attr("locked", "");
+		}, 0);
 	});
 
 
