@@ -204,7 +204,7 @@
 	 */
 	wrap.on('click', 'li', function(e) {
 		e.preventDefault();
-		e.stopPropagation();
+		// e.stopPropagation();
 		
 		var t = $(this),
 			id = t.data('id'),
@@ -250,9 +250,10 @@
 			// 右键菜单效果初始化
 			rightLI.removeAttr("data-right").removeClass("hover");
 			$rightMenu.removeAttr("style");
-			// 暗淡遮罩初始化
-			$(".dinginess").removeClass("dinginess");
 		}
+		
+		// 暗淡遮罩初始化
+		$(".dinginess").removeClass("dinginess");
 		
 		// 扩展名称初始化
 		$extName.removeClass("extName-anim").attr("style", "").empty();
