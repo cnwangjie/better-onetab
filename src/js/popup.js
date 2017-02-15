@@ -501,6 +501,8 @@
 				}
 				// 存储加锁内容
 				localStorage.setItem("_lockList_", JSON.stringify(idListObj));
+				// 处理角标
+				addIconBadge();
 				break;
 			case "option":
 				if(t.attr("disabled") === undefined){
