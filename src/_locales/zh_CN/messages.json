@@ -103,5 +103,8 @@
 	},
 	"rightMoreDesc": {
 		"message": "在扩展图标上右键可操作更多功能"
+	},
+	"wrapAfterTipsCon": {
+		"message": "您好，请前往“扩展管理器-选项”页面查看是否进行了页面缩放？（地址栏最右侧放大镜）"
 	}
 }

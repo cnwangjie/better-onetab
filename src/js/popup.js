@@ -120,7 +120,7 @@
 			
 			setTimeout(function(){
 				$("body").css("background-color", "#fff");
-				wrap.height(wrap.height()+1)
+				wrap.width(wrap.width()+1)
 			}, 200);
 			
 			// 角标处理
@@ -621,4 +621,11 @@
 			extColor[extId] = obj;
 		}
 	}
+	
+	setTimeout(function(){
+		if(wrap.outerWidth() > $(window).width()){
+			wrap.attr("showTips", "");
+		}
+	}, 1000);
+	
 })();

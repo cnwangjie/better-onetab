@@ -103,5 +103,8 @@
 	},
 	"rightMoreDesc": {
 		"message": "Right-click on the extended icon to operate more functions"
+	},
+	"wrapAfterTipsCon": {
+		"message": "Hi, go to the 'Extension Manager - Options' page to see if the page has been zoomed. (The right side of the address bar)"
 	}
 }
