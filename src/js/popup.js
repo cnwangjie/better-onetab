@@ -30,7 +30,6 @@
 	var defaultIcon = "../icon/default-icon.png";
 
 	var ratio_col = {
-		3: 228,
 		4: 304,
 		5: 380,
 		6: 456,
@@ -298,19 +297,57 @@
 		
 		if(isShowExtName){
 			// 处理该扩展的内容和位置
+			var _location = "right";
 			var t_offset = t.offset();
 			var extNameXStart = t_offset.left + 50 - 10;
 			var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
-			var extWidth = $extName.html(t.attr("data-name")).outerWidth();
+			
+			var tWidth = t.outerWidth();
+			var tHeight = t.outerHeight();
+			var bodyWidth = $("body").outerWidth();
+			var extNameWidth = $extName.html(t.attr("data-name")).outerWidth();
+			var rightMenuWidth = $rightMenu.outerWidth();
+			var rightMenuHeight = $rightMenu.outerHeight();
+			var _maxWidth = Math.max(extNameWidth, rightMenuWidth);
+			
+			var rightSpace = bodyWidth - t_offset.left - tWidth - extNameXDistance[iconSize] + 10;
+			var leftSpace = t_offset.left - extNameXDistance[iconSize] + 10;
+			var _maxSpace = Math.max(leftSpace, rightSpace);
+			
 			// 判断显示扩展名称后是否会超过页面边界
-			if($("body").width() < extWidth + extNameXEnd){
-				extNameXStart = t_offset.left - extWidth + 10;
-				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
+			if(_maxWidth > rightSpace && rightSpace < leftSpace){
+				extNameXStart = t_offset.left - extNameWidth + 10;
+				extNameXEnd = extNameXStart > extNameXDistance[iconSize] ? extNameXStart - extNameXDistance[iconSize] : 0;
+				_location = "left";
 			}
 			
+			if(extNameWidth > _maxSpace){
+				extNameWidth = _maxSpace - 6;
+				$extName.css({
+					"width": extNameWidth,
+					"overflow": "hidden",
+					"text-overflow": "ellipsis"
+				});
+				if(_location == "left"){
+					extNameXEnd = extNameXEnd + 6;
+				}
+			}
+			
+			// 为右击提前计算好位置，解决放大过程中计算偏失的问题
+			if(!extInfo[id]){
+				extInfo[id] = {};
+			}
+			extInfo[id]["left1"] = extNameXStart;
+			extInfo[id]["left2"] = extNameXEnd;
+			if(_location == "left"){
+				extInfo[id]["left1"] = extNameWidth > rightMenuWidth ? (extNameXStart + (extNameWidth - rightMenuWidth)) : (extNameXStart - (rightMenuWidth - extNameWidth));
+				extInfo[id]["left2"] = extNameWidth > rightMenuWidth ? (extNameXEnd + (extNameWidth - rightMenuWidth)) : (extNameXEnd - (rightMenuWidth - extNameWidth));
+			}
+			extInfo[id]["top"] = rightMenuHeight > tHeight ? t_offset.top - (rightMenuHeight - tHeight)/2 : t_offset.top + (tHeight - rightMenuHeight)/2;
+			
 			// 设置动画前的位置
-			if(extColor[id]){
-				$extName.css("background-color", extColor[id].color);
+			if(extInfo[id]){
+				$extName.css("background-color", extInfo[id].color);
 			}
 			$extName.css({
 				"top": t_offset.top + 15,
@@ -432,6 +469,7 @@
 			// 添加右键扩展标识
 			t.attr("data-right", "");
 			
+			/**
 			// 处理该扩展的内容和位置
 			var t_offset = t.offset();
 			var extNameXStart = t_offset.left + 0.15*50 + 50 - 10;
@@ -442,12 +480,13 @@
 				extNameXStart = t_offset.left + 0.15*50 - rightMenuWidth + 10;
 				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
 			}
+			**/
 			
 			// 设置动画前的位置
 			$rightMenu.css({
-				"background-color": extColor[id] ? extColor[id].color : defaultBgColor,
-				"top": t_offset.top + (50*1.3-52)/2,
-				"left": extNameXStart
+				"background-color": extInfo[id] ? extInfo[id].color : defaultBgColor,
+				"top": extInfo[id].top,
+				"left": extInfo[id].left1
 			}).show();
 			
 			if(isLocked){
@@ -469,7 +508,7 @@
 			
 			setTimeout(function(){
 				$rightMenu.css({
-					"left": extNameXEnd,
+					"left": extInfo[id].left2,
 					"opacity": 1
 				})
 			}, 0)
@@ -551,7 +590,7 @@
 	 * @param  {[type]} ele    [得到的色值放在Attr上]
 	 * @return {[type]}        [description]
 	 */
-	var extColor = {};
+	var extInfo = {};
 	function getColor(imgUrl, extId){
 		function getImageColor(img) {
 			var canvas = document.getElementById("getColorByCanvas");
@@ -633,7 +672,11 @@
 		
 		img.onload = function(){
 			var obj = getImageColor(img);
-			extColor[extId] = obj;
+			if(!extInfo[extId]){
+				extInfo[extId] = {};
+			}
+			extInfo[extId]["color"] = obj.color;
+			extInfo[extId]["substantial"] = obj.substantial;
 		}
 	}
 })();

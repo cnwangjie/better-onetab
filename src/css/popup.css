@@ -52,7 +52,7 @@ body {
 }
 
 #wrap {
-	width: 496px;
+	width: 572px;
 	min-height: 125px;
 	padding: 20px;
 	box-sizing: border-box;
@@ -269,11 +269,13 @@ body {
 	left: 0;
 	z-index: 6;
 	
+	box-sizing: border-box;
 	height: 22px;
 	line-height: 22px;
 	font-size: 14px;
 	color: #fff;
 	text-transform: capitalize;
+	white-space: nowrap;
 	
 	padding: 0 7px;
 	border: none;
