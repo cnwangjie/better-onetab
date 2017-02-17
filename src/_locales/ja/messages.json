@@ -63,13 +63,13 @@
 		"message": "お役に立てれば幸いですが、<a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=ja' target='_blank'>Chromeウェブストア</a>でスターやアドバイスをくれれば、開発者も喜んで拡張機能の改善を続きます。:-)"
 	},
 	"showBadgeName": {
-		"message": "視野角マーク"
+		"message": "視野角マーク："
 	},
 	"showBadgeDesc": {
 		"message": "現在（ロックされた拡張子を除く）有効に機能拡張の数は添え字で表示されます"
 	},
 	"showExtName": {
-		"message": "表示拡張機能"
+		"message": "表示拡張機能："
 	},
 	"showExtNameDesc": {
 		"message": "アイコンの拡大の上にマウスの名前を表示します"
@@ -99,13 +99,10 @@
 		"message": "ホーム"
 	},
 	"rightMoreName": {
-		"message": "右メニュー"
+		"message": "右メニュー："
 	},
 	"rightMoreDesc": {
 		"message": "拡張アイコンを右作動より多くの機能"
-	},
-	"wrapAfterTipsCon": {
-		"message": "かどうか、ページズームを参照するには、ページ - 「オプション機能拡張マネージャ」に行きますか？（右側のアドレスバー）"
 	},
 	"emptyShowListCon": {
 		"message": "拡張機能が有効になっていません"

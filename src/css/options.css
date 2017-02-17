@@ -3,8 +3,11 @@
 *{
 	padding: 0;
 	margin: 0;
-	font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+	font-family: arial, sans-serif;
 	text-rendering: geometricPrecision;
+}
+[data-lan^=zh_] *{
+	font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
 }
 body{
 	padding: 20px;
@@ -38,7 +41,7 @@ button:hover, select:hover{
 	transition: .3s ease-in-out;
 }
 .list h1{
-	font-size: 24px;
+	font-size: 26px;
 	font-weight: normal;
 	line-height: 48px;
 }
@@ -91,7 +94,7 @@ button:hover, select:hover{
 	position: fixed;
 	top: -38px;
 	left: 50%;
-	margin-left: -100px;
+	margin-left: -125px;
 	z-index: 9999999;
 	transition: 0.2s;
 	-webkit-transition: 0.2s;
@@ -102,6 +105,10 @@ button:hover, select:hover{
 	background : #25b75a;
 	border : 1px solid #439E64;
 }
+[data-lan=ja] .tips{
+	width: 300px;
+	margin-left: -150px;
+}
 ul li{
 	font-size: 16px;
 	line-height: 30px;
@@ -109,7 +116,7 @@ ul li{
 	margin: 0 0 0 18px;
 }
 p.describe{
-	font-size: 14px;
+	font-size: 16px;
 	margin: 20px 0 0 0;
 	color: #636363;
 }

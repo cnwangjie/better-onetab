@@ -63,13 +63,13 @@
 		"message": "如果用起来还不错，请登陆 <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-CN' target='_blank'>Chrome网上应用店</a> 给好评、提建议，将激励开发者持续完善  :-)"
 	},
 	"showBadgeName": {
-		"message": "显示角标"
+		"message": "显示角标："
 	},
 	"showBadgeDesc": {
 		"message": "通过角标显示当前启用的扩展数（被锁定的扩展除外）"
 	},
 	"showExtName": {
-		"message": "显示扩展名"
+		"message": "显示扩展名："
 	},
 	"showExtNameDesc": {
 		"message": "鼠标滑过扩展图标时显示其名称"
@@ -99,13 +99,10 @@
 		"message": "主页"	
 	},
 	"rightMoreName": {
-		"message": "右键菜单"
+		"message": "右键菜单："
 	},
 	"rightMoreDesc": {
 		"message": "在扩展图标上右键可操作更多功能"
-	},
-	"wrapAfterTipsCon": {
-		"message": "您好，请前往“扩展管理器-选项”页面查看是否进行了页面缩放？（地址栏最右侧放大镜）"
 	},
 	"emptyShowListCon": {
 		"message": "没有启用的扩展"

@@ -1,6 +1,10 @@
 (function(){
 	
+	// 重置页面缩放
+	chrome.tabs.setZoom(1);
+	
 	// 显示标题处理
+	$("body").attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
 	document.title = chrome.i18n.getMessage("optionName") + " - " + chrome.i18n.getMessage("extName")
 	$("#showCols").html(chrome.i18n.getMessage("showCols"));
 	$("#iconSize").html(chrome.i18n.getMessage("iconSize"));

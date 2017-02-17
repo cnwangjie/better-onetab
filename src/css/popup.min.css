@@ -1,7 +1,6 @@
 *{padding:0;margin:0}body{-webkit-user-select:none;position:relative}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#d8d8d8}.gclearfix{zoom:1}
 .gclearfix::after{clear:both;content:'';display:block;height:0;visibility:hidden}#wrap{width:496px;min-height:125px;padding:20px;box-sizing:border-box;position:relative}
-#wrap::after{display:none;position:absolute;bottom:0;left:0;width:100%;height:30px;line-height:30px;text-align:center;font-size:12px;color:#f44336;background:rgba(255,235,59,0.33);content:"__MSG_wrapAfterTipsCon__"}
-#wrap[showTips]::after{display:block!important}.list li{width:50px;height:50px;float:left;list-style:none;margin:13px;border-radius:2px;background-size:50px 50px;background-position:center;background-repeat:no-repeat;position:relative;-webkit-transition:.2s ease-in-out;transition:.2s ease-in-out;-webkit-transform:translateZ(0);transform:translateZ(0)}
+.list li{width:50px;height:50px;float:left;list-style:none;margin:13px;border-radius:2px;background-size:50px 50px;background-position:center;background-repeat:no-repeat;position:relative;-webkit-transition:.2s ease-in-out;transition:.2s ease-in-out;-webkit-transform:translateZ(0);transform:translateZ(0)}
 .list li.hover{-webkit-filter:grayscale(0)!important;filter:grayscale(0)!important;opacity:1!important;transform:scale(1.3);-webkit-transform:scale(1.3)}
 .list li[locked]::after{position:absolute;top:1px;right:1px;z-index:999;content:"";display:block;height:6px;width:6px;border-radius:10px;border:3px solid #5c5e6f;box-shadow:0 0 0 1px #fff;background:#46d5fe;animation-name:lockedAnim;-webkit-animation-name:lockedAnim;animation-timing-function:ease-in-out;-webkit-animation-timing-function:ease-in-out;animation-duration:400ms;-webkit-animation-duration:400ms;animation-direction:alternate;-webkit-animation-direction:alternate;animation-iteration-count:2;-webkit-animation-iteration-count:2}
 @keyframes lockedAnim{0%{transform:scale(1);-webkit-transform:scale(1)}50%{transform:scale(1.4);-webkit-transform:scale(1.4)}100%{transform:scale(1);-webkit-transform:scale(1)}
@@ -11,10 +10,10 @@
 @keyframes showEmptyTips{from{opacity:0}to{opacity:1}}@-webkit-keyframes showEmptyTips{from{opacity:0}to{opacity:1}}#showList[locked] li{position:relative}
 #showList[locked] li img{opacity:.6;-webkit-filter:grayscale(1);filter:grayscale(1)}#hideList li{opacity:.5;-webkit-filter:grayscale(1);filter:grayscale(1)}
 #showList.hideListIsNull,#showList:empty{border-bottom:0;padding:0;margin:0}.allListIsEmpty #showList:empty{display:none}.allListIsEmpty #tips{display:block}
-#tips{display:none;margin:40px auto}#tips .title{display:block;font-size:1.9em;text-align:center;line-height:54px;color:#c7c7c7}#tips[data-lan^=zh_] .title{font-size:2.4em}
+#tips{display:none;margin:40px auto}#tips .title{display:block;font-size:1.9em;text-align:center;line-height:54px;color:#c7c7c7}[data-lan^=zh_] #tips .title{font-size:2.4em}
 #tips .desc{display:block;font-size:1.1em;text-align:center;height:20px;line-height:20px;color:#d8d8d8}#tips .desc a{margin:0 0 0 2px;color:#c7e8d3;font-weight:bold;text-decoration:underline;outline:0}
 #extName{position:absolute;top:0;left:0;z-index:6;height:22px;line-height:22px;font-size:14px;color:#fff;text-transform:capitalize;padding:0 7px;border:0;border-radius:2px;background-color:#5c5e6f;opacity:0}
 .extName-anim{-webkit-transition:.2s ease-in-out;transition:.2s ease-in-out}#rightMenu{display:none;position:absolute;top:0;left:0;z-index:6;height:52px;width:150px;border-radius:2px;overflow:hidden;opacity:0;background-color:#efefef;-webkit-transition:.2s ease-in-out;transition:.2s ease-in-out}
-#rightMenu ul{width:100%;height:100%}#rightMenu ul li{height:26px;line-height:26px;width:75px;float:left;font-size:12px;color:#fff;text-align:center;list-style:none;cursor:default;box-shadow:inset 0 0 0 .1px #fff}
-#rightMenu ul li:hover{background-color:red}#rightMenu ul li.lock::after{content:"__MSG_rightLock_lock__"}#rightMenu ul li[locked]::after{content:"__MSG_rightLock_unlock__"}
-#rightMenu ul li[disabled]{opacity:.4}#rightMenu ul li[disabled]:hover{background:0}
+[data-lan=ru] #rightMenu{width:200px}#rightMenu ul{width:100%;height:100%}#rightMenu ul li{height:26px;line-height:26px;width:75px;float:left;font-size:12px;color:#fff;text-align:center;list-style:none;cursor:default;box-shadow:inset 0 0 0 .1px #fff}
+[data-lan=ru] #rightMenu ul li{width:100px}#rightMenu ul li:hover{background-color:red}#rightMenu ul li.lock::after{content:"__MSG_rightLock_lock__"}
+#rightMenu ul li[locked]::after{content:"__MSG_rightLock_unlock__"}#rightMenu ul li[disabled]{opacity:.4}#rightMenu ul li[disabled]:hover{background:0}

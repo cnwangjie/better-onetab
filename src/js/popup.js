@@ -1,10 +1,13 @@
 (function() {
 	
+	// 重置页面缩放
+	chrome.tabs.setZoom(1);
+
 	// 显示标题处理
 	document.title = chrome.i18n.getMessage("extName")
 	
 	// 国际化处理
-	$("#tips").attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
+	$("body").attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
 	$("#tips .title").html(chrome.i18n.getMessage("tipsTitle"));
 	$("#tips .con").html(chrome.i18n.getMessage("tipsCon"));
 	$("#rightMenu li.option").html(chrome.i18n.getMessage("rightOption"))
@@ -633,11 +636,4 @@
 			extColor[extId] = obj;
 		}
 	}
-	
-	setTimeout(function(){
-		if(wrap.outerWidth() > $(window).width()){
-			wrap.attr("showTips", "");
-		}
-	}, 1000);
-	
 })();

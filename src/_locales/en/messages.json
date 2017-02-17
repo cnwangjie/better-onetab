@@ -63,13 +63,13 @@
 		"message": "Give stars or advice on <a href='https://chrome.google.com/webstore/category/extensions?hl=en_US' target='_blank'>Chrome Webstore</a>. Your concern will encourage the developer to improve it   :-)"
 	},
 	"showBadgeName": {
-		"message": "Show badge"
+		"message": "Show badge:"
 	},
 	"showBadgeDesc": {
 		"message": "Show the number of extensions currently enabled (except for locked extensions)"
 	},
 	"showExtName": {
-		"message": "Show name"
+		"message": "Show name:"
 	},
 	"showExtNameDesc": {
 		"message": "The name is displayed when the mouse rolls over the extensions icon"
@@ -99,13 +99,10 @@
 		"message": "Homepage"
 	},
 	"rightMoreName": {
-		"message": "Right-click"
+		"message": "Right-click:"
 	},
 	"rightMoreDesc": {
 		"message": "Right-click on the extended icon to operate more functions"
-	},
-	"wrapAfterTipsCon": {
-		"message": "Hi, go to the 'Extension Manager - Options' page to see if the page has been zoomed. (The right side of the address bar)"
 	},
 	"emptyShowListCon": {
 		"message": "No Enabled Extensions!"

@@ -1,0 +1,110 @@
+{
+	"extName": {
+		"message": "Extension Manager"
+	},
+	"extNameShort": {
+		"message": "Extension Manager"
+	},
+	"extDesr": {
+		"message": "Ключ для управления всеми расширениями, быстро вкл выкл, молния управление партиями, интеллектуальная сортировка, правильно выгружается, запертый, параметры конфигурации, нижний индекс напомнило макет / размера с сердцем. Быстро, просто и безопасно."
+	},
+	"tipSetSuc": {
+		"message": "Установка успеха!"
+	},
+	"tipResetRank": {
+		"message": "большие успеха!"
+	},
+	"sizeSmall": {
+		"message": "маленькие"
+	},
+	"sizeNormal": {
+		"message": "нормальные"
+	},
+	"sizeBig": {
+		"message": "большие"
+	},
+	"optionName": {
+		"message": "параметры конфигурации"
+	},
+	"showCols": {
+		"message": "Показать колонки:"
+	},
+	"iconSize": {
+		"message": "Размер иконок:"
+	},
+	"speedManageName": {
+		"message": "Быстрое управление："
+	},
+	"speedManageDesc": {
+		"message": "Двойной клик по полю всплывающего окна отключает все расширения (кроме тем и заблокированых расширений)"
+	},
+	"speedManageLock": {
+		"message": "Клик по иконке блокирует/разблокирует расширение"
+	},
+	"rankName": {
+		"message": "Авто-сортировка:"
+	},
+	"rankDesc": {
+		"message": "Расположить расширения по частоте использования"
+	},
+	"rankBtn": {
+		"message": "Сбросить"
+	},
+	"uninstallName": {
+		"message": "扩展卸载："
+	},
+	"uninstallDesc": {
+		"message": "在扩展图标上“右击”进行卸载"
+	},
+	"otherName": {
+		"message": "Дополнение:"
+	},
+	"otherDesc": {
+		"message": "Поставьте оценку или оставьте отзыв в  <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=ru' target='_blank'>Chrome Webstore</a>. Ваше участие даст сил разработчику расширения дальше совершенствовать его :-)"
+	},
+	"showBadgeName": {
+		"message": "Показывать значок:"
+	},
+	"showBadgeDesc": {
+		"message": "Показывать количество включенных расширений (кроме заблокированных)"
+	},
+	"showExtName": {
+		"message": "Показывать название:"
+	},
+	"showExtNameDesc": {
+		"message": "Отображать название при наведении мышки на иконку расширения"
+	},
+	"tipsTitle": {
+		"message": "Не устанавливать другие расширения :-)"
+	},
+	"tipsCon": {
+		"message": "идти"
+	},
+	"tipsUrl": {
+		"message": "Chrome Webstore"
+	},
+	"rightLock_unlock": {
+		"message": "Разблокировать"	
+	},
+	"rightLock_lock": {
+		"message": "Заблокировать"	
+	},
+	"rightOption": {
+		"message": "Параметры"	
+	},
+	"rightUninstall": {
+		"message": "Удалить"	
+	},
+	"rightHomepage": {
+		"message": "Домашняя страница"	
+	},
+	"rightMoreName": {
+		"message": "Клик правой клавишей"
+	},
+	"rightMoreDesc": {
+		"message": "Клик правой клавишей по увеличенной иконке для использования большего количества функций"
+	},
+	"emptyShowListCon": {
+		"message": "Расширение не включен"
+	}
+}
