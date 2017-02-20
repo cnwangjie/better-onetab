@@ -1,7 +1,14 @@
 (function(){
 	
-	// 重置页面缩放
-	chrome.tabs.setZoom(1);
+	// 禁用页面缩放
+	chrome.tabs.getCurrent(function(obj){
+		chrome.tabs.getZoomSettings(obj.id, function(settingObj){
+			if(settingObj.mode !== "disabled"){
+				chrome.tabs.setZoom(1);
+				chrome.tabs.setZoomSettings(obj.id, {"mode": "disabled"}, function(){})
+			}
+		})
+	});
 	
 	// 显示标题处理
 	$("body").attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
@@ -72,6 +79,10 @@
 	});
 	var _column_ = localStorage.getItem("_showColumn_");
 	if(_column_){
+		if(_column_ < 4 || _column_ > 9){
+			_column_ = 7;
+			localStorage.setItem("_showColumn_", 7);
+		}
 		setColumnRange.val(_column_);
 		setColumnShow.html(_column_)
 	}

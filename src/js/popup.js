@@ -1,8 +1,5 @@
 (function() {
 	
-	// 重置页面缩放
-	chrome.tabs.setZoom(1);
-
 	// 显示标题处理
 	document.title = chrome.i18n.getMessage("extName")
 	
@@ -679,4 +676,13 @@
 			extInfo[extId]["substantial"] = obj.substantial;
 		}
 	}
+	
+	
+	// 扩展页面被放大进行提示
+	// setTimeout(function(){
+	// 	if(wrap.outerWidth() > $(window).width()){
+	// 		wrap.attr("showTips", "");
+	// 	}
+	// }, 1000);
+	
 })();
