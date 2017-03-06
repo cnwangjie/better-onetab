@@ -75,7 +75,7 @@
 				
 				// 配置中是否显示名称，是则需要计算平均色
 				// 用最小尺寸的图标进行计算
-				if(isShowExtName && obj.icons && obj.icons.length > 0){
+				if(obj.icons && obj.icons.length > 0){
 					(function(img, obj){
 						setTimeout(function(){
 							getColor(img, obj.id);
@@ -292,65 +292,63 @@
 			otherList.removeClass("dinginess");
 		}
 		
-		if(isShowExtName){
-			// 处理该扩展的内容和位置
-			var _location = "right";
-			var t_offset = t.offset();
-			var extNameXStart = t_offset.left + 50 - 10;
-			var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
-			
-			var tWidth = t.outerWidth();
-			var tHeight = t.outerHeight();
-			var bodyWidth = $("body").outerWidth();
-			var extNameWidth = $extName.html(t.attr("data-name")).outerWidth();
-			var rightMenuWidth = $rightMenu.outerWidth();
-			var rightMenuHeight = $rightMenu.outerHeight();
-			var _maxWidth = Math.max(extNameWidth, rightMenuWidth);
-			
-			var rightSpace = bodyWidth - t_offset.left - tWidth - extNameXDistance[iconSize] + 10;
-			var leftSpace = t_offset.left - extNameXDistance[iconSize] + 10;
-			var _maxSpace = Math.max(leftSpace, rightSpace);
-			
-			// 判断显示扩展名称后是否会超过页面边界
-			if(_maxWidth > rightSpace && rightSpace < leftSpace){
-				extNameXStart = t_offset.left - extNameWidth + 10;
-				extNameXEnd = extNameXStart > extNameXDistance[iconSize] ? extNameXStart - extNameXDistance[iconSize] : 0;
-				_location = "left";
-			}
-			
-			if(extNameWidth > _maxSpace){
-				extNameWidth = _maxSpace - 6;
-				$extName.css({
-					"width": extNameWidth,
-					"overflow": "hidden",
-					"text-overflow": "ellipsis"
-				});
-				if(_location == "left"){
-					extNameXEnd = extNameXEnd + 6;
-				}
-			}
-			
-			// 为右击提前计算好位置，解决放大过程中计算偏失的问题
-			if(!extInfo[id]){
-				extInfo[id] = {};
-			}
-			extInfo[id]["left1"] = extNameXStart;
-			extInfo[id]["left2"] = extNameXEnd;
-			if(_location == "left"){
-				extInfo[id]["left1"] = extNameWidth > rightMenuWidth ? (extNameXStart + (extNameWidth - rightMenuWidth)) : (extNameXStart - (rightMenuWidth - extNameWidth));
-				extInfo[id]["left2"] = extNameWidth > rightMenuWidth ? (extNameXEnd + (extNameWidth - rightMenuWidth)) : (extNameXEnd - (rightMenuWidth - extNameWidth));
-			}
-			extInfo[id]["top"] = rightMenuHeight > tHeight ? t_offset.top - (rightMenuHeight - tHeight)/2 : t_offset.top + (tHeight - rightMenuHeight)/2;
-			
-			// 设置动画前的位置
-			if(extInfo[id]){
-				$extName.css("background-color", extInfo[id].color);
-			}
-			$extName.css({
-				"top": t_offset.top + 15,
-				"left": extNameXStart
-			})
+		// 处理该扩展的内容和位置
+		var _location = "right";
+		var t_offset = t.offset();
+		var extNameXStart = t_offset.left + 50 - 10;
+		var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
+		
+		var tWidth = t.outerWidth();
+		var tHeight = t.outerHeight();
+		var bodyWidth = $("body").outerWidth();
+		var extNameWidth = $extName.html(t.attr("data-name")).outerWidth();
+		var rightMenuWidth = $rightMenu.outerWidth();
+		var rightMenuHeight = $rightMenu.outerHeight();
+		var _maxWidth = Math.max(extNameWidth, rightMenuWidth);
+		
+		var rightSpace = bodyWidth - t_offset.left - tWidth - extNameXDistance[iconSize] + 10;
+		var leftSpace = t_offset.left - extNameXDistance[iconSize] + 10;
+		var _maxSpace = Math.max(leftSpace, rightSpace);
+		
+		// 判断显示扩展名称后是否会超过页面边界
+		if(_maxWidth > rightSpace && rightSpace < leftSpace){
+			extNameXStart = t_offset.left - extNameWidth + 10;
+			extNameXEnd = extNameXStart > extNameXDistance[iconSize] ? extNameXStart - extNameXDistance[iconSize] : 0;
+			_location = "left";
 		}
+		
+		if(extNameWidth > _maxSpace){
+			extNameWidth = _maxSpace - 6;
+			$extName.css({
+				"width": extNameWidth,
+				"overflow": "hidden",
+				"text-overflow": "ellipsis"
+			});
+			if(_location == "left"){
+				extNameXEnd = extNameXEnd + 6;
+			}
+		}
+		
+		// 为右击提前计算好位置，解决放大过程中计算偏失的问题
+		if(!extInfo[id]){
+			extInfo[id] = {};
+		}
+		extInfo[id]["left1"] = extNameXStart;
+		extInfo[id]["left2"] = extNameXEnd;
+		if(_location == "left"){
+			extInfo[id]["left1"] = extNameWidth > rightMenuWidth ? (extNameXStart + (extNameWidth - rightMenuWidth)) : (extNameXStart - (rightMenuWidth - extNameWidth));
+			extInfo[id]["left2"] = extNameWidth > rightMenuWidth ? (extNameXEnd + (extNameWidth - rightMenuWidth)) : (extNameXEnd - (rightMenuWidth - extNameWidth));
+		}
+		extInfo[id]["top"] = rightMenuHeight > tHeight ? t_offset.top - (rightMenuHeight - tHeight)/2 : t_offset.top + (tHeight - rightMenuHeight)/2;
+		
+		// 设置动画前的位置
+		if(extInfo[id]){
+			$extName.css("background-color", extInfo[id].color);
+		}
+		$extName.css({
+			"top": t_offset.top + 15,
+			"left": extNameXStart
+		})
 		
 		var list = t.closest(".list");
 		clearTimeout(window["timer_disable_dinginess_" + list.attr("id")]);
