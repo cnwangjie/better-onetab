@@ -106,5 +106,11 @@
 	},
 	"emptyShowListCon": {
 		"message": "没有启用的扩展"
+	},
+	"closeAllBtn": {
+		"message": "全部关闭"
+	},
+	"searcherPlaceholder": {
+		"message": "请输入扩展名称或描述关键字"
 	}
 }

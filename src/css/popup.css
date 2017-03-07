@@ -101,6 +101,15 @@ body {
 	width: calc(100% - 92px);
 	position: relative;
 }
+[data-lan=en_US] #search #searchBox{
+	width: calc(100% - 102px);
+}
+[data-lan=ru] #search #searchBox{
+	width: calc(100% - 152px);
+}
+[data-lan=ja] #search #searchBox{
+	width: calc(100% - 132px);
+}
 #search .searcher{
 	width: 100%;
 	line-height: 1em;
@@ -137,6 +146,15 @@ body {
 	color: #aaa9a9;
 	text-align: center;
 	float: right;
+}
+[data-lan=en_US] #search .reset{
+	width: 100px;
+}
+[data-lan=ru] #search .reset{
+	width: 150px;
+}
+[data-lan=ja] #search .reset{
+	width: 130px;
 }
 #search .reset:hover{
 	color: #fff;

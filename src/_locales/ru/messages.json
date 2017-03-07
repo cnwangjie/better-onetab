@@ -106,5 +106,11 @@
 	},
 	"emptyShowListCon": {
 		"message": "Расширение не включен"
+	},
+	"closeAllBtn": {
+		"message": "Отключить все"
+	},
+	"searcherPlaceholder": {
+		"message": "Введите имя или описание ключевых слов"
 	}
 }

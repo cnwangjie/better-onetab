@@ -106,5 +106,11 @@
 	},
 	"emptyShowListCon": {
 		"message": "沒有啟用的擴展"
+	},
+	"closeAllBtn": {
+		"message": "關閉所有"
+	},
+	"searcherPlaceholder": {
+		"message": "請輸入擴展名稱或描述關鍵字"
 	}
 }

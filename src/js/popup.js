@@ -5,6 +5,7 @@
 	
 	var $body = $("body");
 	var $closeAll = $(".js-dblclick-btn");
+	var $searcher = $(".js-searcher");
 	
 	var _extListObj = null;
 	
@@ -15,6 +16,8 @@
 	$("#rightMenu li.option").html(chrome.i18n.getMessage("rightOption"))
 	$("#rightMenu li.uninstall").html(chrome.i18n.getMessage("rightUninstall"))
 	$("#rightMenu li.homepage").html(chrome.i18n.getMessage("rightHomepage"))
+	$closeAll.html(chrome.i18n.getMessage("closeAllBtn"));
+	$searcher.attr("placeholder", chrome.i18n.getMessage("searcherPlaceholder"));
 	
 	var tips_url = $("#tips .url");
 	tips_url.html(chrome.i18n.getMessage("tipsUrl"));
@@ -31,7 +34,6 @@
 	var defaultBgColor = "#5c5e6f";
 	var defaultIcon = "../icon/default-icon.png";
 	
-	var $searcher = $(".js-searcher");
 
 	var ratio_col = {
 		4: 304,

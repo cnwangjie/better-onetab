@@ -106,5 +106,11 @@
 	},
 	"emptyShowListCon": {
 		"message": "拡張機能が有効になっていません"
+	},
+	"closeAllBtn": {
+		"message": "すべて閉じます"
+	},
+	"searcherPlaceholder": {
+		"message": "名前や説明、キーワードを入力してください"
 	}
 }

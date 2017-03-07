@@ -106,5 +106,11 @@
 	},
 	"emptyShowListCon": {
 		"message": "No Enabled Extensions!"
+	},
+	"closeAllBtn": {
+		"message": "Disable all"
+	},
+	"searcherPlaceholder": {
+		"message": "Enter name or description keyword"
 	}
 }
