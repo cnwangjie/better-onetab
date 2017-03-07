@@ -108,7 +108,7 @@ body {
 	width: calc(100% - 152px);
 }
 [data-lan=ja] #search #searchBox{
-	width: calc(100% - 132px);
+	width: calc(100% - 182px);
 }
 #search .searcher{
 	width: 100%;
@@ -154,7 +154,7 @@ body {
 	width: 150px;
 }
 [data-lan=ja] #search .reset{
-	width: 130px;
+	width: 180px;
 }
 #search .reset:hover{
 	color: #fff;

@@ -293,27 +293,4 @@
 			}
 		}, 100);
 	})
-	
-	
-	// 演示demo
-	var $playDemo = $("#playDemo");
-	var playDemoMark = 0;
-	$playDemo.click(function(){
-		var t = $(this);
-		var playObj = {
-			"0": {
-				width: 200,
-				src: "icon/play-demo.png"
-			},
-			"1": {
-				width: 600,
-				src: "http://7lrypv.com1.z0.glb.clouddn.com/2017-02-08%2011_15_26.gif"
-			}
-		};
-		var playCon = playDemoMark === 0 ? 1: 0;
-		
-		t.css("width", playObj[playCon].width).attr("src", playObj[playCon].src);
-		
-		playDemoMark = playCon;
-	});
 })();

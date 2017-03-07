@@ -36,7 +36,7 @@
 		"message": "Quick manage:"
 	},
 	"speedManageDesc": {
-		"message": "Double-click the blank area of the popup window to close all extensions(except for themes & locked extensions)"
+		"message": "Click the 'Disable all' button to disable all extensions(except for themes & locked extensions)"
 	},
 	"speedManageLock": {
 		"message": "Click the icon to lock/unlock the extension:"
