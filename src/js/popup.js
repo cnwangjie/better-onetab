@@ -3,8 +3,13 @@
 	// 显示标题处理
 	document.title = chrome.i18n.getMessage("extName")
 	
+	var $body = $("body");
+	var $closeAll = $(".js-dblclick-btn");
+	
+	var _extListObj = null;
+	
 	// 国际化处理
-	$("body").attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
+	$body.attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
 	$("#tips .title").html(chrome.i18n.getMessage("tipsTitle"));
 	$("#tips .con").html(chrome.i18n.getMessage("tipsCon"));
 	$("#rightMenu li.option").html(chrome.i18n.getMessage("rightOption"))
@@ -25,6 +30,8 @@
 	var $rightMenu = $("#rightMenu");
 	var defaultBgColor = "#5c5e6f";
 	var defaultIcon = "../icon/default-icon.png";
+	
+	var $searcher = $(".js-searcher");
 
 	var ratio_col = {
 		4: 304,
@@ -46,6 +53,9 @@
 		var listArrLocked = getPluginsByLocked();
 		
 		chrome.management.getAll(function(list) {
+			
+			_extListObj = list;
+			
 			var showListHtmlArr = [];
 			// 显示的扩展分为被锁定的和未被锁定的，用于排序调整
 			var showAndLockedListHtmlArr = [];
@@ -118,7 +128,7 @@
 			hideList.html(hideListHtmlArr.join(""));
 			
 			setTimeout(function(){
-				$("body").css("background-color", "#fff");
+				$body.css("background-color", "#fff");
 				wrap.width(wrap.width()+1)
 			}, 200);
 			
@@ -277,6 +287,10 @@
 		
 		var rightLI = $("[data-right]"),
 			rightLIID = rightLI.attr("data-id");
+			
+		if(wrap.attr("searching") !== undefined && t.attr("searched") == undefined){
+			return;
+		}
 		
 		// 判断是否进入的和正在显示右键菜单的是同一个扩展
 		if(id === rightLIID){
@@ -300,7 +314,7 @@
 		
 		var tWidth = t.outerWidth();
 		var tHeight = t.outerHeight();
-		var bodyWidth = $("body").outerWidth();
+		var bodyWidth = $body.outerWidth();
 		var extNameWidth = $extName.html(t.attr("data-name")).outerWidth();
 		var rightMenuWidth = $rightMenu.outerWidth();
 		var rightMenuHeight = $rightMenu.outerHeight();
@@ -412,7 +426,17 @@
 	/**
 	 * [一键关闭全部扩展]
 	 */
-	$('body').on('dblclick', function() {
+	var closeAllTimer = null;
+	function closeAll(){
+		
+		if(closeAllTimer){
+			return;
+		}
+		closeAllTimer = setTimeout(function(){
+			clearTimeout(closeAllTimer);
+			closeAllTimer = null;
+		}, 1000);
+		
 		var _showList = showList.find('li');
 		_showList.each(function(index, ele) {
 			var t = $(ele);
@@ -429,16 +453,74 @@
 		// 去掉角标
 		chrome.browserAction.setBadgeText({text:""})
 		
-		// $("body").addClass("dblClickAnim");
+		// $body.addClass("dblClickAnim");
 		// setTimeout(function(){
-		// 	$("body").removeClass("dblClickAnim");
+		// 	$body.removeClass("dblClickAnim");
 		// }, 1000);
 		
 		var lockedList = $("#showList li[locked]").removeAttr("locked");
 		setTimeout(function(){
 			lockedList.attr("locked", "");
 		}, 0);
+	}
+	// $('body').on('dblclick', function() {
+	// 	closeAll();
+	// });
+	$closeAll.click(function(){
+		closeAll();
 	});
+	$searcher.focus();
+	
+
+
+	/**
+	 * [搜索高亮扩展]
+	 */
+	$searcher.on("input", function(){
+		
+		var t = $(this);
+		var query = t.val().trim().replace(/\s{2,}/g, " ").toLowerCase();
+		var result = {};
+		
+		$("[searched]").removeAttr("searched");
+		
+		if(query){
+			wrap.attr("searching", "");
+			var queryArr = query.split(/\s/);
+			for (var i = _extListObj.length - 1; i >= 0; i--) {
+				for (var j = queryArr.length - 1; j >= 0; j--) {
+					var info = (_extListObj[i].name + "  " + _extListObj[i].description).toLowerCase();
+					if(info.indexOf(queryArr[j]) !== -1){
+						result[_extListObj[i].id] = 1;
+					}
+				}
+			}
+			
+			for(var itemId in result){
+				$("[data-id=" +itemId+ "]").attr("searched", "");
+			}
+		}else{
+			wrap.removeAttr("searching");
+		}
+	}).hover(function(){
+		$(this).select();
+	}, function(){});
+	
+	// 除了点击搜索框，其它操作均停止搜索
+	$body.on('click', function(e) {
+		if(!$.contains(document.getElementById("searchBox"), e.target)){
+			$searcher.val("");
+			wrap.removeAttr("searching");
+		}
+	});
+	
+	// 点击清空query按钮
+	$(".js-search-empty").on("click", function(){
+		$searcher.val("");
+		wrap.removeAttr("searching");
+		$searcher.focus();
+	})
+	
 
 
 	/**
@@ -471,7 +553,7 @@
 			var extNameXEnd = extNameXStart + extNameXDistance[iconSize];
 			var rightMenuWidth = $rightMenu.outerWidth();
 			// 判断显示扩展名称后是否会超过页面边界
-			if($("body").width() < rightMenuWidth + extNameXEnd){
+			if($body.width() < rightMenuWidth + extNameXEnd){
 				extNameXStart = t_offset.left + 0.15*50 - rightMenuWidth + 10;
 				extNameXEnd = extNameXStart - extNameXDistance[iconSize];
 			}
