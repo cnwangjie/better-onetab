@@ -36,7 +36,7 @@
 		"message": "闪电管理："
 	},
 	"speedManageDesc": {
-		"message": "点击管理器弹窗中的“全部关闭”按钮一键禁用所有扩展（已被锁定的扩展+主题插件除外）"
+		"message": "一键禁用全部扩展（已被锁定的扩展+主题插件除外）"
 	},
 	"speedManageLock": {
 		"message": "点击下面的图标“锁定”或“解锁”扩展"
@@ -108,9 +108,9 @@
 		"message": "没有启用的扩展"
 	},
 	"closeAllBtn": {
-		"message": "全部关闭"
+		"message": "全部禁用"
 	},
 	"searcherPlaceholder": {
-		"message": "请输入扩展名称或描述关键字"
+		"message": "搜索你的扩展"
 	}
 }

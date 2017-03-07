@@ -36,7 +36,7 @@
 		"message": "閃電管理："
 	},
 	"speedManageDesc": {
-		"message": "點擊管理器彈窗中的“全部關閉”按鈕一鍵禁用所有擴展（已被鎖定的擴展+主題插件除外）"
+		"message": "一鍵禁用全部擴展（已被鎖定的擴展+主題插件除外）"
 	},
 	"speedManageLock": {
 		"message": "點擊下面的圖標“鎖定”或“解鎖”擴展"
@@ -108,9 +108,9 @@
 		"message": "沒有啟用的擴展"
 	},
 	"closeAllBtn": {
-		"message": "關閉所有"
+		"message": "全部禁用"
 	},
 	"searcherPlaceholder": {
-		"message": "請輸入擴展名稱或描述關鍵字"
+		"message": "搜索你的擴展"
 	}
 }

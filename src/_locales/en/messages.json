@@ -36,7 +36,7 @@
 		"message": "Quick manage:"
 	},
 	"speedManageDesc": {
-		"message": "Click the 'Disable all' button to disable all extensions(except for themes & locked extensions)"
+		"message": "One key to disable all extensions (except for themes & locked extensions)"
 	},
 	"speedManageLock": {
 		"message": "Click the icon to lock/unlock the extension:"
@@ -111,6 +111,6 @@
 		"message": "Disable all"
 	},
 	"searcherPlaceholder": {
-		"message": "Enter name or description keyword"
+		"message": "Search your extension"
 	}
 }
