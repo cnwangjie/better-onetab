@@ -115,10 +115,10 @@ body {
 #search .searcher{
 	width: 100%;
 	line-height: 1em;
-	padding: 0 10px;
+	padding: 0 10px 0 36px;
 	font-size: 16px;
 	background: #f5f5f5;
-	border-left: 4px solid #f5f5f5;
+	border-left: 5px solid #f5f5f5;
 	color: #212121;
 }
 #search .searcher:focus{
@@ -138,6 +138,14 @@ body {
 }
 #search .searchEmpty:active{
 	fill: #000;
+}
+#search .serachIco{
+	fill: #a9a9a9;
+	position: absolute;
+	left: 11px;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 #search .reset{
 	height: 100%;
@@ -185,8 +193,9 @@ body {
 	position: absolute;
 	bottom: -10px;
 	left: 50%;
-	background: #f00;
+	background: #5c5e6f;
 	z-index: 0;
+	border-radius: 6px;
 	-webkit-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
@@ -194,6 +203,9 @@ body {
 	-webkit-filter: grayscale(0) !important;
 	filter: grayscale(0) !important;
 	opacity: 1 !important;
+}
+#wrap[searching] #search .searcher{
+	border-left-color: #5c5e6f;
 }
 
 .list li {
