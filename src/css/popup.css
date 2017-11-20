@@ -32,7 +32,7 @@ body {
 } */
 
 ::-webkit-scrollbar {
-	width: 5px;
+	width: 1px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -49,6 +49,11 @@ body {
 	display: block;
 	height: 0;
 	visibility: hidden;
+}
+
+html{
+	min-width: 344px;
+	max-width: 724px;
 }
 
 #wrap {
