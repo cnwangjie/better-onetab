@@ -56,265 +56,252 @@
 	}
 
 
+	window.SubTask("Storage", function(Storage) {
 
-	/**
-	 * [选择扩展显示的列数]
-	 */
-	var setColumnTimer = null,
-		setColumnShow = $('#js-sel-column-show'),
-		setColumnRange = $('#js-sel-column');
-	function setColumn(num){
-		localStorage.setItem("_showColumn_", num);
-		setColumnShow.html(num)
-		if(setColumnTimer){
-			clearTimeout(setColumnTimer);
-			setColumnTimer = null;
+		/**
+		 * [选择扩展显示的列数]
+		 */
+		var setColumnTimer = null,
+			setColumnShow = $('#js-sel-column-show'),
+			setColumnRange = $('#js-sel-column');
+			setColumnKey = "_showColumn_";
+		function setColumn(num){
+			Storage.set(setColumnKey, num);
+			setColumnShow.html(num)
+			if(setColumnTimer){
+				clearTimeout(setColumnTimer);
+				setColumnTimer = null;
+			}
+			setColumnTimer = setTimeout(function(){
+				showTips(chrome.i18n.getMessage("tipSetSuc"));
+			}, 600)
 		}
-		setColumnTimer = setTimeout(function(){
+		setColumnRange.on("input chnage", function(){
+			setColumn($(this).val());
+		});
+
+		var _column_ = Storage.get(setColumnKey);
+		if(_column_){
+			if(_column_ < 4 || _column_ > 9){
+				_column_ = 7;
+				Storage.set(setColumnKey, 7);
+			}
+			setColumnRange.val(_column_);
+			setColumnShow.html(_column_)
+		}
+
+
+
+		var setIconSizeTimer = null,
+			setIconShow = $('#js-icon-size-show'),
+			setIconRange = $('#js-icon-size'),
+			iconSizeShowText = {
+				1: chrome.i18n.getMessage("sizeSmall"),
+				2: chrome.i18n.getMessage("sizeNormal"),
+				3: chrome.i18n.getMessage("sizeBig")
+			},
+			setIconKey = "_showIconSize_";
+		// 设置
+		function setIconSize(num){
+			Storage.set(setIconKey, num);
+			setIconShow.html(iconSizeShowText[num])
+			if(setIconSizeTimer){
+				clearTimeout(setIconSizeTimer);
+				setIconSizeTimer = null;
+			}
+			setIconSizeTimer = setTimeout(function(){
+				showTips(chrome.i18n.getMessage("tipSetSuc"));
+			}, 600)
+		}
+		// 触发
+		setIconRange.on("input chnage", function(){
+			setIconSize($(this).val());
+		});
+		var _iconSize_ = Storage.get(setIconKey);
+		if(_iconSize_){
+			setIconRange.val(_iconSize_);
+			setIconShow.html(iconSizeShowText[_iconSize_])
+		}
+
+
+		// [扩展排序]清除rank存储数据
+		$('.js-clear-rank').click(function(){
+			Storage.remove("_rankList_");
+			showTips(chrome.i18n.getMessage("tipResetRank"));
+		});
+
+
+
+
+		// 遍历查询哪些功能被禁用
+		$('[data-switch-id]').each(function(){
+			var t = $(this),
+				switch_id = t.data("switch-id"),
+				id = "_switch_" + switch_id + "_";
+
+			if(Storage.get(id) === "close"){
+				t.closest(".list").addClass("switch-btn-close")
+			}
+		});
+
+
+
+
+		/**
+		 * [点击switch开关开启或关闭该功能]
+		 * @param  {[type]} '.switch-btn' [description]
+		 * @return {[type]}               [description]
+		 */
+		$('.switch-btn').click(function(){
+			var t = $(this),
+				wrap = t.closest(".list"),
+				id = "_switch_" + t.data("switch-id") + "_";
+
+			// 切换开关样式
+			wrap.toggleClass("switch-btn-close");
 			showTips(chrome.i18n.getMessage("tipSetSuc"));
-		}, 600)
-	}
-	setColumnRange.on("input chnage", function(){
-		setColumn($(this).val());
-	});
-	var _column_ = localStorage.getItem("_showColumn_");
-	if(_column_){
-		if(_column_ < 4 || _column_ > 9){
-			_column_ = 7;
-			localStorage.setItem("_showColumn_", 7);
-		}
-		setColumnRange.val(_column_);
-		setColumnShow.html(_column_)
-	}
 
-
-	
-	var setIconSizeTimer = null,
-		setIconShow = $('#js-icon-size-show'),
-		setIconRange = $('#js-icon-size'),
-		iconSizeShowText = {
-			1: chrome.i18n.getMessage("sizeSmall"),
-			2: chrome.i18n.getMessage("sizeNormal"),
-			3: chrome.i18n.getMessage("sizeBig")
-		};
-	function setIconSize(num){
-		localStorage.setItem("_showIconSize_", num);
-		setIconShow.html(iconSizeShowText[num])
-		if(setIconSizeTimer){
-			clearTimeout(setIconSizeTimer);
-			setIconSizeTimer = null;
-		}
-		setIconSizeTimer = setTimeout(function(){
-			showTips(chrome.i18n.getMessage("tipSetSuc"));
-		}, 600)
-	}
-	setIconRange.on("input chnage", function(){
-		setIconSize($(this).val());
-	});
-	var _iconSize_ = localStorage.getItem("_showIconSize_");
-	if(_iconSize_){
-		setIconRange.val(_iconSize_);
-		setIconShow.html(iconSizeShowText[_iconSize_])
-	}
-
-
-	// [扩展排序]清除rank存储数据
-	$('.js-clear-rank').click(function(){
-		localStorage.removeItem('_rankList_');
-		showTips(chrome.i18n.getMessage("tipResetRank"));
-	});
-
-
-
-
-	// 遍历查询哪些功能被禁用
-	$('[data-switch-id]').each(function(){
-		var t = $(this),
-			switch_id = t.data("switch-id"),
-			id = "_switch_" + switch_id + "_";
-
-		if(localStorage.getItem(id) === "close"){
-			t.closest(".list").addClass("switch-btn-close")
-		}
-	})
-
-
-
-
-	/**
-	 * [点击switch开关开启或关闭该功能]
-	 * @param  {[type]} '.switch-btn' [description]
-	 * @return {[type]}               [description]
-	 */
-	$('.switch-btn').click(function(){
-		var t = $(this),
-			wrap = t.closest(".list"),
-			id = "_switch_" + t.data("switch-id") + "_";
-
-		// 切换开关样式
-		wrap.toggleClass("switch-btn-close");
-		showTips(chrome.i18n.getMessage("tipSetSuc"));
-
-		if(wrap.hasClass("switch-btn-close")){
-			localStorage.setItem(id, "close")
-		}else{
-			localStorage.removeItem(id)
-		}
-	})
-
-
-
-
-
-	chrome.management.getAll(function(list){
-		var listArr = [];
-		var listArrLocked = getPluginsByLocked();
-		for (var i = 0; i < list.length; i++) {
-			var obj = list[i];
-
-			// console.log(obj);
-
-			// 将当前扩展排除在外
-			if(obj.id === chrome.app.getDetails().id || obj.type === "theme"){
-				continue;
-			}
-
-
-			// 统一处理图标
-			var img = "";
-			if(obj.icons){
-				img = obj.icons[obj.icons.length-1].url;
-			}
-
-			// 查看是否已经被锁定
-			var lockAttr = "";
-			if(listArrLocked){
-				if(listArrLocked[obj.id] == "1"){
-					lockAttr = "locked";
-				}
-			}
-
-			var objStr = '<li data-id="'+ obj.id +'" title="'+ obj.name +'" '+lockAttr+'><img src="'+ img +'" alt="'+ obj.name +'"></li>';
-
-			// 插入到队列中
-			listArr.push(objStr);
-		};
-		$('#_PLUGINS_LIST_').html(listArr.join(""));
-	});
-
-
-
-	/**
-	 * [getPluginsByLocked 取出存储的锁定id列表]
-	 * @return {[type]} [description]
-	 */
-	function getPluginsByLocked(){
-		var idListStorage = localStorage.getItem("_lockList_");
-
-		if(idListStorage){
-			return JSON.parse(idListStorage);
-		}else{
-			return {};
-		}
-	}
-
-
-
-	/**
-	 * 点击扩展，进行解锁与锁定
-	 * @param  {[type]} ){		var t             [description]
-	 * @return {[type]}          [description]
-	 */
-	$('#_PLUGINS_LIST_').on("click", "li", function(){
-		var t = $(this);
-		var id = t.data('id');
-
-		// 取出存储的锁定id列表
-		var idListObj = getPluginsByLocked();
-
-		// 判断当前扩展是否进行了加锁
-		if(t.attr("locked") === undefined){	// 当前未被加锁
-			t.attr("locked", "");
-			idListObj[id] = "1";
-		}else{
-			t.removeAttr("locked");
-			delete idListObj[id];
-		}
-
-		// 存储加锁内容
-		localStorage.setItem("_lockList_", JSON.stringify(idListObj));
-	})
-
-
-
-	/**
-	 * [选择图标右击操作]
-	 * @return {[type]} [description]
-	 */
-	var rightClickStorage = localStorage.getItem("_rightClick_") || "uninstall";
-	$("#js-rightclick").val(rightClickStorage).change(function(){
-		var val = $(this).val();
-		
-		// 存储右击选项内容
-		localStorage.setItem("_rightClick_", val);
-		showTips(chrome.i18n.getMessage("tipSetSuc"));
-	});
-	
-	
-	$('[data-switch-id="show_badge"]').click(function(){
-		setTimeout(function(){
-			var status = localStorage.getItem("_switch_show_badge_");
-			if(status === "close"){
-				chrome.browserAction.setBadgeText({text: ""});
+			if(wrap.hasClass("switch-btn-close")){
+				Storage.set(id, "close");
 			}else{
-				try{
-					var unlockCount = 0;
-					var lockListObj = JSON.parse(localStorage.getItem("_lockList_"));
-					chrome.management.getAll(function(list) {
-						var showListIdArr = [];
-						for (var i = 0; i < list.length; i++) {
-							var obj = list[i];
+				Storage.remove(id);
+			}
+		})
 
-							// 将当前扩展排除在外
-							if (obj.id !== chrome.app.getDetails().id && obj.type !== "theme" && obj.enabled) {
-								if(lockListObj[obj.id] !== "1"){
-									unlockCount++;
+
+
+
+
+		window.SubTask("Extension", function(list){
+			
+			var listArr = [];
+			var listArrLocked = Storage.get("_lockList_");
+
+			for (var i = 0; i < list.length; i++) {
+				var obj = list[i];
+
+				// 将当前扩展排除在外
+				if(obj.id === chrome.app.getDetails().id || obj.type === "theme"){
+					continue;
+				}
+
+				// 统一处理图标
+				var img = "";
+				if(obj.icons){
+					img = obj.icons[obj.icons.length-1].url;
+				}
+
+				// 查看是否已经被锁定
+				var lockAttr = "";
+				if(listArrLocked){
+					if(listArrLocked[obj.id] == "1"){
+						lockAttr = "locked";
+					}
+				}
+
+				var objStr = '<li data-id="'+ obj.id +'" title="'+ obj.name +'" '+lockAttr+'><img src="'+ img +'" alt="'+ obj.name +'"></li>';
+
+				// 插入到队列中
+				listArr.push(objStr);
+			};
+			$('#_PLUGINS_LIST_').html(listArr.join(""));
+		});
+
+
+
+		/**
+		 * 点击扩展，进行解锁与锁定
+		 * @param  {[type]} ){		var t             [description]
+		 * @return {[type]}          [description]
+		 */
+		$('#_PLUGINS_LIST_').on("click", "li", function(){
+			var t = $(this);
+			var id = t.data('id');
+
+			// 取出存储的锁定id列表
+			var idListObj = Storage.get("_lockList_") || {};
+			
+			// 判断当前扩展是否进行了加锁
+			if(t.attr("locked") === undefined){	// 当前未被加锁
+				t.attr("locked", "");
+				idListObj[id] = "1";
+			}else{
+				t.removeAttr("locked");
+				delete idListObj[id];
+			}
+
+			// 存储加锁内容
+			Storage.set("_lockList_", idListObj);
+		})
+
+
+
+		/**
+		 * [选择图标右击操作]
+		 * @return {[type]} [description]
+		 */
+		var rightClickStorage = Storage.get("_rightClick_") || "uninstall";
+
+		$("#js-rightclick").val(rightClickStorage).change(function(){
+			var val = $(this).val();
+			
+			// 存储右击选项内容
+			Storage.set("_rightClick_", val);
+			showTips(chrome.i18n.getMessage("tipSetSuc"));
+		});
+
+
+		$('[data-switch-id="show_badge"]').click(function(){
+			setTimeout(function(){
+				if(Storage.get("_switch_show_badge_") === "close"){
+					chrome.browserAction.setBadgeText({text: ""});
+				}else{
+					try{
+						var unlockCount = 0;
+						SubTask("Extension", function(list) {
+							var showListIdArr = [];
+							for (var i = 0; i < list.length; i++) {
+								var obj = list[i];
+	
+								// 将当前扩展排除在外
+								if (obj.id !== chrome.app.getDetails().id && obj.type !== "theme" && obj.enabled) {
+									if(Storage.get("_lockList_")[obj.id] !== "1"){
+										unlockCount++;
+									}
 								}
 							}
-						}
-						if(unlockCount === 0){
-							chrome.browserAction.setBadgeText({text: ""});
-						}else{
-							chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
-							chrome.browserAction.setBadgeText({text: unlockCount+""});
-						}
-					});
-				}catch(ex){}
-			}
-		}, 100);
-	})
-	
-	// 演示demo
-	var $playDemo = $("#playDemo");
-	var playDemoMark = 0;
-	$playDemo.click(function(){
-		var t = $(this);
-		var playObj = {
-			"0": {
-				width: 200,
-				src: "icon/play-demo.png"
-			},
-			"1": {
-				width: 600,
-				src: "http://7lrypv.com1.z0.glb.clouddn.com/2017-03-07%2020_36_26.gif"
-			}
-		};
-		var playCon = playDemoMark === 0 ? 1: 0;
-		
-		t.css("width", playObj[playCon].width).attr("src", playObj[playCon].src);
-		
-		playDemoMark = playCon;
-	});
+							if(unlockCount === 0){
+								chrome.browserAction.setBadgeText({text: ""});
+							}else{
+								chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
+								chrome.browserAction.setBadgeText({text: unlockCount+""});
+							}
+						});
+					}catch(ex){}
+				}
+			}, 100);
+		})
 
-	
+		// 演示demo
+		var $playDemo = $("#playDemo");
+		var playDemoMark = 0;
+		$playDemo.click(function(){
+			var t = $(this);
+			var playObj = {
+				"0": {
+					width: 200,
+					src: "icon/play-demo.png"
+				},
+				"1": {
+					width: 600,
+					src: "http://7lrypv.com1.z0.glb.clouddn.com/2017-03-07%2020_36_26.gif"
+				}
+			};
+			var playCon = playDemoMark === 0 ? 1: 0;
+			
+			t.css("width", playObj[playCon].width).attr("src", playObj[playCon].src);
+			
+			playDemoMark = playCon;
+		});
+	});
 })();

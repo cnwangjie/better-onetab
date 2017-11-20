@@ -52,7 +52,6 @@ body {
 }
 
 #wrap {
-	width: 572px;
 	min-height: 125px;
 	padding: 20px;
 	box-sizing: border-box;
@@ -292,16 +291,16 @@ body {
 	opacity: .2 !important;
 }
 
-#wrap.icon-size-1 .list li{
-	background-size: 38px 38px;
+html.icon-size-1 .list li{
+	background-size: 38px;
 }
-#wrap.icon-size-2 .list li{
-	background-size: 44px 44px;
+html.icon-size-2 .list li{
+	background-size: 44px;
 }
-#wrap.icon-size-3 .list li{
-	background-size: 50px 50px;
+html.icon-size-3 .list li{
+	background-size: 50px;
 }
-#wrap.icon-size-3 .list li[locked]::after{
+html.icon-size-3 .list li[locked]::after{
 	top: -3px;
 	right: -3px;
 }

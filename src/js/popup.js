@@ -1,5 +1,5 @@
 (function() {
-	
+
 	// 显示标题处理
 	document.title = chrome.i18n.getMessage("extName")
 	
@@ -7,9 +7,9 @@
 	var $closeAll = $(".js-dblclick-btn");
 	var $searcher = $(".js-searcher");
 	
-	var _extListObj = null;
-	
-	// 国际化处理
+	/**
+	 * 国际化处理
+	 */
 	$body.attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
 	$("#tips .title").html(chrome.i18n.getMessage("tipsTitle"));
 	$("#tips .con").html(chrome.i18n.getMessage("tipsCon"));
@@ -21,41 +21,46 @@
 	
 	var tips_url = $("#tips .url");
 	tips_url.html(chrome.i18n.getMessage("tipsUrl"));
+	
 	// 设置访问Google应用商店的语言
 	tips_url.attr("href", tips_url.attr("href") + chrome.i18n.getMessage("@@ui_locale"));
 	
+
+	/**
+	 * jQuery对象
+	 */
 	var showList = $('#showList');
 	var hideList = $('#hideList');
 	var wrap = $('#wrap');
-	var isShowExtName = localStorage.getItem("_switch_show_extname_") !== "close";
-	var isDisabledRightclick = localStorage.getItem("_switch_right_more_") !== "close";
 	var $extName = $('#extName');
 	var $rightMenu = $("#rightMenu");
 	var defaultBgColor = "#5c5e6f";
 	var defaultIcon = "../icon/default-icon.png";
-	
 
-	var ratio_col = {
-		4: 304,
-		5: 380,
-		6: 456,
-		7: 532,
-		8: 608,
-		9: 684
-	};
-	// 设置popup页面宽度
-	wrap.width(ratio_col[localStorage.getItem('_showColumn_')]);
-	
-	var iconSize = localStorage.getItem('_showIconSize_') || 2;
-	wrap.addClass("icon-size-" + iconSize);
-	
+
+	/**
+	 * 配置参数
+	 */
+	var isShowExtName = null;
+	var isDisabledRightclick = null;
+	var iconSize = null;
+	var _extListObj = null;
+
+	SubTask("Storage", function(Storage){
+		isShowExtName = Storage.get("_switch_show_extname_") !== "close"
+		isDisabledRightclick = Storage.get("_switch_right_more_") !== "close";
+		iconSize = Storage.get("_showIconSize_") || 2;
+
+		// 启动默认执行
+		refreshPlugin();
+	});
+
 
 	function refreshPlugin() {
 		
 		var listArrLocked = getPluginsByLocked();
 		
-		chrome.management.getAll(function(list) {
-			
+		SubTask("Extension", function(list) {
 			_extListObj = list;
 			
 			var showListHtmlArr = [];
@@ -108,7 +113,7 @@
 
 			}
 
-			if(!localStorage.getItem("_switch_rank_sort_")){
+			if(!Storage.get("_switch_rank_sort_")){
 				showListHtmlArr.sort(function(b, a) {
 					return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
 				});
@@ -129,17 +134,15 @@
 			}
 			hideList.html(hideListHtmlArr.join(""));
 			
-			setTimeout(function(){
-				$body.css("background-color", "#fff");
-				wrap.width(wrap.width()+1)
-			}, 200);
+			// setTimeout(function(){
+			// 	$body.css("background-color", "#fff");
+			// 	wrap.width(wrap.width()+1)
+			// }, 200);
 			
 			// 角标处理
 			addIconBadge()
-		});
+		})
 	}
-	// 启动默认执行
-	refreshPlugin();
 	
 	
 	/**
@@ -147,7 +150,7 @@
 	 * @param {[type]} showListIdArr [description]
 	 */
 	function addIconBadge(){
-		if(!localStorage.getItem("_switch_show_badge_")){
+		if(!Storage.get("_switch_show_badge_")){
 			var lockedListObj = getPluginsByLocked();
 			var unlockCount = 0;
 			
@@ -171,44 +174,30 @@
 	var RankStorage = {
 		// 存储标识
 		_key: "_rankList_",
-		_getLocalStorage: function() {
-			var storageStr = localStorage.getItem(this._key),
-				storageObj = null;
-			if (storageStr) {
-				storageObj = JSON.parse(storageStr);
-				return storageObj;
-			} else {
-				return {};
-			}
-		},
-		_setLocalStorage: function(obj) {
-			localStorage.setItem(this._key, JSON.stringify(obj));
-		},
 
 		// 通过id获取该扩展的rank值
 		get: function(id) {
-			var storageObj = this._getLocalStorage();
-			if (storageObj && storageObj[id]) {
-				return parseInt(storageObj[id]);
-			} else {
-				return 0;
+			var obj = Storage.get(this._key);
+			var rank = 0;
+			if(obj && obj[id]){
+				rank = parseInt(obj[id]);
 			}
+			return rank;
 		},
 
 		// 调用该方法默认给扩展的rank+1
 		setRank: function(id) {
-			var storageObj = this._getLocalStorage();
-			if (storageObj) {
-				var rank = storageObj[id];
-				if (rank) {
-					storageObj[id] = parseInt(storageObj[id]) + 1;
-				} else {
-					storageObj[id] = 1;
-				}
-				this._setLocalStorage(storageObj);
+			var obj = Storage.get(this._key) || {};
+			if(obj[id]){
+				obj[id] = parseInt(obj[id]) + 1;
+			}else{
+				obj[id] = 1;
 			}
+			Storage.set(this._key, obj);
 		}
 	};
+	
+
 
 	/**
 	 * [扩展图标点击]
@@ -416,13 +405,7 @@
 	 * @return {[type]} [description]
 	 */
 	function getPluginsByLocked() {
-		var idListStorage = localStorage.getItem("_lockList_");
-
-		if (idListStorage) {
-			return JSON.parse(idListStorage);
-		} else {
-			return null;
-		}
+		return Storage.get("_lockList_") || {};
 	}
 
 	/**
@@ -527,7 +510,6 @@
 
 	/**
 	 * [在扩展图标上右击打开扩展功能]
-	 * @param  {[type]} e) {		if        (e.button [description]
 	 * @return {[type]}    [description]
 	 */
 	$(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
@@ -621,7 +603,8 @@
 					delete idListObj[id];
 				}
 				// 存储加锁内容
-				localStorage.setItem("_lockList_", JSON.stringify(idListObj));
+				Storage.set("_lockList_", idListObj)
+
 				// 处理角标
 				addIconBadge();
 				break;
@@ -646,21 +629,6 @@
 				break;
 		}
 	});
-	
-	
-	/**
-	 * [getPluginsByLocked 取出存储的锁定id列表]
-	 * @return {[type]} [description]
-	 */
-	function getPluginsByLocked(){
-		var idListStorage = localStorage.getItem("_lockList_");
-
-		if(idListStorage){
-			return JSON.parse(idListStorage);
-		}else{
-			return {};
-		}
-	}
 	
 	
 	/**
