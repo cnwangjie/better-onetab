@@ -45,8 +45,37 @@
 	var isDisabledRightclick = null;
 	var iconSize = null;
 	var _extListObj = null;
+	var RankStorage = null;
+
 
 	SubTask("Storage", function(Storage){
+
+		RankStorage = {
+			// 存储标识
+			_key: "_rankList_",
+	
+			// 通过id获取该扩展的rank值
+			get: function(id) {
+				var obj = Storage.get(this._key);
+				var rank = 0;
+				if(obj && obj[id]){
+					rank = parseInt(obj[id]);
+				}
+				return rank;
+			},
+	
+			// 调用该方法默认给扩展的rank+1
+			setRank: function(id) {
+				var obj = Storage.get(this._key) || {};
+				if(obj[id]){
+					obj[id] = parseInt(obj[id]) + 1;
+				}else{
+					obj[id] = 1;
+				}
+				Storage.set(this._key, obj);
+			}
+		};
+
 		isShowExtName = Storage.get("_switch_show_extname_") !== "close"
 		isDisabledRightclick = Storage.get("_switch_right_more_") !== "close";
 		iconSize = Storage.get("_showIconSize_") || 2;
@@ -170,33 +199,6 @@
 		}
 	}
 
-
-	var RankStorage = {
-		// 存储标识
-		_key: "_rankList_",
-
-		// 通过id获取该扩展的rank值
-		get: function(id) {
-			var obj = Storage.get(this._key);
-			var rank = 0;
-			if(obj && obj[id]){
-				rank = parseInt(obj[id]);
-			}
-			return rank;
-		},
-
-		// 调用该方法默认给扩展的rank+1
-		setRank: function(id) {
-			var obj = Storage.get(this._key) || {};
-			if(obj[id]){
-				obj[id] = parseInt(obj[id]) + 1;
-			}else{
-				obj[id] = 1;
-			}
-			Storage.set(this._key, obj);
-		}
-	};
-	
 
 
 	/**
