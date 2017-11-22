@@ -7,7 +7,10 @@
 	"offline_enabled": true,
 	"description" : "__MSG_extDesr__",
 	"browser_action" : {
-		"default_icon" : "icon/browser_action_icon.png",
+		"default_icon" : {
+			"19": "icon/icon_19.png",
+			"38": "icon/icon_38.png"
+		},
 		"default_title": "__MSG_extName__",
 		"default_popup": "popup.html"
 	},
