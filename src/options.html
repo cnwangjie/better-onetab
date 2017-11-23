@@ -33,26 +33,40 @@
 
 	<div class="list">
 		<h1 id="rankName"></h1>
-		<div class="switch-btn" data-switch-id="rank_sort"><i></i></div>
-		<button id="rankBtn" class="js-clear-rank"></button>
-		<p class="describe" id="rankDesc"></p>
+		<ul class="radio-btn">
+			<li>
+				<label>
+					<input type="radio" name="ext_sort" value="name" checked>
+					<span class="radio-btn-input"></span>
+					<span id="sortByName"></span>
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="radio" name="ext_sort" value="rank">
+					<span class="radio-btn-input"></span>
+					<span id="sortByRank"></span>
+				</label>
+				<button id="rankBtn" class="js-clear-rank"></button>
+			</li>
+		</ul>
 	</div>
 
 	<div class="list">
 		<h1 id="rightMoreName"></h1>
-		<div class="switch-btn" data-switch-id="right_more"><i></i></div>
+		<div class="switch-btn" data-switch-id="right_more"></div>
 		<p class="describe" id="rightMoreDesc"></p>
 	</div>
 	
 	<div class="list">
 		<h1 id="showBadgeName"></h1>
-		<div class="switch-btn" data-switch-id="show_badge"><i></i></div>
+		<div class="switch-btn" data-switch-id="show_badge"></div>
 		<p class="describe" id="showBadgeDesc"></p>
 	</div>
 	
 	<div class="list">
 		<h1 id="showExtName"></h1>
-		<div class="switch-btn" data-switch-id="show_extname"><i></i></div>
+		<div class="switch-btn" data-switch-id="show_extname"></div>
 		<p class="describe" id="showExtNameDesc"></p>
 	</div>
 

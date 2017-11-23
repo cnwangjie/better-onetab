@@ -44,17 +44,14 @@
 	"rankName": {
 		"message": "自動並べ替え："
 	},
-	"rankDesc": {
-		"message": "起動頻度によって拡張機能を並べ替えます"
+	"sortByName": {
+		"message": "拡張名で並べ替え"
+	},
+	"sortByRank": {
+		"message": "開始頻度に応じてソートする"
 	},
 	"rankBtn": {
 		"message": "リセット"
-	},
-	"uninstallName": {
-		"message": "拡張機能アンインストール："
-	},
-	"uninstallDesc": {
-		"message": "拡張機能をアンインストールしたいときは対応のアイコンを右クリックしてください"
 	},
 	"otherName": {
 		"message": "アディション："

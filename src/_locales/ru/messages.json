@@ -44,17 +44,14 @@
 	"rankName": {
 		"message": "Авто-сортировка:"
 	},
-	"rankDesc": {
-		"message": "Расположить расширения по частоте использования"
+	"sortByName": {
+		"message": "Сортировать по имени расширения"
+	},
+	"sortByRank": {
+		"message": "Сортировать по частоте открытия"
 	},
 	"rankBtn": {
 		"message": "Сбросить"
-	},
-	"uninstallName": {
-		"message": "扩展卸载："
-	},
-	"uninstallDesc": {
-		"message": "在扩展图标上“右击”进行卸载"
 	},
 	"otherName": {
 		"message": "Дополнение:"

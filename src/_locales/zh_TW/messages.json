@@ -44,17 +44,14 @@
 	"rankName": {
 		"message": "擴展排序："
 	},
-	"rankDesc": {
-		"message": "根據開啟的頻率進行計算排序"
+	"sortByName": {
+		"message": "根據擴展名稱排序"
+	},
+	"sortByRank": {
+		"message": "根據開啟頻率排序"
 	},
 	"rankBtn": {
 		"message": "重置排序"
-	},
-	"uninstallName": {
-		"message": "擴充功能卸載："
-	},
-	"uninstallDesc": {
-		"message": "在擴充功能圖標上“右擊”進行卸載"
 	},
 	"otherName": {
 		"message": "其它："

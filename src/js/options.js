@@ -19,10 +19,9 @@
 	$("#speedManageDesc").html(chrome.i18n.getMessage("speedManageDesc"));
 	$("#speedManageLock").html(chrome.i18n.getMessage("speedManageLock"));
 	$("#rankName").html(chrome.i18n.getMessage("rankName"));
-	$("#rankDesc").html(chrome.i18n.getMessage("rankDesc"));
+	$("#sortByName").html(chrome.i18n.getMessage("sortByName"));
+	$("#sortByRank").html(chrome.i18n.getMessage("sortByRank"));
 	$("#rankBtn").html(chrome.i18n.getMessage("rankBtn"));
-	$("#uninstallName").html(chrome.i18n.getMessage("uninstallName"));
-	$("#uninstallDesc").html(chrome.i18n.getMessage("uninstallDesc"));
 	$("#otherName").html(chrome.i18n.getMessage("otherName"));
 	$("#otherDesc").html(chrome.i18n.getMessage("otherDesc"));
 	$("#showBadgeName").html(chrome.i18n.getMessage("showBadgeName"));
@@ -133,7 +132,9 @@
 
 
 
-		// 遍历查询哪些功能被禁用
+		/**
+		 * [点击switch开关开启或关闭该功能]
+		 */
 		$('[data-switch-id]').each(function(){
 			var t = $(this),
 				switch_id = t.data("switch-id"),
@@ -143,15 +144,7 @@
 				t.closest(".list").addClass("switch-btn-close")
 			}
 		});
-
-
-
-
-		/**
-		 * [点击switch开关开启或关闭该功能]
-		 * @param  {[type]} '.switch-btn' [description]
-		 * @return {[type]}               [description]
-		 */
+		// 交互绑定
 		$('.switch-btn').click(function(){
 			var t = $(this),
 				wrap = t.closest(".list"),
@@ -166,9 +159,30 @@
 			}else{
 				Storage.remove(id);
 			}
-		})
+		});
 
 
+		
+		/**
+		 * 单选框功能实现
+		 */
+		var radio_selector = "input[type=radio]";
+		$(".radio-btn").each(function(){
+			var t = $(this),
+				name = t.find(radio_selector).attr("name"),
+				storageKey = "_radio_" + name + "_",
+				storageVal = Storage.get(storageKey);
+
+			if(storageVal){
+				t.find(radio_selector + "[value="+storageVal+"]").attr("checked", "checked");
+			}
+		}).find(radio_selector).on("change", function(){
+			var t = $(this);
+			var name = t.attr("name");
+			var storageKey = "_radio_" + name + "_";
+			var storageVal = t.val();
+			Storage.set(storageKey, storageVal);
+		});
 
 
 

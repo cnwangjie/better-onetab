@@ -142,13 +142,26 @@
 
 			}
 
-			if(!Storage.get("_switch_rank_sort_")){
-				showListHtmlArr.sort(function(b, a) {
-					return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
-				});
-				hideListHtmlArr.sort(function(b, a) {
-					return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
-				});
+
+			
+			if(Storage.get("_radio_ext_sort_") === "rank"){
+				function extSortByRank(){
+					return function(b, a){
+						return RankStorage.get($(a).data("id")) - RankStorage.get($(b).data("id"));
+					}
+				}
+				showAndLockedListHtmlArr.sort(extSortByRank());
+				showListHtmlArr.sort(extSortByRank());
+				hideListHtmlArr.sort(extSortByRank());
+			}else{
+				function extSortByName(){
+					return function(a, b){
+						return $(a).data("name").charCodeAt(0) - $(b).data("name").charCodeAt(0)
+					}
+				}
+				showAndLockedListHtmlArr.sort(extSortByName());
+				showListHtmlArr.sort(extSortByName());
+				hideListHtmlArr.sort(extSortByName());
 			}
 			
 			// 合并被锁定+未锁定的，始终让被锁定的扩展在前面

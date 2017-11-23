@@ -44,17 +44,14 @@
 	"rankName": {
 		"message": "Auto sort:"
 	},
-	"rankDesc": {
-		"message": "Arrange extensions by applying frequency."
+	"sortByName": {
+		"message": "Sort By Extention Name"
+	},
+	"sortByRank": {
+		"message": "Sort By Enble Times"
 	},
 	"rankBtn": {
 		"message": "Reset"
-	},
-	"uninstallName": {
-		"message": "Uninstall:"
-	},
-	"uninstallDesc": {
-		"message": "Right-click a certain extension icon in the popup window to uninstall it."
 	},
 	"otherName": {
 		"message": "Addition:"

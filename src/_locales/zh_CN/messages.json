@@ -44,17 +44,14 @@
 	"rankName": {
 		"message": "扩展排序："
 	},
-	"rankDesc": {
-		"message": "根据开启的频率进行计算排序"
+	"sortByName": {
+		"message": "根据扩展名称排序"
+	},
+	"sortByRank": {
+		"message": "根据开启频率排序"
 	},
 	"rankBtn": {
 		"message": "重置排序"
-	},
-	"uninstallName": {
-		"message": "扩展卸载："
-	},
-	"uninstallDesc": {
-		"message": "在扩展图标上“右击”进行卸载"
 	},
 	"otherName": {
 		"message": "其它："
