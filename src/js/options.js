@@ -182,6 +182,7 @@
 			var storageKey = "_radio_" + name + "_";
 			var storageVal = t.val();
 			Storage.set(storageKey, storageVal);
+			showTips(chrome.i18n.getMessage("tipSetSuc"));
 		});
 
 
