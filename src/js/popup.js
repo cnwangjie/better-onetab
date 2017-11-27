@@ -156,7 +156,12 @@
 			}else{
 				function extSortByName(){
 					return function(a, b){
-						return $(a).data("name").charCodeAt(0) - $(b).data("name").charCodeAt(0)
+						var _a = $(a).data("name").charAt(0);
+						var _b = $(b).data("name").charAt(0);
+						return _a.localeCompare(_b, 'zh-Hans-CN', {
+							"sensitivity": "accent",
+							"usage": "search"
+						});
 					}
 				}
 				showAndLockedListHtmlArr.sort(extSortByName());
