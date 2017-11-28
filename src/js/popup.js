@@ -577,9 +577,9 @@
 			}).show();
 			
 			if(isLocked){
-				$rightMenu.find("li.lock").attr("locked", "");
+				$rightMenu.find("li.lock").attr("locked", "").html(chrome.i18n.getMessage("rightLock_unlock"));
 			}else{
-				$rightMenu.find("li.lock").removeAttr("locked");
+				$rightMenu.find("li.lock").removeAttr("locked").html(chrome.i18n.getMessage("rightLock_lock"));
 			}
 
 			/**

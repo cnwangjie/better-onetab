@@ -251,7 +251,7 @@ html{
 	z-index: 999;
 	
 	height: 16px;
-	line-height: 16px;
+	line-height: 15px;
 	width: 29px;
 	padding: 0 2px;
 	
@@ -518,12 +518,6 @@ html.icon-size-3 .list li[locked]::after{
 }
 #rightMenu ul li:hover{
 	background-color: red;
-}
-#rightMenu ul li.lock::after{
-	content: "__MSG_rightLock_lock__";
-}
-#rightMenu ul li[locked]::after{
-	content: "__MSG_rightLock_unlock__";
 }
 #rightMenu ul li[disabled]{
 	opacity: .4;
