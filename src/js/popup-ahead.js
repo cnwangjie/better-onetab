@@ -13,7 +13,7 @@
 	window.SubTask("Storage", function(obj) {
 		
 		// 设置popup页面宽度
-		document.documentElement.style = "width: " + ratio_col[obj.get("_showColumn_")] + "px;"
+		document.documentElement.style = "width: " + ratio_col[obj.get("_showColumn_") || 7] + "px;"
 		
 		// 设置图标尺寸
 		var iconSize = obj.get("_showIconSize_") || 2;
