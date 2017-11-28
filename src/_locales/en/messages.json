@@ -87,7 +87,10 @@
 		"message": "Lock"
 	},
 	"rightOption": {
-		"message": "Options"	
+		"message": "Options"
+	},
+	"rightAppLaunch": {
+		"message": "Launch"
 	},
 	"rightUninstall": {
 		"message": "Remove"

@@ -89,6 +89,9 @@
 	"rightOption": {
 		"message": "オプション"
 	},
+	"rightAppLaunch": {
+		"message": "スタート"
+	},
 	"rightUninstall": {
 		"message": "削除"
 	},

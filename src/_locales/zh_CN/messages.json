@@ -89,6 +89,9 @@
 	"rightOption": {
 		"message": "选项"	
 	},
+	"rightAppLaunch": {
+		"message": "运行"	
+	},
 	"rightUninstall": {
 		"message": "卸载"	
 	},

@@ -13,9 +13,10 @@
 	$body.attr("data-lan", chrome.i18n.getMessage("@@ui_locale"));
 	$("#tips .title").html(chrome.i18n.getMessage("tipsTitle"));
 	$("#tips .con").html(chrome.i18n.getMessage("tipsCon"));
-	$("#rightMenu li.option").html(chrome.i18n.getMessage("rightOption"))
-	$("#rightMenu li.uninstall").html(chrome.i18n.getMessage("rightUninstall"))
-	$("#rightMenu li.homepage").html(chrome.i18n.getMessage("rightHomepage"))
+	$("#rightMenu li.option").html(chrome.i18n.getMessage("rightOption"));
+	$("#rightMenu li.applaunch").html(chrome.i18n.getMessage("rightAppLaunch"));
+	$("#rightMenu li.uninstall").html(chrome.i18n.getMessage("rightUninstall"));
+	$("#rightMenu li.homepage").html(chrome.i18n.getMessage("rightHomepage"));
 	$closeAll.html(chrome.i18n.getMessage("closeAllBtn"));
 	$searcher.attr("placeholder", chrome.i18n.getMessage("searcherPlaceholder"));
 	
@@ -116,8 +117,11 @@
 				if (listArrLocked && listArrLocked[obj.id] == 1) {
 					locked = "locked"
 				}
-				
-				var objStr = '<li data-id="' + obj.id + '" data-homepageurl="' + obj.homepageUrl + '" data-optionurl="'+ obj.optionsUrl +'" data-name="' + obj.shortName + '" style="background-image:url('+ img +')" '+locked+'></li>';
+
+				// 是否应用
+				var isApp = obj.isApp ? "data-app" : "";
+
+				var objStr = '<li data-id="'+obj.id+'" data-homepageurl="'+obj.homepageUrl+'" data-optionurl="'+obj.optionsUrl+'" data-name="'+obj.shortName+'" style="background-image:url(\''+img+'\')" '+locked+' '+isApp+'><i>APP</i></li>';
 				
 				// 配置中是否显示名称，是则需要计算平均色
 				// 用最小尺寸的图标进行计算
@@ -533,12 +537,14 @@
 	 * @return {[type]}    [description]
 	 */
 	$(document).on("mousedown", "#hideList>li, #showList>li", function(e) {
-		var t = $(this),
-			id = t.data("id"),
-			isLocked = t.attr("locked") != undefined,
-			optionUrl = t.data("optionurl"),
-			homepageUrl = t.data("homepageurl"),
-			curRightEle = $('[data-right]');
+		var t = $(this);
+		var id = t.data("id");
+		var isLocked = t.attr("locked") != undefined;
+		var optionUrl = t.data("optionurl");
+		var isApp = t.data("app") === "";
+		var homepageUrl = t.data("homepageurl");
+		var curRightEle = $('[data-right]');
+		var isDisabled = t.closest("#hideList").length === 1;
 			
 		if(curRightEle.length > 0 && curRightEle.data("id") === id){
 			initExtNameAndRightClick();
@@ -575,10 +581,25 @@
 			}else{
 				$rightMenu.find("li.lock").removeAttr("locked");
 			}
-			if(!!$.trim(optionUrl)){
-				$rightMenu.find("li.option").removeAttr("disabled");
+
+			/**
+			 * 应用没有“option”，但是可以一键打开“open”
+			 */
+			var appLaunchEle = $rightMenu.find("li.applaunch").hide();
+			var optionEle = $rightMenu.find("li.option").hide();
+			if(isApp){
+				if(isDisabled){
+					appLaunchEle.attr("disabled", "").show();
+				}else{
+					appLaunchEle.removeAttr("disabled").show();
+				}
 			}else{
-				$rightMenu.find("li.option").attr("disabled", "");
+				optionEle.show();
+				if(!!$.trim(optionUrl)){
+					optionEle.removeAttr("disabled");
+				}else{
+					optionEle.attr("disabled", "");
+				}
 			}
 			
 			if(!!$.trim(homepageUrl)){
@@ -644,6 +665,9 @@
 				break;
 			case "uninstall":
 				chrome.management.uninstall(id, function(){});
+				break;
+			case "applaunch":
+				chrome.management.launchApp(id, function(){});
 				break;
 			default:
 				break;
@@ -744,6 +768,9 @@
 			}
 			extInfo[extId]["color"] = obj.color;
 			extInfo[extId]["substantial"] = obj.substantial;
+
+			// 针对“应用”启用平均色
+			$("li[data-id="+extId+"] > i").css("background", obj.color);
 		}
 	}
 	

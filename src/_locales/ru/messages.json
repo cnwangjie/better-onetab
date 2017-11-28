@@ -87,7 +87,10 @@
 		"message": "Заблокировать"	
 	},
 	"rightOption": {
-		"message": "Параметры"	
+		"message": "Параметры"
+	},
+	"rightAppLaunch": {
+		"message": "начало"
 	},
 	"rightUninstall": {
 		"message": "Удалить"	
