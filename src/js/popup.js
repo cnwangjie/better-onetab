@@ -119,9 +119,14 @@
 				}
 
 				// 是否应用
-				var isApp = obj.isApp ? "data-app" : "";
+				var hasMark = false;
+				if(obj.isApp){
+					hasMark = "APP";
+				}else if(obj.installType === "development"){
+					hasMark = "DEV"
+				}
 
-				var objStr = '<li data-id="'+obj.id+'" data-homepageurl="'+obj.homepageUrl+'" data-optionurl="'+obj.optionsUrl+'" data-name="'+obj.shortName+'" style="background-image:url(\''+img+'\')" '+locked+' '+isApp+'><i>APP</i></li>';
+				var objStr = '<li data-id="'+obj.id+'" data-homepageurl="'+obj.homepageUrl+'" data-optionurl="'+obj.optionsUrl+'" data-name="'+obj.shortName+'" style="background-image:url(\''+img+'\')" '+locked+' '+(hasMark?'data-mark':'')+'><i>'+hasMark+'</i></li>';
 				
 				// 配置中是否显示名称，是则需要计算平均色
 				// 用最小尺寸的图标进行计算

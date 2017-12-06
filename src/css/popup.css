@@ -242,11 +242,11 @@ html{
 .list li i{
 	display: none;
 }
-.list li[data-app] i{
+.list li[data-mark] i{
 	display: block;
 	
 	position: absolute;
-	bottom: 0;
+	bottom: -2px;
 	right: -4px;
 	z-index: 999;
 	
@@ -264,7 +264,7 @@ html{
 	background: #5c5d6e;
 	-webkit-transform: scale(0.7);transform: scale(0.7);
 }
-html.icon-size-3 .list li[data-app] i{
+html.icon-size-3 .list li[data-mark] i{
 	right: -7px;
 }
 
