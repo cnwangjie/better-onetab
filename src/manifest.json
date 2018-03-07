@@ -2,7 +2,7 @@
 	"manifest_version" : 2,
 	"name" : "__MSG_extName__",
 	"short_name": "__MSG_extNameShort__",
-	"version" : "7.1.4",
+	"version" : "7.2.0",
 	"default_locale": "en",
 	"offline_enabled": true,
 	"description" : "__MSG_extDesr__",
