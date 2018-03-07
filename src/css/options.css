@@ -294,3 +294,19 @@ ul li em{
 	-webkit-transition:.3s ease-in-out;
 	transition: .3s ease-in-out;
 }
+
+#otherDonateList{
+	margin: 20px 0;
+}
+#otherDonateList li{
+	list-style: none;
+	float: left;
+	width: 160px;
+	height: 195px;
+	margin: 0 20px 0 0;
+	border-radius: 4px;
+	overflow: hidden;
+}
+#otherDonateList li img{
+	width: 100%;
+}

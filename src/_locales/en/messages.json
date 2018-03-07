@@ -54,10 +54,13 @@
 		"message": "Reset"
 	},
 	"otherName": {
-		"message": "Addition:"
+		"message": "Support:"
 	},
 	"otherDesc": {
-		"message": "Give stars or advice on <a href='https://chrome.google.com/webstore/category/extensions?hl=en_US' target='_blank'>Chrome Webstore</a>. Your concern will encourage the developer to improve it   :-)"
+		"message": "Not bad to use, you can visit the <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-CN' target='_blank'>Chrome Web Store</a> to give praise or provide supportive suggestions"
+	},
+	"otherDonate": {
+		"message": "If you like, please have a cup of coffee and motivate me to continue refining it :-)"
 	},
 	"showBadgeName": {
 		"message": "Show badge:"

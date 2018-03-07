@@ -24,6 +24,7 @@
 	$("#rankBtn").html(chrome.i18n.getMessage("rankBtn"));
 	$("#otherName").html(chrome.i18n.getMessage("otherName"));
 	$("#otherDesc").html(chrome.i18n.getMessage("otherDesc"));
+	$("#otherDonate").html(chrome.i18n.getMessage("otherDonate"));
 	$("#showBadgeName").html(chrome.i18n.getMessage("showBadgeName"));
 	$("#showBadgeDesc").html(chrome.i18n.getMessage("showBadgeDesc"));
 	$("#showExtName").html(chrome.i18n.getMessage("showExtName"));

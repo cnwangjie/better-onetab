@@ -53,11 +53,11 @@
 	"rankBtn": {
 		"message": "重置排序"
 	},
-	"otherName": {
-		"message": "其它："
-	},
 	"otherDesc": {
-		"message": "如果用起來還不錯，請登陸 <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-TW' target='_blank'>Chrome網上應用店</a> 給好評、提建議，將激勵開發者持續完善  :-)"
+		"message": "用起來還不錯，可以登陸 <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-CN' target='_blank'>Chrome網上應用店</a> 給予好評 或 提供支持性建議"
+	},
+	"otherDonate": {
+		"message": "另外，如果您願意還可以請我喝杯咖啡，激勵我持續完善它 :-)"
 	},
 	"showBadgeName": {
 		"message": "顯示角標："
