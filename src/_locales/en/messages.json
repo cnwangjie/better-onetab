@@ -57,7 +57,7 @@
 		"message": "Support:"
 	},
 	"otherDesc": {
-		"message": "Not bad to use, you can visit the <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-CN' target='_blank'>Chrome Web Store</a> to give praise or provide supportive suggestions"
+		"message": "Not bad to use, you can visit the <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=en_US' target='_blank'>Chrome Web Store</a> to give praise or provide supportive suggestions"
 	},
 	"otherDonate": {
 		"message": "If you like, please have a cup of coffee and motivate me to continue refining it :-)"
