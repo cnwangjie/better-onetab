@@ -1,0 +1,24 @@
+{
+  "name": "better-onetab",
+  "version": "1.0.0",
+  "description": "a better onetab for chrome",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+  },
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "tabs"
+  ],
+  "options_page": "index.html",
+  "options_ui":
+  {
+    "page": "index.html",
+    "open_in_tab": true
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "manifest_version": 2
+}
