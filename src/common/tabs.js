@@ -1,4 +1,5 @@
 import storage from './storage'
+import list from './list'
 
 const getSelectedTabs = () => new Promise((resolve, reject) => {
   chrome.tabs.query({highlighted: true, pinned: false}, resolve)
@@ -8,12 +9,7 @@ const storeSelectedTabs = () => getSelectedTabs()
   .then(tabs => {
     chrome.tabs.remove(tabs.map(i => i.id))
     return storage.getLists().then(lists => {
-      lists.push({
-        tabs,
-        title: '',
-        time: Date.now(),
-        titleEdting: false,
-      })
+      lists.push(list.createNewTabList({tabs}))
       return lists
     })
   }).then(newlists => {
@@ -22,7 +18,7 @@ const storeSelectedTabs = () => getSelectedTabs()
   })
 
 const restoreList = list => {
-  list.map(tab => {
+  list.tabs.map(tab => {
     chrome.tabs.create({
       url: tab.url,
       pinned: tab.pinned,
@@ -35,4 +31,4 @@ const restoreList = list => {
   })
 }
 
-export default {getSelectedTabs, storeSelectedTabs}
+export default {getSelectedTabs, storeSelectedTabs, restoreList}

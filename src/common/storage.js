@@ -3,7 +3,9 @@ const getLists = () => new Promise((resolve, reject) => {
 })
 
 const setLists = lists => new Promise((resolve, reject) => {
-  chrome.storage.local.set({lists}, resolve)
+  if (!Array.isArray(lists)) return reject(new TypeError(lists))
+  const handledLists = lists.filter(i => Array.isArray(i.tabs))
+  chrome.storage.local.set({lists: handledLists}, resolve)
 })
 
 export default {getLists, setLists}
