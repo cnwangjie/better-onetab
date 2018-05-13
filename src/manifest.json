@@ -13,10 +13,10 @@
     "storage",
     "tabs"
   ],
-  "options_page": "index.html",
+  "options_page": "index.html#/app/",
   "options_ui":
   {
-    "page": "index.html",
+    "page": "index.html#/app/",
     "open_in_tab": true
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",

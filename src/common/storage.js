@@ -8,4 +8,12 @@ const setLists = lists => new Promise((resolve, reject) => {
   chrome.storage.local.set({lists: handledLists}, resolve)
 })
 
+const getOptions = () => new Promise((resolve, reject) => {
+  chrome.storage.local.get('opts', i => resolve(i.opts || {}))
+})
+
+const setOptions = opts => new Promise((resolve, reject) => {
+  chrome.storage.local.set({opts}, resolve)
+})
+
 export default {getLists, setLists}
