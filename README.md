@@ -14,6 +14,7 @@ A better onetab extensions for chrome.
  - [ ] Options
  - [ ] Drag and drop re-ordering
  - [ ] Data & options sync
+ - [ ] Import & export
 
 ### Installation
 

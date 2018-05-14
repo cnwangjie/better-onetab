@@ -3,12 +3,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
 const resolve = (...paths) => path.join(__dirname, ...paths)
-
+const mode = process.env.NODE_ENV || 'development'
 module.exports = {
-  mode: 'none',
+  mode,
   entry: {
     index: ['./src/index.js'],
     background: './src/background.js',
@@ -18,9 +19,14 @@ module.exports = {
     filename : '[name].js',
   },
   plugins: [
+    new webpack.DefinePlugin({
+      DEBUG: mode === 'development',
+    }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
       'src/manifest.json',
+      { from: 'src/assets', to: 'assets' },
+      { from: 'src/_locales', to: '_locales' },
     ]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -29,7 +35,14 @@ module.exports = {
       inject: true,
     }),
     new VueLoaderPlugin(),
+    new UglifyJsPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      name: true,
+      minChunks: Infinity,
+    },
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {

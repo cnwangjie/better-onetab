@@ -9,11 +9,11 @@ const setLists = lists => new Promise((resolve, reject) => {
 })
 
 const getOptions = () => new Promise((resolve, reject) => {
-  chrome.storage.local.get('opts', i => resolve(i.opts || {}))
+  chrome.storage.local.get('opts', i => resolve(i.opts || undefined))
 })
 
 const setOptions = opts => new Promise((resolve, reject) => {
   chrome.storage.local.set({opts}, resolve)
 })
 
-export default {getLists, setLists}
+export default {getLists, setLists, getOptions, setOptions}

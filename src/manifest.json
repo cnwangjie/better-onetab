@@ -1,7 +1,15 @@
 {
+  "manifest_version": 2,
   "name": "better-onetab",
   "version": "1.0.0",
+  "default_locale": "en",
   "description": "a better onetab for chrome",
+  "author": "WangJie <doudou19758@gmail.com>",
+  "icons" : {
+    "16": "assets/icons/icon_16.png",
+    "48": "assets/icons/icon_48.png",
+    "128": "assets/icons/icon_128.png"
+  },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -13,12 +21,11 @@
     "storage",
     "tabs"
   ],
-  "options_page": "index.html#/app/",
+  "options_page": "index.html#/app/options",
   "options_ui":
   {
-    "page": "index.html#/app/",
+    "page": "index.html#/app/options",
     "open_in_tab": true
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "manifest_version": 2
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
