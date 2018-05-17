@@ -1,6 +1,7 @@
 import storage from './storage'
 import list from './list'
 import _ from 'lodash'
+import cp from 'chrome-promise'
 
 const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned']
 
@@ -10,41 +11,33 @@ const pickTabs = tabs => tabs.map(tab => {
   return pickedTab
 })
 
-const getSelectedTabs = () => new Promise((resolve, reject) => {
-  chrome.tabs.query({highlighted: true, pinned: false}, resolve)
-})
+const getSelectedTabs = () => cp.tabs.query({highlighted: true})
 
-const storeSelectedTabs = () => getSelectedTabs()
-  .then(tabs => {
-    chrome.tabs.remove(tabs.map(i => i.id))
-    return storage.getLists().then(lists => {
-      lists.push(list.createNewTabList({tabs: pickTabs(tabs)}))
-      return lists
-    })
-  }).then(newlists => {
-    storage.setLists(newlists)
-    return newlists
-  })
+const storeSelectedTabs = async () => {
+  const tabs = await getSelectedTabs()
+  chrome.tabs.remove(tabs.map(i => i.id))
+  const lists = await storage.getLists()
+  lists.push(list.createNewTabList({tabs: pickTabs(tabs)}))
+  storage.setLists(lists)
+}
 
-const restoreList = (list, windowId) => {
-  list.tabs.map((tab, index) => {
-    chrome.tabs.create({
+const restoreList = async (list, windowId) => {
+  for (let i = 0; i < list.tabs.length; i += 1) {
+    const createdTab = await cp.tabs.create({
       url: tab.url,
       pinned: tab.pinned,
       index,
       windowId,
-    }, createdtab => {
-      if (tab.muted) chrome.tabs.update(createdtab.id, {
-        muted: true
-      })
     })
-  })
+    if (tab.muted) chrome.tabs.update(createdTab.id, {muted: true})
+  }
 }
 
-const restoreListInNewWindow = list => {
-  chrome.windows.create({}, createdWindow => {
-    restoreList(list, createdWindow.id)
-  })
+const restoreListInNewWindow = async list => {
+  const createdWindow = await cp.windows.create({})
+  const newTab = await cp.tabs.getAllInWindow(createdWindow.id).then(i => i.shift())
+  await restoreList(list, createdWindow.id)
+  chrome.tabs.remove([newTab.id])
 }
 
 export default {

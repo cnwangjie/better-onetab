@@ -1335,6 +1335,10 @@ chownr@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/chownr/download/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
 
+chrome-promise@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/chrome-promise/download/chrome-promise-3.0.0.tgz#a13582343e39131ecf4b161aad91d3850dbf3540"
+
 chrome-trace-event@^0.1.1:
   version "0.1.3"
   resolved "http://registry.npm.taobao.org/chrome-trace-event/download/chrome-trace-event-0.1.3.tgz#d395af2d31c87b90a716c831fe326f69768ec084"

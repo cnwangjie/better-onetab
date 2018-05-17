@@ -1,19 +1,17 @@
-const getLists = () => new Promise((resolve, reject) => {
-  chrome.storage.local.get('lists', i => resolve(i.lists || []))
-})
+import cp from 'chrome-promise'
 
-const setLists = lists => new Promise((resolve, reject) => {
-  if (!Array.isArray(lists)) return reject(new TypeError(lists))
+const getLists = () => cp.storage.local.get('lists')
+  .then(({lists}) => lists || [])
+
+const setLists = async lists => {
+  if (!Array.isArray(lists)) throw new TypeError(lists)
   const handledLists = lists.filter(i => Array.isArray(i.tabs))
-  chrome.storage.local.set({lists: handledLists}, resolve)
-})
+  return cp.storage.local.set({lists: handledLists})
+}
 
-const getOptions = () => new Promise((resolve, reject) => {
-  chrome.storage.local.get('opts', i => resolve(i.opts || undefined))
-})
+const getOptions = () => cp.storage.local.get('opts')
+ .then(({opts}) => opts)
 
-const setOptions = opts => new Promise((resolve, reject) => {
-  chrome.storage.local.set({opts}, resolve)
-})
+const setOptions = opts => cp.storage.local.set({opts})
 
 export default {getLists, setLists, getOptions, setOptions}
