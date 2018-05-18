@@ -9,10 +9,9 @@
             <v-list-tile>
               <v-list-tile-content>
                 <v-layout wrap style="width:100%">
-                  <v-flex xs4>
+                  <v-flex xs8>
                     <v-subheader>{{ option.desc }}</v-subheader>
                   </v-flex>
-                  <v-flex xs4></v-flex>
                   <v-flex xs4>
                     <v-select
                       class="select-amend"
@@ -65,11 +64,20 @@ export default {
     this.init()
   },
   methods: {
-    optionsChanged(key, value) {
-      storage.setOptions(this.options)
+    async optionsChanged(key, value) {
+      console.log(1)
+      console.log(key, value)
+      // when type of option is string options can not be set correctly after first storage.setOptions() called
+      await storage.setOptions(this.options)
+      await storage.setOptions(this.options)
+      console.log(2)
+      chrome.runtime.sendMessage({optionsChanged: {[key]: value}})
     },
     async init() {
-      this.options = await storage.getOptions()
+      const opts = await storage.getOptions()
+      Object.keys(opts).map(key => {
+        this.$set(this.options, key, opts[key])
+      })
       chrome.runtime.onMessage.addListener(msg => {
         if (msg.optionsChangeHandledStatus === 'success') {
           this.snackbar = true

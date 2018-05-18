@@ -4,6 +4,7 @@ const createNewTabList = ({tabs, title, time}) => {
     title: title || '',
     time: time || Date.now(),
     titleEditing: false,
+    pinned: false,
   }
 }
 

@@ -8,13 +8,16 @@ A better onetab extensions for chrome.
 [Send us a feature request.](https://github.com/cnwangjie/better-onetab/issues/new)
 
  - [x] Basic functionality
- - [ ] Popup page with simple list
- - [ ] Pin tab group
- - [ ] Keyboard shortcuts
- - [ ] Options
- - [ ] Drag and drop re-ordering
- - [ ] Data & options sync
- - [ ] Import & export
+ - [x] Set title of list
+ - [x] Popup page with simple list
+ - [x] Pin tab list
+ - [x] Keyboard shortcuts
+ - [x] Options
+ - [x] Drag and drop re-ordering
+ - [x] Data & options sync
+ - [x] Import & export
+ - [ ] Sync server
+ - [ ] I18N support
 
 ### Installation
 

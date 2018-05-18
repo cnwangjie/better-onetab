@@ -25,7 +25,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
       'src/manifest.json',
-      { from: 'src/assets', to: 'assets' },
+      { from: 'src/assets/icons', to: 'assets/icons' },
       { from: 'src/_locales', to: '_locales' },
     ]),
     new HtmlWebpackPlugin({
@@ -77,8 +77,11 @@ module.exports = {
         ]
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
         loader: 'file-loader',
+        options: {
+          useRelativePath: true,
+        },
       },
     ]
   }

@@ -14,6 +14,24 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "commands": {
+    "store-selected-tabs": {
+      "description": "Store selected tabs",
+      "global": true
+    },
+    "store-all-tabs": {
+      "description": "Store all tabs",
+      "global": true
+    },
+    "restore-lastest-list": {
+      "description": "Restore lastest tabs",
+      "global": true
+    },
+    "open-lists": {
+      "description": "Open tab lists",
+      "global": true
+    }
+  },
   "browser_action": {
   },
   "permissions": [

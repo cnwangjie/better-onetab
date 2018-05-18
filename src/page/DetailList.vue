@@ -1,6 +1,11 @@
 <template>
 <v-expansion-panel expand popout>
-  <v-expansion-panel-content v-for="(list, listIndex) in lists" :value="true">
+  <v-expansion-panel-content
+    hide-actions
+    v-for="(list, listIndex) in lists"
+    :value="true"
+    class="tab-list"
+  >
     <v-layout slot="header" row spacer>
       <v-flex no-wrap xs3>
         <v-chip
@@ -9,7 +14,7 @@
         >{{ list.tabs.length }} tabs</v-chip>
         <strong class="grey--text date">Created {{ formatTime(list.time) }}</strong>
       </v-flex>
-      <v-flex no-wrap xs9>
+      <v-flex no-wrap xs7>
         <v-text-field
           class="title-editor"
           autofocus
@@ -19,12 +24,18 @@
         ></v-text-field>
         <strong class="list-title" v-else>{{ list.title }}</strong>
       </v-flex>
+      <v-flex xs2 class="text-xs-right">
+        <v-btn @click="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
+          <v-icon :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
+        </v-btn>
+      </v-flex>
     </v-layout>
     <v-card>
       <v-btn flat small v-on:click="openChangeTitle(listIndex)">retitle list</v-btn>
       <v-btn flat small v-on:click="restoreList(listIndex)">restore all</v-btn>
       <v-btn flat small v-on:click="restoreList(listIndex, true)">restore all in new window</v-btn>
       <v-btn flat small color="error" v-on:click="removeList(listIndex)">remove list</v-btn>
+      <v-btn flat small v-on:click="pinList(listIndex, !list.pinned)">{{ list.pinned ? 'unpin' : 'pin' }} list</v-btn>
       <v-divider></v-divider>
       <v-list dense class="my-1">
         <draggable
@@ -32,7 +43,11 @@
           :options="{group: {name: 'g', put: true, pull: true}}"
           @change="tabMoved"
         >
-          <v-list-tile v-for="(tab, tabIndex) in list.tabs" @click="" class="list-item" :key="tabIndex">
+          <v-list-tile
+            v-for="(tab, tabIndex) in list.tabs"
+            @click="itemClicked(listIndex, tabIndex)"
+            class="list-item"
+            :key="tabIndex">
             <v-list-tile-action>
               <v-icon class="clear-btn" color="red" @click="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
@@ -43,7 +58,7 @@
                   size="16"
                   color="grey lighten-4"
                 >
-                  <img :src="tab.favIconUrl">
+                  <img :src="tab.favIconUrl ? tab.favIconUrl : `https://www.google.com/s2/favicons?domain=${getDomain(tab.url)}`">
                 </v-avatar>
                 {{ tab.title }}
               </v-list-tile-title>
@@ -59,16 +74,20 @@
 </v-expansion-panel>
 </template>
 <script>
-import moment from 'moment'
+import _ from 'lodash'
+import draggable from 'vuedraggable'
+
 import tabs from '@/common/tabs'
 import list from '@/common/list'
 import storage from '@/common/storage'
-import draggable from 'vuedraggable'
+import {formatTime} from '@/common/utils'
 
 export default {
   data() {
     return {
       lists: [],
+      itemClickAction: '',
+      itemDisplay: '',
     }
   },
   created() {
@@ -78,6 +97,16 @@ export default {
     draggable,
   },
   methods: {
+    formatTime,
+    async itemClicked(listIndex, tabIndex) {
+      const action = this.itemClickAction
+      if (action === 'open-and-remove') {
+        this.openTab(listIndex, tabIndex)
+        this.removeTab(listIndex, tabIndex)
+      } else if (action === 'open') {
+        this.openTab(listIndex, tabIndex)
+      }
+    },
     tabMoved() {
       this.lists = this.lists.filter(list => list.tabs.length !== 0)
       this.storeLists()
@@ -89,12 +118,22 @@ export default {
         }
       })
     },
-    init() {
+    async init() {
       this.getLists()
+      const opts = await storage.getOptions()
+      this.itemClickAction = opts.itemClickAction
+      this.itemDisplay = opts.itemDisplay
       chrome.storage.onChanged.addListener(changes => {
         if (changes.lists) {
           const newLists = changes.lists.newValue
           this.lists = newLists.filter(i => Array.isArray(i.tabs))
+        }
+      })
+      chrome.runtime.onMessage.addListener(msg => {
+        if (msg.optionsChanged && ['itemClickAction', 'itemDisplay'].indexOf(Object.keys(msg.optionsChanged)) !== -1) {
+          Object.keys(msg.optionsChanged).map(key => {
+            this[key] = msg.optionsChanged[key]
+          })
         }
       })
     },
@@ -107,7 +146,12 @@ export default {
     },
     removeTab(listIndex, tabIndex) {
       this.lists[listIndex].tabs.splice(tabIndex, 1)
+      if (this.lists[listIndex].tabs.length === 0)
+        this.removeList(listIndex)
       this.storeLists()
+    },
+    openTab(listIndex, tabIndex) {
+      tabs.openTab(this.lists[listIndex].tabs[tabIndex])
     },
     restoreList(listIndex, inNewWindow = false) {
       if (inNewWindow) tabs.restoreListInNewWindow(this.lists[listIndex])
@@ -122,11 +166,13 @@ export default {
       this.lists[listIndex].titleEditing = false
       this.storeLists()
     },
-    formatTime(time) {
-      if (Date.now() - time < 3600E3) return moment(time).fromNow()
-
-      const withYear = !moment(time).isSame(new Date(), 'year')
-      return moment(time).format(`ddd, MMMM Do ${withYear ? 'YYYY' : ''}, hh:ss`)
+    getDomain(url) {
+      return new URL(url).hostname
+    },
+    pinList(listIndex, pin = true) {
+      console.log(listIndex, pin)
+      this.lists[listIndex].pinned = pin
+      this.storeLists()
     },
   }
 }
@@ -141,6 +187,25 @@ export default {
 .list-title {
   font-size: 100%;
   line-height: 34px;
+}
+.tab-list {
+  .icon-in-title {
+    margin: 0 0 0 auto;
+    width: 30px;
+    height: 30px;
+  }
+  .icon-in-title {
+    .gray--text {
+      display: none;
+    }
+  }
+  &:hover {
+    .icon-in-title {
+      .gray--text {
+        display: flex;
+      }
+    }
+  }
 }
 .list-item {
   .clear-btn {

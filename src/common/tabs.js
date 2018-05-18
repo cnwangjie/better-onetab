@@ -17,16 +17,17 @@ const storeSelectedTabs = async () => {
   const tabs = await getSelectedTabs()
   chrome.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
-  lists.push(list.createNewTabList({tabs: pickTabs(tabs)}))
+  lists.unshift(list.createNewTabList({tabs: pickTabs(tabs)}))
   storage.setLists(lists)
 }
 
 const restoreList = async (list, windowId) => {
   for (let i = 0; i < list.tabs.length; i += 1) {
+    const tab = list.tabs[i]
     const createdTab = await cp.tabs.create({
       url: tab.url,
       pinned: tab.pinned,
-      index,
+      index: i,
       windowId,
     })
     if (tab.muted) chrome.tabs.update(createdTab.id, {muted: true})
@@ -40,9 +41,12 @@ const restoreListInNewWindow = async list => {
   chrome.tabs.remove([newTab.id])
 }
 
+const openTab = async tab => cp.tabs.create({ url: tab.url })
+
 export default {
   getSelectedTabs,
   storeSelectedTabs,
   restoreList,
   restoreListInNewWindow,
+  openTab,
 }

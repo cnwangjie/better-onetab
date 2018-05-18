@@ -6,10 +6,7 @@
 <script>
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import fontawesome from '@fortawesome/fontawesome'
-import solid from '@fortawesome/fontawesome-free-solid'
-import brands from '@fortawesome/fontawesome-free-brands'
-fontawesome.library.add(solid, brands)
+import './assets/css/fontawesome-all.min.css'
 export default {
   name: 'app',
 }

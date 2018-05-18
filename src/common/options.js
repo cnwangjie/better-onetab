@@ -68,6 +68,26 @@ export const optionsList = [
     ],
   },
   {
+    name: 'popupItemClickAction',
+    desc: 'Behavior when item in simple list is clicked',
+    type: String,
+    default: 'restore',
+    items: [
+      {
+        value: 'restore',
+        label: 'restore',
+      },
+      {
+        value: 'restore-new-window',
+        label: 'restore in new window',
+      },
+      {
+        value: 'none',
+        label: 'none',
+      },
+    ],
+  },
+  {
     name: 'syncOptions',
     desc: 'Sync settings',
     type: Boolean,
