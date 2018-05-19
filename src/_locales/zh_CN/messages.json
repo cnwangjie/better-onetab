@@ -1,0 +1,101 @@
+{
+  "ext_name": {
+    "message": "better-onetab"
+  },
+  "ext_desc": {
+    "message": "a better onetab for chrome"
+  },
+  "menu_STORE_SELECTED_TABS": {
+    "message": "储存选中的标签"
+  },
+  "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
+    "message": "储存当前窗口的所有标签"
+  },
+  "menu_SHOW_TAB_LIST": {
+    "message": "显示标签列表"
+  },
+  "cmd_store_selected_tabs": {
+    "message": "储存选中的标签"
+  },
+  "cmd_store_all_tabs": {
+    "message": "储存所有标签"
+  },
+  "cmd_restore_lastest_list": {
+    "message": "恢复最后一个列表"
+  },
+  "cmd_open_lists": {
+    "message": "打开标签列表"
+  },
+  "opt_desc_browserAction": {
+    "message": "当图表被点击时的行为"
+  },
+  "opt_desc_itemClickAction": {
+    "message": "当列表中的一项被点击时的行为"
+  },
+  "opt_desc_itemDisplay": {
+    "message": "列表中的项显示的内容"
+  },
+  "opt_desc_popupItemClickAction": {
+    "message": "当弹出列表中的项被点击时的行为"
+  },
+  "opt_desc_addHistory": {
+    "message": "将储存的标签加入浏览器历史记录中"
+  },
+  "opt_desc_syncOptions": {
+    "message": "同步设置"
+  },
+  "opt_desc_syncList": {
+    "message": "同步列表"
+  },
+  "ui_tab": {
+    "message": "tabs"
+  },
+  "ui_created": {
+    "message": "创建于"
+  },
+  "ui_retitle_list": {
+    "message": "重命名列表"
+  },
+  "ui_restore_all": {
+    "message": "恢复列表"
+  },
+  "ui_restore_all_in_new_window": {
+    "message": "恢复列表至新窗口"
+  },
+  "ui_remove_list": {
+    "message": "删除列表"
+  },
+  "ui_pin": {
+    "message": "固定"
+  },
+  "ui_unpin": {
+    "message": "取消固定"
+  },
+  "ui_list": {
+    "message": "列表"
+  },
+  "ui_export_import": {
+    "message": "导出 / 导入"
+  },
+  "ui_tab_list": {
+    "message": "标签列表"
+  },
+  "ui_export": {
+    "message": "导出"
+  },
+  "ui_import": {
+    "message": "导入"
+  },
+  "ui_export_comp": {
+    "message": "导出 (兼容 onetab)"
+  },
+  "ui_export_json": {
+    "message": "导出至 JSON"
+  },
+  "ui_import_comp": {
+    "message": "导入 (兼容 onetab)"
+  },
+  "ui_import_json": {
+    "message": "从 JSON 中导入"
+  }
+}

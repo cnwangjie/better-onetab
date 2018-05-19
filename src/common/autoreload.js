@@ -29,9 +29,10 @@ const watchChanges = (dir, lastTimestamp) => {
   })
 }
 
-const autoreload = () => {
+export const autoreload = () => {
   chrome.management.getSelf(self => {
     if (self.installType === 'development') {
+      console.log('autoreload watching changes')
       chrome.runtime.getPackageDirectoryEntry(dir => watchChanges(dir))
     }
   })

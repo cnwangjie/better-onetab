@@ -5,14 +5,15 @@
     v-for="(list, listIndex) in lists"
     :value="true"
     class="tab-list"
+    :key="listIndex"
   >
     <v-layout slot="header" row spacer>
       <v-flex no-wrap xs3>
         <v-chip
           label
           small
-        >{{ list.tabs.length }} tabs</v-chip>
-        <strong class="grey--text date">Created {{ formatTime(list.time) }}</strong>
+        >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
+        <strong class="grey--text date">{{ __('ui_created') }} {{ formatTime(list.time) }}</strong>
       </v-flex>
       <v-flex no-wrap xs7>
         <v-text-field
@@ -31,11 +32,11 @@
       </v-flex>
     </v-layout>
     <v-card>
-      <v-btn flat small v-on:click="openChangeTitle(listIndex)">retitle list</v-btn>
-      <v-btn flat small v-on:click="restoreList(listIndex)">restore all</v-btn>
-      <v-btn flat small v-on:click="restoreList(listIndex, true)">restore all in new window</v-btn>
-      <v-btn flat small color="error" v-on:click="removeList(listIndex)">remove list</v-btn>
-      <v-btn flat small v-on:click="pinList(listIndex, !list.pinned)">{{ list.pinned ? 'unpin' : 'pin' }} list</v-btn>
+      <v-btn flat small v-on:click="openChangeTitle(listIndex)">{{ __('ui_retitle_list') }}</v-btn>
+      <v-btn flat small v-on:click="restoreList(listIndex)">{{ __('ui_restore_all') }}</v-btn>
+      <v-btn flat small v-on:click="restoreList(listIndex, true)">{{ __('ui_restore_all_in_new_window') }}</v-btn>
+      <v-btn flat small color="error" v-on:click="removeList(listIndex)">{{ __('ui_remove_list') }}</v-btn>
+      <v-btn flat small v-on:click="pinList(listIndex, !list.pinned)">{{ list.pinned ? __('ui_unpin') : __('ui_pin') }} {{ __('ui_list') }}</v-btn>
       <v-divider></v-divider>
       <v-list dense class="my-1">
         <draggable
@@ -77,6 +78,7 @@
 import _ from 'lodash'
 import draggable from 'vuedraggable'
 
+import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import list from '@/common/list'
 import storage from '@/common/storage'
@@ -97,6 +99,7 @@ export default {
     draggable,
   },
   methods: {
+    __,
     formatTime,
     async itemClicked(listIndex, tabIndex) {
       const action = this.itemClickAction
@@ -156,13 +159,13 @@ export default {
     restoreList(listIndex, inNewWindow = false) {
       if (inNewWindow) tabs.restoreListInNewWindow(this.lists[listIndex])
       else tabs.restoreList(this.lists[listIndex])
+      if (this.lists[listIndex].pinned) return
       this.removeList(listIndex)
     },
     openChangeTitle(listIndex) {
       this.lists[listIndex].titleEditing = true
     },
     saveTitle(listIndex) {
-      console.log('!!')
       this.lists[listIndex].titleEditing = false
       this.storeLists()
     },
@@ -170,7 +173,6 @@ export default {
       return new URL(url).hostname
     },
     pinList(listIndex, pin = true) {
-      console.log(listIndex, pin)
       this.lists[listIndex].pinned = pin
       this.storeLists()
     },

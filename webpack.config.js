@@ -21,6 +21,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       DEBUG: mode === 'development',
+      PRODUCTION: mode !== 'development',
     }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
@@ -35,7 +36,14 @@ module.exports = {
       inject: true,
     }),
     new VueLoaderPlugin(),
-    new UglifyJsPlugin(),
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        parallel: 4,
+        compress: {
+          drop_console: true,
+        }
+      }
+    }),
   ],
   optimization: {
     splitChunks: {

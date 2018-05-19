@@ -13,12 +13,28 @@ const pickTabs = tabs => tabs.map(tab => {
 
 const getSelectedTabs = () => cp.tabs.query({highlighted: true})
 
-const storeSelectedTabs = async () => {
-  const tabs = await getSelectedTabs()
+const storeTabs = async tabs => {
   chrome.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
   lists.unshift(list.createNewTabList({tabs: pickTabs(tabs)}))
-  storage.setLists(lists)
+  await storage.setLists(lists)
+  const opts = await storage.getOptions()
+  if (opts.addHistory) {
+    for (let i = 0; i < tabs.length; i += 1) {
+      await cp.history.addUrl({url: tabs[i].url})
+    }
+  }
+}
+
+const storeSelectedTabs = async () => {
+  const tabs = await getSelectedTabs()
+  return storeTabs(tabs)
+}
+
+const storeAllTabs = async () => {
+  const currentWindow = await cp.windows.getCurrent()
+  const tabs = await cp.tabs.getAllInWindow(currentWindow.id)
+  return storeTabs(tabs)
 }
 
 const restoreList = async (list, windowId) => {
@@ -46,6 +62,7 @@ const openTab = async tab => cp.tabs.create({ url: tab.url })
 export default {
   getSelectedTabs,
   storeSelectedTabs,
+  storeAllTabs,
   restoreList,
   restoreListInNewWindow,
   openTab,

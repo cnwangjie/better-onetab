@@ -1,7 +1,9 @@
+import __ from '@/common/i18n'
+
 export const optionsList = [
   {
     name: 'browserAction',
-    desc: 'Behavior when icon is clicked',
+    desc: __('opt_desc_browserAction'),
     type: String,
     default: 'show-list',
     items: [
@@ -29,7 +31,7 @@ export const optionsList = [
   },
   {
     name: 'itemClickAction',
-    desc: 'Behavior when item in a list is clicked',
+    desc: __('opt_desc_itemClickAction'),
     type: String,
     default: 'open-and-remove',
     items: [
@@ -49,7 +51,7 @@ export const optionsList = [
   },
   {
     name: 'itemDisplay',
-    desc: 'Contents of the items in a list',
+    desc: __('opt_desc_itemDisplay'),
     type: String,
     default: 'title-and-url',
     items: [
@@ -69,7 +71,7 @@ export const optionsList = [
   },
   {
     name: 'popupItemClickAction',
-    desc: 'Behavior when item in simple list is clicked',
+    desc: __('opt_desc_popupItemClickAction'),
     type: String,
     default: 'restore',
     items: [
@@ -88,14 +90,20 @@ export const optionsList = [
     ],
   },
   {
+    name: 'addHistory',
+    desc: __('opt_desc_addHistory'),
+    type: Boolean,
+    default: true,
+  },
+  {
     name: 'syncOptions',
-    desc: 'Sync settings',
+    desc: __('opt_desc_syncOptions'),
     type: Boolean,
     default: true,
   },
   {
     name: 'syncList',
-    desc: 'Sync lists',
+    desc: __('opt_desc_syncList'),
     type: Boolean,
     default: true,
   },

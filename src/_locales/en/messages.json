@@ -1,3 +1,101 @@
 {
-
+  "ext_name": {
+    "message": "better-onetab"
+  },
+  "ext_desc": {
+    "message": "a better onetab for chrome"
+  },
+  "menu_STORE_SELECTED_TABS": {
+    "message": "store selected tabs"
+  },
+  "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
+    "message": "store all tabs in current window"
+  },
+  "menu_SHOW_TAB_LIST": {
+    "message": "show tab list"
+  },
+  "cmd_store_selected_tabs": {
+    "message": "Store selected tabs"
+  },
+  "cmd_store_all_tabs": {
+    "message": "Store all tabs"
+  },
+  "cmd_restore_lastest_list": {
+    "message": "Restore lastest tabs"
+  },
+  "cmd_open_lists": {
+    "message": "Open tab lists"
+  },
+  "opt_desc_browserAction": {
+    "message": "Behavior when icon is clicked"
+  },
+  "opt_desc_itemClickAction": {
+    "message": "Behavior when item in a list is clicked"
+  },
+  "opt_desc_itemDisplay": {
+    "message": "Contents of the items in a list"
+  },
+  "opt_desc_popupItemClickAction": {
+    "message": "Behavior when item in simple list is clicked"
+  },
+  "opt_desc_addHistory": {
+    "message": "Add stored tab to history"
+  },
+  "opt_desc_syncOptions": {
+    "message": "Sync settings"
+  },
+  "opt_desc_syncList": {
+    "message": "Sync lists"
+  },
+  "ui_tab": {
+    "message": "tabs"
+  },
+  "ui_created": {
+    "message": "Created"
+  },
+  "ui_retitle_list": {
+    "message": "retitle list"
+  },
+  "ui_restore_all": {
+    "message": "restore list"
+  },
+  "ui_restore_all_in_new_window": {
+    "message": "restore all in new window"
+  },
+  "ui_remove_list": {
+    "message": "remove list"
+  },
+  "ui_pin": {
+    "message": "pin"
+  },
+  "ui_unpin": {
+    "message": "unpin"
+  },
+  "ui_list": {
+    "message": "list"
+  },
+  "ui_export_import": {
+    "message": "Export / Import"
+  },
+  "ui_tab_list": {
+    "message": "Tab List"
+  },
+  "ui_export": {
+    "message": "Export"
+  },
+  "ui_import": {
+    "message": "Import"
+  },
+  "ui_export_comp": {
+    "message": "Export (compatible with onetab)"
+  },
+  "ui_export_json": {
+    "message": "Export to JSON"
+  },
+  "ui_import_comp": {
+    "message": "Import (compatible with onetab)"
+  },
+  "ui_import_json": {
+    "message": "Import from JSON"
+  }
 }

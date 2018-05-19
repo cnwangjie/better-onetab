@@ -16,6 +16,7 @@ A better onetab extensions for chrome.
  - [x] Drag and drop re-ordering
  - [x] Data & options sync
  - [x] Import & export
+ - [x] Add stored tabs to history
  - [ ] Sync server
  - [ ] I18N support
 

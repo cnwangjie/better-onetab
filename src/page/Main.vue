@@ -8,10 +8,10 @@
 
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat dark @click="dialog = true">
-        Export / Import
+        {{ __('ui_export_import') }}
       </v-btn>
       <v-btn flat dark exact :to="'/app/'">
-        Tab List
+        {{ __('ui_tab_list') }}
       </v-btn>
       <v-btn flat dark exact :to="'/app/options'">
         <v-icon dark>fas fa-cog</v-icon>
@@ -35,8 +35,8 @@
           grow
           slider-color="yellow"
         >
-          <v-tab key="export">Export</v-tab>
-          <v-tab key="import">Import</v-tab>
+          <v-tab key="export">{{ __('ui_export') }}</v-tab>
+          <v-tab key="import">{{ __('ui_import') }}</v-tab>
           <v-tab-item key="export">
             <v-card flat>
               <v-card-text>
@@ -44,8 +44,8 @@
                   multi-line
                   v-model="exportData"
                 ></v-text-field>
-                <v-btn @click="exp(true)">Export (compatible with onetab)</v-btn>
-                <v-btn @click="exp(false)">Export to JSON</v-btn>
+                <v-btn @click="exp(true)">{{ __('ui_export_comp') }}</v-btn>
+                <v-btn @click="exp(false)">{{ __('ui_export_json') }}</v-btn>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -56,8 +56,8 @@
                   multi-line
                   v-model="importData"
                 ></v-text-field>
-                <v-btn @click="imp(true)">Import (compatible with onetab)</v-btn>
-                <v-btn @click="imp(false)">Import from JSON </v-btn>
+                <v-btn @click="imp(true)">{{ __('ui_import_comp') }}</v-btn>
+                <v-btn @click="imp(false)">{{ __('ui_import_json') }}</v-btn>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -68,9 +68,10 @@
 </v-app>
 </template>
 <script>
-import storage from '@/common/storage'
-import list from '@/common/list'
 import _ from 'lodash'
+import __ from '@/common/i18n'
+import list from '@/common/list'
+import storage from '@/common/storage'
 export default {
   data() {
     return {
@@ -80,6 +81,7 @@ export default {
     }
   },
   methods: {
+    __,
     async exp(comp) {
       const lists = await storage.getLists()
       if (comp) {

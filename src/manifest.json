@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "better-onetab",
+  "name": "__MSG_ext_name__",
   "version": "1.0.0",
   "default_locale": "en",
-  "description": "a better onetab for chrome",
+  "description": "__MSG_ext_desc__",
   "author": "WangJie <doudou19758@gmail.com>",
   "icons" : {
     "16": "assets/icons/icon_16.png",
@@ -16,19 +16,19 @@
   },
   "commands": {
     "store-selected-tabs": {
-      "description": "Store selected tabs",
+      "description": "__MSG_cmd_store_selected_tabs__",
       "global": true
     },
     "store-all-tabs": {
-      "description": "Store all tabs",
+      "description": "__MSG_cmd_store_all_tabs__",
       "global": true
     },
     "restore-lastest-list": {
-      "description": "Restore lastest tabs",
+      "description": "__MSG_cmd_restore_lastest_list__",
       "global": true
     },
     "open-lists": {
-      "description": "Open tab lists",
+      "description": "__MSG_cmd_open_lists__",
       "global": true
     }
   },
@@ -37,13 +37,15 @@
   "permissions": [
     "contextMenus",
     "storage",
-    "tabs"
+    "tabs",
+    "history"
   ],
+  "offline_enabled": true,
   "options_page": "index.html#/app/options",
   "options_ui":
   {
     "page": "index.html#/app/options",
     "open_in_tab": true
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'"
 }

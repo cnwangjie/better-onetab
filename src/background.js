@@ -1,10 +1,19 @@
 import tabs from './common/tabs'
 import storage from './common/storage'
-import autoreload from './common/autoreload'
 import options from './common/options'
 import _ from 'lodash'
+import __ from './common/i18n'
 import cp from 'chrome-promise'
-if (DEBUG) autoreload()
+
+if (DEBUG) import(
+  /* webpackChunkName: "autoreload", webpackMode: "lazy" */
+  './common/autoreload'
+).then(({autoreload}) => autoreload())
+
+if (PRODUCTION) import(
+  /* webpackChunkName: "tracker", webpackMode: "lazy" */
+  '@/common/tracker'
+).then(({tracker}) => tracker())
 
 const openTabLists = async () => {
   // open only one in a window
@@ -51,17 +60,17 @@ const setupContextMenus = () => {
   chrome.contextMenus.removeAll()
   chrome.contextMenus.create({
     id: 'STORE_SELECTED_TABS',
-    title: 'store selected tabs',
+    title: __('menu_STORE_SELECTED_TABS'),
     contexts: ['browser_action'],
   })
   chrome.contextMenus.create({
     id: 'STORE_ALL_TABS_IN_CURRENT_WINDOW',
-    title: 'store all tabs in current window',
+    title: __('menu_STORE_ALL_TABS_IN_CURRENT_WINDOW'),
     contexts: ['browser_action'],
   })
   chrome.contextMenus.create({
     id: 'SHOW_TAB_LIST',
-    title: 'show tab list',
+    title: __('menu_SHOW_TAB_LIST'),
     contexts: ['browser_action'],
   })
 
@@ -78,7 +87,7 @@ const setupContextMenus = () => {
 }
 
 const init = async () => {
-  const opts = await storage.getOptions() || {}
+  const opts = await storage.getOptions().catch(i => {}) || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
   updateBrowserAction(opts.browserAction)
@@ -89,6 +98,7 @@ const init = async () => {
       console.log(changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       chrome.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
+      if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key, changes[key]))
     }
   })
   chrome.commands.onCommand.addListener(async command => {
@@ -103,6 +113,8 @@ const init = async () => {
       lists.shift()
       return await storage.setLists(lists)
     } else if (command === 'open-lists') return openTabLists()
+    else return
+    if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
   });
 }
 

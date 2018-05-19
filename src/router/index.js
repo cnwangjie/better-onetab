@@ -7,7 +7,7 @@ import Popup from '@/page/Popup'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/popup',
@@ -32,3 +32,17 @@ export default new Router({
     },
   ]
 })
+
+if (PRODUCTION) import(
+  /* webpackChunkName: "tracker", webpackMode: "lazy" */
+  '@/common/tracker'
+).then(({tracker}) => {
+  tracker()
+  router.beforeEach((to, from, next) => {
+    ga('set', 'page', to.name)
+    ga('send', 'pageview')
+    next()
+  })
+})
+
+export default router
