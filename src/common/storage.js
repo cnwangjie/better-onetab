@@ -2,6 +2,7 @@ import cp from 'chrome-promise'
 import ChromePromise from 'chrome-promise';
 
 let lastSync = 0
+let quotaExceeded = false
 
 const sync = async () => {
   const {opts} = await cp.storage.local.get('opts')
@@ -29,9 +30,14 @@ const sync = async () => {
 }
 
 const get = async key => {
-  if (Date.now() - lastSync > 5000) {
+  if (!quotaExceeded && (Date.now() - lastSync > 5000)) {
     lastSync = Date.now()
-    await sync()
+    try {
+      await sync()
+    } catch (e) {
+      if (e.message.indexOf('quota exceeded') !== 0) quotaExceeded = true
+      console.error('sync error:', e.message)
+    }
   }
   return cp.storage.local.get(key)
 }
@@ -55,4 +61,6 @@ const getOptions = () => get('opts')
 
 const setOptions = opts => set({opts})
 
-export default {getLists, setLists, getOptions, setOptions}
+const isQuotaExceeded = () => quotaExceeded
+
+export default {getLists, setLists, getOptions, setOptions, isQuotaExceeded}

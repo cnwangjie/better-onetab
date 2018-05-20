@@ -42,6 +42,8 @@
               <v-card-text>
                 <v-text-field
                   multi-line
+                  autofocus
+                  auto-grow
                   v-model="exportData"
                 ></v-text-field>
                 <v-btn @click="exp(true)">{{ __('ui_export_comp') }}</v-btn>
@@ -65,6 +67,14 @@
 
     </v-card>
   </v-dialog>
+
+  <v-snackbar
+    :timeout="2000"
+    bottom
+    v-model="snackbar"
+  >
+    {{ snackbarMsg }}
+  </v-snackbar>
 </v-app>
 </template>
 <script>
@@ -78,38 +88,69 @@ export default {
       dialog: false,
       exportData: '',
       importData: '',
+      snackbar: false,
+      snackbarMsg: '',
+      processing: false,
     }
   },
   methods: {
     __,
     async exp(comp) {
-      const lists = await storage.getLists()
-      if (comp) {
-        this.exportData = lists.map(list => {
-          return list.tabs.map(tab => {
-            return tab.url + ' | ' + tab.title
-          }).join('\n')
-        }).join('\n\n')
-      } else {
-        this.exportData = JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])))
+      if (this.processing) {
+        this.snackbarMsg = 'processing...'
+        this.snackbar = true
+      }
+      this.processing = true
+      try {
+        const lists = await storage.getLists()
+        if (comp) {
+          this.exportData = lists.map(list => {
+            return list.tabs.map(tab => {
+              return tab.url + ' | ' + tab.title
+            }).join('\n')
+          }).join('\n\n')
+        } else {
+          this.exportData = JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])))
+        }
+      } catch (e) {
+        this.snackbarMsg = 'some errors occured'
+        this.snackbar = true
+      } finally {
+        this.snackbarMsg = 'successed!'
+        this.snackbar = true
+        this.processing = false
       }
     },
     async imp(comp) {
-      let lists
-      if (comp) {
-        lists = this.importData.split('\n\n')
-          .filter(i => i).map(i => {
-            return i.split('\n')
-              .filter(i => i)
-              .map(j => j.split('|').map(k => k.trim()))
-              .map(j => ({ url: j[0], title: j[1] }))
-          }).map(i => {
-            return list.createNewTabList({tabs: i})
-          })
-      } else {
-        lists = JSON.parse(this.importData).map(i => list.createNewTabList(i))
+      if (this.processing) {
+        this.snackbarMsg = 'processing...'
+        this.snackbar = true
       }
-      return storage.setLists((await storage.getLists()).concat(lists))
+      this.processing = true
+      try {
+        let lists
+        if (comp) {
+          lists = this.importData.split('\n\n')
+            .filter(i => i).map(i => {
+              return i.split('\n')
+                .filter(i => i)
+                .map(j => j.split('|').map(k => k.trim()))
+                .map(j => ({ url: j[0], title: j[1] }))
+            }).map(i => {
+              return list.createNewTabList({tabs: i})
+            })
+        } else {
+          lists = JSON.parse(this.importData).map(i => list.createNewTabList(i))
+        }
+        await storage.setLists((await storage.getLists()).concat(lists))
+      } catch (e) {
+        this.snackbarMsg = 'some errors occured'
+        this.snackbar = true
+      } finally {
+        this.snackbarMsg = 'successed!'
+        this.snackbar = true
+        this.processing = false
+      }
     }
   }
 }

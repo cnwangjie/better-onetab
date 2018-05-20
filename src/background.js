@@ -15,26 +15,10 @@ if (PRODUCTION) import(
   '@/common/tracker'
 ).then(({tracker}) => tracker())
 
-const openTabLists = async () => {
-  // open only one in a window
-  if (!_.isObject(window.appTabId)) window.appTabId = {}
-  const currentWindow = await cp.windows.getCurrent()
-  const windowId = currentWindow.id
-
-  if (windowId in window.appTabId) {
-    const tabs = await cp.tabs.getAllInWindow(windowId)
-    const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId])
-    if (tabIndex !== -1)
-      return cp.tabs.highlight({ windowId, tabs: tabIndex })
-  }
-  const createdTab = await cp.tabs.create({url: chrome.runtime.getURL('index.html#/app/')})
-  window.appTabId[windowId] = createdTab.id
-}
-
 const getBrowserActionHandler = action => {
   if (action === 'store-selected') return () => tabs.storeSelectedTabs()
   if (action === 'store-all') return () => tabs.storeAllTabs()
-  if (action === 'show-list') return () => openTabLists()
+  if (action === 'show-list') return () => tabs.openTabLists()
   return () => {}
 }
 
@@ -77,9 +61,9 @@ const setupContextMenus = () => {
   const oldHandler = window.contextMenusClickedHandler
   if (!chrome.contextMenus.onClicked.hasListener(oldHandler)) {
     const newHandler = info => {
-      if (info.menuItemId === 'STORE_SELECTED_TABS') return tabs.storeSelectedTabs()
-      if (info.menuItemId === 'STORE_ALL_TABS_IN_CURRENT_WINDOW') return tabs.storeAllTabs()
-      if (info.menuItemId === 'SHOW_TAB_LIST') return openTabLists()
+      if (info.menuItemId === 'STORE_SELECTED_TABS') tabs.storeSelectedTabs()
+      else if (info.menuItemId === 'STORE_ALL_TABS_IN_CURRENT_WINDOW') tabs.storeAllTabs()
+      else if (info.menuItemId === 'SHOW_TAB_LIST') tabs.openTabLists()
     }
     chrome.contextMenus.onClicked.addListener(newHandler)
     window.contextMenusClickedHandler = newHandler
@@ -102,18 +86,18 @@ const init = async () => {
     }
   })
   chrome.commands.onCommand.addListener(async command => {
-    if (command === 'store-selected-tabs') return tabs.storeSelectedTabs()
-    else if (command === 'store-all-tabs') return tabs.storeAllTabs()
+    if (command === 'store-selected-tabs') tabs.storeSelectedTabs()
+    else if (command === 'store-all-tabs') tabs.storeAllTabs()
     else if (command === 'restore-lastest-list') {
       const lists = await storage.getLists()
-      if (lists.length === 0) return
+      if (lists.length === 0) return true
       const lastest = lists.sort((a, b) => a.time < b.time)[0]
       await restoreList(lastest)
-      if (lastest.pinned) return
+      if (lastest.pinned) return true
       lists.shift()
-      return await storage.setLists(lists)
-    } else if (command === 'open-lists') return openTabLists()
-    else return
+      return storage.setLists(lists)
+    } else if (command === 'open-lists') tabs.openTabLists()
+    else return true
     if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
   });
 }

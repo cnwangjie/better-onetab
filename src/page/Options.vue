@@ -10,7 +10,10 @@
               <v-list-tile-content>
                 <v-layout wrap style="width:100%">
                   <v-flex xs8>
-                    <v-subheader>{{ option.desc }}</v-subheader>
+                    <v-subheader>
+                      {{ option.desc }}
+                      <strong v-if="option.name === 'syncList' && quotaExceeded" :style="{color: 'red', paddingLeft: '8px'}">quota exceeded!</strong>
+                    </v-subheader>
                   </v-flex>
                   <v-flex xs4>
                     <v-select
@@ -58,6 +61,7 @@ export default {
       optionsList: options.optionsList,
       options: {},
       snackbar: false,
+      quotaExceeded: false,
     }
   },
   created() {
@@ -83,6 +87,7 @@ export default {
           this.snackbar = true
         }
       })
+      this.quotaExceeded = storage.isQuotaExceeded()
     }
   }
 }

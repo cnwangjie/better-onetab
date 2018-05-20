@@ -11,7 +11,29 @@ const pickTabs = tabs => tabs.map(tab => {
   return pickedTab
 })
 
+const openTabLists = async () => {
+  // open only one in a window
+  const window = await cp.runtime.getBackgroundPage()
+  if (!_.isObject(window.appTabId)) window.appTabId = {}
+  const currentWindow = await cp.windows.getCurrent()
+  const windowId = currentWindow.id
+
+  if (windowId in window.appTabId) {
+    const tabs = await cp.tabs.getAllInWindow(windowId)
+    const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId])
+    if (tabIndex !== -1)
+      return cp.tabs.highlight({ windowId, tabs: tabIndex })
+  }
+  const createdTab = await cp.tabs.create({url: chrome.runtime.getURL('index.html#/app/')})
+  window.appTabId[windowId] = createdTab.id
+}
+
 const getSelectedTabs = () => cp.tabs.query({highlighted: true})
+
+const getAllTabsInCurrentWindow = async () => {
+  const currentWindow = await cp.windows.getCurrent()
+  return cp.tabs.getAllInWindow(currentWindow.id)
+}
 
 const storeTabs = async tabs => {
   chrome.tabs.remove(tabs.map(i => i.id))
@@ -28,12 +50,14 @@ const storeTabs = async tabs => {
 
 const storeSelectedTabs = async () => {
   const tabs = await getSelectedTabs()
+  const allTabs = await getAllTabsInCurrentWindow()
+  if (tabs.length === allTabs.length) await openTabLists()
   return storeTabs(tabs)
 }
 
 const storeAllTabs = async () => {
-  const currentWindow = await cp.windows.getCurrent()
-  const tabs = await cp.tabs.getAllInWindow(currentWindow.id)
+  const tabs = await getAllTabsInCurrentWindow()
+  await openTabLists()
   return storeTabs(tabs)
 }
 
@@ -66,4 +90,5 @@ export default {
   restoreList,
   restoreListInNewWindow,
   openTab,
+  openTabLists,
 }

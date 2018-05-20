@@ -27,7 +27,7 @@
     "message": "打开标签列表"
   },
   "opt_desc_browserAction": {
-    "message": "当图表被点击时的行为"
+    "message": "当图标被点击时的行为"
   },
   "opt_desc_itemClickAction": {
     "message": "当列表中的一项被点击时的行为"
