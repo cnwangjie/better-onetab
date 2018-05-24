@@ -1,5 +1,6 @@
 better-onetab
 ======
+[中文README](./README.zh.md)
 
 ### A better onetab extensions for chrome.
 
