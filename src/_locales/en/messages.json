@@ -47,6 +47,33 @@
   "opt_desc_syncList": {
     "message": "Sync lists"
   },
+  "opt_label_popup": {
+    "message": "popup simple list"
+  },
+  "opt_label_store_selected": {
+    "message": "store selected tabs"
+  },
+  "opt_label_store_all": {
+    "message": "store all tabs in current window"
+  },
+  "opt_label_show_list": {
+    "message": "show list"
+  },
+  "opt_label_none": {
+    "message": "none"
+  },
+  "opt_label_open_and_remove": {
+    "message": "open and remove"
+  },
+  "opt_label_open": {
+    "message": "open"
+  },
+  "opt_label_restore": {
+    "message": "restore"
+  },
+  "opt_label_restore_new_window": {
+    "message": "restore in new window"
+  },
   "ui_tab": {
     "message": "tabs"
   },
@@ -97,5 +124,17 @@
   },
   "ui_import_json": {
     "message": "Import from JSON"
+  },
+  "ui_main_processing": {
+    "message": "processing..."
+  },
+  "ui_main_error_occured": {
+    "message": "some errors occured"
+  },
+  "ui_main_successed": {
+    "message": "successed!"
+  },
+  "ui_opt_changes_saved": {
+    "message": "Changes saved!"
   }
 }

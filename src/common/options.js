@@ -9,23 +9,23 @@ export const optionsList = [
     items: [
       {
         value: 'popup',
-        label: 'popup simple list',
+        label: __('opt_label_popup'),
       },
       {
         value: 'store-selected',
-        label: 'store selected tabs',
+        label: __('opt_label_store_selected'),
       },
       {
         value: 'store-all',
-        label: 'store all tabs in current window',
+        label: __('opt_label_store_all'),
       },
       {
         value: 'show-list',
-        label: 'show list',
+        label: __('opt_label_show_list'),
       },
       {
         value: 'none',
-        label: 'none',
+        label: __('opt_label_none'),
       },
     ],
   },
@@ -37,38 +37,38 @@ export const optionsList = [
     items: [
       {
         value: 'open-and-remove',
-        label: 'open and remove',
+        label: __('opt_label_open_and_remove'),
       },
       {
         value: 'open',
-        label: 'open',
+        label: __('opt_label_open'),
       },
       {
         value: 'none',
-        label: 'none',
+        label: __('opt_label_none'),
       },
     ],
   },
-  {
-    name: 'itemDisplay',
-    desc: __('opt_desc_itemDisplay'),
-    type: String,
-    default: 'title-and-url',
-    items: [
-      {
-        value: 'title-and-url',
-        label: 'title and url',
-      },
-      {
-        value: 'title',
-        label: 'title',
-      },
-      {
-        value: 'url',
-        label: 'url',
-      },
-    ],
-  },
+  // {
+  //   name: 'itemDisplay',
+  //   desc: __('opt_desc_itemDisplay'),
+  //   type: String,
+  //   default: 'title-and-url',
+  //   items: [
+  //     {
+  //       value: 'title-and-url',
+  //       label: 'title and url',
+  //     },
+  //     {
+  //       value: 'title',
+  //       label: 'title',
+  //     },
+  //     {
+  //       value: 'url',
+  //       label: 'url',
+  //     },
+  //   ],
+  // },
   {
     name: 'popupItemClickAction',
     desc: __('opt_desc_popupItemClickAction'),
@@ -77,15 +77,15 @@ export const optionsList = [
     items: [
       {
         value: 'restore',
-        label: 'restore',
+        label: __('opt_label_restore'),
       },
       {
         value: 'restore-new-window',
-        label: 'restore in new window',
+        label: __('opt_label_restore_new_window'),
       },
       {
         value: 'none',
-        label: 'none',
+        label: __('opt_label_none'),
       },
     ],
   },

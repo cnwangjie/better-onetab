@@ -97,7 +97,7 @@ export default {
     __,
     async exp(comp) {
       if (this.processing) {
-        this.snackbarMsg = 'processing...'
+        this.snackbarMsg = __('ui_main_processing')
         this.snackbar = true
       }
       this.processing = true
@@ -113,17 +113,17 @@ export default {
           this.exportData = JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])))
         }
       } catch (e) {
-        this.snackbarMsg = 'some errors occured'
+        this.snackbarMsg = __('ui_main_error_occured')
         this.snackbar = true
       } finally {
-        this.snackbarMsg = 'successed!'
+        this.snackbarMsg = __('ui_main_successed')
         this.snackbar = true
         this.processing = false
       }
     },
     async imp(comp) {
       if (this.processing) {
-        this.snackbarMsg = 'processing...'
+        this.snackbarMsg = __('ui_main_processing')
         this.snackbar = true
       }
       this.processing = true
@@ -144,10 +144,10 @@ export default {
         }
         await storage.setLists((await storage.getLists()).concat(lists))
       } catch (e) {
-        this.snackbarMsg = 'some errors occured'
+        this.snackbarMsg = __('ui_main_error_occured')
         this.snackbar = true
       } finally {
-        this.snackbarMsg = 'successed!'
+        this.snackbarMsg = __('ui_main_successed')
         this.snackbar = true
         this.processing = false
       }

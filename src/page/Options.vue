@@ -47,13 +47,14 @@
     bottom
     v-model="snackbar"
   >
-    Changes saved!
+    {{ __('ui_opt_changes_saved') }}
   </v-snackbar>
 </div>
 </template>
 <script>
 import storage from '@/common/storage'
 import options from '@/common/options'
+import __ from '@/common/i18n'
 
 export default {
   data() {
@@ -68,6 +69,7 @@ export default {
     this.init()
   },
   methods: {
+    __,
     async optionsChanged(key, value) {
       console.log(1)
       console.log(key, value)
