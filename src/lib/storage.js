@@ -81,3 +81,11 @@ window.SubTask = function(checker, callback){
 	}
 	init();
 }
+
+
+// 将老版本的内容进行归类分组
+// SubTask("Storage", function(Storage){
+// 	const groupInfo = {
+// 		'默认分组': ['aomjjhallfgjeglblehebfpbcfeobpgk']
+// 	}
+// })

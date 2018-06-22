@@ -111,7 +111,7 @@
 		"message": "没有启用的扩展"
 	},
 	"closeAllBtn": {
-		"message": "全部禁用"
+		"message": "清理"
 	},
 	"searcherPlaceholder": {
 		"message": "搜索你的扩展"
