@@ -258,12 +258,44 @@ function onoff(id, status) {
 
 
 /**
- * 在扩展中显示右键菜单
+ * 加锁、解锁扩展操作
  */
-function showMenu(id) {
-  let extItem = document.querySelector(`[data-id=${id}]`)
-  console.log(extItem, extItem.offsetLeft)
+function lock(item) {
+  let curList = allExtList[ExtStatus[item.enabled.toString()]]
+  let index = curList.indexOf(item)
+  if (index !== -1) {
+    curList[index].isLocked = true
+
+    let lockStorage = Storage.get(LockKey)
+    lockStorage[item.id] = 1
+    Storage.set(LockKey, lockStorage)
+  }
+}
+// 解锁
+function unlock(item) {
+  let curList = allExtList[ExtStatus[item.enabled.toString()]]
+  let index = curList.indexOf(item)
+  if (index !== -1) {
+    curList[index].isLocked = false
+  }
+
+  let lockStorage = Storage.get(LockKey)
+  delete lockStorage[item.id]
+  Storage.set(LockKey, lockStorage)
 }
 
 
-export { getAll, onoff, showMenu }
+/**
+ * 卸载应用或扩展
+ */
+function uninstall(item) {
+  let curList = allExtList[ExtStatus[item.enabled.toString()]]
+  let index = curList.indexOf(item)
+  if (index !== -1) {
+    curList.splice(index, 1)
+  }
+  chrome.management.uninstall(item.id, function(){});
+}
+
+
+export { getAll, onoff, lock, unlock, uninstall }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="popup">
     <div id="wrap">
       <div id="search">
         <div id="searchBox">
@@ -31,13 +31,9 @@
       </div>
     </div>
     <label id="extName"></label>
-    <div id="rightMenu">
+    <div id="rightMenu" :class="{ showMenu: rightMenu.show }" :style="{ left: rightMenu.left + 'px', top: rightMenu.top + 'px', background: rightMenu.backgroundColor}">
       <ul>
-        <li class="lock">{{i18n.rightOption}}</li>
-        <li class="option">{{i18n.rightOption}}</li>
-        <li class="applaunch">{{i18n.rightAppLaunch}}</li>
-        <li class="uninstall">{{i18n.rightUninstall}}</li>
-        <li class="homepage">{{i18n.rightHomepage}}</li>
+        <li v-for="item in rightMenu.content" @click="item.handle" :disabled="item.disabled">{{item.name}}</li>
       </ul>
     </div>
     <canvas id="getColorByCanvas" style="display: none;"></canvas>
@@ -59,7 +55,15 @@ export default {
       i18n: getI18n(),
       // storage: null,
       enabledExtList: [],
-      disabledExtList: []
+      disabledExtList: [],
+      allExtColor: {},
+      rightMenu: {
+        show: false,
+        left: 0,
+        top: 0,
+        backgroundColor: '#000',
+        content: []
+      }
     }
   },
   components: {
@@ -76,21 +80,24 @@ export default {
       Extension.onoff(id, status)
     },
     // 显示右键菜单
-    showMenu(id) {
-      Extension.showMenu(id)
+    showMenu(item) {
+      Util.showMenu(item)
+    },
+    enterMenu(item) {
+      Util.enterMenu(item)
     }
   },
   beforeCreate() {
-    // 获取当前配置
-    // Storage.getAll().then(res => {
-    //   this.storage = res
-    // })
-
+    
     // 获取所有扩展
     Extension.getAll().then(res => {
       this.enabledExtList = res.enabledList
       this.disabledExtList = res.disabledList
+      this.allExtColor = res.allColor
     })
+
+    // 初始化相关
+    Util.init(this)
   }
 }
 </script>
@@ -132,7 +139,9 @@ export default {
     min-width: 344px;
     max-width: 724px;
   }
-
+  #popup{
+    position: relative;
+  }
   #wrap {
     min-height: 125px;
     padding: 20px;
@@ -582,6 +591,31 @@ export default {
 
     -webkit-transition: .2s ease-in-out;
     transition: .2s ease-in-out;
+  }
+  #rightMenu.showMenu{
+    display: block !important;
+    animation: moveShowMenu .1s ease-in-out forwards;
+    -webkit-animation: moveShowMenu .1s ease-in-out forwards;
+  }
+  @keyframes moveShowMenu {
+    from {
+      transform: translateX(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes moveShowMenu {
+    from {
+      -webkit-transform: translateX(-10px);
+      opacity: 0;
+    }
+    to {
+      -webkit-transform: translateX(0);
+      opacity: 1;
+    }
   }
   [data-lan=ru] #rightMenu{
     width: 200px;

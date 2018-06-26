@@ -10,7 +10,8 @@
       :locked="item.isLocked"
       :data-mark="item.showMark"
       @mousedown.left.prevent="onoff(item.id, item.enabled)"
-      @mousedown.right.prevent="showMenu(item.id)"
+      @mousedown.right.prevent="showMenu(item)"
+      @mouseenter="enterMenu(item)"
       >
       <i>{{item.showMark}}</i>
     </li>
@@ -29,8 +30,11 @@
       onoff(id, status) {
         this.$parent.onoff(id, status)
       },
-      showMenu(id) {
-        this.$parent.showMenu(id)
+      showMenu(item) {
+        this.$parent.showMenu(item)
+      },
+      enterMenu(item) {
+        this.$parent.enterMenu(item)
       }
     }
   }

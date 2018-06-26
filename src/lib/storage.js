@@ -11,7 +11,6 @@ function getAll() {
     } else {
       chrome.storage.sync.get(function(obj) {
         storage = obj
-        console.log(storage, 'init value')
         resolve(storage)
       })
     }
