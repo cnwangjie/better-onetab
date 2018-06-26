@@ -115,5 +115,8 @@
 	},
 	"searcherPlaceholder": {
 		"message": "搜索你的扩展"
+	},
+	"defaultGroupName": {
+		"message": "默认分组"
 	}
 }
