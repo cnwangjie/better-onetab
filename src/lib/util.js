@@ -1,4 +1,8 @@
 import * as Extension from "./extension"
+
+// 右键菜单宽度
+const RightMenuWidth = 150
+
 // popup页面vue对象
 let vm = null
 
@@ -24,10 +28,48 @@ function init(t) {
 
 
 /**
+ * 通过扩展获取右键菜单、扩展名称的显示位置
+ */
+function getPositionByExt(item, info) {
+  const itemEle = document.querySelector(`[data-id=${item.id}]`)
+  const showGap = 16
+
+  const extSize = itemEle.offsetHeight
+  const bodyWidth = document.querySelector('#popup').offsetWidth
+  let extLeft = itemEle.offsetLeft
+  let extTop = itemEle.offsetTop
+  let atLeft = false
+
+  // 计算左边距
+  if (bodyWidth - extSize - extLeft - showGap > item.showMaxWidth) {
+    extLeft = extLeft + extSize + showGap
+  } else {
+    atLeft = true
+    extLeft = extLeft - info.width - showGap
+  }
+
+
+  // 计算上边距
+  if (info.height > extSize) {
+    extTop = extTop - (info.height - extSize) / 2
+  } else {
+    extTop = extTop + (extSize - info.height) / 2
+  }
+
+  return {
+    left: extLeft,
+    top: extTop,
+    atLeft
+  }
+}
+
+
+/**
  * 显示右键菜单
  */
 function showMenu(item) {
   hideMenu()
+  hideName()
   setTimeout(() => {
     
     // 右键菜单内容
@@ -84,36 +126,16 @@ function showMenu(item) {
       })
     }
 
-    const itemEle = document.querySelector(`[data-id=${item.id}]`)
-    const color = item.showColor
-    const showGap = 20
-    const rightMenuWidth = 150
-    const rightMenuHeight = 52
-
-    const extSize = itemEle.offsetHeight
-    const bodyWidth = document.body.offsetWidth
-    let extLeft = itemEle.offsetLeft
-    let extTop = itemEle.offsetTop
-
-    // 计算左边距
-    if (bodyWidth - extSize - extLeft - showGap > rightMenuWidth) {
-      extLeft = extLeft + extSize + showGap
-    } else {
-      extLeft = extLeft - rightMenuWidth - showGap
-    }
-
-    // 计算上边距
-    if (rightMenuHeight > extSize) {
-      extTop = extTop - (rightMenuHeight - extSize) / 2
-    } else {
-      extTop = extTop + (extSize - rightMenuHeight) / 2
-    }
+    let position = getPositionByExt(item, {
+      width: RightMenuWidth,
+      height: 52
+    })
 
     vm.rightMenu = {
-      show: true,
-      left: extLeft,
-      top: extTop,
-      backgroundColor: color,
+      showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
+      left: position.left,
+      top: position.top,
+      backgroundColor: item.showColor,
       content
     }
   }, 0);
@@ -124,7 +146,43 @@ function showMenu(item) {
  * 隐藏右键菜单
  */
 function hideMenu() {
-  vm.rightMenu.show = false
+  vm.rightMenu.showClass = ''
+}
+
+
+
+/**
+ * 显示扩展名称
+ */
+function showName(item) {
+  hideName()
+  vm.extName.content = item.name
+
+  setTimeout(() => {
+    let ele = document.querySelector('#extName')
+    item.showMaxWidth = Math.max(RightMenuWidth, ele.offsetWidth)
+
+    let position = getPositionByExt(item, {
+      width: ele.offsetWidth,
+      height: ele.offsetHeight
+    })
+  
+    vm.extName = {
+      showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
+      left: position.left,
+      top: position.top,
+      backgroundColor: item.showColor,
+      content: item.name
+    }
+  }, 0);
+}
+function hideName() {
+  vm.extName = {
+    show: false,
+    left: 0,
+    top: 0,
+    content: ''
+  }
 }
 
 
@@ -135,6 +193,7 @@ function resetHandle(params) {
   
   // 关闭右键菜单
   hideMenu()
+  hideName()
 
   // 关闭Hover
   vm.$data.enabledExtList.forEach(item => {
@@ -143,6 +202,8 @@ function resetHandle(params) {
   vm.$data.disabledExtList.forEach(item => {
     item.isHover = false
   })
+  vm.$data.enabledExtListDinginess = false
+  vm.$data.disabledExtListDinginess = false
 }
 
 
@@ -150,17 +211,18 @@ function resetHandle(params) {
  * 进入扩展图标时
  */
 function enter(item) {
-  resetHandle()
   item['hoverTimer'] = setTimeout(() => {
     item.isHover = true
-  }, 100)
+    vm.$data[item.enabled ? 'enabledExtListDinginess' : 'disabledExtListDinginess'] = true
+    showName(item)
+  }, 200)
 }
 // 离开
 function leave(item) {
   if (item['hoverTimer']) {
     clearTimeout(item['hoverTimer'])
   }
-  item.isHover = false
+  resetHandle()
 }
 
-export { init, showMenu, enter, leave }
+export { init, showMenu, enter, leave, showName }

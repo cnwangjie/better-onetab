@@ -3,7 +3,7 @@ const Storage = require('./../lib/storage')
 const Rank = require('./rank')
 
 const LockKey = '_lockList_'
-const ExtDefaultIcon = '../icon/default-icon.png'
+const ExtDefaultIcon = './../assets/default-icon.png'
 const ExtDefaultColor = '#5c5e6f'
 
 // 启用或禁用状态映射所在容器
@@ -84,7 +84,8 @@ export function getExtColor(item) {
     // 判断出是否为白色空图
     if (substantialColor === 1000) {
       setTimeout(function () {
-        item.showIcon = `background-image:url('${ExtDefaultIcon}')`
+        item.showIcon = ExtDefaultIcon
+        item.showIconBg = `background-image:url('${ExtDefaultIcon}')`
       }, 0)
       newColor = ExtDefaultColor
     }
@@ -152,6 +153,7 @@ function processHandle(all) {
             item.showIcon = ExtDefaultIcon
           }
           item.showIconBg = `background-image:url('${item.showIcon}')`
+          item.showColor = ExtDefaultColor
 
           // 判断是否为锁定图标
           if (lockObj && lockObj[item.id] == 1) {

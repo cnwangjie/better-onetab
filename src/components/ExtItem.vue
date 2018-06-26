@@ -1,5 +1,5 @@
 <template>
-  <ul :id="dataId" class="gclearfix list" :locked="dataLocked">
+  <ul :id="dataId" :class="{ gclearfix: true, list: true, dinginess: dataDinginess }" :locked="dataLocked">
     <li 
       v-for="item in dataList"
       :data-id="item.id"
@@ -22,7 +22,8 @@
     props: {
       dataList: Array,
       dataId: String,
-      dataLocked: String
+      dataLocked: String,
+      dataDinginess: Boolean
     },
     methods: {
       onoff(item) {

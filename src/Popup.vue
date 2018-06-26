@@ -22,16 +22,18 @@
         </div>
       </div>
 
-      <ext-item :data-list="enabledExtList" data-id="showList" data-locked="locked"></ext-item>
-      <ext-item :data-list="disabledExtList" data-id="hideList"></ext-item>
+      <ext-item :data-dinginess="enabledExtListDinginess" :data-list="enabledExtList" data-id="showList" data-locked="locked"></ext-item>
+      <ext-item :data-dinginess="disabledExtListDinginess" :data-list="disabledExtList" data-id="hideList"></ext-item>
       
       <div id="tips">
         <span class="title">{{i18n.tipsTitle}}</span>
         <span class="desc"><span class="con">{{i18n.tipsCon}}</span><a href="https://chrome.google.com/webstore/category/extensions?hl=" target="_blank" class="url">{{i18n.tipsUrl}}</a></span>
       </div>
     </div>
-    <label id="extName"></label>
-    <div id="rightMenu" :class="{ showMenu: rightMenu.show }" :style="{ left: rightMenu.left + 'px', top: rightMenu.top + 'px', background: rightMenu.backgroundColor}">
+    <label id="extName" :class="[extName.showClass]" :style="{ left: extName.left + 'px', top: extName.top + 'px', background: extName.backgroundColor}">
+      {{extName.content}}
+    </label>
+    <div id="rightMenu" :class="[rightMenu.showClass]" :style="{ left: rightMenu.left + 'px', top: rightMenu.top + 'px', background: rightMenu.backgroundColor}">
       <ul>
         <li v-for="item in rightMenu.content" @click="item.handle" :disabled="item.disabled">{{item.name}}</li>
       </ul>
@@ -55,14 +57,23 @@ export default {
       i18n: getI18n(),
       // storage: null,
       enabledExtList: [],
+      enabledExtListDinginess: false,
       disabledExtList: [],
+      disabledExtListDinginess: false,
       allExtColor: {},
       rightMenu: {
-        show: false,
+        showClass: '',
         left: 0,
         top: 0,
         backgroundColor: '#000',
         content: []
+      },
+      extName: {
+        showClass: '',
+        left: 0,
+        top: 0,
+        backgroundColor: '#000',
+        content: ''
       }
     }
   },
@@ -595,31 +606,6 @@ export default {
     -webkit-transition: .2s ease-in-out;
     transition: .2s ease-in-out;
   }
-  #rightMenu.showMenu{
-    display: block !important;
-    animation: moveShowMenu .1s ease-in-out forwards;
-    -webkit-animation: moveShowMenu .1s ease-in-out forwards;
-  }
-  @keyframes moveShowMenu {
-    from {
-      transform: translateX(-10px);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-  @-webkit-keyframes moveShowMenu {
-    from {
-      -webkit-transform: translateX(-10px);
-      opacity: 0;
-    }
-    to {
-      -webkit-transform: translateX(0);
-      opacity: 1;
-    }
-  }
   [data-lan=ru] #rightMenu{
     width: 200px;
   }
@@ -651,5 +637,56 @@ export default {
   }
   #rightMenu ul li[disabled]:hover{
     background: none;
+  }
+
+  .showInfoRight{
+    display: block !important;
+    animation: moveShowInfoRight .2s ease-in-out forwards;
+    -webkit-animation: moveShowInfoRight .2s ease-in-out forwards;
+  }
+  @keyframes moveShowInfoRight {
+    from {
+      transform: translateX(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes moveShowInfoRight {
+    from {
+      -webkit-transform: translateX(-10px);
+      opacity: 0;
+    }
+    to {
+      -webkit-transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  .showInfoLeft{
+    display: block !important;
+    animation: moveShowInfoLeft .2s ease-in-out forwards;
+    -webkit-animation: moveShowInfoLeft .2s ease-in-out forwards;
+  }
+  @keyframes moveShowInfoLeft {
+    from {
+      transform: translateX(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes moveShowInfoLeft {
+    from {
+      -webkit-transform: translateX(10px);
+      opacity: 0;
+    }
+    to {
+      -webkit-transform: translateX(0);
+      opacity: 1;
+    }
   }
 </style>
