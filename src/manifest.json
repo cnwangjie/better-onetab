@@ -15,6 +15,7 @@
 		"default_popup": "popup.html"
 	},
 	"permissions" : ["management", "storage"],
+	"content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:8080; object-src 'self'",
 	"options_page" : "option.html",
 	"icons": {
 		"16" : "assets/icon/icon_16.png",
