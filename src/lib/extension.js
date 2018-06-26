@@ -156,14 +156,19 @@ function processHandle(all) {
           // 判断是否为锁定图标
           if (lockObj && lockObj[item.id] == 1) {
             item.isLocked = true
+          } else {
+            item.isLocked = false
           }
 
           // 判断是否为应用或开发版本
           if (item.isApp) {
-            item.showMark = 'APP'
+            item.showType = 'APP'
           } else if (item.installType === "development") {
-            item.showMark = 'DEV'
+            item.showType = 'DEV'
           }
+
+          // 增加hover属性
+          item.isHover = false
 
           // 根据启用或禁用的状态分别放入不同的容器中
           if (item.enabled === false) {
@@ -230,28 +235,40 @@ function getAll() {
 
 
 /**
+ * 根据扩展对象查找所在容器及索引值
+ */
+function find(item) {
+  let curList = allExtList[ExtStatus[item.enabled.toString()]]
+  let index = curList.indexOf(item)
+  if (index !== -1) {
+    return {
+      container: curList,
+      index
+    }
+  }
+}
+
+
+/**
  * 启用或禁用扩展
  */
-function onoff(id, status) {
-  let nextList = ExtStatus[!status+'']
-  let curList = ExtStatus[status+'']
+function onoff(item) {
+  let nextList = ExtStatus[(!item.enabled).toString()]
   
   // 在容器中查找当前对象
-  let curItem = allExtList[curList].find((item, index) => {
-    if (item.id === id) {
-      allExtList[curList].splice(index, 1)
-      return index
-    }
-  })
+  let findObj = find(item)
+  findObj.container.splice(findObj.index, 1)
   
   // 更新对象状态属性
-  curItem.enabled = !status
+  item.enabled = !item.enabled
   // 更新容器
-  allExtList[nextList].push(curItem)
+  allExtList[nextList].push(item)
   // 新容器重新排序
   allExtList[nextList].sort(orderHandle())
+  // 重置Hover
+  item.isHover = false
   // 同步至浏览器
-  chrome.management.setEnabled(id, !status)
+  chrome.management.setEnabled(item.id, item.enabled)
 
   addIconBadge()
 }
@@ -261,23 +278,17 @@ function onoff(id, status) {
  * 加锁、解锁扩展操作
  */
 function lock(item) {
-  let curList = allExtList[ExtStatus[item.enabled.toString()]]
-  let index = curList.indexOf(item)
-  if (index !== -1) {
-    curList[index].isLocked = true
+  let obj = find(item)
+  obj.container[obj.index].isLocked = true
 
-    let lockStorage = Storage.get(LockKey)
-    lockStorage[item.id] = 1
-    Storage.set(LockKey, lockStorage)
-  }
+  let lockStorage = Storage.get(LockKey)
+  lockStorage[item.id] = 1
+  Storage.set(LockKey, lockStorage)
 }
 // 解锁
 function unlock(item) {
-  let curList = allExtList[ExtStatus[item.enabled.toString()]]
-  let index = curList.indexOf(item)
-  if (index !== -1) {
-    curList[index].isLocked = false
-  }
+  let obj = find(item)
+  obj.container[obj.index].isLocked = false
 
   let lockStorage = Storage.get(LockKey)
   delete lockStorage[item.id]
@@ -289,13 +300,10 @@ function unlock(item) {
  * 卸载应用或扩展
  */
 function uninstall(item) {
-  let curList = allExtList[ExtStatus[item.enabled.toString()]]
-  let index = curList.indexOf(item)
-  if (index !== -1) {
-    curList.splice(index, 1)
-  }
+  let obj = find(item)
+  obj.container.splice(obj.index, 1)
   chrome.management.uninstall(item.id, function(){});
 }
 
 
-export { getAll, onoff, lock, unlock, uninstall }
+export { getAll, onoff, lock, unlock, uninstall, find }

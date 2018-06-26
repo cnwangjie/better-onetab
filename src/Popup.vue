@@ -76,15 +76,18 @@ export default {
   },
   methods: {
     // 启用禁用扩展
-    onoff(id, status) {
-      Extension.onoff(id, status)
+    onoff(item) {
+      Extension.onoff(item)
     },
     // 显示右键菜单
     showMenu(item) {
       Util.showMenu(item)
     },
-    enterMenu(item) {
-      Util.enterMenu(item)
+    enter(item) {
+      Util.enter(item)
+    },
+    leave(item) {
+      Util.leave(item)
     }
   },
   beforeCreate() {

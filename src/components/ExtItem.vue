@@ -3,17 +3,15 @@
     <li 
       v-for="item in dataList"
       :data-id="item.id"
-      :data-homepageurl="item.homepageUrl"
-      :data-optionurl="item.optionsUrl"
-      :data-name="item.name"
+      :class="{ hover: item.isHover }"
       :style="item.showIconBg"
       :locked="item.isLocked"
-      :data-mark="item.showMark"
-      @mousedown.left.prevent="onoff(item.id, item.enabled)"
+      @mousedown.left.prevent="onoff(item)"
       @mousedown.right.prevent="showMenu(item)"
-      @mouseenter="enterMenu(item)"
+      @mouseenter="enter(item)"
+      @mouseleave="leave(item)"
       >
-      <i>{{item.showMark}}</i>
+      <i>{{item.showType}}</i>
     </li>
   </ul>
 </template>
@@ -27,14 +25,17 @@
       dataLocked: String
     },
     methods: {
-      onoff(id, status) {
-        this.$parent.onoff(id, status)
+      onoff(item) {
+        this.$parent.onoff(item)
       },
       showMenu(item) {
         this.$parent.showMenu(item)
       },
-      enterMenu(item) {
-        this.$parent.enterMenu(item)
+      enter(item) {
+        this.$parent.enter(item)
+      },
+      leave(item) {
+        this.$parent.leave(item)
       }
     }
   }

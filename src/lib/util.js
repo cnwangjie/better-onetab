@@ -1,5 +1,6 @@
 import * as Extension from "./extension"
-let that = null
+// popup页面vue对象
+let vm = null
 
 
 /**
@@ -7,7 +8,7 @@ let that = null
  */
 function init(t) {
   // 指向vm对象
-  that = t
+  vm = t
 
   // 屏蔽右键菜单选项
   document.addEventListener('contextmenu', function(e){
@@ -31,7 +32,7 @@ function showMenu(item) {
     
     // 右键菜单内容
     let content = [{
-      name: item.isLocked ? that.i18n.rightLock_unlock : that.i18n.rightLock_lock,
+      name: item.isLocked ? vm.i18n.rightLock_unlock : vm.i18n.rightLock_lock,
       handle: () => {
         hideMenu()
         if (item.isLocked) {
@@ -43,7 +44,7 @@ function showMenu(item) {
       disabled: false
     },
     {
-      name: that.i18n.rightOption,
+      name: vm.i18n.rightOption,
       handle: () => {
         hideMenu()
         if (item.optionsUrl) {
@@ -55,7 +56,7 @@ function showMenu(item) {
       disabled: !item.optionsUrl
     },
     {
-      name: that.i18n.rightUninstall,
+      name: vm.i18n.rightUninstall,
       handle: () => {
         hideMenu()
         Extension.uninstall(item)
@@ -63,7 +64,7 @@ function showMenu(item) {
       disabled: false
     },
     {
-      name: that.i18n.rightHomepage,
+      name: vm.i18n.rightHomepage,
       handle: () => {
         hideMenu()
         chrome.tabs.create({
@@ -74,7 +75,7 @@ function showMenu(item) {
     }]
     if (item.isApp) {
       content.splice(1, 1, {
-        name: that.i18n.rightAppLaunch,
+        name: vm.i18n.rightAppLaunch,
         handle: () => {
           hideMenu()
           chrome.management.launchApp(item.id, function(){})
@@ -85,7 +86,7 @@ function showMenu(item) {
 
     const itemEle = document.querySelector(`[data-id=${item.id}]`)
     const color = item.showColor
-    const showGap = 10
+    const showGap = 20
     const rightMenuWidth = 150
     const rightMenuHeight = 52
 
@@ -108,7 +109,7 @@ function showMenu(item) {
       extTop = extTop + (extSize - rightMenuHeight) / 2
     }
 
-    that.rightMenu = {
+    vm.rightMenu = {
       show: true,
       left: extLeft,
       top: extTop,
@@ -123,15 +124,43 @@ function showMenu(item) {
  * 隐藏右键菜单
  */
 function hideMenu() {
-  that.rightMenu.show = false
+  vm.rightMenu.show = false
+}
+
+
+/**
+ * 初始化页面所有的操作
+ */
+function resetHandle(params) {
+  
+  // 关闭右键菜单
+  hideMenu()
+
+  // 关闭Hover
+  vm.$data.enabledExtList.forEach(item => {
+    item.isHover = false
+  })
+  vm.$data.disabledExtList.forEach(item => {
+    item.isHover = false
+  })
 }
 
 
 /**
  * 进入扩展图标时
  */
-// function enterMenu(item) {
-  
-// }
+function enter(item) {
+  resetHandle()
+  item['hoverTimer'] = setTimeout(() => {
+    item.isHover = true
+  }, 100)
+}
+// 离开
+function leave(item) {
+  if (item['hoverTimer']) {
+    clearTimeout(item['hoverTimer'])
+  }
+  item.isHover = false
+}
 
-export { init, showMenu }
+export { init, showMenu, enter, leave }
