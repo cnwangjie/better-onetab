@@ -5,7 +5,7 @@ const path = require('path')
 const fs = require('fs')
 
 let definePluginObj = {
-  '__i18n__': JSON.stringify(fs.readFileSync('src/_locales/zh_CN/messages.json').toString())
+  '__i18n__': JSON.stringify(Object.keys(JSON.parse(fs.readFileSync('src/_locales/zh_CN/messages.json').toString())))
 }
 
 module.exports = {
