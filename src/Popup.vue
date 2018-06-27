@@ -172,6 +172,7 @@ export default {
 
       // 显示初始化：图标大小、宽度等
       this.showIconSize = Storage.get('_showIconSize_')
+      this.showWindowSize = Storage.get('_showColumn_')
 
       // 获取所有扩展
       Extension.getAll().then(res => {
