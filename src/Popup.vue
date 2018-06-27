@@ -1,10 +1,10 @@
 <template>
   <div id="popup">
-    <div id="wrap">
+    <div id="wrap" :searching="searcher.doing">
       <div id="search">
         <div id="searchBox">
-          <input type="text" class="searchInput searcher js-searcher" :placeholder="i18n.searcherPlaceholder">
-          <svg width="24px" height="24px" class="searchEmpty js-search-empty" viewBox="0 0 24 24">
+          <input type="text" class="searchInput searcher" v-model="searcher.text" :placeholder="i18n.searcherPlaceholder" @input="search" v-focus @mouseenter="focus">
+          <svg width="24px" height="24px" class="searchEmpty" viewBox="0 0 24 24" @mousedown="cancelSearch">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
           </svg>
           <svg width="20px" height="20px" class="serachIco" viewBox="0 0 20 20">
@@ -76,6 +76,10 @@ export default {
         backgroundColor: '#000',
         content: '',
         adviseMaxWidth: 200
+      },
+      searcher: {
+        doing: false,
+        text: ''
       }
     }
   },
@@ -88,6 +92,9 @@ export default {
     // iconSize: () => this.storage._showIconSize_ || 2
   },
   methods: {
+    focus(e) {
+      e.target.focus()
+    },
     // 启用禁用扩展
     onoff(item) {
       Extension.onoff(item)
@@ -101,6 +108,12 @@ export default {
     },
     leave(item) {
       Util.leave(item)
+    },
+    search() {
+      Util.search()
+    },
+    cancelSearch() {
+      Util.cancelSearch()
     }
   },
   beforeCreate() {
@@ -117,6 +130,14 @@ export default {
 
     // 对象外置，用于调试
     window.__vm__ = this
+  },
+  directives: {
+    focus: {
+      // 指令的定义
+      inserted: function (el) {
+        el.focus()
+      }
+    }
   }
 }
 </script>
@@ -199,7 +220,7 @@ export default {
   #search .searcher{
     width: 100%;
     line-height: 1em;
-    padding: 0 10px 0 36px;
+    padding: 0 40px 0 36px;
     font-size: 16px;
     background: #f5f5f5;
     border-left: 5px solid #f5f5f5;

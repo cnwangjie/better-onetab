@@ -169,8 +169,11 @@ function processHandle(all) {
             item.showType = 'DEV'
           }
 
-          // 增加hover属性
+          // 是否处于hover状态
           item.isHover = false
+
+          // 是否被搜索关键词命中
+          item.isSearched = false
 
           // 根据启用或禁用的状态分别放入不同的容器中
           if (item.enabled === false) {

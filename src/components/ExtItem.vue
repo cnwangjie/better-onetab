@@ -3,9 +3,10 @@
     <li 
       v-for="item in dataList"
       :data-id="item.id"
-      :class="{ hover: item.isHover }"
+      :class="{ hover: item.isHover}"
       :style="item.showIconBg"
       :locked="item.isLocked"
+      :searched="item.isSearched"
       @mousedown.left.prevent="onoff(item)"
       @mousedown.right.prevent="showMenu(item)"
       @mouseenter="enter(item)"

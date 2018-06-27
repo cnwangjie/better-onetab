@@ -23,6 +23,7 @@ function init(t) {
   document.addEventListener('click', e => {
     e.preventDefault()
     resetHandle()
+    cancelSearch()
   })
 }
 
@@ -84,9 +85,9 @@ function getPositionByExt(item, info) {
  */
 function showMenu(item) {
   hideMenu()
-  hideName()
   setTimeout(() => {
-    
+    hideName()
+
     // 右键菜单内容
     let content = [{
       name: item.isLocked ? vm.i18n.rightLock_unlock : vm.i18n.rightLock_lock,
@@ -231,6 +232,9 @@ function resetHandle(params) {
  */
 function enter(item) {
   if (!item.isHover) {
+    if (vm.searcher.doing && !item.isSearched) {
+      return
+    }
     resetHandle()
     item['hoverTimer'] = setTimeout(() => {
       item.isHover = true
@@ -251,4 +255,37 @@ function leave(item) {
   }
 }
 
-export { init, showMenu, enter, leave, showName }
+
+/**
+ * 搜索功能
+ */
+function search() {
+  let text = vm.searcher.text.trim().replace(/\s{2,}/g, " ").toLowerCase()
+  let allList = [].concat(vm.enabledExtList, vm.disabledExtList)
+  if (text) {
+    setTimeout(() => {
+      vm.searcher.doing = true
+      let queryArr = text.split(/\s/)
+      allList.forEach(item => {
+        let extInfo = (item.name+item.description).toLowerCase()
+        let isSearched = queryArr.some(q => extInfo.includes(q))
+        item['isSearched'] = isSearched
+      }, 0)
+    })
+  } else {
+    vm.searcher.doing = false
+    allList.forEach(item => {
+      if (item['isSearched']) {
+        item['isSearched'] = false
+      }
+    })
+  }
+}
+function cancelSearch() {
+  vm.searcher = {
+    doing: false,
+    text: ''
+  }
+}
+
+export { init, showMenu, enter, leave, showName, search, cancelSearch }
