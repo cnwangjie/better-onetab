@@ -186,6 +186,14 @@ function processHandle(all) {
         }
       })
       resolve(allExtList)
+      setTimeout(() => {
+        let _allExtList = allExtList.enabledList.concat(allExtList.disabledList)
+        _allExtList.forEach(item => {
+          setTimeout(() => {
+            getExtColor(item)
+          }, 0);
+        })
+      }, 0);
     })
   })
   return res
@@ -222,14 +230,6 @@ function getAll() {
   let res = new Promise((resolve, reject) => {
     chrome.management.getAll(function(obj){
       resolve(processHandle(obj))
-      setTimeout(() => {
-        let _allExtList = allExtList.enabledList.concat(allExtList.disabledList)
-        _allExtList.forEach(item => {
-          setTimeout(() => {
-            getExtColor(item)
-          }, 0);
-        })
-      }, 0);
     })
   })
   return res
