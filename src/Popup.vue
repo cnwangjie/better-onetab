@@ -654,7 +654,7 @@ export default {
   }
   @keyframes moveShowInfoRight {
     from {
-      transform: translateX(-10px);
+      transform: translateX(-20px);
       opacity: 0;
     }
     to {
@@ -664,7 +664,7 @@ export default {
   }
   @-webkit-keyframes moveShowInfoRight {
     from {
-      -webkit-transform: translateX(-10px);
+      -webkit-transform: translateX(-20px);
       opacity: 0;
     }
     to {
@@ -679,7 +679,7 @@ export default {
   }
   @keyframes moveShowInfoLeft {
     from {
-      transform: translateX(10px);
+      transform: translateX(20px);
       opacity: 0;
     }
     to {
@@ -689,7 +689,7 @@ export default {
   }
   @-webkit-keyframes moveShowInfoLeft {
     from {
-      -webkit-transform: translateX(10px);
+      -webkit-transform: translateX(20px);
       opacity: 0;
     }
     to {
