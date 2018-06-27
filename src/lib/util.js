@@ -298,11 +298,16 @@ function showGroup() {
 function hideGroup() {
   vm.group.show = false
 }
-function changeGroup(id) {
-  
+function changeGroup(index) {
+  vm.group.index = index
+  vm.group.show = false
+  Extension.getAll()
 }
 function setGroup() {
-  
+  vm.group.show = false
+  chrome.tabs.create({
+    'url': chrome.app.getDetails().options_page
+  })
 }
 
 

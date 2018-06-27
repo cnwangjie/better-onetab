@@ -15,8 +15,8 @@
         <div id="group" class="searchItem" @mouseenter="showGroup" @mouseleave="hideGroup">
           <button class="searchInput btn btn-group">{{group.list[group.index].name}}</button>
           <ul id="group-list" v-if="group.show">
-            <li v-for="item in group.list" @click="changeGroup" :title="item.name">{{item.name}}</li>
-            <li @click="setGroup">=={{i18n.setGroupName}}==</li>
+            <li v-for="(item, index) in group.list" @click="changeGroup(index)" :title="item.name">{{item.name}}</li>
+            <li @click="setGroup">{{i18n.setGroupName}}</li>
           </ul>
         </div>
       </div>
@@ -126,18 +126,14 @@ export default {
     hideGroup() {
       Util.hideGroup()
     },
-    changeGroup(id) {
-      Util.changeGroup(id)
+    changeGroup(index) {
+      Util.changeGroup(index)
     },
     setGroup() {
       Util.setGroup()
     }
   },
   beforeCreate() {
-
-    setTimeout(() => {
-      console.log(this.i18n, '=============')
-    }, 1000);
 
     // 对象外置，用于调试
     window.__vm__ = this
@@ -165,7 +161,6 @@ export default {
       Extension.getAll().then(res => {
         this.enabledExtList = res.enabledList
         this.disabledExtList = res.disabledList
-        this.allExtColor = res.allColor
       })
     })
 

@@ -232,6 +232,8 @@ function addIconBadge(){
  */
 function getAll() {
   let res = new Promise((resolve, reject) => {
+    allExtList.enabledList = []
+    allExtList.disabledList = []
     chrome.management.getAll(function(obj){
       resolve(processHandle(obj))
     })
