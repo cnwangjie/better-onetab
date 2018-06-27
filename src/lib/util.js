@@ -22,7 +22,7 @@ function init(t) {
   // 点击空白处清理页面的状态
   document.addEventListener('click', e => {
     e.preventDefault()
-    hideMenu()
+    resetHandle()
   })
 }
 
@@ -39,27 +39,42 @@ function getPositionByExt(item, info) {
   let extLeft = itemEle.offsetLeft
   let extTop = itemEle.offsetTop
   let atLeft = false
+  let adviseMaxWidth = null
+  let left = 0
+  let right = 0
+  let top = 0
 
-  // 计算左边距
-  if (bodyWidth - extSize - extLeft - showGap > item.showMaxWidth) {
-    extLeft = extLeft + extSize + showGap
+  // 计算横向边距
+  let rightSideSpace = bodyWidth - extSize - extLeft - showGap
+  let leftSideSpace = extLeft - showGap
+  if (rightSideSpace > item.showMaxWidth || leftSideSpace < rightSideSpace) {
+    left  = `${extLeft + extSize + showGap}px`
+    right = 'unset'
+    adviseMaxWidth = rightSideSpace - 10
   } else {
     atLeft = true
-    extLeft = extLeft - info.width - showGap
+    adviseMaxWidth = leftSideSpace - 10
+    left = 'unset'
+    right = `${bodyWidth - extLeft + showGap}px`
   }
-
 
   // 计算上边距
   if (info.height > extSize) {
-    extTop = extTop - (info.height - extSize) / 2
+    top = `${extTop - (info.height - extSize) / 2}px`
   } else {
-    extTop = extTop + (extSize - info.height) / 2
+    top = `${extTop + (extSize - info.height) / 2}px`
   }
 
+  // console.table({
+  //   extSize, extLeft, extTop, showMaxWidth: item.showMaxWidth, rightSideSpace, leftSideSpace, atLeft, adviseMaxWidth, left, right, top
+  // })
+
   return {
-    left: extLeft,
-    top: extTop,
-    atLeft
+    left,
+    right,
+    top,
+    atLeft,
+    adviseMaxWidth
   }
 }
 
@@ -134,6 +149,7 @@ function showMenu(item) {
     vm.rightMenu = {
       showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
       left: position.left,
+      right: position.right,
       top: position.top,
       backgroundColor: item.showColor,
       content
@@ -156,7 +172,7 @@ function hideMenu() {
  */
 function showName(item) {
   hideName()
-  vm.extName.content = item.name
+  vm.extName.content = item.shortName
 
   setTimeout(() => {
     let ele = document.querySelector('#extName')
@@ -166,13 +182,15 @@ function showName(item) {
       width: ele.offsetWidth,
       height: ele.offsetHeight
     })
-  
+    
     vm.extName = {
       showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
       left: position.left,
+      right: position.right,
       top: position.top,
       backgroundColor: item.showColor,
-      content: item.name
+      content: item.name,
+      adviseMaxWidth: position.adviseMaxWidth
     }
   }, 0);
 }
@@ -180,6 +198,7 @@ function hideName() {
   vm.extName = {
     show: false,
     left: 0,
+    right: 'unset',
     top: 0,
     content: ''
   }
@@ -211,18 +230,25 @@ function resetHandle(params) {
  * 进入扩展图标时
  */
 function enter(item) {
-  item['hoverTimer'] = setTimeout(() => {
-    item.isHover = true
-    vm.$data[item.enabled ? 'enabledExtListDinginess' : 'disabledExtListDinginess'] = true
-    showName(item)
-  }, 200)
+  if (!item.isHover) {
+    resetHandle()
+    item['hoverTimer'] = setTimeout(() => {
+      item.isHover = true
+      vm.$data[item.enabled ? 'enabledExtListDinginess' : 'disabledExtListDinginess'] = true
+      showName(item)
+    }, 200)
+  }
 }
 // 离开
 function leave(item) {
-  if (item['hoverTimer']) {
-    clearTimeout(item['hoverTimer'])
+  if (vm.$data.rightMenu.showClass.trim()) {
+
+  } else {
+    if (item['hoverTimer']) {
+      clearTimeout(item['hoverTimer'])
+    }
+    resetHandle()
   }
-  resetHandle()
 }
 
 export { init, showMenu, enter, leave, showName }

@@ -30,10 +30,10 @@
         <span class="desc"><span class="con">{{i18n.tipsCon}}</span><a href="https://chrome.google.com/webstore/category/extensions?hl=" target="_blank" class="url">{{i18n.tipsUrl}}</a></span>
       </div>
     </div>
-    <label id="extName" :class="[extName.showClass]" :style="{ left: extName.left + 'px', top: extName.top + 'px', background: extName.backgroundColor}">
+    <label id="extName" :class="[extName.showClass]" :style="{ left: extName.left, right: extName.right, top: extName.top, background: extName.backgroundColor, 'max-width': extName.adviseMaxWidth + 'px'}">
       {{extName.content}}
     </label>
-    <div id="rightMenu" :class="[rightMenu.showClass]" :style="{ left: rightMenu.left + 'px', top: rightMenu.top + 'px', background: rightMenu.backgroundColor}">
+    <div id="rightMenu" :class="[rightMenu.showClass]" :style="{ left: rightMenu.left, right: rightMenu.right, top: rightMenu.top, background: rightMenu.backgroundColor}">
       <ul>
         <li v-for="item in rightMenu.content" @click="item.handle" :disabled="item.disabled">{{item.name}}</li>
       </ul>
@@ -71,9 +71,11 @@ export default {
       extName: {
         showClass: '',
         left: 0,
+        right: 'unset',
         top: 0,
         backgroundColor: '#000',
-        content: ''
+        content: '',
+        adviseMaxWidth: 200
       }
     }
   },
@@ -112,6 +114,9 @@ export default {
 
     // 初始化相关
     Util.init(this)
+
+    // 对象外置，用于调试
+    window.__vm__ = this
   }
 }
 </script>
@@ -569,18 +574,21 @@ export default {
     z-index: 6;
 
     box-sizing: border-box;
-    height: 22px;
-    line-height: 22px;
+    height: 24px;
+    line-height: 24px;
     font-size: 14px;
     color: #fff;
     text-transform: capitalize;
     white-space: nowrap;
 
-    padding: 0 7px;
+    padding: 0 6px;
     border: none;
     border-radius: 2px;
     background-color: #5c5e6f;
     opacity: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .extName-anim{
     -webkit-transition: .2s ease-in-out;
