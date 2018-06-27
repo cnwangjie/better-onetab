@@ -1,6 +1,6 @@
 <template>
   <div id="popup">
-    <div id="wrap" :searching="searcher.doing">
+    <div id="wrap" :searching="searcher.doing" :class="'icon-size-' + showIconSize" :style="'width:' + getShowWindowSize + 'px'">
       <div id="search">
         <div id="searchBox">
           <input type="text" class="searchInput searcher" v-model="searcher.text" :placeholder="i18n.searcherPlaceholder" @input="search" v-focus @mouseenter="focus">
@@ -87,11 +87,24 @@ export default {
           lock: {}
         }],
         show: false
-      }
+      },
+      showIconSize: 2,
+      showWindowSize: 6
     }
   },
   components: {
     ExtItem
+  },
+  computed: {
+    getShowWindowSize() {
+      const WindowSizeByColum = {
+        6: 496,
+        7: 572,
+        8: 648,
+        9: 724
+      }
+      return WindowSizeByColum[this.showWindowSize] || WindowSizeByColum['6']
+    }
   },
   methods: {
     focus(e) {
@@ -156,6 +169,9 @@ export default {
       }
       this.group.list = group.list
       this.group.index = group.index
+
+      // 显示初始化：图标大小、宽度等
+      this.showIconSize = Storage.get('_showIconSize_')
 
       // 获取所有扩展
       Extension.getAll().then(res => {
@@ -388,6 +404,9 @@ export default {
     border-left-color: #5c5e6f;
   }
 
+  .list{
+    will-change: contents;
+  }
   .list li {
     width: 50px;
     height: 50px;
@@ -440,7 +459,7 @@ export default {
     background: #5c5d6e;
     -webkit-transform: scale(0.7);transform: scale(0.7);
   }
-  html.icon-size-3 .list li[data-mark] i{
+  .icon-size-3 .list li[data-mark] i{
     right: -7px;
   }
 
@@ -502,16 +521,16 @@ export default {
     opacity: .2 !important;
   }
 
-  html.icon-size-1 .list li{
+  .icon-size-1 .list li{
     background-size: 38px;
   }
-  html.icon-size-2 .list li{
+  .icon-size-2 .list li{
     background-size: 44px;
   }
-  html.icon-size-3 .list li{
+  .icon-size-3 .list li{
     background-size: 50px;
   }
-  html.icon-size-3 .list li[locked]::after{
+  .icon-size-3 .list li[locked]::after{
     top: -3px;
     right: -3px;
   }
@@ -646,10 +665,10 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .extName-anim{
+  /* .extName-anim{
     -webkit-transition: .2s ease-in-out;
     transition: .2s ease-in-out;
-  }
+  } */
 
   #rightMenu{
     display: none;
@@ -710,21 +729,21 @@ export default {
   }
   @keyframes moveShowInfoRight {
     from {
-      transform: translateX(-20px);
+      transform: translate3d(-20px, 0, 0);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
       opacity: 1;
     }
   }
   @-webkit-keyframes moveShowInfoRight {
     from {
-      -webkit-transform: translateX(-20px);
+      -webkit-transform: translate3d(-20px, 0, 0);
       opacity: 0;
     }
     to {
-      -webkit-transform: translateX(0);
+      -webkit-transform: translate3d(0, 0, 0);
       opacity: 1;
     }
   }
@@ -735,21 +754,21 @@ export default {
   }
   @keyframes moveShowInfoLeft {
     from {
-      transform: translateX(20px);
+      transform: translate3d(20px, 0, 0);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
       opacity: 1;
     }
   }
   @-webkit-keyframes moveShowInfoLeft {
     from {
-      -webkit-transform: translateX(20px);
+      -webkit-transform: translate3d(20px, 0, 0);
       opacity: 0;
     }
     to {
-      -webkit-transform: translateX(0);
+      -webkit-transform: translate3d(0, 0, 0);
       opacity: 1;
     }
   }
