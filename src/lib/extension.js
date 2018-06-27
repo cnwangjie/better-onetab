@@ -2,7 +2,7 @@ const Promise = require('bluebird')
 const Storage = require('./../lib/storage')
 const Rank = require('./rank')
 
-const LockKey = '_lockList_'
+const LockKey = '_group_'
 const ExtDefaultIcon = './../assets/default-icon.png'
 const ExtDefaultColor = '#5c5e6f'
 
@@ -138,7 +138,7 @@ function orderHandle() {
 function processHandle(all) {
   let res = new Promise((resolve, reject) => {
     Storage.getAll().then(storage => {
-      let lockObj = Storage.get(LockKey)
+      let group = Storage.get(LockKey)
 
       // 区分生产及开发环境
       let details = chrome.app.getDetails() || {id: ""}
@@ -156,7 +156,7 @@ function processHandle(all) {
           item.showColor = ExtDefaultColor
 
           // 判断是否为锁定图标
-          if (lockObj && lockObj[item.id] == 1) {
+          if (group.list[group.index].lock[item.id]) {
             item.isLocked = true
           } else {
             item.isLocked = false
@@ -209,7 +209,8 @@ function processHandle(all) {
 function addIconBadge(){
   if(!Storage.get("_switch_show_badge_")){
     // 锁定列表
-    var lockedListObj = Storage.get(LockKey)
+    let group = Storage.get(LockKey)
+    var lockedListObj = group.list[group.index].lock
 
     let badgeList = allExtList.enabledList.filter(item => {
       return !lockedListObj[item.id]
@@ -286,18 +287,18 @@ function lock(item) {
   let obj = find(item)
   obj.container[obj.index].isLocked = true
 
-  let lockStorage = Storage.get(LockKey)
-  lockStorage[item.id] = 1
-  Storage.set(LockKey, lockStorage)
+  let group = Storage.get(LockKey)
+  group.list[group.index].lock[item.id] = 1
+  Storage.set(LockKey, group)
 }
 // 解锁
 function unlock(item) {
   let obj = find(item)
   obj.container[obj.index].isLocked = false
 
-  let lockStorage = Storage.get(LockKey)
-  delete lockStorage[item.id]
-  Storage.set(LockKey, lockStorage)
+  let group = Storage.get(LockKey)
+  delete group.list[group.index].lock[item.id]
+  Storage.set(LockKey, group)
 }
 
 
@@ -311,4 +312,20 @@ function uninstall(item) {
 }
 
 
-export { getAll, onoff, lock, unlock, uninstall, find }
+/**
+ * 根据锁定状态，进行清理
+ */
+function clear() {
+  let clearQueue = []
+  allExtList.enabledList.forEach(item => {
+    if (!item.isLocked) {
+      clearQueue.push(item)
+    }
+  })
+  clearQueue.forEach(item => {
+    onoff(item)
+  })
+}
+
+
+export { getAll, onoff, lock, unlock, uninstall, find, clear }

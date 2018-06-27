@@ -118,5 +118,8 @@
 	},
 	"defaultGroupName": {
 		"message": "默认分组"
+	},
+	"setGroupName": {
+		"message": "设置分组"
 	}
 }

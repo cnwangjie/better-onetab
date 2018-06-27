@@ -11,13 +11,12 @@
             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
           </svg>
         </div>
-        <button class="searchItem searchInput btn btn-reset js-dblclick-btn">{{i18n.closeAllBtn}}</button>
-        <div id="group" class="searchItem">
-          <button class="searchInput btn btn-group">{{i18n.defaultGroupName}}</button>
-          <ul id="group-list">
-            <li>娱乐</li>
-            <li>工作</li>
-            <li>配置分组</li>
+        <button class="searchItem searchInput btn btn-reset" @click="clear">{{i18n.closeAllBtn}}</button>
+        <div id="group" class="searchItem" @mouseenter="showGroup" @mouseleave="hideGroup">
+          <button class="searchInput btn btn-group">{{group.list[group.index].name}}</button>
+          <ul id="group-list" v-if="group.show">
+            <li v-for="item in group.list" @click="changeGroup" :title="item.name">{{item.name}}</li>
+            <li @click="setGroup">=={{i18n.setGroupName}}==</li>
           </ul>
         </div>
       </div>
@@ -46,7 +45,7 @@
 <script>
 import getI18n from './lib/i18n'
 import ExtItem from "./components/ExtItem";
-// import * as Storage from './lib/storage'
+import * as Storage from './lib/storage'
 import * as Extension from "./lib/extension"
 import * as Util from "./lib/util"
 
@@ -80,16 +79,19 @@ export default {
       searcher: {
         doing: false,
         text: ''
+      },
+      group: {
+        index: 0,
+        list: [{
+          name: '',
+          lock: {}
+        }],
+        show: false
       }
     }
   },
   components: {
     ExtItem
-  },
-  computed: {
-    // isShowExtName: () => this.storage._switch_show_extname_ !== 'close',
-    // isDisabledRightclick: () => this.storage._switch_right_more_ !== 'close',
-    // iconSize: () => this.storage._showIconSize_ || 2
   },
   methods: {
     focus(e) {
@@ -98,6 +100,9 @@ export default {
     // 启用禁用扩展
     onoff(item) {
       Extension.onoff(item)
+    },
+    clear() {
+      Extension.clear()
     },
     // 显示右键菜单
     showMenu(item) {
@@ -114,22 +119,58 @@ export default {
     },
     cancelSearch() {
       Util.cancelSearch()
+    },
+    showGroup() {
+      Util.showGroup()
+    },
+    hideGroup() {
+      Util.hideGroup()
+    },
+    changeGroup(id) {
+      Util.changeGroup(id)
+    },
+    setGroup() {
+      Util.setGroup()
     }
   },
   beforeCreate() {
-    
-    // 获取所有扩展
-    Extension.getAll().then(res => {
-      this.enabledExtList = res.enabledList
-      this.disabledExtList = res.disabledList
-      this.allExtColor = res.allColor
+
+    setTimeout(() => {
+      console.log(this.i18n, '=============')
+    }, 1000);
+
+    // 对象外置，用于调试
+    window.__vm__ = this
+
+    Storage.getAll().then(storage => {
+      // 增加分组功能，兼容老版本问题
+      let oldLockObj = Storage.get('_lockList_')
+      let group = Storage.get('_group_')
+      if (oldLockObj || !group) {
+        Storage.set('_group_', {
+          index: 0,
+          list: [
+            {
+              'name': this.i18n.defaultGroupName,
+              'lock': oldLockObj || {}
+            }
+          ]
+        })
+        Storage.remove('_lockList_')
+      }
+      this.group.list = group.list
+      this.group.index = group.index
+
+      // 获取所有扩展
+      Extension.getAll().then(res => {
+        this.enabledExtList = res.enabledList
+        this.disabledExtList = res.disabledList
+        this.allExtColor = res.allColor
+      })
     })
 
     // 初始化相关
     Util.init(this)
-
-    // 对象外置，用于调试
-    window.__vm__ = this
   },
   directives: {
     focus: {
@@ -289,7 +330,6 @@ export default {
     display: block !important;
   }
   #search #group-list{
-    display: none;
     position: absolute;
     width: 100%;
     left: 0;

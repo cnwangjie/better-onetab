@@ -288,4 +288,22 @@ function cancelSearch() {
   }
 }
 
-export { init, showMenu, enter, leave, showName, search, cancelSearch }
+
+/**
+ * 分组
+ */
+function showGroup() {
+  vm.group.show = true
+}
+function hideGroup() {
+  vm.group.show = false
+}
+function changeGroup(id) {
+  
+}
+function setGroup() {
+  
+}
+
+
+export { init, showMenu, enter, leave, showName, search, cancelSearch, showGroup, hideGroup, changeGroup, setGroup }

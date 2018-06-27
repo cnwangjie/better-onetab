@@ -8,15 +8,6 @@ let definePluginObj = {
   '__i18n__': JSON.stringify(fs.readFileSync('src/_locales/zh_CN/messages.json').toString())
 }
 
-// WEB开发模式下，采用Mock数据
-// if (process.env.NODE_ENV === 'production') {
-//   definePluginObj['__storage__'] = '"{}"'
-//   definePluginObj['__extension__'] = '"[]"'
-// } else {
-//   definePluginObj['__storage__'] = JSON.stringify(fs.readFileSync('src/localdata/storage.json').toString())
-//   definePluginObj['__extension__'] = JSON.stringify(fs.readFileSync('src/localdata/extension.json').toString())
-// }
-
 module.exports = {
   entry: './src/popup.js',
   output: {

@@ -1,13 +1,19 @@
 {
-  "_lockList_": {
-    "aomjjhallfgjeglblehebfpbcfeobpgk": "1",
-    "cfhdojbkjhnklbpkdaibdccddilifddb": "1",
-    "ghgabhipcejejjmhhchfonmamedcbeod": "1",
-    "henmfoppjjkcencpbjaigfahdjlgpegn": "1",
-    "niloccemoadcdkdjlinkgdfekeahmflj": "1",
-    "ojaiollmjhoecdkfgeceilpmhbcppcie": "1",
-    "padekgcemlokbadohgkifijomclgjgif": "1",
-    "pdiebiamhaleloakpcgmpnenggpjbcbm": "1"
+  "_group_": {
+    "index": 0,
+    "list": [{
+      "lock": {
+        "aomjjhallfgjeglblehebfpbcfeobpgk": "1",
+        "cfhdojbkjhnklbpkdaibdccddilifddb": "1",
+        "ghgabhipcejejjmhhchfonmamedcbeod": "1",
+        "henmfoppjjkcencpbjaigfahdjlgpegn": 1,
+        "niloccemoadcdkdjlinkgdfekeahmflj": 1,
+        "ojaiollmjhoecdkfgeceilpmhbcppcie": "1",
+        "padekgcemlokbadohgkifijomclgjgif": "1",
+        "pdiebiamhaleloakpcgmpnenggpjbcbm": "1"
+      },
+      "name": "默认分组"
+    }]
   },
   "_radio_ext_sort_": "name",
   "_rankList_": {
