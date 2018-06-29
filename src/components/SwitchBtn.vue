@@ -39,9 +39,22 @@
   /*模拟ios开关*/
   .switch-btn {
     position: relative;
+
     width: 56px;
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    background: #25b75a;
+    color: #fff;
     border-radius: 20px;
-    border-color: #25b75a;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #25b75a;
+    margin: 10px 10px 0 0;
+    letter-spacing: 1px;
+    vertical-align: middle;
   }
   .switch-btn::before {
     display: block;

@@ -238,8 +238,7 @@ body {
   padding: 20px;
 }
 button,
-select,
-.switch-btn {
+select {
   width: 80px;
   height: 30px;
   line-height: 30px;
