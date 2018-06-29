@@ -373,7 +373,7 @@ export default {
     background-color: #5c5e6f;
   }
 
-  #wrap[searching] .list li{
+  #wrap[searching] .ext-list li{
     opacity: .1 !important;
     -webkit-filter: grayscale(1);
     filter: grayscale(1);
@@ -382,7 +382,7 @@ export default {
     display: block;
   }
 
-  #wrap[searching] .list li[searched]::before{
+  #wrap[searching] .ext-list li[searched]::before{
     display: block;
     content: "";
     height: 6px;
@@ -396,7 +396,7 @@ export default {
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
   }
-  #wrap[searching] .list li[searched]{
+  #wrap[searching] .ext-list li[searched]{
     -webkit-filter: grayscale(0) !important;
     filter: grayscale(0) !important;
     opacity: 1 !important;
@@ -404,134 +404,24 @@ export default {
   #wrap[searching] #search .searcher{
     border-left-color: #5c5e6f;
   }
-
-  .list{
-    will-change: contents;
-  }
-  .list li {
-    width: 50px;
-    height: 50px;
-    float: left;
-    list-style: none;
-    margin: 13px;
-    border-radius: 2px;
-    background-size: 50px 50px;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-
-    -webkit-transition: .2s ease-in-out;
-    transition: .2s ease-in-out;
-
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-  }
-  .list li.hover {
-    -webkit-filter: grayscale(0) !important;
-    filter: grayscale(0) !important;
-    opacity: 1 !important;
-    transform: scale(1.3);
-    -webkit-transform: scale(1.3);
-  }
-
-  /* 是否应用 */
-  .list li i{
-    display: none;
-  }
-  .list li[data-mark] i{
-    display: block;
-
-    position: absolute;
-    bottom: -2px;
-    right: -4px;
-    z-index: 999;
-
-    height: 16px;
-    line-height: 15px;
-    width: 29px;
-    padding: 0 2px;
-
-    font-size: 12px;
-    color: #fff;
-    text-align: center;
-
-    border-radius: 10px;
-    box-shadow: 0px 0px 0px 1px #fff;
-    background: #5c5d6e;
-    -webkit-transform: scale(0.7);transform: scale(0.7);
-  }
-  .icon-size-3 .list li[data-mark] i{
+  .icon-size-3 .ext-list li[data-mark] i{
     right: -7px;
-  }
-
-  .list li[locked]::after {
-    position: absolute;
-    top: 1px;
-    right: 1px;
-    z-index: 999;
-    content: "";
-    display: block;
-    height: 6px;
-    width: 6px;
-    border-radius: 10px;
-    border: 3px solid #5c5e6f;
-    box-shadow: 0px 0px 0px 1px #fff;
-    background: #46d5fe;
-
-    animation-name: lockedAnim;
-    -webkit-animation-name: lockedAnim;
-    animation-timing-function: ease-in-out;
-    -webkit-animation-timing-function: ease-in-out;
-    animation-duration: 400ms;
-    -webkit-animation-duration: 400ms;
-    animation-direction: alternate;
-    -webkit-animation-direction: alternate;
-    animation-iteration-count: 2;
-    -webkit-animation-iteration-count: 2;
-  }
-  @keyframes lockedAnim {
-    0%{
-      transform: scale(1);
-      -webkit-transform: scale(1);
-    }
-    50%{
-      transform: scale(1.4);
-      -webkit-transform: scale(1.4);
-    }
-    100%{
-      transform: scale(1);
-      -webkit-transform: scale(1);
-    }
-  }
-  @-webkit-keyframes lockedAnim {
-    0%{
-      transform: scale(1);
-      -webkit-transform: scale(1);
-    }
-    50%{
-      transform: scale(1.4);
-      -webkit-transform: scale(1.4);
-    }
-    100%{
-      transform: scale(1);
-      -webkit-transform: scale(1);
-    }
   }
 
   .dinginess li{
     opacity: .2 !important;
   }
 
-  .icon-size-1 .list li{
+  .icon-size-1 .ext-list li{
     background-size: 38px;
   }
-  .icon-size-2 .list li{
+  .icon-size-2 .ext-list li{
     background-size: 44px;
   }
-  .icon-size-3 .list li{
+  .icon-size-3 .ext-list li{
     background-size: 50px;
   }
-  .icon-size-3 .list li[locked]::after{
+  .icon-size-3 .ext-list li[locked]::after{
     top: -3px;
     right: -3px;
   }

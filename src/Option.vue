@@ -1,39 +1,52 @@
 <template>
   <div id="option">
+    
     <div id="_TOOLS_STATUS__" :class="tips.show ? 'tips show' : 'tips'">{{tips.content}}</div>
+
     <div class="list">
       <h1>
-        <span id="showCols">{{i18n.showCols}}</span>
-        <span id="js-sel-column-show">{{showWindowSize}}</span>
+        <span>{{i18n.showCols}}</span>
+        <span>{{showWindowSize}}</span>
       </h1>
       <p>
         <input type="range" class="range-style" min="4" max="9" step="1" :value="showWindowSize" @input="changeWindowSize">
       </p>
     </div>
+
     <div class="list">
       <h1>
-        <span id="iconSize">{{i18n.iconSize}}</span>
-        <span id="js-icon-size-show">{{getShowIconSize}}</span>
+        <span>{{i18n.iconSize}}</span>
+        <span>{{getShowIconSize}}</span>
       </h1>
       <p>
-        <input type="range" class="range-style" id="js-icon-size" min="1" max="3" step="1" :value="showIconSize" @input="changeIconSize">
+        <input type="range" class="range-style" min="1" max="3" step="1" :value="showIconSize" @input="changeIconSize">
       </p>
     </div>
+    
     <div class="list">
-      <h1><span id="speedManageName">{{i18n.speedManageName}}</span></h1>
-      <p class="describe" id="speedManageDesc">{{i18n.speedManageDesc}}</p>
-      <img src="icon/play-demo.png" id="playDemo">
-      <p class="describe" style="margin: 30px 0 0 0;" id="speedManageLock">{{i18n.speedManageLock}}</p>
-      <ul id="_PLUGINS_LIST_" class="list-plugins gclearfix"></ul>
+      <h1><span>{{i18n.speedManageName}}</span></h1>
+      <p class="describe">{{i18n.speedManageDesc}}</p>
+      <!-- <img src="icon/play-demo.png" id="playDemo"> -->
+      <p class="describe" style="margin: 30px 0 0 0;">{{i18n.speedManageLock}}</p>
+      <ul class="list-plugins gclearfix"></ul>
+      <ext-item :data-list="extList"></ext-item>
     </div>
+
     <div class="list">
-      <h1 id="rankName">{{i18n.rankName}}</h1>
+      <h1><span>分组管理</span></h1>
+      <p class="describe">通过分组闪电管理扩展</p>
+      <p class="describe" style="margin: 30px 0 0 0;">{{i18n.speedManageLock}}</p>
+      <ul class="list-plugins gclearfix"></ul>
+    </div>
+    
+    <div class="list">
+      <h1>{{i18n.rankName}}</h1>
       <ul class="radio-btn">
         <li>
           <label>
             <input type="radio" name="ext_sort" value="name" v-model="sortType" @click="changeSortType('name')">
             <span class="radio-btn-input"></span>
-            <span id="sortByName">{{i18n.sortByName}}</span>
+            <span>{{i18n.sortByName}}</span>
           </label>
         </li>
         <li>
@@ -89,31 +102,18 @@
 
 
 <script>
-import getI18n from "./lib/i18n"
-import ExtItem from "./components/ExtItem"
-import SwitchBtn from "./components/SwitchBtn"
-import * as Storage from "./lib/storage"
-import * as Extension from "./lib/extension"
-import * as Util from "./lib/util"
+import getI18n from "./lib/i18n";
+import ExtItem from "./components/ExtItem";
+import SwitchBtn from "./components/SwitchBtn";
+import * as Storage from "./lib/storage";
+import * as Extension from "./lib/extension";
 
 export default {
   data() {
     return {
       // 国际化对象
       i18n: getI18n(),
-      enabledExtList: [],
-      enabledExtListDinginess: false,
-      disabledExtList: [],
-      disabledExtListDinginess: false,
-      extName: {
-        showClass: "",
-        left: 0,
-        right: "unset",
-        top: 0,
-        backgroundColor: "#000",
-        content: "",
-        adviseMaxWidth: 200
-      },
+      extList: [],
       group: {
         index: 0,
         list: [
@@ -128,10 +128,10 @@ export default {
       showWindowSize: 6,
       tips: {
         show: false,
-        content: ''
+        content: ""
       },
-      sortType: 'name'
-    }
+      sortType: "name"
+    };
   },
   components: {
     ExtItem,
@@ -144,66 +144,79 @@ export default {
         7: 572,
         8: 648,
         9: 724
-      };
-      return WindowSizeByColum[this.showWindowSize] || WindowSizeByColum["6"];
+      }
+      // 默认情况下是6列
+      return WindowSizeByColum[this.showWindowSize] || WindowSizeByColum["6"]
     },
     getShowIconSize() {
       const IconSizeShowText = {
-				1: this.i18n.sizeSmall,
-				2: this.i18n.sizeNormal,
-				3: this.i18n.sizeBig
+        1: this.i18n.sizeSmall,
+        2: this.i18n.sizeNormal,
+        3: this.i18n.sizeBig
       }
       return IconSizeShowText[this.showIconSize]
     }
   },
-  
+
   methods: {
-    resetRank(e){
-      Storage.remove('_rankList_')
-      this.showTips(this.i18n['tipResetRank'])
+    // 重置点击生成的rank
+    resetRank(e) {
+      Storage.remove("_rankList_");
+      this.showTips(this.i18n["tipResetRank"]);
     },
+
+    // 更改扩展显示列数
     changeWindowSize(e) {
-      let newSize = e.target.value
-      this.showWindowSize = newSize
-      Storage.set("_showColumn_", newSize)
+      let newSize = e.target.value;
+      this.showWindowSize = newSize;
+      Storage.set("_showColumn_", newSize);
     },
+
+    // 更改显示图标大小
     changeIconSize(e) {
-      let newSize = e.target.value
-      this.showIconSize = newSize
-      Storage.set("_showIconSize_", newSize)
+      let newSize = e.target.value;
+      this.showIconSize = newSize;
+      Storage.set("_showIconSize_", newSize);
     },
+
+    // 更改扩展排序
     changeSortType(value) {
       if (this.sortType !== value) {
-        this.sortType = value
-        Storage.set('_radio_ext_sort_', value)
+        this.sortType = value;
+        Storage.set("_radio_ext_sort_", value);
       }
     },
+
     // 提示组件
-    showTips(text){
-      let that = this
-      if(text){
-        that.tips.show = true
-        that.tips.content = text
-        setTimeout(function(){
-          that.tips.show = false
-          that.tips.content = ''
-        },1000)
+    showTips(text) {
+      let that = this;
+      if (text) {
+        that.tips.show = true;
+        that.tips.content = text;
+        setTimeout(function() {
+          that.tips.show = false;
+          that.tips.content = "";
+        }, 1000);
       }
     }
   },
 
-  beforeCreate() {
-    // 对象外置，用于调试
-    window.__vm__ = this;
-  },
-
   // 初始化
   beforeMount() {
-    document.title = `${this.i18n["optionName"]} - ${this.i18n["extName"]}`
-    Storage.getAll().then(storage => {
-      if (Storage.get('_radio_ext_sort_') === 'rank') {
-        this.sortType = 'rank'
+    // 设置标题
+    document.title = `${this.i18n["optionName"]} - ${this.i18n["extName"]}`;
+
+    Promise.all([Storage.getAll(), Extension.getAll()]).then((res) => {
+      let storage = res[0]
+      let extObj = res[1]
+
+      // 初始化排序数据
+      if (Storage.get("_radio_ext_sort_") === "rank") {
+        this.sortType = "rank"
       }
+
+      this.extList = extObj.enabledList.concat(extObj.disabledList)
+
     })
   }
 }
@@ -396,7 +409,6 @@ ul li em {
   -webkit-border-radius: 14px;
   -webkit-appearance: none !important;
 }
-
 
 .radio-btn li {
   list-style: none;
