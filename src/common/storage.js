@@ -1,30 +1,29 @@
-import cp from 'chrome-promise'
-import ChromePromise from 'chrome-promise';
+import browser from 'webextension-polyfill'
 
 let lastSync = 0
 let quotaExceeded = false
 
 const sync = async () => {
-  const {opts} = await cp.storage.local.get('opts')
+  const {opts} = await browser.storage.local.get('opts')
   const syncOptions = opts.syncOptions
   const syncList = opts.syncList
   const syncItems = []
   if (syncOptions) syncItems.push('opts')
   if (syncList) syncItems.push('lists')
   if (syncItems.length === 0) return true
-  const syncTime = await cp.storage.sync.get('time') || 0
-  const localTime = await cp.storage.local.get('time') || 0
+  const syncTime = await browser.storage.sync.get('time') || 0
+  const localTime = await browser.storage.local.get('time') || 0
   if (syncTime === localTime) return true
-  const bytesInUse = await cp.storage.local.getBytesInUse()
-  if (bytesInUse > chrome.storage.sync.QUOTA_BYTES) return false
+  const bytesInUse = await browser.storage.local.getBytesInUse()
+  if (bytesInUse > browser.storage.sync.QUOTA_BYTES) return false
   for (let i = 0; i < syncItems.length; i += 1) {
     const [src, dst] = syncTime > localTime ? ['sync', 'local'] : ['local', 'sync']
-    const tmp = await cp.storage[src].get(syncItems[i])
-    await cp.storage[dst].set(tmp)
+    const tmp = await browser.storage[src].get(syncItems[i])
+    await browser.storage[dst].set(tmp)
   }
   const time = Date.now()
-  await cp.storage.sync.set({time})
-  await cp.storage.local.set({time})
+  await browser.storage.sync.set({time})
+  await browser.storage.local.set({time})
   console.log('synchronized')
   return true
 }
@@ -39,12 +38,12 @@ const get = async key => {
       console.error('sync error:', e.message)
     }
   }
-  return cp.storage.local.get(key)
+  return browser.storage.local.get(key)
 }
 
 const set = async obj => {
   Object.assign(obj, {time: Date.now()})
-  return cp.storage.local.set(obj)
+  return browser.storage.local.set(obj)
 }
 
 const getLists = () => get('lists')

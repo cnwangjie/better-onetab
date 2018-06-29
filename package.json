@@ -20,7 +20,8 @@
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0",
-    "vuetify": "^1.0.17"
+    "vuetify": "^1.0.17",
+    "webextension-polyfill": "^0.2.1"
   },
   "devDependencies": {
     "babel-loader": "^7.1.4",
