@@ -135,7 +135,7 @@ function orderHandle(storage) {
  * 排除扩展，管理器本身以及主题、皮肤等
  * @param {*} all 
  */
-function processHandle(all) {
+function processHandle(all, option) {
   let res = new Promise((resolve, reject) => {
     Storage.getAll().then(storage => {
       let group = Storage.get(LockKey)
@@ -189,14 +189,16 @@ function processHandle(all) {
         }
       })
       resolve(allExtList)
-      setTimeout(() => {
-        let _allExtList = allExtList.enabledList.concat(allExtList.disabledList)
-        _allExtList.forEach(item => {
-          setTimeout(() => {
-            getExtColor(item)
-          }, 0);
-        })
-      }, 0);
+      if (option.needColor) {
+        setTimeout(() => {
+          let _allExtList = allExtList.enabledList.concat(allExtList.disabledList)
+          _allExtList.forEach(item => {
+            setTimeout(() => {
+              getExtColor(item)
+            }, 0)
+          })
+        }, 0)
+      }
     })
   })
   return res
@@ -230,12 +232,12 @@ function addIconBadge(){
  * 获取所有安装的扩展
  * 异步操作，支持Promise
  */
-function getAll() {
+function getAll(option = {}) {
   let res = new Promise((resolve, reject) => {
     allExtList.enabledList = []
     allExtList.disabledList = []
     chrome.management.getAll(function(obj){
-      resolve(processHandle(obj))
+      resolve(processHandle(obj, option))
     })
   })
   return res

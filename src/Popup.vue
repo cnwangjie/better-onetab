@@ -175,7 +175,7 @@ export default {
       this.showWindowSize = Storage.get('_showColumn_')
 
       // 获取所有扩展
-      Extension.getAll().then(res => {
+      Extension.getAll({needColor: true}).then(res => {
         this.enabledExtList = res.enabledList
         this.disabledExtList = res.disabledList
       })
