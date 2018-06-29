@@ -111,20 +111,20 @@ export default {
       e.target.focus()
     },
     // 启用禁用扩展
-    onoff(item) {
+    extClick(item) {
       Extension.onoff(item)
     },
     clear() {
       Extension.clear()
     },
     // 显示右键菜单
-    showMenu(item) {
+    extRClick(item) {
       Util.showMenu(item)
     },
-    enter(item) {
+    extEnter(item) {
       Util.enter(item)
     },
-    leave(item) {
+    extLeave(item) {
       Util.leave(item)
     },
     search() {

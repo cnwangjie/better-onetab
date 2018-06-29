@@ -7,10 +7,10 @@
       :style="item.showIconBg"
       :locked="item.isLocked"
       :searched="item.isSearched"
-      @mousedown.left.prevent="onoff(item)"
-      @mousedown.right.prevent="showMenu(item)"
-      @mouseenter="enter(item)"
-      @mouseleave="leave(item)"
+      @mousedown.left.prevent="extClick(item)"
+      @mousedown.right.prevent="extRClick(item)"
+      @mouseenter="extEnter(item)"
+      @mouseleave="extLeave(item)"
       >
       <i>{{item.showType}}</i>
     </li>
@@ -27,17 +27,17 @@
       dataDinginess: Boolean
     },
     methods: {
-      onoff(item) {
-        this.$parent.onoff && this.$parent.onoff(item)
+      extClick(item) {
+        this.$parent.extClick && this.$parent.extClick(item)
       },
-      showMenu(item) {
-        this.$parent.showMenu && this.$parent.showMenu(item)
+      extRClick(item) {
+        this.$parent.extRClick && this.$parent.extRClick(item)
       },
-      enter(item) {
-        this.$parent.enter && this.$parent.enter(item)
+      extEnter(item) {
+        this.$parent.extEnter && this.$parent.extEnter(item)
       },
-      leave(item) {
-        this.$parent.leave && this.$parent.leave(item)
+      extLeave(item) {
+        this.$parent.extLeave && this.$parent.extLeave(item)
       }
     }
   }
