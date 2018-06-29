@@ -111,7 +111,7 @@ export function getExtColor(item) {
 /**
  * 扩展排序方法
  */
-function orderHandle() {
+function orderHandle(storage) {
   if (Storage.get('_radio_ext_sort_') === 'rank') {
     // 根据点击rank进行排序
     return function(b, a){
@@ -183,8 +183,8 @@ function processHandle(all) {
           }
 
           // 自动排序方案
-          allExtList.enabledList.sort(orderHandle())
-          allExtList.disabledList.sort(orderHandle())
+          allExtList.enabledList.sort(orderHandle(storage))
+          allExtList.disabledList.sort(orderHandle(storage))
 
         }
       })
@@ -269,12 +269,14 @@ function onoff(item) {
   
   // 更新对象状态属性
   item.enabled = !item.enabled
+  // 重置Hover
+  item.isHover = false
   // 更新容器
   allExtList[nextList].push(item)
   // 新容器重新排序
-  allExtList[nextList].sort(orderHandle())
-  // 重置Hover
-  item.isHover = false
+  Storage.getAll().then(storage => {
+    allExtList[nextList].sort(orderHandle(storage))
+  })
   // 同步至浏览器
   chrome.management.setEnabled(item.id, item.enabled)
 
