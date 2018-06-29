@@ -9,11 +9,14 @@ let definePluginObj = {
 }
 
 module.exports = {
-  entry: './src/popup.js',
+  entry: {
+    popup: './src/popup.js',
+    option: './src/option.js'
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -111,5 +114,7 @@ if (process.env.NODE_ENV === 'production') {
   ])
 } else {
   let popup = 'dist/popup.html'
-  fs.writeFileSync(popup, fs.readFileSync(popup).toString().replace('"build.js"', '"http://localhost:8080/dist/build.js"'))
+  fs.writeFileSync(popup, fs.readFileSync(popup).toString().replace('"popup.js"', '"http://localhost:8080/dist/popup.js"'))
+  let option = 'dist/option.html'
+  fs.writeFileSync(option, fs.readFileSync(option).toString().replace('"option.js"', '"http://localhost:8080/dist/option.js"'))
 }
