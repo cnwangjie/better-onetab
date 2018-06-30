@@ -3,7 +3,8 @@
   <v-expansion-panel-content
     hide-actions
     v-for="(list, listIndex) in lists"
-    :value="true"
+    :value="list.expand"
+    @input="expandList($event, listIndex)"
     class="tab-list"
     :key="listIndex"
   >
@@ -170,12 +171,20 @@ export default {
       this.storeLists()
     },
     getDomain(url) {
-      return new URL(url).hostname
+      try {
+        return new URL(url).hostname
+      } catch (error) {
+        return ''
+      }
     },
     pinList(listIndex, pin = true) {
       this.lists[listIndex].pinned = pin
       this.storeLists()
     },
+    expandList(expand, listIndex) {
+      this.lists[listIndex].expand = expand
+      this.storeLists()
+    }
   }
 }
 </script>

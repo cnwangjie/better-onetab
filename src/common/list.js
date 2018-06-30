@@ -5,6 +5,7 @@ const createNewTabList = ({tabs, title, time}) => {
     time: time || Date.now(),
     titleEditing: false,
     pinned: false,
+    expand: true,
   }
 }
 
