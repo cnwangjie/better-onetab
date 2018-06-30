@@ -38,6 +38,9 @@ const getAllTabsInCurrentWindow = async () => {
 }
 
 const storeTabs = async tabs => {
+  const appUrl = browser.runtime.getURL('')
+  tabs = tabs.filter(i => !i.url.startsWith(appUrl))
+  if (tabs.length === 0) return
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
   lists.unshift(list.createNewTabList({tabs: pickTabs(tabs)}))
@@ -77,10 +80,10 @@ const restoreList = async (list, windowId) => {
 }
 
 const restoreListInNewWindow = async list => {
-  const createdWindow = await browser.windows.create({})
-  const newTab = await browser.tabs.getAllInWindow(createdWindow.id).then(i => i.shift())
-  await restoreList(list, createdWindow.id)
-  browser.tabs.remove([newTab.id])
+  const createdWindow = await browser.windows.create({url: list.tabs.map(i => i.url)})
+  list.tabs.map((tab, index) => {
+    if (tab.muted) browser.tabs.update(createdWindow.tabs[index].id, {muted: true})
+  })
 }
 
 const openTab = async tab => browser.tabs.create({ url: tab.url })

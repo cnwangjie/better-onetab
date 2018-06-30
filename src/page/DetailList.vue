@@ -26,7 +26,7 @@
         <strong class="list-title" v-else>{{ list.title }}</strong>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
-        <v-btn @click="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
+        <v-btn @click.stop="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
           <v-icon :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
         </v-btn>
       </v-flex>
@@ -50,7 +50,7 @@
             class="list-item"
             :key="tabIndex">
             <v-list-tile-action>
-              <v-icon class="clear-btn" color="red" @click="removeTab(listIndex, tabIndex)">clear</v-icon>
+              <v-icon class="clear-btn" color="red" @click.stop="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
