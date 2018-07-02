@@ -285,6 +285,16 @@ function cancelSearch() {
   }
 }
 
+// 开启关闭扩展
+function onoff(item) {
+  resetHandle()
+  Extension.onoff(item)
+}
+// 重置
+function clear() {
+  Extension.clear()
+}
+
 
 /**
  * 分组
@@ -298,27 +308,42 @@ function hideGroup() {
 function changeGroup(index) {
   vm.group.index = index
   vm.group.show = false
-  let lockObj = vm.group.list[index].lock
 
-  vm.ext.extList.forEach(item => {
-    // 开启状态
-    if (item.enabled && !lockObj[item.id]) {
-      chrome.management.setEnabled(item.id, false)
-      item.enabled = false
-    } else if (!item.enabled && lockObj[item.id]) {
-      chrome.management.setEnabled(item.id, true)
-      item.enabled = true
-    }
-  })
-
-  Storage.set('_group_', vm.group)
+  setTimeout(() => {
+    let lockObj = vm.group.list[index].lock
+    vm.ext.extList.forEach(item => {
+      // 开启状态
+      if (item.enabled && !lockObj[item.id]) {
+        chrome.management.setEnabled(item.id, false)
+        item.enabled = false
+      } else if (!item.enabled && lockObj[item.id]) {
+        chrome.management.setEnabled(item.id, true)
+        item.enabled = true
+      }
+    })
+    Storage.set('_group_', vm.group)
+  }, 50)
 }
 function setGroup() {
   vm.group.show = false
   chrome.tabs.create({
-    'url': chrome.app.getDetails().options_page
+    'url': `${chrome.app.getDetails().options_page}#group`
   })
 }
 
 
-export { init, showMenu, enter, leave, showName, search, cancelSearch, showGroup, hideGroup, changeGroup, setGroup }
+export {
+  init,
+  showMenu,
+  enter,
+  leave,
+  showName,
+  search,
+  onoff,
+  clear,
+  cancelSearch,
+  showGroup,
+  hideGroup,
+  changeGroup,
+  setGroup 
+}

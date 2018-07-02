@@ -20,19 +20,11 @@
         <input type="range" class="range-style" min="1" max="3" step="1" :value="showIconSize" @input="changeIconSize">
       </p>
     </div>
-    
-    <!-- <div class="list">
-      <h1><span>{{i18n.speedManageName}}</span></h1>
-      <p class="describe">{{i18n.speedManageDesc}}</p>
-      <p class="describe" style="margin: 30px 0 0 0;">{{i18n.speedManageLock}}</p>
-      <ul class="list-plugins gclearfix"></ul>
-      <ext-item :data-list="extList"></ext-item>
-    </div> -->
 
-    <div class="list">
-      <h1><span>分组管理</span></h1>
-      <p class="describe">通过分组闪电管理扩展</p>
-      <p class="describe" style="margin: 30px 0 0 0;">{{i18n.speedManageLock}}</p>
+    <div class="list" id="group">
+      <h1><span>{{i18n.optionGroupTitle}}</span></h1>
+      <p class="describe">{{i18n.optionGroupDesc}}</p>
+      <p class="describe" style="margin: 30px 0 0 0;">{{i18n.optionGroupOperat}}</p>
       <ul class="group-list gclearfix">
         <li v-for="(item, index) in group.list" :class="index === group.index ? 'cur' : ''" @click="selectGroup(index)">
           {{item.name}}
@@ -182,7 +174,7 @@ export default {
 
       let that = this
       setTimeout(() => {
-        var newName = prompt("请输入分组名称，名称请保持在2~5个字")
+        var newName = prompt(this.i18n.optionGroupModifyName)
         if (newName.trim()) {
           this.group.list[index].name = newName
           Storage.set('_group_', that.group)
@@ -194,10 +186,14 @@ export default {
       
       let that = this
       setTimeout(() => {
-        if (confirm('确定要删除该分组吗？')) {
-          that.group.index = index - 1 < 0 ? 0 : index - 1
-          that.group.list.splice(index, 1)
-          Storage.set('_group_', that.group)
+        if (confirm(this.i18n.optionGroupDelete)) {
+          if (that.group.list.length === 1) {
+            this.showTips(this.i18n.optionGroupDeleteAtLeaseOne)
+          } else {
+            that.group.index = index - 1 < 0 ? 0 : index - 1
+            that.group.list.splice(index, 1)
+            Storage.set('_group_', that.group)
+          }
         }
       }, 100);
     },
@@ -277,6 +273,18 @@ export default {
       // 初始化排序数据
       if (Storage.get('_radio_ext_sort_') === "rank") {
         this.sortType = "rank"
+      }
+
+      // 初始化扩展显示列数
+      let columSize = Storage.get('_showColumn_')
+      if (columSize) {
+        this.showWindowSize = columSize
+      }
+
+      // 初始化扩展图标显示大小
+      let extIconSize = Storage.get('_showIconSize_')
+      if (extIconSize) {
+        this.showIconSize = extIconSize
       }
 
       // 初始化分组
@@ -460,11 +468,15 @@ ul li em {
   line-height: 40px;
   width: 100px;
   text-align: center;
-  padding-right: 54px;
+  padding: 0 60px 0 5px;
   background-color: #e0e0e0;
   margin: 0 10px 0 0;
   border: 1px solid #ccc;
   border-radius: 2px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .group-list li:hover{
   background-color: #eaeaea;
@@ -494,11 +506,11 @@ ul li em {
   border-color: #636363;
 }
 .group-list .group-mod{
-  left: 100px;
+  left: 110px;
   background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M879.04 323.36l-176.8-176.768a64.032 64.032 0 0 0-90.464 0.224l-67.36 67.392 44.864 44.64 0.96-0.192h0.032l176.64 176.576 30.304 30.4 14.848 14.88 66.72-66.72a64 64 0 0 0 0.224-90.432M325.888 815.36l-13.6-13.632-88.32-88.64-14.08-14.144-40.704-43.392L160 645.76v156.128c0 35.136 28.576 63.68 63.68 63.68h154.208l-11.648-11.2-40.352-38.976zM545.024 303.872l-45.248-45.056L179.616 578.976l45.248 45.248 176.544 176.704 45.184 45.024 318.976-318.976-43.936-46.496z" fill="#636363"></path></svg>');
 }
 .group-list .group-del{
-  left: 126px;
+  left: 136px;
   background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M832 288h-128V202.624C704 182.016 687.232 160 640.128 160h-256.256C336.768 160 320 182.016 320 202.624V288H192a32 32 0 0 0 0 64h224l192 0.032V352h224a32 32 0 0 0 0-64zM384 448a32 32 0 0 1 64 0v210.528a32 32 0 0 1-64 0V448z m192 0a32 32 0 0 1 64 0v210.528a32 32 0 0 1-64 0V448z m32-47.136H224v399.104c0 20.672 9.984 38.848 25.184 50.56 10.784 8.32 24.16 13.472 38.848 13.472h447.936c14.688 0 28.064-5.152 38.88-13.472 15.168-11.712 25.152-29.888 25.152-50.56V400.864h-192z" fill="#636363"></path></svg>');
 }
 

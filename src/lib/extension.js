@@ -6,11 +6,6 @@ const LockKey = '_group_'
 const ExtDefaultIcon = './../assets/default-icon.png'
 const ExtDefaultColor = '#5c5e6f'
 
-// 启用或禁用状态映射所在容器
-const ExtStatus = {
-  'true': 'enabledList',
-  'false': 'disabledList'
-}
 // 储存扩展列表
 let allExtList = []
 
