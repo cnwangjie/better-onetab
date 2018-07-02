@@ -1,4 +1,5 @@
-import * as Extension from "./extension"
+import * as Extension from './extension'
+import * as Storage from './storage'
 
 // 右键菜单宽度
 const RightMenuWidth = 150
@@ -216,14 +217,11 @@ function resetHandle(params) {
   hideName()
 
   // 关闭Hover
-  vm.$data.enabledExtList.forEach(item => {
+  vm.$data.ext.extList.forEach(item => {
     item.isHover = false
   })
-  vm.$data.disabledExtList.forEach(item => {
-    item.isHover = false
-  })
-  vm.$data.enabledExtListDinginess = false
-  vm.$data.disabledExtListDinginess = false
+  vm.$data.ext.enabledExtListDinginess = false
+  vm.$data.ext.disabledExtListDinginess = false
 }
 
 
@@ -238,7 +236,7 @@ function enter(item) {
     resetHandle()
     item['hoverTimer'] = setTimeout(() => {
       item.isHover = true
-      vm.$data[item.enabled ? 'enabledExtListDinginess' : 'disabledExtListDinginess'] = true
+      vm.$data.ext[item.enabled ? 'enabledExtListDinginess' : 'disabledExtListDinginess'] = true
       showName(item)
     }, 200)
   }
@@ -261,12 +259,11 @@ function leave(item) {
  */
 function search() {
   let text = vm.searcher.text.trim().replace(/\s{2,}/g, " ").toLowerCase()
-  let allList = [].concat(vm.enabledExtList, vm.disabledExtList)
   if (text) {
     setTimeout(() => {
       vm.searcher.doing = true
       let queryArr = text.split(/\s/)
-      allList.forEach(item => {
+      vm.ext.extList.forEach(item => {
         let extInfo = (item.name+item.description).toLowerCase()
         let isSearched = queryArr.some(q => extInfo.includes(q))
         item['isSearched'] = isSearched
@@ -274,7 +271,7 @@ function search() {
     })
   } else {
     vm.searcher.doing = false
-    allList.forEach(item => {
+    vm.ext.extList.forEach(item => {
       if (item['isSearched']) {
         item['isSearched'] = false
       }
@@ -301,7 +298,20 @@ function hideGroup() {
 function changeGroup(index) {
   vm.group.index = index
   vm.group.show = false
-  Extension.getAll()
+  let lockObj = vm.group.list[index].lock
+
+  vm.ext.extList.forEach(item => {
+    // 开启状态
+    if (item.enabled && !lockObj[item.id]) {
+      chrome.management.setEnabled(item.id, false)
+      item.enabled = false
+    } else if (!item.enabled && lockObj[item.id]) {
+      chrome.management.setEnabled(item.id, true)
+      item.enabled = true
+    }
+  })
+
+  Storage.set('_group_', vm.group)
 }
 function setGroup() {
   vm.group.show = false

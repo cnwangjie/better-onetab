@@ -21,8 +21,8 @@
         </div>
       </div>
 
-      <ext-item :data-dinginess="enabledExtListDinginess" :data-list="enabledExtList" data-id="showList" data-locked="locked"></ext-item>
-      <ext-item :data-dinginess="disabledExtListDinginess" :data-list="disabledExtList" data-id="hideList"></ext-item>
+      <ext-item :data-dinginess="ext.enabledExtListDinginess" :data-list="getEnbledExtList" data-id="showList" data-locked="locked"></ext-item>
+      <ext-item :data-dinginess="ext.disabledExtListDinginess" :data-list="getDisabledExtList" data-id="hideList"></ext-item>
       
       <div id="tips">
         <span class="title">{{i18n.tipsTitle}}</span>
@@ -54,11 +54,11 @@ export default {
     return {
       // 国际化对象
       i18n: getI18n(),
-      // storage: null,
-      enabledExtList: [],
-      enabledExtListDinginess: false,
-      disabledExtList: [],
-      disabledExtListDinginess: false,
+      ext: {
+        extList: [],
+        enabledExtListDinginess: false,
+        disabledExtListDinginess: false
+      },
       allExtColor: {},
       rightMenu: {
         showClass: '',
@@ -89,13 +89,40 @@ export default {
         show: false
       },
       showIconSize: 2,
-      showWindowSize: 6
+      showWindowSize: 6,
+      orderHandle: Extension.orderHandle
     }
   },
   components: {
     ExtItem
   },
   computed: {
+    getEnbledExtList() {
+      let list = this.ext.extList.filter(item => {
+        if (item.enabled) {
+          if (this.group.list[this.group.index].lock[item.id]) {
+            item.isLocked = true
+          } else {
+            item.isLocked = false
+          }
+          return true
+        }
+      })
+      return list.sort(this.orderHandle)
+    },
+    getDisabledExtList() {
+      let list = this.ext.extList.filter(item => {
+        if (!item.enabled) {
+          if (this.group.list[this.group.index].lock[item.id]) {
+            item.isLocked = true
+          } else {
+            item.isLocked = false
+          }
+          return true
+        }
+      })
+      return list.sort(this.orderHandle)
+    },
     getShowWindowSize() {
       const WindowSizeByColum = {
         6: 496,
@@ -149,10 +176,11 @@ export default {
   beforeCreate() {
 
     // 对象外置，用于调试
-    window.__vm__ = this
+    window.vm = this
 
     Storage.getAll().then(storage => {
-      // 增加分组功能，兼容老版本问题
+      
+      // [Init]增加分组功能，兼容老版本问题
       let oldLockObj = Storage.get('_lockList_')
       let group = Storage.get('_group_')
       if (oldLockObj || !group) {
@@ -176,8 +204,7 @@ export default {
 
       // 获取所有扩展
       Extension.getAll({needColor: true}).then(res => {
-        this.enabledExtList = res.enabledList
-        this.disabledExtList = res.disabledList
+        this.ext.extList = res
       })
     })
 

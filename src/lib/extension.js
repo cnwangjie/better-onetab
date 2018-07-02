@@ -12,10 +12,7 @@ const ExtStatus = {
   'false': 'disabledList'
 }
 // 储存扩展列表
-let allExtList = {
-  enabledList: [],
-  disabledList: []
-}
+let allExtList = []
 
 
 /**
@@ -138,8 +135,7 @@ function orderHandle(storage) {
 function processHandle(all, option) {
   let res = new Promise((resolve, reject) => {
     Storage.getAll().then(storage => {
-      let group = Storage.get(LockKey)
-
+      
       // 区分生产及开发环境
       let details = chrome.app.getDetails() || {id: ""}
 
@@ -156,11 +152,7 @@ function processHandle(all, option) {
           item.showColor = ExtDefaultColor
 
           // 判断是否为锁定图标
-          if (group.list[group.index].lock[item.id]) {
-            item.isLocked = true
-          } else {
-            item.isLocked = false
-          }
+          item.isLocked = false
 
           // 判断是否为应用或开发版本
           if (item.isApp) {
@@ -175,24 +167,13 @@ function processHandle(all, option) {
           // 是否被搜索关键词命中
           item.isSearched = false
 
-          // 根据启用或禁用的状态分别放入不同的容器中
-          if (item.enabled === false) {
-            allExtList.disabledList.push(item)
-          } else {
-            allExtList.enabledList.push(item)
-          }
-
-          // 自动排序方案
-          allExtList.enabledList.sort(orderHandle(storage))
-          allExtList.disabledList.sort(orderHandle(storage))
-
+          allExtList.push(item)
         }
       })
       resolve(allExtList)
       if (option.needColor) {
         setTimeout(() => {
-          let _allExtList = allExtList.enabledList.concat(allExtList.disabledList)
-          _allExtList.forEach(item => {
+          allExtList.forEach(item => {
             setTimeout(() => {
               getExtColor(item)
             }, 0)
@@ -214,8 +195,12 @@ function addIconBadge(){
     let group = Storage.get(LockKey)
     var lockedListObj = group.list[group.index].lock
 
-    let badgeList = allExtList.enabledList.filter(item => {
-      return !lockedListObj[item.id]
+    let badgeList = allExtList.filter(item => {
+      if (lockedListObj[item.id] && !item.enabled) {
+        return true
+      } else if (!lockedListObj[item.id] && item.enabled) {
+        return true
+      }
     })
 
     if(badgeList.length === 0){
@@ -234,8 +219,7 @@ function addIconBadge(){
  */
 function getAll(option = {}) {
   let res = new Promise((resolve, reject) => {
-    allExtList.enabledList = []
-    allExtList.disabledList = []
+    allExtList = []
     chrome.management.getAll(function(obj){
       resolve(processHandle(obj, option))
     })
@@ -245,43 +229,15 @@ function getAll(option = {}) {
 
 
 /**
- * 根据扩展对象查找所在容器及索引值
- */
-function find(item) {
-  let curList = allExtList[ExtStatus[item.enabled.toString()]]
-  let index = curList.indexOf(item)
-  if (index !== -1) {
-    return {
-      container: curList,
-      index
-    }
-  }
-}
-
-
-/**
  * 启用或禁用扩展
  */
 function onoff(item) {
-  let nextList = ExtStatus[(!item.enabled).toString()]
-  
-  // 在容器中查找当前对象
-  let findObj = find(item)
-  findObj.container.splice(findObj.index, 1)
-  
   // 更新对象状态属性
   item.enabled = !item.enabled
   // 重置Hover
   item.isHover = false
-  // 更新容器
-  allExtList[nextList].push(item)
-  // 新容器重新排序
-  Storage.getAll().then(storage => {
-    allExtList[nextList].sort(orderHandle(storage))
-  })
   // 同步至浏览器
   chrome.management.setEnabled(item.id, item.enabled)
-
   addIconBadge()
 }
 
@@ -290,8 +246,7 @@ function onoff(item) {
  * 加锁、解锁扩展操作
  */
 function lock(item) {
-  let obj = find(item)
-  obj.container[obj.index].isLocked = true
+  item.isLocked = true
 
   let group = Storage.get(LockKey)
   group.list[group.index].lock[item.id] = 1
@@ -299,8 +254,7 @@ function lock(item) {
 }
 // 解锁
 function unlock(item) {
-  let obj = find(item)
-  obj.container[obj.index].isLocked = false
+  item.isLocked = false
 
   let group = Storage.get(LockKey)
   delete group.list[group.index].lock[item.id]
@@ -312,8 +266,8 @@ function unlock(item) {
  * 卸载应用或扩展
  */
 function uninstall(item) {
-  let obj = find(item)
-  obj.container.splice(obj.index, 1)
+  let index = allExtList.indexOf(item)
+  allExtList.splice(index, 1)
   chrome.management.uninstall(item.id, function(){});
 }
 
@@ -322,16 +276,12 @@ function uninstall(item) {
  * 根据锁定状态，进行清理
  */
 function clear() {
-  let clearQueue = []
-  allExtList.enabledList.forEach(item => {
-    if (!item.isLocked) {
-      clearQueue.push(item)
+  allExtList.forEach(item => {
+    if (item.isLocked === !item.enabled) {
+      onoff(item)
     }
-  })
-  clearQueue.forEach(item => {
-    onoff(item)
   })
 }
 
 
-export { getAll, onoff, lock, unlock, uninstall, find, clear }
+export { getAll, onoff, lock, unlock, uninstall, clear, orderHandle }

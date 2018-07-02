@@ -1,8 +1,6 @@
 <template>
   <div id="option">
-    
     <div id="_TOOLS_STATUS__" :class="tips.show ? 'tips show' : 'tips'">{{tips.content}}</div>
-
     <div class="list">
       <h1>
         <span>{{i18n.showCols}}</span>
@@ -23,20 +21,29 @@
       </p>
     </div>
     
-    <div class="list">
+    <!-- <div class="list">
       <h1><span>{{i18n.speedManageName}}</span></h1>
       <p class="describe">{{i18n.speedManageDesc}}</p>
-      <!-- <img src="icon/play-demo.png" id="playDemo"> -->
       <p class="describe" style="margin: 30px 0 0 0;">{{i18n.speedManageLock}}</p>
       <ul class="list-plugins gclearfix"></ul>
       <ext-item :data-list="extList"></ext-item>
-    </div>
+    </div> -->
 
     <div class="list">
       <h1><span>分组管理</span></h1>
       <p class="describe">通过分组闪电管理扩展</p>
       <p class="describe" style="margin: 30px 0 0 0;">{{i18n.speedManageLock}}</p>
-      <ul class="list-plugins gclearfix"></ul>
+      <ul class="group-list gclearfix">
+        <li v-for="(item, index) in group.list" :class="index === group.index ? 'cur' : ''" @click="selectGroup(index)">
+          {{item.name}}
+          <i class="group-del" @click.stop="deleteGroup(index)"></i>
+          <i class="group-mod" @click.stop="modifyGroup(index)"></i>
+        </li>
+        <li class="group-add" @click="addGroup">
+          <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M939.939489 459.072557 562.339502 459.072557 562.339502 83.519182 462.055494 83.519182 462.055494 459.072557 84.455507 459.072557 84.455507 559.356564 462.055494 559.356564 462.055494 939.003164 562.339502 939.003164 562.339502 559.356564 939.939489 559.356564Z" fill="#636363"></path></svg>
+        </li>
+      </ul>
+      <ext-item :data-list="getAllExtList"></ext-item>
     </div>
     
     <div class="list">
@@ -97,6 +104,7 @@
         </li>
       </ul>
     </div>
+    <canvas id="getColorByCanvas" style="display: none;"></canvas>
   </div>
 </template>
 
@@ -138,6 +146,16 @@ export default {
     SwitchBtn
   },
   computed: {
+    getAllExtList() {
+      return this.extList.map(item => {
+        if (this.group.list[this.group.index].lock[item.id]) {
+          item.isLocked = true
+        } else {
+          item.isLocked = false
+        }
+        return item
+      })
+    },
     getShowWindowSize() {
       const WindowSizeByColum = {
         6: 496,
@@ -159,6 +177,51 @@ export default {
   },
 
   methods: {
+    modifyGroup(index) {
+      this.group.index = index
+
+      let that = this
+      setTimeout(() => {
+        var newName = prompt("请输入分组名称，名称请保持在2~5个字")
+        if (newName.trim()) {
+          this.group.list[index].name = newName
+          Storage.set('_group_', that.group)
+        }
+      }, 100)
+    },
+    deleteGroup(index) {
+      this.group.index = index
+      
+      let that = this
+      setTimeout(() => {
+        if (confirm('确定要删除该分组吗？')) {
+          that.group.index = index - 1 < 0 ? 0 : index - 1
+          that.group.list.splice(index, 1)
+          Storage.set('_group_', that.group)
+        }
+      }, 100);
+    },
+    selectGroup(index) {
+      this.group.index = index
+    },
+    extClick(item) {
+      let listObj = this.group.list[this.group.index]
+      if (item.isLocked) {
+        delete listObj.lock[item.id]
+      } else {
+        listObj.lock[item.id] = 1
+      }
+      this.group.list.splice(this.group.index, 1, listObj)
+      Storage.set('_group_', this.group)
+    },
+    addGroup() {
+      this.group.list.push({
+        name: '新分组',
+        lock: {}
+      })
+      this.group.index = this.group.list.length - 1
+      Storage.set('_group_', this.group)
+    },
     // 重置点击生成的rank
     resetRank(e) {
       Storage.remove("_rankList_");
@@ -206,16 +269,20 @@ export default {
     // 设置标题
     document.title = `${this.i18n["optionName"]} - ${this.i18n["extName"]}`;
 
-    Promise.all([Storage.getAll(), Extension.getAll()]).then((res) => {
+    window.vm = this
+
+    Promise.all([Storage.getAll(), Extension.getAll({needColor: true})]).then((res) => {
       let storage = res[0]
-      let extObj = res[1]
 
       // 初始化排序数据
-      if (Storage.get("_radio_ext_sort_") === "rank") {
+      if (Storage.get('_radio_ext_sort_') === "rank") {
         this.sortType = "rank"
       }
 
-      this.extList = extObj.enabledList.concat(extObj.disabledList)
+      // 初始化分组
+      this.group = Storage.get('_group_')
+
+      this.extList = res[1]
 
     })
   }
@@ -378,6 +445,86 @@ ul li em {
   font-style: normal;
   padding: 1px 4px;
   margin: 0 3px;
+}
+
+.group-list{
+  margin-top: 20px;
+  margin-bottom: -1px;
+}
+.group-list li{
+  position: relative;
+  float: left;
+  cursor: pointer;
+  list-style: none;
+  height: 40px;
+  line-height: 40px;
+  width: 100px;
+  text-align: center;
+  padding-right: 54px;
+  background-color: #e0e0e0;
+  margin: 0 10px 0 0;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+.group-list li:hover{
+  background-color: #eaeaea;
+}
+.group-list li.cur{
+  background-color: #fff;
+  border-bottom-color: #fff;
+}
+.group-list .group-mod,
+.group-list .group-del{
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 20px;
+  top: 50%;
+  content: '';
+  transform: translate3d(0, -50%, 0);
+  -webkit-transform: translate3d(0, -50%, 0);
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 2px;
+  border: 1px solid #bdbdbd;
+}
+.group-list .group-mod:hover,
+.group-list .group-del:hover{
+  border-color: #636363;
+}
+.group-list .group-mod{
+  left: 100px;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M879.04 323.36l-176.8-176.768a64.032 64.032 0 0 0-90.464 0.224l-67.36 67.392 44.864 44.64 0.96-0.192h0.032l176.64 176.576 30.304 30.4 14.848 14.88 66.72-66.72a64 64 0 0 0 0.224-90.432M325.888 815.36l-13.6-13.632-88.32-88.64-14.08-14.144-40.704-43.392L160 645.76v156.128c0 35.136 28.576 63.68 63.68 63.68h154.208l-11.648-11.2-40.352-38.976zM545.024 303.872l-45.248-45.056L179.616 578.976l45.248 45.248 176.544 176.704 45.184 45.024 318.976-318.976-43.936-46.496z" fill="#636363"></path></svg>');
+}
+.group-list .group-del{
+  left: 126px;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M832 288h-128V202.624C704 182.016 687.232 160 640.128 160h-256.256C336.768 160 320 182.016 320 202.624V288H192a32 32 0 0 0 0 64h224l192 0.032V352h224a32 32 0 0 0 0-64zM384 448a32 32 0 0 1 64 0v210.528a32 32 0 0 1-64 0V448z m192 0a32 32 0 0 1 64 0v210.528a32 32 0 0 1-64 0V448z m32-47.136H224v399.104c0 20.672 9.984 38.848 25.184 50.56 10.784 8.32 24.16 13.472 38.848 13.472h447.936c14.688 0 28.064-5.152 38.88-13.472 15.168-11.712 25.152-29.888 25.152-50.56V400.864h-192z" fill="#636363"></path></svg>');
+}
+
+.group-list .group-add{
+  position: relative;
+  width: 40px;
+  padding: 0;
+}
+.group-list .group-add svg{
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+.ext-list{
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding-top: 10px;
+}
+.ext-list li:not([locked]){
+  opacity: .4 !important;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
 }
 
 .range-style {
