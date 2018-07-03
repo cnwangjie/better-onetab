@@ -119,6 +119,9 @@
 	"defaultGroupName": {
 		"message": "デフォルト"
 	},
+	"newGroupName": {
+		"message": "新しいグループ化"
+	},
 	"optionGroupTitle": {
 		"message": "グループ管理"
 	},

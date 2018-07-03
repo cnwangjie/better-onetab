@@ -188,7 +188,7 @@ export default {
 
       let that = this
       setTimeout(() => {
-        var newName = prompt(this.i18n.optionGroupModifyName)
+        var newName = prompt(this.i18n.optionGroupModifyName) || 'New Group'
         if (newName.trim()) {
           this.group.list[index].name = newName
           Storage.set('_group_', that.group)
@@ -223,10 +223,11 @@ export default {
       }
       this.group.list.splice(this.group.index, 1, listObj)
       Storage.set('_group_', this.group)
+      this.showTips(this.i18n.tipSetSuc)
     },
     addGroup() {
       this.group.list.push({
-        name: '新分组',
+        name: this.i18n.newGroupName,
         lock: {}
       })
       this.group.index = this.group.list.length - 1
@@ -234,44 +235,50 @@ export default {
     },
     // 重置点击生成的rank
     resetRank(e) {
-      Storage.remove("_rankList_");
-      this.showTips(this.i18n["tipResetRank"]);
+      Storage.remove("_rankList_")
+      this.showTips(this.i18n.tipResetRank)
     },
 
     // 更改扩展显示列数
     changeWindowSize(e) {
-      let newSize = e.target.value;
-      this.showWindowSize = newSize;
-      Storage.set("_showColumn_", newSize);
+      let newSize = e.target.value
+      this.showWindowSize = newSize
+      Storage.set("_showColumn_", newSize)
+      this.showTips(this.i18n.tipSetSuc)
     },
 
     // 更改显示图标大小
     changeIconSize(e) {
-      let newSize = e.target.value;
-      this.showIconSize = newSize;
-      Storage.set("_showIconSize_", newSize);
+      let newSize = e.target.value
+      this.showIconSize = newSize
+      Storage.set("_showIconSize_", newSize)
+      this.showTips(this.i18n.tipSetSuc)
     },
 
     // 更改扩展排序
     changeSortType(value) {
       if (this.sortType !== value) {
         this.sortType = value;
-        Storage.set("_radio_ext_sort_", value);
+        Storage.set("_radio_ext_sort_", value)
+        this.showTips(this.i18n.tipSetSuc)
       }
     },
 
     // 提示组件
-    showTips(text) {
-      let that = this;
-      if (text) {
-        that.tips.show = true;
-        that.tips.content = text;
-        setTimeout(function() {
-          that.tips.show = false;
-          that.tips.content = "";
-        }, 1000);
+    showTips: (function() {
+      let timer = null
+      return function(text, timenum = 1500) {
+        if (text) {
+          clearTimeout(timer)
+          window.vm.tips.show = true
+          window.vm.tips.content = text
+          timer = setTimeout(function() {
+            window.vm.tips.show = false
+            window.vm.tips.content = ""
+          }, timenum)
+        }
       }
-    }
+    })()
   },
 
   // 初始化
@@ -558,7 +565,7 @@ ul li em {
   padding: 0;
   margin: 0;
   text-align: center;
-  line-height: 40px;
+  line-height: 50px;
 }
 
 .range-style {

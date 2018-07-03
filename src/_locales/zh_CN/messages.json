@@ -119,6 +119,9 @@
 	"defaultGroupName": {
 		"message": "默认分组"
 	},
+	"newGroupName": {
+		"message": "新分组"
+	},
 	"optionGroupTitle": {
 		"message": "分组管理"
 	},

@@ -22,6 +22,7 @@
         } else {
           Storage.remove(this.swtichKey)
         }
+        this.$parent.showTips(this.$parent.i18n.tipSetSuc)
       }
     },
     beforeMount() {

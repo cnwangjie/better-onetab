@@ -119,6 +119,9 @@
 	"defaultGroupName": {
 		"message": "дефолт"
 	},
+	"newGroupName": {
+		"message": "Новая группировка"
+	},
 	"optionGroupTitle": {
 		"message": "Управление группой"
 	},

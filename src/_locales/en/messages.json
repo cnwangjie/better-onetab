@@ -119,6 +119,9 @@
 	"defaultGroupName": {
 		"message": "Default"
 	},
+	"newGroupName": {
+		"message": "New Group"
+	},
 	"optionGroupTitle": {
 		"message": "Group Management"
 	},
