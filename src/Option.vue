@@ -545,7 +545,7 @@ ul li em {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 2px;
-  padding-top: 10px;
+  padding: 10px;
 }
 .ext-list li:not([locked]){
   opacity: .4 !important;
