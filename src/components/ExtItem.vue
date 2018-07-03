@@ -12,7 +12,7 @@
       @mouseenter="extEnter(item)"
       @mouseleave="extLeave(item)"
       >
-      <i>{{item.showType}}</i>
+      <i v-if="item.showType" :style="'background-color: ' + item.showColor">{{item.showType}}</i>
     </li>
     <slot name="empty"></slot>
   </ul>
@@ -74,13 +74,8 @@
     -webkit-transform: scale(1.3);
   }
 
-  /* 是否应用 */
+  /* 是否应用或开发版 */
   .ext-list li i{
-    display: none;
-  }
-  .ext-list li[data-mark] i{
-    display: block;
-
     position: absolute;
     bottom: -2px;
     right: -4px;
