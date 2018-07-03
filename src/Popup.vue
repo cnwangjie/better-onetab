@@ -11,7 +11,7 @@
             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
           </svg>
         </div>
-        <button class="searchItem searchInput btn btn-reset" @click="clear" :title="i18n.closeAllBtn"></button>
+        <button :class="'searchItem searchInput btn btn-reset' + (ext.iconBadgeAnim ? ' anim' : '')" @click="clear" :title="i18n.closeAllBtn"></button>
         <div id="group" class="searchItem" @mouseenter="showGroup" @mouseleave="hideGroup">
           <button class="searchInput btn btn-group">{{group.list[group.index].name}}</button>
           <ul id="group-list" v-show="group.show">
@@ -65,7 +65,8 @@ export default {
       ext: {
         extList: [],
         enabledExtListDinginess: false,
-        disabledExtListDinginess: false
+        disabledExtListDinginess: false,
+        iconBadgeAnim: false
       },
       allExtColor: {},
       rightMenu: {
@@ -378,9 +379,37 @@ export default {
   #search .btn-reset:hover::before{
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M31.981112 0.604423v1023.395577" fill="#fff"></path><path d="M63.962224 0.604423v1023.395577" fill="#fff"></path><path d="M95.943335 0.604423v1023.395577" fill="#fff"></path><path d="M127.924447 0.604423v1023.395577" fill="#fff"></path><path d="M159.905559 0.604423v1023.395577" fill="#fff"></path><path d="M191.886671 0.604423v1023.395577" fill="#fff"></path><path d="M223.867782 0.604423v1023.395577" fill="#fff"></path><path d="M255.848894 0.604423v1023.395577" fill="#fff"></path><path d="M287.830006 0.604423v1023.395577" fill="#fff"></path><path d="M319.811118 0.604423v1023.395577" fill="#fff"></path><path d="M351.79223 0.604423v1023.395577" fill="#fff"></path><path d="M383.773341 0.604423v1023.395577" fill="#fff"></path><path d="M415.754453 0.604423v1023.395577" fill="#fff"></path><path d="M447.735565 0.604423v1023.395577" fill="#fff"></path><path d="M479.716677 0.604423v1023.395577" fill="#fff"></path><path d="M511.697788 0.604423v1023.395577" fill="#fff"></path><path d="M543.6789 0.604423v1023.395577" fill="#fff"></path><path d="M575.660012 0.604423v1023.395577" fill="#fff"></path><path d="M607.641124 0.604423v1023.395577" fill="#fff"></path><path d="M639.622236 0.604423v1023.395577" fill="#fff"></path><path d="M671.603347 0.604423v1023.395577" fill="#fff"></path><path d="M703.584459 0.604423v1023.395577" fill="#fff"></path><path d="M735.565571 0.604423v1023.395577" fill="#fff"></path><path d="M767.546683 0.604423v1023.395577" fill="#fff"></path><path d="M799.527795 0.604423v1023.395577" fill="#fff"></path><path d="M831.508906 0.604423v1023.395577" fill="#fff"></path><path d="M863.490018 0.604423v1023.395577" fill="#fff"></path><path d="M895.47113 0.604423v1023.395577" fill="#fff"></path><path d="M927.452242 0.604423v1023.395577" fill="#fff"></path><path d="M959.433353 0.604423v1023.395577" fill="#fff"></path><path d="M991.414465 0.604423v1023.395577M0 32.585535h1023.395577" fill="#fff"></path><path d="M0 64.566647h1023.395577" fill="#fff"></path><path d="M0 96.547758h1023.395577" fill="#fff"></path><path d="M0 128.52887h1023.395577" fill="#fff"></path><path d="M0 160.509982h1023.395577" fill="#fff"></path><path d="M0 192.491094h1023.395577" fill="#fff"></path><path d="M0 224.472205h1023.395577" fill="#fff"></path><path d="M0 256.453317h1023.395577" fill="#fff"></path><path d="M0 288.434429h1023.395577" fill="#fff"></path><path d="M0 320.415541h1023.395577" fill="#fff"></path><path d="M0 352.396653h1023.395577" fill="#fff"></path><path d="M0 384.377764h1023.395577" fill="#fff"></path><path d="M0 416.358876h1023.395577" fill="#fff"></path><path d="M0 448.339988h1023.395577" fill="#fff"></path><path d="M0 480.3211h1023.395577" fill="#fff"></path><path d="M0 512.302212h1023.395577" fill="#fff"></path><path d="M0 544.283323h1023.395577" fill="#fff"></path><path d="M0 576.264435h1023.395577" fill="#fff"></path><path d="M0 608.245547h1023.395577" fill="#fff"></path><path d="M0 640.226659h1023.395577" fill="#fff"></path><path d="M0 672.20777h1023.395577" fill="#fff"></path><path d="M0 704.188882h1023.395577" fill="#fff"></path><path d="M0 736.169994h1023.395577" fill="#fff"></path><path d="M0 768.151106h1023.395577" fill="#fff"></path><path d="M0 800.132218h1023.395577" fill="#fff"></path><path d="M0 832.113329h1023.395577" fill="#fff"></path><path d="M0 864.094441h1023.395577" fill="#fff"></path><path d="M0 896.075553h1023.395577" fill="#fff"></path><path d="M0 928.056665h1023.395577" fill="#fff"></path><path d="M0 960.037776h1023.395577" fill="#fff"></path><path d="M0 992.018888h1023.395577" fill="#fff"></path><path d="M805.924017 134.925093C716.376904 45.37798 607.641124 0.604423 486.112899 0.604423c-115.132002-6.396222-223.867782 38.377334-307.018673 115.132002v-63.962223c0-6.396222 0-6.396222-6.396222-6.396222H115.132002c-6.396222 0-6.396222 0-6.396222 19.188667v172.698003c6.396222 6.396222 6.396222 12.792445 19.188667 12.792445l179.094226-6.396222s6.396222 0 6.396222-6.396223V179.698649c0-6.396222 0-6.396222-6.396222-6.396222h-63.962223c147.113114-134.320669 370.980897-121.528225 511.697788 19.188667 147.113114 147.113114 147.113114 390.169564 0 530.886455-147.113114 147.113114-383.773341 147.113114-530.886456 0-31.981112-25.584889-51.169779-57.566001-70.358445-89.547113l-76.754669 25.58489c25.584889 44.773556 51.169779 89.547113 89.547113 127.924447 89.547113 89.547113 198.282893 134.320669 326.20734 134.320669 121.528225-6.396222 236.660227-51.169779 326.207341-134.320669s134.320669-204.679115 134.320669-319.811118C946.640909 333.207986 895.47113 224.472205 805.924017 134.925093z" fill="#fff"></path><path d="M607.641124 461.132433c0 52.986706-42.954631 95.943335-95.943336 95.943335s-95.943335-42.954631-95.943335-95.943335 42.954631-95.943335 95.943335-95.943336 95.943335 42.954631 95.943336 95.943336z" fill="#fff"></path></svg>');
   }
-  /* #search .btn-reset.anim::before{
-    transform: rotate3d(1, 0, 0, 60deg);
-  } */
+  #search .btn-reset.anim::before,
+  #search .btn-reset:hover::before{
+    animation-name: resetTips;
+    -webkit-animation-name: resetTips;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+    -webkit-animation-duration: 2s;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+  }
+  @keyframes resetTips {
+    0%{
+      transform: rotate(0deg) translate3d(-50%, -50%, 0);
+    }
+    50%{
+      transform: rotate(-360deg) translate3d(-50%, -50%, 0);
+    }
+  }
+  @-webkit-keyframes resetTips {
+    0%{
+      -webkit-transform: rotate(0deg) translate3d(-50%, -50%, 0);
+    }
+    50%{
+      -webkit-transform: rotate(-360deg) translate3d(-50%, -50%, 0);
+    }
+  }
 
   #search .btn-group{
     min-width: 104px;

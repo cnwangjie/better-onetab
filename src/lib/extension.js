@@ -193,8 +193,16 @@ function addIconBadge(){
     })
 
     if(badgeList.length === 0){
+      // 关闭清理动画
+      if (window.vm) {
+        window.vm.$data.ext.iconBadgeAnim = false
+      }
       chrome.browserAction.setBadgeText({text: ""})
     }else{
+      // 显示清理动画
+      if (window.vm) {
+        window.vm.$data.ext.iconBadgeAnim = true
+      }
       chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
       chrome.browserAction.setBadgeText({text: badgeList.length.toString()})
     }
@@ -202,6 +210,9 @@ function addIconBadge(){
     chrome.browserAction.setBadgeText({text: ""})
   }
 }
+setTimeout(() => {
+  addIconBadge()
+}, 200)
 
 
 /**
