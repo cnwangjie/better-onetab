@@ -86,7 +86,8 @@ function getPositionByExt(item, info) {
  */
 function showMenu(item) {
   hideMenu()
-  
+  clearTimeout(item['hoverTimer'])
+
   if(Storage.get("_switch_right_more_") !== 'close'){
     setTimeout(() => {
       hideName()

@@ -10,7 +10,7 @@
         <span>{{showWindowSize}}</span>
       </h1>
       <p>
-        <input type="range" class="range-style" min="4" max="9" step="1" :value="showWindowSize" @input="changeWindowSize">
+        <input type="range" class="range-style" min="6" max="9" step="1" :value="showWindowSize" @input="changeWindowSize">
       </p>
     </div>
 
