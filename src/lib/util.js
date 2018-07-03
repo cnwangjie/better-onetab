@@ -86,77 +86,79 @@ function getPositionByExt(item, info) {
  */
 function showMenu(item) {
   hideMenu()
-  setTimeout(() => {
-    hideName()
-
-    // 右键菜单内容
-    let content = [{
-      name: item.isLocked ? vm.i18n.rightLock_unlock : vm.i18n.rightLock_lock,
-      handle: () => {
-        hideMenu()
-        if (item.isLocked) {
-          Extension.unlock(item)
-        } else {
-          Extension.lock(item)
-        }
-      },
-      disabled: false
-    },
-    {
-      name: vm.i18n.rightOption,
-      handle: () => {
-        hideMenu()
-        if (item.optionsUrl) {
-          chrome.tabs.create({
-            'url': item.optionsUrl
-          })
-        }
-      },
-      disabled: !item.optionsUrl
-    },
-    {
-      name: vm.i18n.rightUninstall,
-      handle: () => {
-        hideMenu()
-        Extension.uninstall(item)
-      },
-      disabled: false
-    },
-    {
-      name: vm.i18n.rightHomepage,
-      handle: () => {
-        hideMenu()
-        chrome.tabs.create({
-          'url': item.homepageUrl
-        })
-      },
-      disabled: false
-    }]
-    if (item.isApp) {
-      content.splice(1, 1, {
-        name: vm.i18n.rightAppLaunch,
+  
+  if(Storage.get("_switch_right_more_") !== 'close'){
+    setTimeout(() => {
+      hideName()
+      // 右键菜单内容
+      let content = [{
+        name: item.isLocked ? vm.i18n.rightLock_unlock : vm.i18n.rightLock_lock,
         handle: () => {
           hideMenu()
-          chrome.management.launchApp(item.id, function(){})
+          if (item.isLocked) {
+            Extension.unlock(item)
+          } else {
+            Extension.lock(item)
+          }
         },
         disabled: false
+      },
+      {
+        name: vm.i18n.rightOption,
+        handle: () => {
+          hideMenu()
+          if (item.optionsUrl) {
+            chrome.tabs.create({
+              'url': item.optionsUrl
+            })
+          }
+        },
+        disabled: !item.optionsUrl
+      },
+      {
+        name: vm.i18n.rightUninstall,
+        handle: () => {
+          hideMenu()
+          Extension.uninstall(item)
+        },
+        disabled: false
+      },
+      {
+        name: vm.i18n.rightHomepage,
+        handle: () => {
+          hideMenu()
+          chrome.tabs.create({
+            'url': item.homepageUrl
+          })
+        },
+        disabled: false
+      }]
+      if (item.isApp) {
+        content.splice(1, 1, {
+          name: vm.i18n.rightAppLaunch,
+          handle: () => {
+            hideMenu()
+            chrome.management.launchApp(item.id, function(){})
+          },
+          disabled: false
+        })
+      }
+  
+      let position = getPositionByExt(item, {
+        width: RightMenuWidth,
+        height: 52
       })
-    }
-
-    let position = getPositionByExt(item, {
-      width: RightMenuWidth,
-      height: 52
-    })
-
-    vm.rightMenu = {
-      showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
-      left: position.left,
-      right: position.right,
-      top: position.top,
-      backgroundColor: item.showColor,
-      content
-    }
-  }, 0);
+  
+      vm.rightMenu = {
+        showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
+        left: position.left,
+        right: position.right,
+        top: position.top,
+        backgroundColor: item.showColor,
+        content
+      }
+    }, 0)
+  }
 }
 
 
@@ -174,27 +176,28 @@ function hideMenu() {
  */
 function showName(item) {
   hideName()
-  vm.extName.content = item.shortName
-
-  setTimeout(() => {
-    let ele = document.querySelector('#extName')
-    item.showMaxWidth = Math.max(RightMenuWidth, ele.offsetWidth)
-
-    let position = getPositionByExt(item, {
-      width: ele.offsetWidth,
-      height: ele.offsetHeight
-    })
-    
-    vm.extName = {
-      showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
-      left: position.left,
-      right: position.right,
-      top: position.top,
-      backgroundColor: item.showColor,
-      content: item.name,
-      adviseMaxWidth: position.adviseMaxWidth
-    }
-  }, 0);
+  if(Storage.get("_switch_show_extname_") !== 'close'){
+    vm.extName.content = item.shortName
+    setTimeout(() => {
+      let ele = document.querySelector('#extName')
+      item.showMaxWidth = Math.max(RightMenuWidth, ele.offsetWidth)
+  
+      let position = getPositionByExt(item, {
+        width: ele.offsetWidth,
+        height: ele.offsetHeight
+      })
+      
+      vm.extName = {
+        showClass: position.atLeft ? 'showInfoLeft' : 'showInfoRight',
+        left: position.left,
+        right: position.right,
+        top: position.top,
+        backgroundColor: item.showColor,
+        content: item.name,
+        adviseMaxWidth: position.adviseMaxWidth
+      }
+    }, 0);
+  }
 }
 function hideName() {
   vm.extName = {

@@ -1,6 +1,9 @@
 <template>
   <div id="option">
+    <!-- Tips -->
     <div id="_TOOLS_STATUS__" :class="tips.show ? 'tips show' : 'tips'">{{tips.content}}</div>
+
+    <!-- 设置显示列数 -->
     <div class="list">
       <h1>
         <span>{{i18n.showCols}}</span>
@@ -11,6 +14,7 @@
       </p>
     </div>
 
+    <!-- 设置图标显示大小 -->
     <div class="list">
       <h1>
         <span>{{i18n.iconSize}}</span>
@@ -21,6 +25,7 @@
       </p>
     </div>
 
+    <!-- 配置分组 -->
     <div class="list" id="group">
       <h1><span>{{i18n.optionGroupTitle}}</span></h1>
       <p class="describe">{{i18n.optionGroupDesc}}</p>
@@ -35,9 +40,14 @@
           <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M939.939489 459.072557 562.339502 459.072557 562.339502 83.519182 462.055494 83.519182 462.055494 459.072557 84.455507 459.072557 84.455507 559.356564 462.055494 559.356564 462.055494 939.003164 562.339502 939.003164 562.339502 559.356564 939.939489 559.356564Z" fill="#636363"></path></svg>
         </li>
       </ul>
-      <ext-item :data-list="getAllExtList"></ext-item>
+      <ext-item :data-list="getAllExtList">
+        <template slot="empty">
+          <li class="empty" v-if="getAllExtList.length === 0">{{i18n.emptyShowListCon}}</li>
+        </template>
+      </ext-item>
     </div>
     
+    <!-- 设置扩展图标排序 -->
     <div class="list">
       <h1>{{i18n.rankName}}</h1>
       <ul class="radio-btn">
@@ -59,24 +69,28 @@
       </ul>
     </div>
 
+    <!-- 是否开启右键 -->
     <div class="list">
       <h1>{{i18n.rightMoreName}}</h1>
       <switch-btn data-key="right_more"></switch-btn>
       <p class="describe">{{i18n.rightMoreDesc}}</p>
     </div>
     
+    <!-- 是否显示角标 -->
     <div class="list">
       <h1>{{i18n.showBadgeName}}</h1>
       <switch-btn data-key="show_badge"></switch-btn>
       <p class="describe">{{i18n.showBadgeDesc}}</p>
     </div>
     
+    <!-- 是否显示扩展名称 -->
     <div class="list">
       <h1>{{i18n.showExtName}}</h1>
       <switch-btn data-key="show_extname"></switch-btn>
       <p class="describe">{{i18n.showExtNameDesc}}</p>
     </div>
 
+    <!-- 捐赠 -->
     <div class="list">
       <h1>{{i18n.otherName}}</h1>
       <p class="describe" v-html="i18n.otherDesc"></p>
@@ -537,6 +551,14 @@ ul li em {
   opacity: .4 !important;
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
+}
+.ext-list li.empty{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  line-height: 40px;
 }
 
 .range-style {

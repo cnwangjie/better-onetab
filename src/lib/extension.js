@@ -185,15 +185,9 @@ function processHandle(all, option) {
  * [addIconBadge 给扩展图标添加角标，针对未加锁需要平时关闭的]
  */
 function addIconBadge(){
-  if(!Storage.get("_switch_show_badge_")){
-    // 锁定列表
-    let group = Storage.get(LockKey)
-    var lockedListObj = group.list[group.index].lock
-
+  if(Storage.get("_switch_show_badge_") !== 'close'){
     let badgeList = allExtList.filter(item => {
-      if (lockedListObj[item.id] && !item.enabled) {
-        return true
-      } else if (!lockedListObj[item.id] && item.enabled) {
+      if (item.isLocked !== item.enabled) {
         return true
       }
     })
@@ -204,6 +198,8 @@ function addIconBadge(){
       chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
       chrome.browserAction.setBadgeText({text: badgeList.length.toString()})
     }
+  } else {
+    chrome.browserAction.setBadgeText({text: ""})
   }
 }
 
@@ -246,6 +242,7 @@ function lock(item) {
   let group = Storage.get(LockKey)
   group.list[group.index].lock[item.id] = 1
   Storage.set(LockKey, group)
+  addIconBadge()
 }
 // 解锁
 function unlock(item) {
@@ -254,6 +251,7 @@ function unlock(item) {
   let group = Storage.get(LockKey)
   delete group.list[group.index].lock[item.id]
   Storage.set(LockKey, group)
+  addIconBadge()
 }
 
 
@@ -266,6 +264,7 @@ function uninstall(item) {
       if (!res) {
         let index = allExtList.indexOf(item)
         allExtList.splice(index, 1)
+        addIconBadge()
       }
     })
   })
