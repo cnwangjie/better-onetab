@@ -128,11 +128,13 @@ function showMenu(item) {
         name: vm.i18n.rightHomepage,
         handle: () => {
           hideMenu()
-          chrome.tabs.create({
-            'url': item.homepageUrl
-          })
+          if (item.installType !== 'development') {
+            chrome.tabs.create({
+              'url': item.homepageUrl
+            })
+          }
         },
-        disabled: false
+        disabled: item.installType === 'development'
       }]
       if (item.isApp) {
         content.splice(1, 1, {
