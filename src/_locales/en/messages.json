@@ -96,10 +96,10 @@
 		"message": "Launch"
 	},
 	"rightUninstall": {
-		"message": "Remove"
+		"message": "Uninstall"
 	},
 	"rightHomepage": {
-		"message": "Homepage"
+		"message": "Home"
 	},
 	"rightMoreName": {
 		"message": "Right-click:"

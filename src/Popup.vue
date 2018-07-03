@@ -29,11 +29,11 @@
     </div>
 
     <!-- 所有扩展都为空，进行提示 -->
-    <div id="allEmptyTips" v-if="ext.extList.length === 0">
+    <div id="allEmptyTips" v-if="ext.allEmpty">
       <span class="title">{{i18n.tipsTitle}}</span>
       <span class="desc">
         <span class="con">{{i18n.tipsCon}}</span>
-        <a href="https://chrome.google.com/webstore/category/extensions?hl=" target="_blank" class="url">{{i18n.tipsUrl}}</a>
+        <a :href="chromeStore" target="_blank" @click="goChromeStore">{{i18n.tipsUrl}}</a>
       </span>
     </div>
 
@@ -62,11 +62,13 @@ export default {
     return {
       // 国际化对象
       i18n: getI18n(),
+      chromeStore: `https://chrome.google.com/webstore/category/extensions?hl=${chrome.i18n.getUILanguage()}`,
       ext: {
         extList: [],
         enabledExtListDinginess: false,
         disabledExtListDinginess: false,
-        iconBadgeAnim: false
+        iconBadgeAnim: false,
+        allEmpty: false
       },
       allExtColor: {},
       rightMenu: {
@@ -180,6 +182,11 @@ export default {
     },
     setGroup() {
       Util.setGroup()
+    },
+    goChromeStore(e) {
+      chrome.tabs.create({
+        'url': e.target.href
+      })
     }
   },
   beforeCreate() {
@@ -214,7 +221,11 @@ export default {
 
       // 获取所有扩展
       Extension.getAll({needColor: true}).then(res => {
-        this.ext.extList = res
+        if (res && res.length === 0) {
+          this.ext.allEmpty = true
+        } else {
+          this.ext.extList = res
+        }
         Extension.addIconBadge()
       })
     })
@@ -272,7 +283,21 @@ export default {
   }
   #popup{
     position: relative;
+    /* min-height: 160px; */
   }
+  /* #popup::after{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    top: 50%;
+    content: '';
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M513.652405 117.787423c-16.209027 0-29.350001 13.139017-29.350001 29.35v733.751974c0 16.210984 13.140974 29.350001 29.350001 29.35s29.350001-13.139017 29.350001-29.35V147.137423c0-16.209027-13.140974-29.350001-29.350001-29.35zM352.769398 248.829306h-0.039133c-0.397203-15.86074-13.352294-28.604511-29.310868-28.604511s-28.913664 12.741814-29.310867 28.604511h-0.025437v0.48134c-0.001957 0.08805-0.013697 0.174143-0.013696 0.26415s0.01174 0.1761 0.013696 0.26415V778.459851c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001c0-0.090007-0.013697-0.1761-0.013697-0.266107V248.829306zM733.22563 248.829306h-0.039133c-0.397203-15.86074-13.352294-28.604511-29.310868-28.604511s-28.913664 12.741814-29.310867 28.604511h-0.025437v0.48134c-0.001957 0.08805-0.013697 0.174143-0.013696 0.26415s0.01174 0.1761 0.013696 0.26415V778.459851c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001c0-0.090007-0.013697-0.1761-0.013697-0.266107V248.829306zM133.090513 337.436958c-16.209027 0-29.350001 13.139017-29.350001 29.35v294.145707c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001v-294.145707c0-16.210984-13.140974-29.350001-29.350001-29.35zM894.092984 337.436958c-16.20707 0-29.350001 13.139017-29.350001 29.35v294.145707c0 16.210984 13.14293 29.350001 29.350001 29.350001 16.210984 0 29.350001-13.139017 29.35-29.350001v-294.145707c0-16.210984-13.139017-29.350001-29.35-29.35z" fill="#5c5e6f"></path></svg>');
+  } */
   #wrap {
     min-height: 125px;
     padding: 20px;
@@ -603,7 +628,7 @@ export default {
 
   #allEmptyTips{
     margin: 70px auto;
-    width: 400px;
+    width: 700px;
   }
   #allEmptyTips .title{
     display: block;
