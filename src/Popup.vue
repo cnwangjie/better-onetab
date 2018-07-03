@@ -1,6 +1,6 @@
 <template>
   <div id="popup">
-    <div id="wrap" :searching="searcher.doing" :class="'icon-size-' + showIconSize" :style="'width:' + getShowWindowSize + 'px'">
+    <div id="wrap" :searching="searcher.doing" :class="'icon-size-' + showIconSize" :style="'width:' + getShowWindowSize + 'px'" v-if="ext.extList.length > 0">
       <div id="search">
         <div id="searchBox">
           <input type="text" class="searchInput searcher" v-model="searcher.text" :placeholder="i18n.searcherPlaceholder" @input="search" v-focus @mouseenter="focus">
@@ -20,15 +20,23 @@
           </ul>
         </div>
       </div>
-
-      <ext-item :data-dinginess="ext.enabledExtListDinginess" :data-list="getEnbledExtList" data-id="showList" data-locked="locked"></ext-item>
+      <ext-item :data-dinginess="ext.enabledExtListDinginess" :data-list="getEnbledExtList" data-id="showList" data-locked="locked">
+        <template slot="empty">
+          <li class="empty" v-if="getEnbledExtList.length === 0">{{i18n.emptyShowListCon}}</li>
+        </template>
+      </ext-item>
       <ext-item :data-dinginess="ext.disabledExtListDinginess" :data-list="getDisabledExtList" data-id="hideList"></ext-item>
-      
-      <div id="tips">
-        <span class="title">{{i18n.tipsTitle}}</span>
-        <span class="desc"><span class="con">{{i18n.tipsCon}}</span><a href="https://chrome.google.com/webstore/category/extensions?hl=" target="_blank" class="url">{{i18n.tipsUrl}}</a></span>
-      </div>
     </div>
+
+    <!-- 所有扩展都为空，进行提示 -->
+    <div id="allEmptyTips" v-if="ext.extList.length === 0">
+      <span class="title">{{i18n.tipsTitle}}</span>
+      <span class="desc">
+        <span class="con">{{i18n.tipsCon}}</span>
+        <a href="https://chrome.google.com/webstore/category/extensions?hl=" target="_blank" class="url">{{i18n.tipsUrl}}</a>
+      </span>
+    </div>
+
     <label id="extName" :class="[extName.showClass]" :style="{ left: extName.left, right: extName.right, top: extName.top, background: extName.backgroundColor, 'max-width': extName.adviseMaxWidth + 'px'}">
       {{extName.content}}
     </label>
@@ -493,20 +501,20 @@ export default {
     margin: 0 0 10px 0;
   }
 
-  #showList:empty::before{
+  #showList .empty{
+    float: unset;
     display: block;
     width: 97%;
     height: 56px;
     line-height: 56px;
-    margin: 0 auto 20px auto;
-    outline: 2px dotted #E6E6E6;
+    margin: 40px auto 20px auto;
+    /* outline: 2px dotted #E6E6E6; */
 
     font-size: 20px;
     font-weight: 200;
     color: #bbb;
     text-align: center;
 
-    content: "__MSG_emptyShowListCon__";
     opacity: 0;
 
     animation-name: showEmptyTips;
@@ -558,27 +566,21 @@ export default {
     margin: 0;
   }
 
-  .allListIsEmpty #showList:empty{
-    display: none;
+  #allEmptyTips{
+    margin: 70px auto;
+    width: 400px;
   }
-  .allListIsEmpty #tips{
-    display: block;
-  }
-  #tips{
-    display: none;
-    margin: 40px auto;
-  }
-  #tips .title{
+  #allEmptyTips .title{
     display: block;
     font-size: 1.9em;
     text-align: center;
     line-height: 54px;
     color: #c7c7c7;
   }
-  [data-lan^=zh_] #tips .title{
+  [data-lan^=zh_] #allEmptyTips .title{
     font-size: 2.4em;
   }
-  #tips .desc{
+  #allEmptyTips .desc{
     display: block;
     font-size: 1.1em;
     text-align: center;
@@ -586,7 +588,7 @@ export default {
     line-height: 20px;
     color: #d8d8d8;
   }
-  #tips .desc a{
+  #allEmptyTips .desc a{
     margin: 0 0 0 2px;
     color: #c7e8d3;
     font-weight: bold;

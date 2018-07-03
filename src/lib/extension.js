@@ -261,9 +261,14 @@ function unlock(item) {
  * 卸载应用或扩展
  */
 function uninstall(item) {
-  let index = allExtList.indexOf(item)
-  allExtList.splice(index, 1)
-  chrome.management.uninstall(item.id, function(){});
+  chrome.management.uninstall(item.id, () => {
+    chrome.management.get(item.id, (res) => {
+      if (!res) {
+        let index = allExtList.indexOf(item)
+        allExtList.splice(index, 1)
+      }
+    })
+  })
 }
 
 

@@ -14,6 +14,7 @@
       >
       <i>{{item.showType}}</i>
     </li>
+    <slot name="empty"></slot>
   </ul>
 </template>
 

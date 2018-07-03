@@ -287,8 +287,11 @@ function cancelSearch() {
 
 // 开启关闭扩展
 function onoff(item) {
-  resetHandle()
+  // 防止Hover延迟在点击后生效
+  clearTimeout(item['hoverTimer'])
+  
   Extension.onoff(item)
+  resetHandle()
 }
 // 重置
 function clear() {
