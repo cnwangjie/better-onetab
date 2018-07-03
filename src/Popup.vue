@@ -139,7 +139,7 @@ export default {
         8: 648,
         9: 724
       }
-      return WindowSizeByColum[this.showWindowSize] || WindowSizeByColum['6']
+      return WindowSizeByColum[this.showWindowSize] || WindowSizeByColum['7']
     }
   },
   methods: {

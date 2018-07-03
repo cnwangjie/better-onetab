@@ -139,7 +139,7 @@ export default {
         show: false
       },
       showIconSize: 2,
-      showWindowSize: 6,
+      showWindowSize: 7,
       tips: {
         show: false,
         content: ""
