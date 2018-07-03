@@ -186,33 +186,33 @@ function processHandle(all, option) {
  */
 function addIconBadge(){
   if(Storage.get("_switch_show_badge_") !== 'close'){
-    let badgeList = allExtList.filter(item => {
-      if (item.isLocked !== item.enabled) {
-        return true
+    // ChromeAPI的调用需要处理时间，并且是异步的
+    setTimeout(() => {
+      let badgeList = allExtList.filter(item => {
+        if (item.isLocked !== item.enabled) {
+          return true
+        }
+      })
+  
+      if(badgeList.length === 0){
+        // 关闭清理动画
+        if (window.vm) {
+          window.vm.$data.ext.iconBadgeAnim = false
+        }
+        chrome.browserAction.setBadgeText({text: ""})
+      }else{
+        // 显示清理动画
+        if (window.vm) {
+          window.vm.$data.ext.iconBadgeAnim = true
+        }
+        chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
+        chrome.browserAction.setBadgeText({text: badgeList.length.toString()})
       }
-    })
-
-    if(badgeList.length === 0){
-      // 关闭清理动画
-      if (window.vm) {
-        window.vm.$data.ext.iconBadgeAnim = false
-      }
-      chrome.browserAction.setBadgeText({text: ""})
-    }else{
-      // 显示清理动画
-      if (window.vm) {
-        window.vm.$data.ext.iconBadgeAnim = true
-      }
-      chrome.browserAction.setBadgeBackgroundColor({color: "#f44336"})
-      chrome.browserAction.setBadgeText({text: badgeList.length.toString()})
-    }
+    }, 300);
   } else {
     chrome.browserAction.setBadgeText({text: ""})
   }
 }
-setTimeout(() => {
-  addIconBadge()
-}, 200)
 
 
 /**
@@ -294,4 +294,13 @@ function clear() {
 }
 
 
-export { getAll, onoff, lock, unlock, uninstall, clear, orderHandle }
+export {
+  addIconBadge,
+  getAll,
+  onoff,
+  lock,
+  unlock,
+  uninstall,
+  clear,
+  orderHandle
+}

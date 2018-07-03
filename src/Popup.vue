@@ -214,6 +214,7 @@ export default {
       // 获取所有扩展
       Extension.getAll({needColor: true}).then(res => {
         this.ext.extList = res
+        Extension.addIconBadge()
       })
     })
 
