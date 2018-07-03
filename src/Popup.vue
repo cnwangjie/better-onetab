@@ -311,7 +311,7 @@ export default {
     padding: 0 40px 0 36px;
     font-size: 16px;
     background: #f5f5f5;
-    border-left: 5px solid #f5f5f5;
+    border-left: 4px solid #f5f5f5;
     color: #212121;
   }
   #search .searcher:focus{
