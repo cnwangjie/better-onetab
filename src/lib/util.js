@@ -225,6 +225,7 @@ function resetHandle(params) {
   // 关闭Hover
   vm.$data.ext.extList.forEach(item => {
     item.isHover = false
+    clearTimeout(item['hoverTimer'])
   })
   vm.$data.ext.enabledExtListDinginess = false
   vm.$data.ext.disabledExtListDinginess = false
@@ -331,6 +332,7 @@ function changeGroup(index) {
       }
     })
     Storage.set('_group_', vm.group)
+    resetHandle()
   }, 50)
 }
 function setGroup() {
