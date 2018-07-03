@@ -193,7 +193,7 @@ export default {
       let oldLockObj = Storage.get('_lockList_')
       let group = Storage.get('_group_')
       if (oldLockObj || !group) {
-        Storage.set('_group_', {
+        group = {
           index: 0,
           list: [
             {
@@ -201,7 +201,8 @@ export default {
               'lock': oldLockObj || {}
             }
           ]
-        })
+        }
+        Storage.set('_group_', group)
         Storage.remove('_lockList_')
       }
       this.group.list = group.list
