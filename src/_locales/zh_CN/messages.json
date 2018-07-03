@@ -111,7 +111,7 @@
 		"message": "没有启用的扩展"
 	},
 	"closeAllBtn": {
-		"message": "清理"
+		"message": "重置"
 	},
 	"searcherPlaceholder": {
 		"message": "搜索你的扩展"
@@ -119,7 +119,22 @@
 	"defaultGroupName": {
 		"message": "默认分组"
 	},
-	"setGroupName": {
-		"message": "设置分组"
+	"optionGroupTitle": {
+		"message": "分组管理"
+	},
+	"optionGroupDesc": {
+		"message": "通过分组闪电管理扩展状态，适配不同场景，比如家、公司"
+	},
+	"optionGroupOperat": {
+		"message": "在当前分组下，通过点击扩展图标点亮后进行分组锁定"
+	},
+	"optionGroupModifyName": {
+		"message": "请输入分组名称，最好请保持在2~6个汉字"
+	},
+	"optionGroupDelete": {
+		"message": "确定要删除该分组吗？"
+	},
+	"optionGroupDeleteAtLeaseOne": {
+		"message": "至少保留一个分组！"
 	}
 }

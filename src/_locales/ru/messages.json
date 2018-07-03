@@ -111,9 +111,30 @@
 		"message": "Расширение не включен"
 	},
 	"closeAllBtn": {
-		"message": "Отключить все"
+		"message": "сброс"
 	},
 	"searcherPlaceholder": {
 		"message": "Найди расширение"
+	},
+	"defaultGroupName": {
+		"message": "дефолт"
+	},
+	"optionGroupTitle": {
+		"message": "Управление группой"
+	},
+	"optionGroupDesc": {
+		"message": "Приспосабливайтесь к различным сценариям, группируя управление молнией, например, дома и компании"
+	},
+	"optionGroupOperat": {
+		"message": "При текущей группировке блокировка группы после освещения путем нажатия значка расширения"
+	},
+	"optionGroupModifyName": {
+		"message": "Введите название группы"
+	},
+	"optionGroupDelete": {
+		"message": "Вы действительно хотите удалить эту группу?"
+	},
+	"optionGroupDeleteAtLeaseOne": {
+		"message": "Держите хотя бы одну группу!"
 	}
 }

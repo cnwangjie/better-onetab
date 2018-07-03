@@ -111,9 +111,30 @@
 		"message": "拡張機能が有効になっていません"
 	},
 	"closeAllBtn": {
-		"message": "すべてを無効にします"
+		"message": "リセット"
 	},
 	"searcherPlaceholder": {
 		"message": "あなたの拡張機能を探します"
+	},
+	"defaultGroupName": {
+		"message": "デフォルト"
+	},
+	"optionGroupTitle": {
+		"message": "グループ管理"
+	},
+	"optionGroupDesc": {
+		"message": "家や会社などの雷管理をグループ化して、さまざまなシナリオに対応"
+	},
+	"optionGroupOperat": {
+		"message": "現在のグループ化では、拡張アイコンをクリックして照明後にグループをロックします"
+	},
+	"optionGroupModifyName": {
+		"message": "グループ名を入力してください"
+	},
+	"optionGroupDelete": {
+		"message": "このグループを削除してもよろしいですか？"
+	},
+	"optionGroupDeleteAtLeaseOne": {
+		"message": "少なくとも1つのグループを維持してください！"
 	}
 }

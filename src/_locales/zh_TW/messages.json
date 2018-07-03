@@ -108,9 +108,30 @@
 		"message": "沒有啟用的擴展"
 	},
 	"closeAllBtn": {
-		"message": "全部禁用"
+		"message": "重置"
 	},
 	"searcherPlaceholder": {
 		"message": "搜索你的擴展"
+	},
+	"defaultGroupName": {
+		"message": "默認分組"
+	},
+	"optionGroupTitle": {
+		"message": "分組管理"
+	},
+	"optionGroupDesc": {
+		"message": "通過分組閃電管理擴展狀態，適配不同場景，比如家、公司"
+	},
+	"optionGroupOperat": {
+		"message": "在當前分組下，通過點擊擴展圖標點亮後進行分組鎖定"
+	},
+	"optionGroupModifyName": {
+		"message": "請輸入分組名稱，最好請保持在2~6個漢字"
+	},
+	"optionGroupDelete": {
+		"message": "確定要刪除該分組嗎？"
+	},
+	"optionGroupDeleteAtLeaseOne": {
+		"message": "至少保留一個分組！"
 	}
 }
