@@ -88,6 +88,8 @@ function showMenu(item) {
   hideMenu()
   clearTimeout(item['hoverTimer'])
 
+  console.log(item)
+
   if(Storage.get("_switch_right_more_") !== 'close'){
     setTimeout(() => {
       hideName()
