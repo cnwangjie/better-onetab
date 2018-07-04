@@ -31,7 +31,7 @@
       <p class="describe">{{i18n.optionGroupDesc}}</p>
       <p class="describe" style="margin: 30px 0 0 0;">{{i18n.optionGroupOperat}}</p>
       <ul class="group-list gclearfix">
-        <li v-for="(item, index) in group.list" :class="index === group.index ? 'cur' : ''" @click="selectGroup(index)">
+        <li v-for="(item, index) in group.list" :class="index === groupIndex ? 'cur' : ''" @click="selectGroup(index)">
           {{item.name}}
           <i class="group-del" @click.stop="deleteGroup(index)"></i>
           <i class="group-mod" @click.stop="modifyGroup(index)"></i>
@@ -129,7 +129,6 @@ export default {
       i18n: getI18n(),
       extList: [],
       group: {
-        index: 0,
         list: [
           {
             name: "",
@@ -138,6 +137,7 @@ export default {
         ],
         show: false
       },
+      groupIndex: 0,
       showIconSize: 2,
       showWindowSize: 7,
       tips: {
@@ -151,10 +151,15 @@ export default {
     ExtItem,
     SwitchBtn
   },
+  watch: {
+    groupIndex: (val, oldVal) => {
+      localStorage.setItem("_groupIndex_", val)
+    }
+  },
   computed: {
     getAllExtList() {
       return this.extList.map(item => {
-        if (this.group.list[this.group.index].lock[item.id]) {
+        if (this.group.list[this.groupIndex].lock[item.id]) {
           item.isLocked = true
         } else {
           item.isLocked = false
@@ -184,7 +189,7 @@ export default {
 
   methods: {
     modifyGroup(index) {
-      this.group.index = index
+      this.groupIndex = index
 
       let that = this
       setTimeout(() => {
@@ -196,7 +201,7 @@ export default {
       }, 100)
     },
     deleteGroup(index) {
-      this.group.index = index
+      this.groupIndex = index
       
       let that = this
       setTimeout(() => {
@@ -204,7 +209,9 @@ export default {
           if (that.group.list.length === 1) {
             this.showTips(this.i18n.optionGroupDeleteAtLeaseOne)
           } else {
-            that.group.index = index - 1 < 0 ? 0 : index - 1
+            // 设置分组索引
+            that.groupIndex = index - 1 < 0 ? 0 : index - 1
+            // 设置分组内容
             that.group.list.splice(index, 1)
             Storage.set('_group_', that.group)
           }
@@ -212,16 +219,16 @@ export default {
       }, 100);
     },
     selectGroup(index) {
-      this.group.index = index
+      this.groupIndex = index
     },
     extClick(item) {
-      let listObj = this.group.list[this.group.index]
+      let listObj = this.group.list[this.groupIndex]
       if (item.isLocked) {
         delete listObj.lock[item.id]
       } else {
         listObj.lock[item.id] = 1
       }
-      this.group.list.splice(this.group.index, 1, listObj)
+      this.group.list.splice(this.groupIndex, 1, listObj)
       Storage.set('_group_', this.group)
       this.showTips(this.i18n.tipSetSuc)
     },
@@ -230,7 +237,7 @@ export default {
         name: this.i18n.newGroupName,
         lock: {}
       })
-      this.group.index = this.group.list.length - 1
+      this.groupIndex = this.group.list.length - 1
       Storage.set('_group_', this.group)
     },
     // 重置点击生成的rank
@@ -315,7 +322,6 @@ export default {
       let group = Storage.get('_group_')
       if (oldLockObj || !group) {
         group = {
-          index: 0,
           list: [
             {
               'name': this.i18n.defaultGroupName,
@@ -327,6 +333,7 @@ export default {
         Storage.remove('_lockList_')
       }
       this.group = group
+      this.groupIndex = Number.parseInt(localStorage.getItem("_groupIndex_")) || 0
 
       this.extList = res[1]
 

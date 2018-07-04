@@ -13,7 +13,7 @@
         </div>
         <button :class="'searchItem searchInput btn btn-reset' + (ext.iconBadgeAnim ? ' anim' : '')" @click="clear" :title="i18n.closeAllBtn"></button>
         <div id="group" class="searchItem" @mouseenter="showGroup" @mouseleave="hideGroup">
-          <button class="searchInput btn btn-group">{{group.list[group.index].name}}</button>
+          <button class="searchInput btn btn-group">{{group.list[groupIndex].name}}</button>
           <ul id="group-list" v-show="group.show">
             <li v-for="(item, index) in group.list" @click="changeGroup(index)" :title="item.name">{{item.name}}</li>
             <li @click="setGroup" class="setting"></li>
@@ -101,9 +101,15 @@ export default {
         }],
         show: false
       },
+      groupIndex: 0,
       showIconSize: 2,
       showWindowSize: 6,
       orderHandle: function() {}
+    }
+  },
+  watch: {
+    groupIndex: (val, oldVal) => {
+      localStorage.setItem("_groupIndex_", val)
     }
   },
   components: {
@@ -113,7 +119,7 @@ export default {
     getEnbledExtList() {
       let list = this.ext.extList.filter(item => {
         if (item.enabled) {
-          if (this.group.list[this.group.index].lock[item.id]) {
+          if (this.group.list[this.groupIndex].lock[item.id]) {
             item.isLocked = true
           } else {
             item.isLocked = false
@@ -126,7 +132,7 @@ export default {
     getDisabledExtList() {
       let list = this.ext.extList.filter(item => {
         if (!item.enabled) {
-          if (this.group.list[this.group.index].lock[item.id]) {
+          if (this.group.list[this.groupIndex].lock[item.id]) {
             item.isLocked = true
           } else {
             item.isLocked = false
@@ -204,7 +210,6 @@ export default {
       let group = Storage.get('_group_')
       if (oldLockObj || !group) {
         group = {
-          index: 0,
           list: [
             {
               'name': this.i18n.defaultGroupName,
@@ -216,6 +221,8 @@ export default {
         Storage.remove('_lockList_')
       }
       this.group = group
+      this.groupIndex = Number.parseInt(localStorage.getItem("_groupIndex_")) || 0
+
 
       // 显示初始化：图标大小、宽度等
       this.showIconSize = Storage.get('_showIconSize_')

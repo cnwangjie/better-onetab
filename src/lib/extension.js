@@ -249,20 +249,20 @@ function onoff(item) {
  */
 function lock(item) {
   item.isLocked = true
+  addIconBadge()
 
   let group = Storage.get(LockKey)
-  group.list[group.index].lock[item.id] = 1
+  group.list[vm.$data.groupIndex].lock[item.id] = 1
   Storage.set(LockKey, group)
-  addIconBadge()
 }
 // 解锁
 function unlock(item) {
   item.isLocked = false
+  addIconBadge()
 
   let group = Storage.get(LockKey)
-  delete group.list[group.index].lock[item.id]
+  delete group.list[vm.$data.groupIndex].lock[item.id]
   Storage.set(LockKey, group)
-  addIconBadge()
 }
 
 

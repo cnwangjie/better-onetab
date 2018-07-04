@@ -318,7 +318,7 @@ function hideGroup() {
   vm.group.show = false
 }
 function changeGroup(index) {
-  vm.group.index = index
+  vm.groupIndex = index
   vm.group.show = false
 
   setTimeout(() => {
