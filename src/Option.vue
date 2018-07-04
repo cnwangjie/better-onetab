@@ -310,8 +310,23 @@ export default {
         this.showIconSize = extIconSize
       }
 
-      // 初始化分组
-      this.group = Storage.get('_group_')
+      // [Init]增加分组功能，兼容老版本问题
+      let oldLockObj = Storage.get('_lockList_')
+      let group = Storage.get('_group_')
+      if (oldLockObj || !group) {
+        group = {
+          index: 0,
+          list: [
+            {
+              'name': this.i18n.defaultGroupName,
+              'lock': oldLockObj || {}
+            }
+          ]
+        }
+        Storage.set('_group_', group)
+        Storage.remove('_lockList_')
+      }
+      this.group = group
 
       this.extList = res[1]
 

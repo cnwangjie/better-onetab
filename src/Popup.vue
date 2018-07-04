@@ -215,8 +215,7 @@ export default {
         Storage.set('_group_', group)
         Storage.remove('_lockList_')
       }
-      this.group.list = group.list
-      this.group.index = group.index
+      this.group = group
 
       // 显示初始化：图标大小、宽度等
       this.showIconSize = Storage.get('_showIconSize_')
