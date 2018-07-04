@@ -107,7 +107,7 @@ function orderHandle(storage) {
   if (Storage.get('_radio_ext_sort_') === 'rank') {
     // 根据点击rank进行排序
     return function(b, a){
-      return Rank.get(storage, a.id) - Rank.get(storage, b.id)
+      return Rank.get(a.id, storage) - Rank.get(b.id, storage)
     }
   } else {
     // 根据名称排序

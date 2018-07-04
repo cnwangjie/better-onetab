@@ -52,10 +52,11 @@
 
 <script>
 import getI18n from './lib/i18n'
-import ExtItem from "./components/ExtItem";
+import ExtItem from "./components/ExtItem"
 import * as Storage from './lib/storage'
 import * as Extension from "./lib/extension"
 import * as Util from "./lib/util"
+import * as Rank from "./lib/rank"
 
 export default {
   data() {
@@ -102,7 +103,7 @@ export default {
       },
       showIconSize: 2,
       showWindowSize: 6,
-      orderHandle: Extension.orderHandle
+      orderHandle: function() {}
     }
   },
   components: {
@@ -151,6 +152,7 @@ export default {
     },
     // 启用禁用扩展
     extClick(item) {
+      Rank.set(item.id)
       Util.onoff(item)
     },
     clear() {
@@ -219,6 +221,9 @@ export default {
       // 显示初始化：图标大小、宽度等
       this.showIconSize = Storage.get('_showIconSize_')
       this.showWindowSize = Storage.get('_showColumn_')
+
+      // 排序方法初始化
+      this.orderHandle = Extension.orderHandle(storage)
 
       // 获取所有扩展
       Extension.getAll({needColor: true}).then(res => {
