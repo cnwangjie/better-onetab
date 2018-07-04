@@ -2,7 +2,7 @@ import * as Extension from './extension'
 import * as Storage from './storage'
 
 // 右键菜单宽度
-const RightMenuWidth = 150
+const RightMenuWidth = chrome.i18n.getUILanguage() === 'ru' ? 210 : 150
 
 // popup页面vue对象
 let vm = null

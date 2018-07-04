@@ -1,5 +1,5 @@
 <template>
-  <div id="popup">
+  <div id="popup" :data-lan="language">
     <div id="wrap" :searching="searcher.doing" :class="'icon-size-' + showIconSize" :style="'width:' + getShowWindowSize + 'px'" v-if="ext.extList.length > 0">
       <div id="search">
         <div id="searchBox">
@@ -63,6 +63,7 @@ export default {
       // 国际化对象
       i18n: getI18n(),
       chromeStore: `https://chrome.google.com/webstore/category/extensions?hl=${chrome.i18n.getUILanguage()}`,
+      language: chrome.i18n.getUILanguage(),
       ext: {
         extList: [],
         enabledExtListDinginess: false,
@@ -632,13 +633,10 @@ export default {
   }
   #allEmptyTips .title{
     display: block;
-    font-size: 1.9em;
+    font-size: 2.2em;
     text-align: center;
     line-height: 54px;
     color: #c7c7c7;
-  }
-  [data-lan^=zh_] #allEmptyTips .title{
-    font-size: 2.4em;
   }
   #allEmptyTips .desc{
     display: block;
@@ -704,7 +702,7 @@ export default {
     transition: .2s ease-in-out;
   }
   [data-lan=ru] #rightMenu{
-    width: 200px;
+    width: 210px;
   }
   #rightMenu ul{
     width: 100%;
@@ -713,7 +711,7 @@ export default {
   #rightMenu ul li{
     height: 26px;
     line-height: 26px;
-    width: 75px;
+    width: 50%;
     float: left;
 
     font-size: 12px;
@@ -722,9 +720,6 @@ export default {
     list-style: none;
     cursor: default;
     box-shadow: inset 0px 0px 0px 0.1px #fff;
-  }
-  [data-lan=ru] #rightMenu ul li{
-    width: 100px;
   }
   #rightMenu ul li:hover{
     background-color: red;
