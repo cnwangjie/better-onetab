@@ -568,7 +568,7 @@ ul li em {
   height: 4px;
   background: rgba(37, 183, 90, 0.8);
   border: 1px solid #439e64;
-  -webkit-border-radius: 4px;
+  border-radius: 4px;
   -webkit-appearance: none !important;
   outline: none;
   margin: 10px 0 0 0;
@@ -588,8 +588,9 @@ ul li em {
   );
 
   border: 1px solid #666;
+  box-shadow: 0 0 6px #666;
   -webkit-box-shadow: 0 0 6px #666;
-  -webkit-border-radius: 14px;
+  border-radius: 14px;
   -webkit-appearance: none !important;
 }
 
