@@ -203,7 +203,17 @@ export default {
     window.vm = this
 
     Storage.getAll().then(storage => {
-      
+
+      // 显示初始化：图标大小、宽度等
+      let showWindowSize = Storage.get('_showColumn_')
+      if (showWindowSize) {
+        this.showWindowSize = showWindowSize
+      }
+      let showIconSize = Storage.get('_showIconSize_')
+      if (showIconSize) {
+        this.showIconSize = showIconSize
+      }
+
       // [Init]增加分组功能，兼容老版本问题
       let oldLockObj = Storage.get('_lockList_')
       let group = Storage.get('_group_')
@@ -221,16 +231,6 @@ export default {
       }
       this.group = group
       this.groupIndex = Number.parseInt(localStorage.getItem("_groupIndex_")) || 0
-
-      // 显示初始化：图标大小、宽度等
-      let showIconSize = Storage.get('_showIconSize_')
-      if (showIconSize) {
-        this.showIconSize = showIconSize
-      }
-      let showWindowSize = Storage.get('_showColumn_')
-      if (showWindowSize) {
-        this.showWindowSize = showWindowSize
-      }
 
       // 排序方法初始化
       this.orderHandle = Extension.orderHandle(storage)
