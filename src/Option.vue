@@ -134,8 +134,7 @@ export default {
             name: "",
             lock: {}
           }
-        ],
-        show: false
+        ]
       },
       groupIndex: 0,
       showIconSize: 2,
@@ -152,6 +151,9 @@ export default {
     SwitchBtn
   },
   watch: {
+    'group.list': function(val, oldVal){
+      Storage.set('_group_', this.group)
+    },
     groupIndex: (val, oldVal) => {
       localStorage.setItem("_groupIndex_", val)
     }
@@ -195,8 +197,9 @@ export default {
       setTimeout(() => {
         var newName = prompt(this.i18n.optionGroupModifyName) || 'New Group'
         if (newName.trim()) {
-          this.group.list[index].name = newName
-          Storage.set('_group_', that.group)
+          let obj = this.group.list[index]
+          obj.name = newName
+          this.group.list.splice(index, 1, obj)
         }
       }, 100)
     },
@@ -213,7 +216,6 @@ export default {
             that.groupIndex = index - 1 < 0 ? 0 : index - 1
             // 设置分组内容
             that.group.list.splice(index, 1)
-            Storage.set('_group_', that.group)
           }
         }
       }, 100);
@@ -229,7 +231,6 @@ export default {
         listObj.lock[item.id] = 1
       }
       this.group.list.splice(this.groupIndex, 1, listObj)
-      Storage.set('_group_', this.group)
       this.showTips(this.i18n.tipSetSuc)
     },
     addGroup() {
@@ -238,7 +239,6 @@ export default {
         lock: {}
       })
       this.groupIndex = this.group.list.length - 1
-      Storage.set('_group_', this.group)
     },
     // 重置点击生成的rank
     resetRank(e) {
@@ -320,7 +320,7 @@ export default {
       // [Init]增加分组功能，兼容老版本问题
       let oldLockObj = Storage.get('_lockList_')
       let group = Storage.get('_group_')
-      if (oldLockObj || !group) {
+      if (!group) {
         group = {
           list: [
             {
@@ -329,7 +329,6 @@ export default {
             }
           ]
         }
-        Storage.set('_group_', group)
         Storage.remove('_lockList_')
       }
       this.group = group

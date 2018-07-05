@@ -88,8 +88,6 @@ function showMenu(item) {
   hideMenu()
   clearTimeout(item['hoverTimer'])
 
-  console.log(item)
-
   if(Storage.get("_switch_right_more_") !== 'close'){
     setTimeout(() => {
       hideName()
@@ -312,14 +310,14 @@ function clear() {
  * 分组
  */
 function showGroup() {
-  vm.group.show = true
+  vm.groupShow = true
 }
 function hideGroup() {
-  vm.group.show = false
+  vm.groupShow = false
 }
 function changeGroup(index) {
   vm.groupIndex = index
-  vm.group.show = false
+  vm.groupShow = false
 
   setTimeout(() => {
     let lockObj = vm.group.list[index].lock
@@ -333,12 +331,11 @@ function changeGroup(index) {
         item.enabled = true
       }
     })
-    Storage.set('_group_', vm.group)
     resetHandle()
   }, 50)
 }
 function setGroup() {
-  vm.group.show = false
+  vm.groupShow = false
   chrome.tabs.create({
     'url': `${chrome.app.getDetails().options_page}#group`
   })

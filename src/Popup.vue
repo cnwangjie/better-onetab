@@ -14,7 +14,7 @@
         <button :class="'searchItem searchInput btn btn-reset' + (ext.iconBadgeAnim ? ' anim' : '')" @click="clear" :title="i18n.closeAllBtn"></button>
         <div id="group" class="searchItem" @mouseenter="showGroup" @mouseleave="hideGroup">
           <button class="searchInput btn btn-group">{{group.list[groupIndex].name}}</button>
-          <ul id="group-list" v-show="group.show">
+          <ul id="group-list" v-show="groupShow">
             <li v-for="(item, index) in group.list" @click="changeGroup(index)" :title="item.name">{{item.name}}</li>
             <li @click="setGroup" class="setting"></li>
           </ul>
@@ -94,14 +94,13 @@ export default {
         text: ''
       },
       group: {
-        index: 0,
         list: [{
           name: '',
           lock: {}
-        }],
-        show: false
+        }]
       },
       groupIndex: 0,
+      groupShow: false,
       showIconSize: 2,
       showWindowSize: 6,
       orderHandle: function() {}
@@ -208,7 +207,7 @@ export default {
       // [Init]增加分组功能，兼容老版本问题
       let oldLockObj = Storage.get('_lockList_')
       let group = Storage.get('_group_')
-      if (oldLockObj || !group) {
+      if (!group) {
         group = {
           list: [
             {
