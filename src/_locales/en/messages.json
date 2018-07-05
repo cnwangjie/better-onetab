@@ -96,10 +96,10 @@
 		"message": "Launch"
 	},
 	"rightUninstall": {
-		"message": "Remove"
+		"message": "Uninstall"
 	},
 	"rightHomepage": {
-		"message": "Homepage"
+		"message": "Home"
 	},
 	"rightMoreName": {
 		"message": "Right-click:"
@@ -111,9 +111,33 @@
 		"message": "No Enabled Extensions!"
 	},
 	"closeAllBtn": {
-		"message": "Disable all"
+		"message": "Reset"
 	},
 	"searcherPlaceholder": {
 		"message": "Search your extension"
+	},
+	"defaultGroupName": {
+		"message": "Default"
+	},
+	"newGroupName": {
+		"message": "New Group"
+	},
+	"optionGroupTitle": {
+		"message": "Group Management"
+	},
+	"optionGroupDesc": {
+		"message": "Adapt to different scenarios by grouping lightning management, such as home and company"
+	},
+	"optionGroupOperat": {
+		"message": "Under the current grouping, group lock after lighting by clicking the extension icon"
+	},
+	"optionGroupModifyName": {
+		"message": "Please enter a group name"
+	},
+	"optionGroupDelete": {
+		"message": "Are you sure you want to delete this group?"
+	},
+	"optionGroupDeleteAtLeaseOne": {
+		"message": "Keep at least one group!"
 	}
 }

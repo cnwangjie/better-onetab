@@ -2,24 +2,25 @@
 	"manifest_version" : 2,
 	"name" : "__MSG_extName__",
 	"short_name": "__MSG_extNameShort__",
-	"version" : "7.2.0",
+	"version" : "8.0.1",
 	"default_locale": "en",
 	"offline_enabled": true,
 	"description" : "__MSG_extDesr__",
 	"browser_action" : {
 		"default_icon" : {
-			"19": "icon/icon_19.png",
-			"38": "icon/icon_38.png"
+			"19": "assets/icon/icon_19.png",
+			"38": "assets/icon/icon_38.png"
 		},
 		"default_title": "__MSG_extName__",
 		"default_popup": "popup.html"
 	},
 	"permissions" : ["management", "storage"],
-	"options_page" : "options.html",
+	"content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:8080; object-src 'self'",
+	"options_page" : "option.html",
 	"icons": {
-		"16" : "icon/icon_16.png",
-		"32" : "icon/icon_32.png",
-		"48" : "icon/icon_48.png",
-		"128" : "icon/icon_128.png"
+		"16" : "assets/icon/icon_16.png",
+		"32" : "assets/icon/icon_32.png",
+		"48" : "assets/icon/icon_48.png",
+		"128" : "assets/icon/icon_128.png"
 	}
 }

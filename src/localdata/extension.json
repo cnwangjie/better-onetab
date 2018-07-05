@@ -1,0 +1,1233 @@
+[{
+  "description": "Extends the 1Password app on your Mac or Windows PC, so you can fill and save passwords in your browser.",
+  "enabled": true,
+  "homepageUrl": "https://agilebits.com/onepassword",
+  "hostPermissions": ["http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/aomjjhallfgjeglblehebfpbcfeobpgk/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/aomjjhallfgjeglblehebfpbcfeobpgk/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/aomjjhallfgjeglblehebfpbcfeobpgk/128/0"
+  }],
+  "id": "aomjjhallfgjeglblehebfpbcfeobpgk",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "1Password extension (desktop app required)",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["contextMenus", "nativeMessaging", "storage", "tabs", "webRequest", "webRequestBlocking"],
+  "shortName": "1Password",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "4.7.2.90"
+}, {
+  "description": "Adblock Plus 是超过 5 亿次下载的全球最受欢迎的广告拦截软件之一。",
+  "enabled": true,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/cfhdojbkjhnklbpkdaibdccddilifddb",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/cfhdojbkjhnklbpkdaibdccddilifddb/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/cfhdojbkjhnklbpkdaibdccddilifddb/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/cfhdojbkjhnklbpkdaibdccddilifddb/48/0"
+  }, {
+    "size": 64,
+    "url": "chrome://extension-icon/cfhdojbkjhnklbpkdaibdccddilifddb/64/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/cfhdojbkjhnklbpkdaibdccddilifddb/128/0"
+  }],
+  "id": "cfhdojbkjhnklbpkdaibdccddilifddb",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "Adblock Plus",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://cfhdojbkjhnklbpkdaibdccddilifddb/options.html",
+  "permissions": ["contextMenus", "devtools", "notifications", "storage", "tabs", "unlimitedStorage", "webNavigation", "webRequest", "webRequestBlocking"],
+  "shortName": "Adblock Plus",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "3.1"
+}, {
+  "description": "一键管理所有扩展，快速开启/禁用、批量闪电管理，智能排序，右键卸载、锁定、选项配置，角标提醒，大小布局随心配。快捷、简单、安全。",
+  "enabled": true,
+  "homepageUrl": "",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/eomgabkojoallfplkgmffbpbobihmaog/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/eomgabkojoallfplkgmffbpbobihmaog/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/eomgabkojoallfplkgmffbpbobihmaog/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/eomgabkojoallfplkgmffbpbobihmaog/128/0"
+  }],
+  "id": "eomgabkojoallfplkgmffbpbobihmaog",
+  "installType": "development",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "扩展管理器（Extension Manager）",
+  "offlineEnabled": true,
+  "optionsUrl": "chrome-extension://eomgabkojoallfplkgmffbpbobihmaog/option.html",
+  "permissions": ["management", "storage"],
+  "shortName": "扩展管理器",
+  "type": "extension",
+  "version": "7.2.0"
+}, {
+  "description": "当浏览器关闭时，这款应用程序删除你的浏览历史,防止他人跟踪你的网上活动。",
+  "enabled": true,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/ghgabhipcejejjmhhchfonmamedcbeod",
+  "hostPermissions": ["chrome://favicon/*", "http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/ghgabhipcejejjmhhchfonmamedcbeod/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/ghgabhipcejejjmhhchfonmamedcbeod/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/ghgabhipcejejjmhhchfonmamedcbeod/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/ghgabhipcejejjmhhchfonmamedcbeod/128/0"
+  }],
+  "id": "ghgabhipcejejjmhhchfonmamedcbeod",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "Click&Clean",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://ghgabhipcejejjmhhchfonmamedcbeod/Larz.html",
+  "permissions": ["browsingData", "contextMenus", "cookies", "history", "tabs"],
+  "shortName": "Click&Clean",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "9.1.9.1"
+}, {
+  "description": "一键管理所有扩展，快速开启/禁用、批量闪电管理，智能排序，右键卸载、锁定、选项配置，角标提醒，大小布局随心配。快捷、简单、安全。",
+  "enabled": true,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/gjldcdngmdknpinoemndlidpcabkggco",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/gjldcdngmdknpinoemndlidpcabkggco/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/gjldcdngmdknpinoemndlidpcabkggco/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/gjldcdngmdknpinoemndlidpcabkggco/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/gjldcdngmdknpinoemndlidpcabkggco/128/0"
+  }],
+  "id": "gjldcdngmdknpinoemndlidpcabkggco",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "扩展管理器（Extension Manager）",
+  "offlineEnabled": true,
+  "optionsUrl": "chrome-extension://gjldcdngmdknpinoemndlidpcabkggco/options.html",
+  "permissions": ["management", "storage"],
+  "shortName": "扩展管理器",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "7.2.0"
+}, {
+  "description": "每天打开新页面都是一段不期而遇的旅行",
+  "enabled": true,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/henmfoppjjkcencpbjaigfahdjlgpegn",
+  "hostPermissions": ["chrome://favicon/*", "https://*.500px.org/*", "https://*.bing.com/*", "https://*.vo.msecnd.net/*", "https://www.gstatic.com/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/henmfoppjjkcencpbjaigfahdjlgpegn/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/henmfoppjjkcencpbjaigfahdjlgpegn/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/henmfoppjjkcencpbjaigfahdjlgpegn/128/0"
+  }],
+  "id": "henmfoppjjkcencpbjaigfahdjlgpegn",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "远方 New Tab",
+  "offlineEnabled": true,
+  "optionsUrl": "",
+  "permissions": ["alarms", "geolocation", "newTabPageOverride", "topSites", "unlimitedStorage"],
+  "shortName": "远方 New Tab",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.3.12"
+}, {
+  "description": "Chrome 版 Pocket 扩展件－－保存文章、视频等的最佳方式",
+  "enabled": true,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/niloccemoadcdkdjlinkgdfekeahmflj",
+  "hostPermissions": ["http://*/*", "https://*/*", "https://readitlaterlist.com/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/niloccemoadcdkdjlinkgdfekeahmflj/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/niloccemoadcdkdjlinkgdfekeahmflj/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/niloccemoadcdkdjlinkgdfekeahmflj/128/0"
+  }],
+  "id": "niloccemoadcdkdjlinkgdfekeahmflj",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "Save to Pocket",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://niloccemoadcdkdjlinkgdfekeahmflj/options.html",
+  "permissions": ["contextMenus", "cookies", "notifications", "tabs"],
+  "shortName": "Save to Pocket",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "3.0.4.0"
+}, {
+  "description": "轻松快捷地管理和切换多个代理设置。",
+  "enabled": true,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/padekgcemlokbadohgkifijomclgjgif",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*", "http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/padekgcemlokbadohgkifijomclgjgif/16/0"
+  }, {
+    "size": 24,
+    "url": "chrome://extension-icon/padekgcemlokbadohgkifijomclgjgif/24/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/padekgcemlokbadohgkifijomclgjgif/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/padekgcemlokbadohgkifijomclgjgif/48/0"
+  }, {
+    "size": 64,
+    "url": "chrome://extension-icon/padekgcemlokbadohgkifijomclgjgif/64/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/padekgcemlokbadohgkifijomclgjgif/128/0"
+  }],
+  "id": "padekgcemlokbadohgkifijomclgjgif",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "Proxy SwitchyOmega",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://padekgcemlokbadohgkifijomclgjgif/options.html",
+  "permissions": ["alarms", "contextMenus", "proxy", "storage", "tabs", "webRequest", "webRequestBlocking"],
+  "shortName": "Proxy SwitchyOmega",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.5.14"
+}, {
+  "description": "Close unnecessary tabs and make them magically reappear when you need them.",
+  "enabled": true,
+  "homepageUrl": "http://www.tabsnooze.com/",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 128,
+    "url": "chrome://extension-icon/pdiebiamhaleloakpcgmpnenggpjbcbm/128/0"
+  }],
+  "id": "pdiebiamhaleloakpcgmpnenggpjbcbm",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "name": "Tab Snooze",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://pdiebiamhaleloakpcgmpnenggpjbcbm/html/tabSnooze.html#options",
+  "permissions": ["alarms", "idle", "notifications", "storage", "tabs"],
+  "shortName": "Tab Snooze",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.8.5"
+}, {
+  "description": "浏览网页时可轻松查看翻译版本。由Google翻译小组提供。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/aapbdbdomjkkjkaonfhkkikfgjllcleb",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/aapbdbdomjkkjkaonfhkkikfgjllcleb/16/0"
+  }, {
+    "size": 19,
+    "url": "chrome://extension-icon/aapbdbdomjkkjkaonfhkkikfgjllcleb/19/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/aapbdbdomjkkjkaonfhkkikfgjllcleb/32/0"
+  }, {
+    "size": 38,
+    "url": "chrome://extension-icon/aapbdbdomjkkjkaonfhkkikfgjllcleb/38/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/aapbdbdomjkkjkaonfhkkikfgjllcleb/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/aapbdbdomjkkjkaonfhkkikfgjllcleb/128/0"
+  }],
+  "id": "aapbdbdomjkkjkaonfhkkikfgjllcleb",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Google 翻译",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://aapbdbdomjkkjkaonfhkkikfgjllcleb/options.html",
+  "permissions": ["activeTab", "contextMenus", "storage"],
+  "shortName": "Google 翻译",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.0.7"
+}, {
+  "description": "Resize your browser window to custom-defined sizes.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/bemmkaadpllphjpebfapkojnjnjfkfan",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/bemmkaadpllphjpebfapkojnjnjfkfan/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/bemmkaadpllphjpebfapkojnjnjfkfan/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/bemmkaadpllphjpebfapkojnjnjfkfan/128/0"
+  }],
+  "id": "bemmkaadpllphjpebfapkojnjnjfkfan",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Window Sizer",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["storage"],
+  "shortName": "Window Sizer",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.1.0"
+}, {
+  "appLaunchUrl": "",
+  "availableLaunchTypes": ["OPEN_AS_WINDOW"],
+  "description": "Diagrams Made Easy",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/bhmicilclplefnflapjmnngmkkkkpfad",
+  "hostPermissions": ["http://support.gliffy.com/*", "http://www.google-analytics.com/*", "https://chrome.google.com/*", "https://go.gliffy.com/*", "https://jira.gliffy.com/*", "https://www.gliffy.com/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/bhmicilclplefnflapjmnngmkkkkpfad/16/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/bhmicilclplefnflapjmnngmkkkkpfad/128/0"
+  }],
+  "id": "bhmicilclplefnflapjmnngmkkkkpfad",
+  "installType": "normal",
+  "isApp": true,
+  "launchType": "OPEN_AS_WINDOW",
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Gliffy Diagrams",
+  "offlineEnabled": true,
+  "optionsUrl": "",
+  "permissions": ["fileSystem", "fileSystem.write", "identity", "storage", "unlimitedStorage"],
+  "shortName": "Gliffy Diagrams",
+  "type": "packaged_app",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.0.31"
+}, {
+  "description": "最好用的看微博、发微博工具，实时提醒，支持多帐号。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "http://gegedaa.com/",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*", "http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/blnmpdddkckmdfmhpohflbmaeopcfeik/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/blnmpdddkckmdfmhpohflbmaeopcfeik/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/blnmpdddkckmdfmhpohflbmaeopcfeik/128/0"
+  }],
+  "id": "blnmpdddkckmdfmhpohflbmaeopcfeik",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "咯咯哒",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://blnmpdddkckmdfmhpohflbmaeopcfeik/settings.html",
+  "permissions": ["contextMenus", "notifications", "tabs"],
+  "shortName": "咯咯哒",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.1.0"
+}, {
+  "description": "Validate and view JSON documents",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/chklaanhfefbnpoihckbnefhakgolnmc",
+  "hostPermissions": ["ftp://*/*", "http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/chklaanhfefbnpoihckbnefhakgolnmc/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/chklaanhfefbnpoihckbnefhakgolnmc/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/chklaanhfefbnpoihckbnefhakgolnmc/128/0"
+  }],
+  "id": "chklaanhfefbnpoihckbnefhakgolnmc",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "JSONView",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://chklaanhfefbnpoihckbnefhakgolnmc/options.html",
+  "permissions": ["clipboardWrite", "contextMenus"],
+  "shortName": "JSONView",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.0.32.3"
+}, {
+  "description": "节省高达95％的内存，并减轻标签页混乱现象",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/chphlpgkkbolifaimnlloiipkdnihall",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/chphlpgkkbolifaimnlloiipkdnihall/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/chphlpgkkbolifaimnlloiipkdnihall/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/chphlpgkkbolifaimnlloiipkdnihall/128/0"
+  }],
+  "id": "chphlpgkkbolifaimnlloiipkdnihall",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "OneTab",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://chphlpgkkbolifaimnlloiipkdnihall/options.html",
+  "permissions": ["contextMenus", "tabs", "webRequest", "webRequestBlocking"],
+  "shortName": "OneTab",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.18"
+}, {
+  "description": "An extension that allows local viewing of Axure RP prototypes from Google Chrome.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/dogkpdfcklifaemcdfbildhcofnopogp",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 48,
+    "url": "chrome://extension-icon/dogkpdfcklifaemcdfbildhcofnopogp/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/dogkpdfcklifaemcdfbildhcofnopogp/128/0"
+  }],
+  "id": "dogkpdfcklifaemcdfbildhcofnopogp",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Axure RP Extension for Chrome",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["tabs"],
+  "shortName": "Axure RP Extension for Chrome",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.6.3"
+}, {
+  "description": "空白标签页面",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/dpfockjhbablbklnkdbkafiecglnaile",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 128,
+    "url": "chrome://extension-icon/dpfockjhbablbklnkdbkafiecglnaile/128/0"
+  }],
+  "id": "dpfockjhbablbklnkdbkafiecglnaile",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "新标签页",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["newTabPageOverride"],
+  "shortName": "新标签页",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.0.1"
+}, {
+  "description": "查看360搜索结果内容中关于点击、跳转、PV等打点的网络请求分析，更加直观、简便。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/eoaifbeaddpblkdjngepfbjeflogndch",
+  "hostPermissions": ["http://10.202.129.27:8900/*", "http://localhost:8900/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/eoaifbeaddpblkdjngepfbjeflogndch/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/eoaifbeaddpblkdjngepfbjeflogndch/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/eoaifbeaddpblkdjngepfbjeflogndch/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/eoaifbeaddpblkdjngepfbjeflogndch/128/0"
+  }],
+  "id": "eoaifbeaddpblkdjngepfbjeflogndch",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "360搜索-打点数据统计工具",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://eoaifbeaddpblkdjngepfbjeflogndch/devtools.html",
+  "permissions": ["devtools", "webRequest"],
+  "shortName": "360搜索-打点数据统计工具",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "6.3.2"
+}, {
+  "description": "查看360搜索结果内容中关于点击、跳转、PV等打点的网络请求分析，更加直观、简便。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "",
+  "hostPermissions": ["http://10.202.129.27:8900/*", "http://localhost:8900/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/eobhlkgebihjpepmlmhdganojekkdkcf/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/eobhlkgebihjpepmlmhdganojekkdkcf/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/eobhlkgebihjpepmlmhdganojekkdkcf/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/eobhlkgebihjpepmlmhdganojekkdkcf/128/0"
+  }],
+  "id": "eobhlkgebihjpepmlmhdganojekkdkcf",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "360搜索-打点数据统计工具",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://eobhlkgebihjpepmlmhdganojekkdkcf/devtools.html",
+  "permissions": ["devtools", "webRequest"],
+  "shortName": "360搜索-打点数据统计工具",
+  "type": "extension",
+  "updateUrl": "http://10.202.129.27:8900/static/upgrate.xml",
+  "version": "6.3.2"
+}, {
+  "appLaunchUrl": "",
+  "availableLaunchTypes": ["OPEN_AS_WINDOW"],
+  "description": "",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/fhbjgbiflinjbdggehcddcbncdddomop",
+  "hostPermissions": ["http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/fhbjgbiflinjbdggehcddcbncdddomop/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/fhbjgbiflinjbdggehcddcbncdddomop/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/fhbjgbiflinjbdggehcddcbncdddomop/48/0"
+  }, {
+    "size": 64,
+    "url": "chrome://extension-icon/fhbjgbiflinjbdggehcddcbncdddomop/64/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/fhbjgbiflinjbdggehcddcbncdddomop/128/0"
+  }],
+  "id": "fhbjgbiflinjbdggehcddcbncdddomop",
+  "installType": "normal",
+  "isApp": true,
+  "launchType": "OPEN_AS_WINDOW",
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Postman",
+  "offlineEnabled": true,
+  "optionsUrl": "",
+  "permissions": ["contextMenus", "fileSystem", "fileSystem.write", "identity", "notifications", "socket", "storage", "system.display", "unlimitedStorage", "webConnectable", "webview"],
+  "shortName": "Postman",
+  "type": "packaged_app",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "5.5.2"
+}, {
+  "description": "利用用户样式管理器Stylish来重新编辑网站的样式。您可利用Stylish为许多网站安装主题和皮肤，也可创建自己的主题和皮肤。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://userstyles.org/",
+  "hostPermissions": ["*://*/*"],
+  "icons": [{
+    "size": 128,
+    "url": "chrome://extension-icon/fjnbnpbmkenffdnngjfgmeleoegfcffe/128/0"
+  }],
+  "id": "fjnbnpbmkenffdnngjfgmeleoegfcffe",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Stylish-为任意网站自定义主题",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://fjnbnpbmkenffdnngjfgmeleoegfcffe/manage.html",
+  "permissions": ["contextMenus", "storage", "tabs", "webNavigation", "webRequest"],
+  "shortName": "Stylish",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.0.2"
+}, {
+  "description": "EditThisCookie是一个cookie管理器。您可以添加，删除，编辑，搜索，锁定和屏蔽cookies！",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "http://www.editthiscookie.com/",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/fngmhnnpilhplaeedifhccceomclgfbg/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/fngmhnnpilhplaeedifhccceomclgfbg/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/fngmhnnpilhplaeedifhccceomclgfbg/128/0"
+  }],
+  "id": "fngmhnnpilhplaeedifhccceomclgfbg",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "EditThisCookie",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://fngmhnnpilhplaeedifhccceomclgfbg/options_main_page.html",
+  "permissions": ["clipboardWrite", "contextMenus", "cookies", "devtools", "notifications", "storage", "tabs", "unlimitedStorage"],
+  "shortName": "EditThisCookie",
+  "type": "extension",
+  "updateUrl": "http://clients2.google.com/service/update2/crx",
+  "version": "1.4.7"
+}, {
+  "description": "weixin public platform editor",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/gdjcnboaaemfjjgojkkajhikppbkgahp",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 128,
+    "url": "chrome://extension-icon/gdjcnboaaemfjjgojkkajhikppbkgahp/128/0"
+  }],
+  "id": "gdjcnboaaemfjjgojkkajhikppbkgahp",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "微信公众号编辑助手",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://gdjcnboaaemfjjgojkkajhikppbkgahp/index.html",
+  "permissions": ["activeTab", "clipboardRead", "clipboardWrite", "cookies", "storage", "tabs", "webNavigation"],
+  "shortName": "微信公众号编辑助手",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.0.3"
+}, {
+  "description": "可以方便的把网盘的下载地址导出到aria2/aria2-rpc，支持YAAW。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "",
+  "hostPermissions": ["*://pan.baidu.com/*", "*://pcs.baidu.com/*", "*://yun.baidu.com/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/giidehonjcmlhhcejppkeeacmpcfacdj/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/giidehonjcmlhhcejppkeeacmpcfacdj/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/giidehonjcmlhhcejppkeeacmpcfacdj/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/giidehonjcmlhhcejppkeeacmpcfacdj/128/0"
+  }],
+  "id": "giidehonjcmlhhcejppkeeacmpcfacdj",
+  "installType": "development",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "网盘助手",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["activeTab", "contextMenus", "cookies", "notifications", "storage"],
+  "shortName": "网盘助手",
+  "type": "extension",
+  "updateUrl": "https://raw.githubusercontent.com/acgotaku/BaiduExporter/master/chrome/updates.xml",
+  "version": "0.9.7"
+}, {
+  "description": "Bookmark Manager",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/gmlllbghnfkpflemihljekbapjopfjik",
+  "hostPermissions": ["*://*.google.com/*", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/gmlllbghnfkpflemihljekbapjopfjik/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/gmlllbghnfkpflemihljekbapjopfjik/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/gmlllbghnfkpflemihljekbapjopfjik/128/0"
+  }],
+  "id": "gmlllbghnfkpflemihljekbapjopfjik",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Bookmark Manager",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["activeTab", "bookmarkManagerPrivate", "bookmarks", "fileSystem", "fileSystem.write", "identity", "identity.email", "management", "metricsPrivate", "notifications", "preferencesPrivate", "storage", "tabs", "webConnectable"],
+  "shortName": "Bookmark Manager",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.2016.128.11729"
+}, {
+  "description": "Allows the user to modify requests as they happen.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/hifhgpdkfodlpnlmlnmhchnkepplebkb",
+  "hostPermissions": ["http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/hifhgpdkfodlpnlmlnmhchnkepplebkb/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/hifhgpdkfodlpnlmlnmhchnkepplebkb/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/hifhgpdkfodlpnlmlnmhchnkepplebkb/128/0"
+  }],
+  "id": "hifhgpdkfodlpnlmlnmhchnkepplebkb",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Tamper Chrome (extension)",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["debugger", "devtools", "tabs", "webNavigation", "webRequest", "webRequestBlocking"],
+  "shortName": "Tamper Chrome (extension)",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.3.3"
+}, {
+  "description": "提供与Safari阅读模式功能一致的插件，浏览文章页时候可进入友好的阅读模式，并自定义阅读功能。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/iibolhpkjjmoepndefdmdlmbpfhlgjpl",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/iibolhpkjjmoepndefdmdlmbpfhlgjpl/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/iibolhpkjjmoepndefdmdlmbpfhlgjpl/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/iibolhpkjjmoepndefdmdlmbpfhlgjpl/128/0"
+  }],
+  "id": "iibolhpkjjmoepndefdmdlmbpfhlgjpl",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "阅读模式",
+  "offlineEnabled": true,
+  "optionsUrl": "",
+  "permissions": ["fontSettings", "storage", "tabs", "webConnectable"],
+  "shortName": "阅读模式",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.1.2"
+}, {
+  "description": "Beautify CSS, JavaScript and JSON code when you open a .css/.js/.json file.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/iiglodndmmefofehaibmaignglbpdald",
+  "hostPermissions": ["*://*/*", "<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/iiglodndmmefofehaibmaignglbpdald/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/iiglodndmmefofehaibmaignglbpdald/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/iiglodndmmefofehaibmaignglbpdald/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/iiglodndmmefofehaibmaignglbpdald/128/0"
+  }],
+  "id": "iiglodndmmefofehaibmaignglbpdald",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "JavaScript and CSS Code Beautifier",
+  "offlineEnabled": true,
+  "optionsUrl": "chrome-extension://iiglodndmmefofehaibmaignglbpdald/options.html",
+  "permissions": ["activeTab", "storage"],
+  "shortName": "Code Beautifier",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "3.3.4"
+}, {
+  "description": "支持谷歌、百度、有道三大翻译和朗读引擎，可以方便的查看、复制和朗读不同引擎的翻译结果。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://github.com/lmk123/crx-selection-translate",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/ikhdkkncnoglghljlkmcimlnlhkeamad/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/ikhdkkncnoglghljlkmcimlnlhkeamad/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/ikhdkkncnoglghljlkmcimlnlhkeamad/128/0"
+  }],
+  "id": "ikhdkkncnoglghljlkmcimlnlhkeamad",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "划词翻译",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/options/index.html",
+  "permissions": ["activeTab", "clipboardRead", "clipboardWrite", "contextMenus", "identity", "storage", "webRequest", "webRequestBlocking"],
+  "shortName": "划词翻译",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "6.4.0"
+}, {
+  "appLaunchUrl": "chrome-extension://iphcomljdfghbkdcfndaijbokpgddeno/editor.html",
+  "availableLaunchTypes": ["OPEN_AS_REGULAR_TAB", "OPEN_AS_PINNED_TAB", "OPEN_FULL_SCREEN"],
+  "description": "A powerful and easy-to-use Cookie Editor.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "http://www.hotcleaner.com/",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/iphcomljdfghbkdcfndaijbokpgddeno/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/iphcomljdfghbkdcfndaijbokpgddeno/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/iphcomljdfghbkdcfndaijbokpgddeno/128/0"
+  }],
+  "id": "iphcomljdfghbkdcfndaijbokpgddeno",
+  "installType": "normal",
+  "isApp": true,
+  "launchType": "OPEN_AS_REGULAR_TAB",
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Cookies",
+  "offlineEnabled": true,
+  "optionsUrl": "chrome-extension://iphcomljdfghbkdcfndaijbokpgddeno/editor.html",
+  "permissions": ["contextMenus", "cookies", "notifications", "tabs", "unlimitedStorage"],
+  "shortName": "Cookies",
+  "type": "legacy_packaged_app",
+  "updateUrl": "http://clients2.google.com/service/update2/crx",
+  "version": "1.8.3"
+}, {
+  "description": "Enhance your written communication everywhere you type!",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/kbfnbcaeplbcioakkpcpgfkobkghlhen",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/kbfnbcaeplbcioakkpcpgfkobkghlhen/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/kbfnbcaeplbcioakkpcpgfkobkghlhen/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/kbfnbcaeplbcioakkpcpgfkobkghlhen/128/0"
+  }],
+  "id": "kbfnbcaeplbcioakkpcpgfkobkghlhen",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Grammarly for Chrome",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["clipboardWrite", "cookies", "notifications", "storage", "system.cpu", "tabs", "webConnectable"],
+  "shortName": "Grammarly for Chrome",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "14.853.1708"
+}, {
+  "description": "Replace new tab page with a personal dashboard featuring to-do, weather, and inspiration.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/laookkfknpbbblfpciffpaejjkokdgca",
+  "hostPermissions": ["*://*.momentumdash.com/*", "*://*.yahooapis.com/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/laookkfknpbbblfpciffpaejjkokdgca/16/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/laookkfknpbbblfpciffpaejjkokdgca/128/0"
+  }],
+  "id": "laookkfknpbbblfpciffpaejjkokdgca",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Momentum",
+  "offlineEnabled": true,
+  "optionsUrl": "",
+  "permissions": ["geolocation", "newTabPageOverride", "unlimitedStorage"],
+  "shortName": "Momentum",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.0.0"
+}, {
+  "description": "捕捉网页截图，编辑并将它们保存为PDF，JPEG，GIF，PNG或BMP；上传，打印，在Photoshop中打开，复制到剪贴板或电子邮件",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/mcbpblocgmgfnpjjppndjkmgjaogfceg",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/mcbpblocgmgfnpjjppndjkmgjaogfceg/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/mcbpblocgmgfnpjjppndjkmgjaogfceg/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/mcbpblocgmgfnpjjppndjkmgjaogfceg/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/mcbpblocgmgfnpjjppndjkmgjaogfceg/128/0"
+  }],
+  "id": "mcbpblocgmgfnpjjppndjkmgjaogfceg",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "捕捉网页截图 - FireShot的",
+  "offlineEnabled": true,
+  "optionsUrl": "chrome-extension://mcbpblocgmgfnpjjppndjkmgjaogfceg/fsOptions.html",
+  "permissions": ["activeTab", "contextMenus", "downloads", "downloadsInternal", "nativeMessaging"],
+  "shortName": "FireShot",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "0.98.93.2"
+}, {
+  "description": "Saves a webpage to Google.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/meoeeoaohbmgbocpdpnjklmfmjjagkkf",
+  "hostPermissions": ["https://*.google.com/*", "https://save.googleapis.com/*"],
+  "icons": [{
+    "size": 19,
+    "url": "chrome://extension-icon/meoeeoaohbmgbocpdpnjklmfmjjagkkf/19/0"
+  }, {
+    "size": 38,
+    "url": "chrome://extension-icon/meoeeoaohbmgbocpdpnjklmfmjjagkkf/38/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/meoeeoaohbmgbocpdpnjklmfmjjagkkf/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/meoeeoaohbmgbocpdpnjklmfmjjagkkf/128/0"
+  }],
+  "id": "meoeeoaohbmgbocpdpnjklmfmjjagkkf",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Save to Google",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["activeTab", "bookmarkManagerPrivate", "bookmarks", "contextMenus", "identity", "identity.email", "storage", "tabs", "webConnectable"],
+  "shortName": "Save to Google",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.2016.503.11627"
+}, {
+  "description": "An indicator button for HTTP/2, SPDY and QUIC support by each website.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/mpbpobfflnpcgagjijhmgnchggcjblin",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 48,
+    "url": "chrome://extension-icon/mpbpobfflnpcgagjijhmgnchggcjblin/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/mpbpobfflnpcgagjijhmgnchggcjblin/128/0"
+  }],
+  "id": "mpbpobfflnpcgagjijhmgnchggcjblin",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "HTTP/2 and SPDY indicator",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://mpbpobfflnpcgagjijhmgnchggcjblin/options.html",
+  "permissions": ["tabs"],
+  "shortName": "HTTP/2 and SPDY indicator",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "1.0.0"
+}, {
+  "description": "查看360搜索结果内容中关于点击、跳转、PV等打点的网络请求分析，更加直观、简便。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "",
+  "hostPermissions": ["http://10.202.129.27:8900/*", "http://localhost:8900/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/ngeojjlahgacdpcgikinikeflbapnbch/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/ngeojjlahgacdpcgikinikeflbapnbch/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/ngeojjlahgacdpcgikinikeflbapnbch/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/ngeojjlahgacdpcgikinikeflbapnbch/128/0"
+  }],
+  "id": "ngeojjlahgacdpcgikinikeflbapnbch",
+  "installType": "development",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "360搜索-打点数据统计工具",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://ngeojjlahgacdpcgikinikeflbapnbch/devtools.html",
+  "permissions": ["devtools", "webRequest"],
+  "shortName": "360搜索-打点数据统计工具",
+  "type": "extension",
+  "updateUrl": "http://10.202.129.27:8900/static/upgrate.xml",
+  "version": "6.3.2"
+}, {
+  "description": "Chrome and Firefox DevTools extension for debugging Vue.js applications.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/nhdogjmejiglipccpnnnanhbledajbpd",
+  "hostPermissions": ["file:///*", "http://*/*", "https://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/nhdogjmejiglipccpnnnanhbledajbpd/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/nhdogjmejiglipccpnnnanhbledajbpd/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/nhdogjmejiglipccpnnnanhbledajbpd/128/0"
+  }],
+  "id": "nhdogjmejiglipccpnnnanhbledajbpd",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Vue.js devtools",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["contextMenus", "devtools"],
+  "shortName": "Vue.js devtools",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "4.1.4"
+}, {
+  "description": "豆瓣电台Chrome版，微博分享",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/nljjfnjijdcagicaijhmaialoiahjckf",
+  "hostPermissions": ["http://*.douban.com/*", "http://*.douban.fm/*", "https://*.douban.com/*"],
+  "icons": [{
+    "size": 128,
+    "url": "chrome://extension-icon/nljjfnjijdcagicaijhmaialoiahjckf/128/0"
+  }],
+  "id": "nljjfnjijdcagicaijhmaialoiahjckf",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "豆瓣电台chrome版",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://nljjfnjijdcagicaijhmaialoiahjckf/options.html",
+  "permissions": ["cookies", "notifications"],
+  "shortName": "豆瓣电台chrome版",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "3.1.11"
+}, {
+  "description": "Need simple session management? Several users on the same Chrome? FreshStart is a simple cross browser session manager.",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/nmidkjogcjnnlfimjcedenagjfacpobb",
+  "hostPermissions": [],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/nmidkjogcjnnlfimjcedenagjfacpobb/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/nmidkjogcjnnlfimjcedenagjfacpobb/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/nmidkjogcjnnlfimjcedenagjfacpobb/48/0"
+  }],
+  "id": "nmidkjogcjnnlfimjcedenagjfacpobb",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "FreshStart - Cross Browser Session Manager",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://nmidkjogcjnnlfimjcedenagjfacpobb/v161/options.html",
+  "permissions": ["bookmarks", "tabs", "unlimitedStorage"],
+  "shortName": "FreshStart - Cross Browser Session Manager",
+  "type": "extension",
+  "updateUrl": "http://clients2.google.com/service/update2/crx",
+  "version": "1.6.1"
+}, {
+  "description": "无需打开 Gmail 或 Inbox，即可收到桌面邮件通知，方便地查看、收听或删除邮件，并且支持多账户。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://jasonsavard.com/?ref=homepage_url&ext=gmail",
+  "hostPermissions": ["https://inbox.google.com/*", "https://mail.google.com/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/oeopbcgkkoapgobdbedcemjljbihmemj/16/0"
+  }, {
+    "size": 32,
+    "url": "chrome://extension-icon/oeopbcgkkoapgobdbedcemjljbihmemj/32/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/oeopbcgkkoapgobdbedcemjljbihmemj/48/0"
+  }, {
+    "size": 64,
+    "url": "chrome://extension-icon/oeopbcgkkoapgobdbedcemjljbihmemj/64/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/oeopbcgkkoapgobdbedcemjljbihmemj/128/0"
+  }],
+  "id": "oeopbcgkkoapgobdbedcemjljbihmemj",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "Checker Plus for Gmail™",
+  "offlineEnabled": false,
+  "optionsUrl": "chrome-extension://oeopbcgkkoapgobdbedcemjljbihmemj/options.html",
+  "permissions": ["activeTab", "alarms", "contextMenus", "cookies", "gcm", "identity", "idle", "notifications", "storage", "tts", "webRequest", "webRequestBlocking"],
+  "shortName": "Checker Plus for Gmail™",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "21.1.2.7"
+}, {
+  "description": "自动在网页中所有的中文字和半形的英文、数字、符号之间插入空白。（摊手）没办法，我大处女座都有强迫症。",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/paphcfdffjnbcgkokihcdjliihicmbpd",
+  "hostPermissions": ["<all_urls>", "chrome://favicon/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/paphcfdffjnbcgkokihcdjliihicmbpd/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/paphcfdffjnbcgkokihcdjliihicmbpd/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/paphcfdffjnbcgkokihcdjliihicmbpd/128/0"
+  }],
+  "id": "paphcfdffjnbcgkokihcdjliihicmbpd",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "为什么你们就是不能加个空格呢？",
+  "offlineEnabled": true,
+  "optionsUrl": "chrome-extension://paphcfdffjnbcgkokihcdjliihicmbpd/pages/options.html",
+  "permissions": ["storage", "tabs"],
+  "shortName": "空格之神",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "3.3.0"
+}, {
+  "description": "可以生成当前页面二维码,手机直接扫二维码就可以访问当前页面",
+  "disabledReason": "unknown",
+  "enabled": false,
+  "homepageUrl": "https://chrome.google.com/webstore/detail/pflgjjogbmmcmfhfcnlohagkablhbpmg",
+  "hostPermissions": ["http://*/*"],
+  "icons": [{
+    "size": 16,
+    "url": "chrome://extension-icon/pflgjjogbmmcmfhfcnlohagkablhbpmg/16/0"
+  }, {
+    "size": 48,
+    "url": "chrome://extension-icon/pflgjjogbmmcmfhfcnlohagkablhbpmg/48/0"
+  }, {
+    "size": 128,
+    "url": "chrome://extension-icon/pflgjjogbmmcmfhfcnlohagkablhbpmg/128/0"
+  }],
+  "id": "pflgjjogbmmcmfhfcnlohagkablhbpmg",
+  "installType": "normal",
+  "isApp": false,
+  "mayDisable": true,
+  "mayEnable": true,
+  "name": "二维码(QR码)生成器(QR Code Generator)",
+  "offlineEnabled": false,
+  "optionsUrl": "",
+  "permissions": ["contextMenus", "tabs"],
+  "shortName": "二维码(QR码)生成器(QR Code Generator)",
+  "type": "extension",
+  "updateUrl": "https://clients2.google.com/service/update2/crx",
+  "version": "2.2"
+}]
