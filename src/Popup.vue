@@ -1,6 +1,6 @@
 <template>
-  <div id="popup" :data-lan="language">
-    <div id="wrap" :searching="searcher.doing" :class="'icon-size-' + showIconSize" :style="'width:' + getShowWindowSize + 'px'" v-if="ext.extList.length > 0">
+  <div id="popup" :data-lan="language" :class="'icon-size-' + showIconSize" :style="'width:' + getShowWindowSize + 'px'">
+    <div id="wrap" :searching="searcher.doing" v-if="ext.extList.length > 0">
       <div id="search">
         <div id="searchBox">
           <input type="text" class="searchInput searcher" v-model="searcher.text" :placeholder="i18n.searcherPlaceholder" @input="search" v-focus @mouseenter="focus">
@@ -222,10 +222,15 @@ export default {
       this.group = group
       this.groupIndex = Number.parseInt(localStorage.getItem("_groupIndex_")) || 0
 
-
       // 显示初始化：图标大小、宽度等
-      this.showIconSize = Storage.get('_showIconSize_')
-      this.showWindowSize = Storage.get('_showColumn_')
+      let showIconSize = Storage.get('_showIconSize_')
+      if (showIconSize) {
+        this.showIconSize = showIconSize
+      }
+      let showWindowSize = Storage.get('_showColumn_')
+      if (showWindowSize) {
+        this.showWindowSize = showWindowSize
+      }
 
       // 排序方法初始化
       this.orderHandle = Extension.orderHandle(storage)
@@ -288,16 +293,14 @@ export default {
     visibility: hidden;
   }
 
-  html{
-    min-width: 344px;
-    max-width: 724px;
-  }
   #popup{
     position: relative;
-    /* min-height: 160px; */
+    min-width: 496px;
+    min-height: 300px;
   }
   /* #popup::after{
     position: absolute;
+    z-index: 1;
     width: 50px;
     height: 50px;
     left: 50%;
@@ -307,16 +310,15 @@ export default {
     -webkit-transform: translate3d(-50%, -50%, 0);
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M513.652405 117.787423c-16.209027 0-29.350001 13.139017-29.350001 29.35v733.751974c0 16.210984 13.140974 29.350001 29.350001 29.35s29.350001-13.139017 29.350001-29.35V147.137423c0-16.209027-13.140974-29.350001-29.350001-29.35zM352.769398 248.829306h-0.039133c-0.397203-15.86074-13.352294-28.604511-29.310868-28.604511s-28.913664 12.741814-29.310867 28.604511h-0.025437v0.48134c-0.001957 0.08805-0.013697 0.174143-0.013696 0.26415s0.01174 0.1761 0.013696 0.26415V778.459851c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001c0-0.090007-0.013697-0.1761-0.013697-0.266107V248.829306zM733.22563 248.829306h-0.039133c-0.397203-15.86074-13.352294-28.604511-29.310868-28.604511s-28.913664 12.741814-29.310867 28.604511h-0.025437v0.48134c-0.001957 0.08805-0.013697 0.174143-0.013696 0.26415s0.01174 0.1761 0.013696 0.26415V778.459851c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001c0-0.090007-0.013697-0.1761-0.013697-0.266107V248.829306zM133.090513 337.436958c-16.209027 0-29.350001 13.139017-29.350001 29.35v294.145707c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001v-294.145707c0-16.210984-13.140974-29.350001-29.350001-29.35zM894.092984 337.436958c-16.20707 0-29.350001 13.139017-29.350001 29.35v294.145707c0 16.210984 13.14293 29.350001 29.350001 29.350001 16.210984 0 29.350001-13.139017 29.35-29.350001v-294.145707c0-16.210984-13.139017-29.350001-29.35-29.35z" fill="#5c5e6f"></path></svg>');
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M513.652405 117.787423c-16.209027 0-29.350001 13.139017-29.350001 29.35v733.751974c0 16.210984 13.140974 29.350001 29.350001 29.35s29.350001-13.139017 29.350001-29.35V147.137423c0-16.209027-13.140974-29.350001-29.350001-29.35zM352.769398 248.829306h-0.039133c-0.397203-15.86074-13.352294-28.604511-29.310868-28.604511s-28.913664 12.741814-29.310867 28.604511h-0.025437v0.48134c-0.001957 0.08805-0.013697 0.174143-0.013696 0.26415s0.01174 0.1761 0.013696 0.26415V778.459851c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001c0-0.090007-0.013697-0.1761-0.013697-0.266107V248.829306zM733.22563 248.829306h-0.039133c-0.397203-15.86074-13.352294-28.604511-29.310868-28.604511s-28.913664 12.741814-29.310867 28.604511h-0.025437v0.48134c-0.001957 0.08805-0.013697 0.174143-0.013696 0.26415s0.01174 0.1761 0.013696 0.26415V778.459851c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001c0-0.090007-0.013697-0.1761-0.013697-0.266107V248.829306zM133.090513 337.436958c-16.209027 0-29.350001 13.139017-29.350001 29.35v294.145707c0 16.210984 13.140974 29.350001 29.350001 29.350001s29.350001-13.139017 29.350001-29.350001v-294.145707c0-16.210984-13.140974-29.350001-29.350001-29.35zM894.092984 337.436958c-16.20707 0-29.350001 13.139017-29.350001 29.35v294.145707c0 16.210984 13.14293 29.350001 29.350001 29.350001 16.210984 0 29.350001-13.139017 29.35-29.350001v-294.145707c0-16.210984-13.139017-29.350001-29.35-29.35z" fill="#c7c7c7"></path></svg>');
   } */
   #wrap {
+    position: relative;
     min-height: 125px;
     padding: 20px;
     box-sizing: border-box;
-    position: relative;
-  }
-  .allListIsEmpty #search{
-    display: none;
+    background-color: #fff;
+    z-index: 2;
   }
   #search{
     display: -webkit-box;display: -ms-flexbox;display: flex;
@@ -579,7 +581,6 @@ export default {
     height: 56px;
     line-height: 56px;
     margin: 40px auto 20px auto;
-    /* outline: 2px dotted #E6E6E6; */
 
     font-size: 20px;
     font-weight: 200;
@@ -638,8 +639,12 @@ export default {
   }
 
   #allEmptyTips{
-    margin: 70px auto;
-    width: 700px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    background-color: #fff;
   }
   #allEmptyTips .title{
     display: block;
@@ -687,10 +692,6 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /* .extName-anim{
-    -webkit-transition: .2s ease-in-out;
-    transition: .2s ease-in-out;
-  } */
 
   #rightMenu{
     display: none;
