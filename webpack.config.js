@@ -102,12 +102,12 @@ if (process.env.NODE_ENV === 'production') {
         ignore: ['.*']
       },
       {
-        from: path.resolve(__dirname, 'popup.html'),
+        from: path.resolve(__dirname, 'src/popup.html'),
         to: path.resolve(__dirname, 'dist/popup.html'),
         ignore: ['.*']
       },
       {
-        from: path.resolve(__dirname, 'option.html'),
+        from: path.resolve(__dirname, 'src/option.html'),
         to: path.resolve(__dirname, 'dist/option.html'),
         ignore: ['.*']
       }

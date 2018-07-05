@@ -365,7 +365,7 @@ body {
   user-select: none;
   padding: 20px;
   /* font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif; */
-  font-family: arial, sans-serif;
+  /* font-family: arial, sans-serif; */
 }
 button,
 select {
