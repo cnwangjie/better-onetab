@@ -702,13 +702,13 @@ ul li em {
 }
 
 #otherDonateList {
-  margin: 40px 0 20px 0;
+  margin: 50px 0 20px 0;
 }
 #otherDonateList li {
   list-style: none;
   float: left;
-  width: 160px;
-  height: 195px;
+  width: 200px;
+  height: 250px;
   margin: 0 60px 0 0;
   border-radius: 4px;
   overflow: hidden;
