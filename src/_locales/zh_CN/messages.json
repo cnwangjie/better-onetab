@@ -60,7 +60,7 @@
 		"message": "用起来还不错，可以登陆 <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-CN' target='_blank'>Chrome网上应用店</a> 给予好评 或 提供支持性建议"
 	},
 	"otherDonate": {
-		"message": "另外，如果您愿意还可以请我喝杯咖啡，激励我持续完善它 :-)"
+		"message": "如果您愿意还可以赞赏我，激励我持续完善它 :-)"
 	},
 	"showBadgeName": {
 		"message": "显示角标："

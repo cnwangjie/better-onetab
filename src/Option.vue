@@ -98,12 +98,12 @@
       <p class="describe">{{i18n.otherDonate}}</p>
       <ul id="otherDonateList" class="gclearfix">
         <li>
+          <img src="assets/pay/pay-wx.png">
+        </li>
+        <li>
           <a href="https://www.paypal.me/chevionlu" target="_blank">
             <img src="assets/pay/pay-paypal.png">
           </a>
-        </li>
-        <li>
-          <img src="assets/pay/pay-wx.png">
         </li>
         <li>
           <img src="assets/pay/pay-alipay.png">
@@ -702,14 +702,14 @@ ul li em {
 }
 
 #otherDonateList {
-  margin: 20px 0;
+  margin: 40px 0 20px 0;
 }
 #otherDonateList li {
   list-style: none;
   float: left;
   width: 160px;
   height: 195px;
-  margin: 0 20px 0 0;
+  margin: 0 60px 0 0;
   border-radius: 4px;
   overflow: hidden;
 }
