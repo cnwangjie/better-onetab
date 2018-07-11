@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "rm -rf dist && npm run build && cross-env NODE_ENV=development webpack-dev-server --hot",
-    "build": "rm -rf dist && cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "rm -rf dist && rm -rf dist.zip && cross-env NODE_ENV=production webpack --progress --hide-modules && zip -r dist.zip dist"
   },
   "dependencies": {
     "vue": "^2.5.11"
