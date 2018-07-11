@@ -6,7 +6,7 @@
 		"message": "Extension Manager"
 	},
 	"extDesr": {
-		"message": "Manage extensions,quickly enable/disable,support batching operation. support custom layout and smart sorting. fast, simple and safe."
+		"message": "Manage extensions, quickly enable/disable, support batching operation, support custom layout and smart sorting. Fast, simple and secure."
 	},
 	"tipSetSuc": {
 		"message": "Settings saved !"
@@ -27,28 +27,28 @@
 		"message": "Options"
 	},
 	"showCols": {
-		"message": "Show column:  "
+		"message": "Columns Number:  "
 	},
 	"iconSize": {
-		"message": "Icon size:  "
+		"message": "Icon Size:  "
 	},
 	"speedManageName": {
-		"message": "Quick manage:"
+		"message": "Quick Management:"
 	},
 	"speedManageDesc": {
-		"message": "One key to disable all extensions (except for themes & locked extensions)"
+		"message": "Click once to disable all (except for themes & locked extensions)"
 	},
 	"speedManageLock": {
-		"message": "Click the icon to lock/unlock the extension:"
+		"message": "Click the Extension Icon to Lock/Unlock it:"
 	},
 	"rankName": {
-		"message": "Auto sort:"
+		"message": "Auto Order:"
 	},
 	"sortByName": {
-		"message": "Sort By Extention Name"
+		"message": "Order by name"
 	},
 	"sortByRank": {
-		"message": "Sort By Enble Times"
+		"message": "Order by enble times"
 	},
 	"rankBtn": {
 		"message": "Reset"
@@ -57,28 +57,28 @@
 		"message": "Support:"
 	},
 	"otherDesc": {
-		"message": "Not bad to use, you can visit the <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=en_US' target='_blank'>Chrome Web Store</a> to give praise or provide supportive suggestions"
+		"message": "You can visit <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=en_US' target='_blank'>Extension Manager</a> in Chrome Web Store to post a comment to give me a thumb-up or any suggestions"
 	},
 	"otherDonate": {
-		"message": "If you like, please have a cup of coffee and motivate me to continue refining it :-)"
+		"message": "Also, if you like, you can invite me to have a cup of coffee and motivate me to continually optimize it :-)"
 	},
 	"showBadgeName": {
-		"message": "Show badge:"
+		"message": "Show Total Number:"
 	},
 	"showBadgeDesc": {
-		"message": "Show the number of extensions currently enabled (except for locked extensions)"
+		"message": "Show the total number of the enabled extensions (except for locked extensions) in the toolbar ico, i.e. extension badge"
 	},
 	"showExtName": {
-		"message": "Show name:"
+		"message": "Show Extension Name:"
 	},
 	"showExtNameDesc": {
-		"message": "The name is displayed when the mouse rolls over the extensions icon"
+		"message": "Show its name when hovering over extension icon"
 	},
 	"tipsTitle": {
-		"message": "No other extensions have been installed :-)"
+		"message": "No installed extensions :-)"
 	},
 	"tipsCon": {
-		"message": "Go to the "
+		"message": "Explore more"
 	},
 	"tipsUrl": {
 		"message": "Chrome Web Store"
@@ -99,22 +99,22 @@
 		"message": "Uninstall"
 	},
 	"rightHomepage": {
-		"message": "Home"
+		"message": "Homepage"
 	},
 	"rightMoreName": {
-		"message": "Right-click:"
+		"message": "Right-click Menu:"
 	},
 	"rightMoreDesc": {
-		"message": "Right-click on the extended icon to operate more functions"
+		"message": "To get more functions by right-clicking the extension icon"
 	},
 	"emptyShowListCon": {
-		"message": "No Enabled Extensions!"
+		"message": "No enabled extensions in this group!"
 	},
 	"closeAllBtn": {
 		"message": "Reset"
 	},
 	"searcherPlaceholder": {
-		"message": "Search your extension"
+		"message": "Search for your extension"
 	},
 	"defaultGroupName": {
 		"message": "Default"
@@ -126,16 +126,16 @@
 		"message": "Group Management"
 	},
 	"optionGroupDesc": {
-		"message": "Adapt to different scenarios by grouping lightning management, such as home and company"
+		"message": "Using grouping, you can flexibly switch to different scenes such as home or company, to make management more convenient"
 	},
 	"optionGroupOperat": {
-		"message": "Under the current grouping, group lock after lighting by clicking the extension icon"
+		"message": "Under the selected group, click the extension ico to colorize to lock it into the group"
 	},
 	"optionGroupModifyName": {
-		"message": "Please enter a group name"
+		"message": "Enter the group name please"
 	},
 	"optionGroupDelete": {
-		"message": "Are you sure you want to delete this group?"
+		"message": "Are you sure to delete this group?"
 	},
 	"optionGroupDeleteAtLeaseOne": {
 		"message": "Keep at least one group!"
