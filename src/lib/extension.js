@@ -44,7 +44,7 @@ export function getExtColor(item) {
         var b1 = data[((img.width * row) + col) * 4 + 2];
 
         // 获取图片有效色值位置
-        if (r1 != 255 && g1 != 255 && b1 != 255) {
+        if (!(r1 == 255 && g1 == 255 && b1 == 255)) {
           if (col < substantialColor) {
             substantialColor = col;
           }

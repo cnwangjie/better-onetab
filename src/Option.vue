@@ -506,7 +506,7 @@ ul li em {
   line-height: 40px;
   min-width: 100px;
   text-align: center;
-  padding: 0 60px 0 7px;
+  padding: 0 63px 0 10px;
   background-color: #e0e0e0;
   margin: 0 10px 0 0;
   border: 1px solid #ccc;
