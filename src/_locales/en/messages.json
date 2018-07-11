@@ -57,7 +57,7 @@
 		"message": "Support:"
 	},
 	"otherDesc": {
-		"message": "You can visit <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=en_US' target='_blank'>Extension Manager</a> in Chrome Web Store to post a comment to give me a thumb-up or any suggestions"
+		"message": "You can visit <a>Extension Manager</a> in Chrome Web Store to post a comment to give me a thumb-up or any suggestions"
 	},
 	"otherDonate": {
 		"message": "Also, if you like, you can invite me to have a cup of coffee and motivate me to continually optimize it :-)"

@@ -57,7 +57,7 @@
 		"message": "サポート："
 	},
 	"otherDesc": {
-		"message": "うまく使用すると、「<a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=ja' target='_blank'>Chromeウェブストア</a>」にアクセスして賞賛したり、助言を提供することができます"
+		"message": "うまく使用すると、「<a>Chromeウェブストア</a>」にアクセスして賞賛したり、助言を提供することができます"
 	},
 	"otherDonate": {
 		"message": "プラス、あなたが好きなら、コーヒーのカップを持って、私はそれを洗練し続ける動機を与えてください :-)"

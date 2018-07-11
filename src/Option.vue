@@ -93,7 +93,7 @@
     <!-- 捐赠 -->
     <div class="list">
       <h1>{{i18n.otherName}}</h1>
-      <p class="describe" v-html="i18n.otherDesc"></p>
+      <p class="describe" v-html="otherDesc"></p>
       <br>
       <p class="describe">{{i18n.otherDonate}}</p>
       <ul id="otherDonateList" class="gclearfix">
@@ -159,6 +159,9 @@ export default {
     }
   },
   computed: {
+    otherDesc() {
+      return this.i18n.otherDesc.replace('<a>', `<a href="https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco/reviews?hl=${chrome.i18n.getUILanguage()}" target="_blank">`)
+    },
     getAllExtList() {
       return this.extList.map(item => {
         if (this.group.list[this.groupIndex].lock[item.id]) {

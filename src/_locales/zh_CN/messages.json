@@ -57,7 +57,7 @@
 		"message": "支持："
 	},
 	"otherDesc": {
-		"message": "用起来还不错，可以登陆 <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=zh-CN' target='_blank'>Chrome网上应用店</a> 给予好评 或 提供支持性建议"
+		"message": "用起来还不错，可以登陆 <a>Chrome网上应用店</a> 给予好评 或 提供支持性建议"
 	},
 	"otherDonate": {
 		"message": "如果您愿意还可以赞赏我，激励我持续完善它 :-)"

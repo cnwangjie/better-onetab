@@ -57,7 +57,7 @@
 		"message": "поддержка："
 	},
 	"otherDesc": {
-		"message": "Хорошо использовать, вы можете посетить <a href='https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco?hl=ru' target='_blank'>Интернет-магазин Chrome</a>, чтобы похвалить или предложить полезные предложения"
+		"message": "Хорошо использовать, вы можете посетить <a>Интернет-магазин Chrome</a>, чтобы похвалить или предложить полезные предложения"
 	},
 	"otherDonate": {
 		"message": "Плюс, если хотите, пожалуйста, выпейте чашку кофе и мотивируйте меня продолжать его очищать :-)"
