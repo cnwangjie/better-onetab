@@ -27,8 +27,14 @@
         <strong class="list-title" v-else>{{ list.title }}</strong>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
+        <v-btn @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
+          <v-icon :title="__('ui_title_down_btn')" color="gray" :style="{fontSize: '14px'}">fas fa-arrow-down</v-icon>
+        </v-btn>
+        <v-btn @click.stop="moveListUp(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === 0">
+          <v-icon :title="__('ui_title_up_btn')" color="gray" :style="{fontSize: '14px'}">fas fa-arrow-up</v-icon>
+        </v-btn>
         <v-btn @click.stop="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
-          <v-icon :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
+          <v-icon :title="__('ui_title_pin_btn')" :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
         </v-btn>
       </v-flex>
     </v-layout>
@@ -141,9 +147,10 @@ export default {
         }
       })
     },
-    storeLists() {
-      storage.setLists(this.lists).then(() => console.log('stored'))
-    },
+    storeLists: _.debounce(function() {
+      console.time('store')
+      storage.setLists(this.lists).then(() => console.timeEnd('store'))
+    }, 200),
     removeList(listIndex) {
       this.lists.splice(listIndex, 1)
       this.storeLists()
@@ -180,6 +187,19 @@ export default {
     pinList(listIndex, pin = true) {
       this.lists[listIndex].pinned = pin
       this.storeLists()
+    },
+    swapListItem(a, b) {
+      [this.lists[a], this.lists[b]] = [this.lists[b], this.lists[a]]
+      this.storeLists()
+      this.$forceUpdate()
+    },
+    moveListUp(listIndex) {
+      if (listIndex === 0) return
+      this.swapListItem(listIndex, listIndex - 1)
+    },
+    moveListDown(listIndex) {
+      if (listIndex === this.lists.length - 1) return
+      this.swapListItem(listIndex, listIndex + 1)
     },
     expandList(expand, listIndex) {
       this.lists[listIndex].expand = expand

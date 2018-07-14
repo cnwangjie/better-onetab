@@ -40,12 +40,13 @@ const getAllTabsInCurrentWindow = async () => {
 const storeTabs = async tabs => {
   const appUrl = browser.runtime.getURL('')
   tabs = tabs.filter(i => !i.url.startsWith(appUrl))
+  const opts = await storage.getOptions()
+  if (opts.ignorePinned) tabs = tabs.filter(i => !i.pinned)
   if (tabs.length === 0) return
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
   lists.unshift(list.createNewTabList({tabs: pickTabs(tabs)}))
   await storage.setLists(lists)
-  const opts = await storage.getOptions()
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
       await browser.history.addUrl({url: tabs[i].url})

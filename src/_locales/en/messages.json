@@ -41,6 +41,9 @@
   "opt_desc_addHistory": {
     "message": "Add stored tab to history"
   },
+  "opt_desc_ignorePinned": {
+    "message": "Prevent store pinned tabs"
+  },
   "opt_desc_syncOptions": {
     "message": "Sync settings"
   },
@@ -136,5 +139,14 @@
   },
   "ui_opt_changes_saved": {
     "message": "Changes saved!"
+  },
+  "ui_title_pin_btn": {
+    "message": "pin list"
+  },
+  "ui_title_up_btn": {
+    "message": "move list up"
+  },
+  "ui_title_down_btn": {
+    "message": "move list down"
   }
 }

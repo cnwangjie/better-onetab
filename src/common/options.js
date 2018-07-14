@@ -96,6 +96,12 @@ export const optionsList = [
     default: true,
   },
   {
+    name: 'ignorePinned',
+    desc: __('opt_desc_ignorePinned'),
+    type: Boolean,
+    default: false,
+  },
+  {
     name: 'syncOptions',
     desc: __('opt_desc_syncOptions'),
     type: Boolean,

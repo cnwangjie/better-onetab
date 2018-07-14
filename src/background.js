@@ -84,7 +84,7 @@ const init = async () => {
     else if (command === 'restore-lastest-list') {
       const lists = await storage.getLists()
       if (lists.length === 0) return true
-      const lastest = lists.sort((a, b) => a.time < b.time)[0]
+      const lastest = lists[0]
       await restoreList(lastest)
       if (lastest.pinned) return true
       lists.shift()
