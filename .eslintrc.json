@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "extends": "standard",
+  "rules": {
+    "indent": [2, 2, { "SwitchCase": 1 }],
+    "arrow-parens": 0,
+    "generator-star-spacing": 0,
+    "space-before-function-paren": 0
+  },
+  "env": {
+    "mocha": true
+  },
+  "plugins": [
+    "html"
+  ],
+  "settings": {
+    "html/html-extensions": [".html", ".vue"]
+  }
+}

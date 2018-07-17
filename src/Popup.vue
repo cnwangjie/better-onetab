@@ -15,7 +15,7 @@
         <div id="group" class="searchItem" @mouseenter="showGroup" @mouseleave="hideGroup">
           <button class="searchInput btn btn-group">{{group.list[groupIndex].name}}</button>
           <ul id="group-list" v-show="groupShow">
-            <li v-for="(item, index) in group.list" @click="changeGroup(index)" :title="item.name">{{item.name}}</li>
+            <li v-for="(item, index) in group.list" @click="changeGroup(index)" :title="item.name" :key="index">{{item.name}}</li>
             <li @click="setGroup" class="setting"></li>
           </ul>
         </div>
@@ -42,7 +42,7 @@
     </label>
     <div id="rightMenu" :class="[rightMenu.showClass]" :style="{ left: rightMenu.left, right: rightMenu.right, top: rightMenu.top, background: rightMenu.backgroundColor}">
       <ul>
-        <li v-for="item in rightMenu.content" @click="item.handle" :disabled="item.disabled">{{item.name}}</li>
+        <li v-for="(item, index) in rightMenu.content" @click="item.handle" :disabled="item.disabled" :key="index">{{item.name}}</li>
       </ul>
     </div>
     <canvas id="getColorByCanvas" style="display: none;"></canvas>
@@ -269,6 +269,7 @@ export default {
   }
 
   body {
+    user-select: none;
     -webkit-user-select: none;
     position: relative;
   }
