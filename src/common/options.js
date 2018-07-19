@@ -102,6 +102,12 @@ export const optionsList = [
     default: false,
   },
   {
+    name: 'pinNewList',
+    desc: __('opt_desc_pinNewList'),
+    type: Boolean,
+    default: false,
+  },
+  {
     name: 'syncOptions',
     desc: __('opt_desc_syncOptions'),
     type: Boolean,

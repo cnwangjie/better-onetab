@@ -45,7 +45,9 @@ const storeTabs = async tabs => {
   if (tabs.length === 0) return
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
-  lists.unshift(list.createNewTabList({tabs: pickTabs(tabs)}))
+  const newList = list.createNewTabList({tabs: pickTabs(tabs)})
+  if (opts.pinNewList) newList.pinned = true
+  lists.unshift(newList)
   await storage.setLists(lists)
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {

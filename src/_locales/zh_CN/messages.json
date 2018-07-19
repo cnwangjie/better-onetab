@@ -41,6 +41,9 @@
   "opt_desc_ignorePinned": {
     "message": "阻止储存被固定的标签"
   },
+  "opt_desc_pinNewList": {
+    "message": "自动固定新列表"
+  },
   "opt_desc_addHistory": {
     "message": "将储存的标签加入浏览器历史记录中"
   },

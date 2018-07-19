@@ -16,13 +16,15 @@
         >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
         <strong class="grey--text date">{{ __('ui_created') }} {{ formatTime(list.time) }}</strong>
       </v-flex>
-      <v-flex no-wrap xs7>
+      <v-flex no-wrap xs7 @keydown.enter="saveTitle(listIndex)">
         <v-text-field
           class="title-editor"
           autofocus
           v-if="list.titleEditing"
           @blur="saveTitle(listIndex)"
           v-model="list.title"
+          single-line
+          hide-details
         ></v-text-field>
         <strong class="list-title" v-else>{{ list.title }}</strong>
       </v-flex>

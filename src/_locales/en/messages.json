@@ -44,6 +44,9 @@
   "opt_desc_ignorePinned": {
     "message": "Prevent store pinned tabs"
   },
+  "opt_desc_pinNewList": {
+    "message": "Auto pin new list"
+  },
   "opt_desc_syncOptions": {
     "message": "Sync settings"
   },
