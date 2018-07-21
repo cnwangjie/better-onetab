@@ -107,6 +107,9 @@
   "ui_list": {
     "message": "列表"
   },
+  "ui_keyboard_shortcuts": {
+    "message": "键盘快捷键"
+  },
   "ui_export_import": {
     "message": "导出 / 导入"
   },

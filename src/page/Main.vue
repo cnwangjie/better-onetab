@@ -7,6 +7,9 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn flat dark @click="openShortcutPage">
+        {{ __('ui_keyboard_shortcuts') }}
+      </v-btn>
       <v-btn flat dark @click="dialog = true">
         {{ __('ui_export_import') }}
       </v-btn>
@@ -95,6 +98,9 @@ export default {
   },
   methods: {
     __,
+    openShortcutPage() {
+      chrome.tabs.create({url: 'chrome://extensions/shortcuts'})
+    },
     async exp(comp) {
       if (this.processing) {
         this.snackbarMsg = __('ui_main_processing')
