@@ -7,21 +7,55 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat dark @click="openShortcutPage">
-        {{ __('ui_keyboard_shortcuts') }}
-      </v-btn>
-      <v-btn flat dark @click="dialog = true">
-        {{ __('ui_export_import') }}
-      </v-btn>
       <v-btn flat dark exact :to="'/app/'">
         {{ __('ui_tab_list') }}
       </v-btn>
-      <v-btn flat dark exact :to="'/app/options'">
-        <v-icon dark>fas fa-cog</v-icon>
-      </v-btn>
-      <v-btn flat dark href="https://github.com/cnwangjie/better-onetab">
-        <v-icon dark>fab fa-github</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <v-btn slot="activator" flat dark>
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile :to="'/app/options'">
+            <v-list-tile-action>
+              <v-icon>fas fa-cog</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              {{ __('ui_options') }}
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="dialog = true">
+            <v-list-tile-action>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              {{ __('ui_export_import') }}
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="openShortcutPage">
+            <v-list-tile-action>
+              <v-icon>fas fa-keyboard</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              {{ __('ui_keyboard_shortcuts') }}
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile href="https://github.com/cnwangjie/better-onetab/issues/new/choose">
+            <v-list-tile-action>
+              <v-icon>fas fa-exclamation-circle</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              {{ __('ui_create_issue') }}
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile href="https://github.com/cnwangjie/better-onetab">
+            <v-list-tile-action>
+              <v-icon>fab fa-github</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              {{ __('ui_github') }}
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar-items>
   </v-toolbar>
   <v-content>
@@ -29,6 +63,13 @@
       <router-view></router-view>
     </v-container>
   </v-content>
+  <v-footer>
+    <v-spacer></v-spacer>
+    <span>
+      Made with <i class="fa fa-heart throb" style="color:#d43f57"></i> by <a style="color:black; text-decoration: none;" href="https://www.cnwangjie.com/" target="_blank">WangJie</a>
+    </span>
+    <v-spacer></v-spacer>
+  </v-footer>
   <v-dialog v-model="dialog" max-width="700px">
     <v-card>
 

@@ -107,11 +107,20 @@
   "ui_list": {
     "message": "列表"
   },
+  "ui_create_issue": {
+    "message": "反馈问题"
+  },
+  "ui_options": {
+    "message": "选项"
+  },
   "ui_keyboard_shortcuts": {
     "message": "键盘快捷键"
   },
   "ui_export_import": {
     "message": "导出 / 导入"
+  },
+  "ui_github": {
+    "message": "代码仓库"
   },
   "ui_tab_list": {
     "message": "标签列表"

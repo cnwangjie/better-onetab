@@ -107,11 +107,20 @@
   "ui_list": {
     "message": "list"
   },
+  "ui_create_issue": {
+    "message": "Create an issue"
+  },
+  "ui_options": {
+    "message": "Options"
+  },
   "ui_keyboard_shortcuts": {
     "message": "Keyboard shortcuts"
   },
   "ui_export_import": {
     "message": "Export / Import"
+  },
+  "ui_github": {
+    "message": "GitHub"
   },
   "ui_tab_list": {
     "message": "Tab List"
