@@ -17,8 +17,9 @@ if (PRODUCTION) import(
 
 const getBrowserActionHandler = action => {
   if (action === 'store-selected') return () => tabs.storeSelectedTabs()
-  if (action === 'store-all') return () => tabs.storeAllTabs()
   if (action === 'show-list') return () => tabs.openTabLists()
+  if (action === 'store-all') return () => tabs.storeAllTabs()
+  if (action === 'store-all-in-all-windows') return () => tabs.storeAllTabInAllWindows()
   return () => {}
 }
 
@@ -52,11 +53,17 @@ const setupContextMenus = () => {
     title: __('menu_SHOW_TAB_LIST'),
     contexts: ['browser_action'],
   })
+  browser.contextMenus.create({
+    id: 'STORE_ALL_TABS_IN_ALL_WINDOWS',
+    title: __('menu_STORE_ALL_TABS_IN_ALL_WINDOWS'),
+    contexts: ['browser_action'],
+  })
 
   window.contextMenusClickedHandler = info => {
     if (info.menuItemId === 'STORE_SELECTED_TABS') tabs.storeSelectedTabs()
     else if (info.menuItemId === 'STORE_ALL_TABS_IN_CURRENT_WINDOW') tabs.storeAllTabs()
     else if (info.menuItemId === 'SHOW_TAB_LIST') tabs.openTabLists()
+    else if (info.menuItemId === 'STORE_ALL_TABS_IN_ALL_WINDOWS') tabs.storeAllTabInAllWindows()
   }
 }
 
@@ -74,6 +81,14 @@ const init = async () => {
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key, changes[key]))
+    }
+  })
+  browser.runtime.onUpdateAvailable.addListener(detail => {
+    window.update = detail.version
+  })
+  browser.runtime.onInstalled.addListener(detail => {
+    if (detail.reason === chrome.runtime.OnInstalledReason.UPDATE) {
+      tabs.openAboutPage()
     }
   })
   browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action))

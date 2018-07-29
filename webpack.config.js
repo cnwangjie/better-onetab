@@ -91,6 +91,17 @@ module.exports = {
           useRelativePath: true,
         },
       },
+      {
+        test: /\.png$/,
+        use: 'url-loader?mimetype=image/png'
+      },
+      {
+        test: /\.md$/,
+        use: [
+          { loader: "html-loader" },
+          { loader: "markdown-loader" },
+        ]
+      },
     ]
   }
 }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import DetailList from '@/page/DetailList'
 import Options from '@/page/Options'
+import About from '@/page/About'
 import Main from '@/page/Main'
 import Popup from '@/page/Popup'
 
@@ -22,6 +23,11 @@ const router = new Router({
           path: 'options',
           component: Options,
           name: 'options',
+        },
+        {
+          path: 'about',
+          component: About,
+          name: 'about',
         },
         {
           path: '*',

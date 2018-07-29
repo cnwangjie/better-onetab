@@ -29,14 +29,14 @@
         <strong class="list-title" v-else>{{ list.title }}</strong>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
-        <v-btn @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
-          <v-icon :title="__('ui_title_down_btn')" color="gray" :style="{fontSize: '14px'}">fas fa-arrow-down</v-icon>
+        <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
+          <v-icon color="gray" :style="{fontSize: '14px'}">fas fa-arrow-down</v-icon>
         </v-btn>
-        <v-btn @click.stop="moveListUp(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === 0">
-          <v-icon :title="__('ui_title_up_btn')" color="gray" :style="{fontSize: '14px'}">fas fa-arrow-up</v-icon>
+        <v-btn :title="__('ui_title_up_btn')" @click.stop="moveListUp(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === 0">
+          <v-icon color="gray" :style="{fontSize: '14px'}">fas fa-arrow-up</v-icon>
         </v-btn>
-        <v-btn @click.stop="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
-          <v-icon :title="__('ui_title_pin_btn')" :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
+        <v-btn :title="__('ui_title_pin_btn')" @click.stop="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
+          <v-icon :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
         </v-btn>
       </v-flex>
     </v-layout>
@@ -44,7 +44,7 @@
       <v-btn flat small v-on:click="openChangeTitle(listIndex)">{{ __('ui_retitle_list') }}</v-btn>
       <v-btn flat small v-on:click="restoreList(listIndex)">{{ __('ui_restore_all') }}</v-btn>
       <v-btn flat small v-on:click="restoreList(listIndex, true)">{{ __('ui_restore_all_in_new_window') }}</v-btn>
-      <v-btn flat small color="error" v-on:click="removeList(listIndex)">{{ __('ui_remove_list') }}</v-btn>
+      <v-btn flat small color="error" v-on:click="removeList(listIndex)" :disabled="list.pinned">{{ __('ui_remove_list') }}</v-btn>
       <v-btn flat small v-on:click="pinList(listIndex, !list.pinned)">{{ list.pinned ? __('ui_unpin') : __('ui_pin') }} {{ __('ui_list') }}</v-btn>
       <v-divider></v-divider>
       <v-list dense class="my-1">
@@ -55,6 +55,8 @@
         >
           <v-list-tile
             v-for="(tab, tabIndex) in list.tabs"
+            :href="itemClickAction !== 'none' ? tab.url : null"
+            :target="itemClickAction !== 'none' ? '_blank' : null"
             @click="itemClicked(listIndex, tabIndex)"
             class="list-item"
             :key="tabIndex">
@@ -113,10 +115,7 @@ export default {
     async itemClicked(listIndex, tabIndex) {
       const action = this.itemClickAction
       if (action === 'open-and-remove') {
-        this.openTab(listIndex, tabIndex)
         this.removeTab(listIndex, tabIndex)
-      } else if (action === 'open') {
-        this.openTab(listIndex, tabIndex)
       }
     },
     tabMoved() {

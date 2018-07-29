@@ -14,6 +14,9 @@
   "menu_SHOW_TAB_LIST": {
     "message": "显示标签列表"
   },
+  "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
+    "message": "储存所有窗口的所有标签"
+  },
   "cmd_store_selected_tabs": {
     "message": "储存选中的标签"
   },
@@ -25,6 +28,9 @@
   },
   "cmd_open_lists": {
     "message": "打开标签列表"
+  },
+  "cmd_store_all_in_all_windows": {
+    "message": "储存所有窗口的所有标签"
   },
   "opt_desc_browserAction": {
     "message": "当图标被点击时的行为"
@@ -112,6 +118,9 @@
   },
   "ui_options": {
     "message": "选项"
+  },
+  "ui_about": {
+    "message": "关于"
   },
   "ui_keyboard_shortcuts": {
     "message": "键盘快捷键"

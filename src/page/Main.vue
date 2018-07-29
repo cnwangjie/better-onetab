@@ -23,6 +23,13 @@
               {{ __('ui_options') }}
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile :to="'/app/about'">
+            <v-list-tile-action>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              {{ __('ui_about') }}
+            </v-list-tile-content>
+          </v-list-tile>
           <v-list-tile @click="dialog = true">
             <v-list-tile-action>
             </v-list-tile-action>

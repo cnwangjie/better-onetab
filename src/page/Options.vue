@@ -2,7 +2,7 @@
 <div>
   <v-layout>
     <v-flex xs12 sm6 offset-sm3>
-      <v-subheader>Options</v-subheader>
+      <v-subheader>{{ __('ui_options') }}</v-subheader>
       <v-card>
         <v-list>
           <template v-for="(option, optionIndex) in optionsList">

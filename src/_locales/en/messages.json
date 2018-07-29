@@ -14,6 +14,9 @@
   "menu_SHOW_TAB_LIST": {
     "message": "show tab list"
   },
+  "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
+    "message": "store all tabs in all windows"
+  },
   "cmd_store_selected_tabs": {
     "message": "Store selected tabs"
   },
@@ -25,6 +28,9 @@
   },
   "cmd_open_lists": {
     "message": "Open tab lists"
+  },
+  "cmd_store_all_in_all_windows": {
+    "message": "Store all tabs in all windows"
   },
   "opt_desc_browserAction": {
     "message": "Behavior when icon is clicked"
@@ -112,6 +118,9 @@
   },
   "ui_options": {
     "message": "Options"
+  },
+  "ui_about": {
+    "message": "About"
   },
   "ui_keyboard_shortcuts": {
     "message": "Keyboard shortcuts"

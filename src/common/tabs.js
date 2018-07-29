@@ -30,6 +30,10 @@ const openTabLists = async () => {
   window.appTabId[windowId] = createdTab.id
 }
 
+const openAboutPage = async () => {
+  window.open(browser.runtime.getURL('index.html#/app/about'))
+}
+
 const getSelectedTabs = () => browser.tabs.query({highlighted: true, currentWindow: true})
 
 const getAllTabsInCurrentWindow = async () => {
@@ -69,6 +73,15 @@ const storeAllTabs = async () => {
   return storeTabs(tabs)
 }
 
+const storeAllTabInAllWindows = async () => {
+  const windows = await browser.windows.getAll()
+  await openTabLists()
+  for (const window of windows) {
+    const tabs = await getAllInWindow(window.id)
+    storeTabs(tabs)
+  }
+}
+
 const restoreList = async (list, windowId) => {
   for (let i = 0; i < list.tabs.length; i += 1) {
     const tab = list.tabs[i]
@@ -95,8 +108,10 @@ export default {
   getSelectedTabs,
   storeSelectedTabs,
   storeAllTabs,
+  storeAllTabInAllWindows,
   restoreList,
   restoreListInNewWindow,
   openTab,
   openTabLists,
+  openAboutPage,
 }
