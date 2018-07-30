@@ -31,12 +31,10 @@ const sync = async () => {
 const get = async key => {
   if (!quotaExceeded && (Date.now() - lastSync > 5000)) {
     lastSync = Date.now()
-    try {
-      await sync()
-    } catch (e) {
+    sync().catch(e => {
       if (e.message.indexOf('quota exceeded') !== 0) quotaExceeded = true
       console.error('sync error:', e.message)
-    }
+    })
   }
   return browser.storage.local.get(key)
 }
