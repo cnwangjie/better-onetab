@@ -108,6 +108,12 @@ export const optionsList = [
     default: false,
   },
   {
+    name: 'pageContext',
+    desc: __('opt_desc_pageContext'),
+    type: Boolean,
+    default: true,
+  },
+  {
     name: 'syncOptions',
     desc: __('opt_desc_syncOptions'),
     type: Boolean,

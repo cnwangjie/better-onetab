@@ -1,3 +1,8 @@
+### v1.1.1 8/1/2018
+
+ - feat: add an option to turn on the button of context menu in the page
+ - fix: do not await sync complete when access storage
+
 ### v1.1.0 7/29/2018
 
  - feat: add an operation to store all tabs in all windows (in context menus and keyboard shortcut)

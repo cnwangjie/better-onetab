@@ -55,6 +55,7 @@
 import storage from '@/common/storage'
 import options from '@/common/options'
 import __ from '@/common/i18n'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -70,7 +71,7 @@ export default {
   },
   methods: {
     __,
-    async optionsChanged(key, value) {
+    optionsChanged: _.debounce(async function (key, value) {
       console.log(1)
       console.log(key, value)
       // when type of option is string options can not be set correctly after first storage.setOptions() called
@@ -78,7 +79,7 @@ export default {
       await storage.setOptions(this.options)
       console.log(2)
       chrome.runtime.sendMessage({optionsChanged: {[key]: value}})
-    },
+    }, 100),
     async init() {
       const opts = await storage.getOptions()
       Object.keys(opts).map(key => {

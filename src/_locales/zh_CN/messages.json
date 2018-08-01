@@ -50,6 +50,9 @@
   "opt_desc_pinNewList": {
     "message": "自动固定新列表"
   },
+  "opt_desc_pageContext": {
+    "message": "开启页面中的右键菜单中的按钮"
+  },
   "opt_desc_addHistory": {
     "message": "将储存的标签加入浏览器历史记录中"
   },

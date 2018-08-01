@@ -53,6 +53,9 @@
   "opt_desc_pinNewList": {
     "message": "Auto pin new list"
   },
+  "opt_desc_pageContext": {
+    "message": "Turn on the button of context menu in the page"
+  },
   "opt_desc_syncOptions": {
     "message": "Sync settings"
   },

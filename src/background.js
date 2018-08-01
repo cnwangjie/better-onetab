@@ -36,35 +36,24 @@ const updateBrowserAction = action => {
   }
 }
 
-const setupContextMenus = () => {
-  browser.contextMenus.removeAll()
-  browser.contextMenus.create({
-    id: 'STORE_SELECTED_TABS',
-    title: __('menu_STORE_SELECTED_TABS'),
-    contexts: ['browser_action'],
-  })
-  browser.contextMenus.create({
-    id: 'STORE_ALL_TABS_IN_CURRENT_WINDOW',
-    title: __('menu_STORE_ALL_TABS_IN_CURRENT_WINDOW'),
-    contexts: ['browser_action'],
-  })
-  browser.contextMenus.create({
-    id: 'SHOW_TAB_LIST',
-    title: __('menu_SHOW_TAB_LIST'),
-    contexts: ['browser_action'],
-  })
-  browser.contextMenus.create({
-    id: 'STORE_ALL_TABS_IN_ALL_WINDOWS',
-    title: __('menu_STORE_ALL_TABS_IN_ALL_WINDOWS'),
-    contexts: ['browser_action'],
-  })
-
-  window.contextMenusClickedHandler = info => {
-    if (info.menuItemId === 'STORE_SELECTED_TABS') tabs.storeSelectedTabs()
-    else if (info.menuItemId === 'STORE_ALL_TABS_IN_CURRENT_WINDOW') tabs.storeAllTabs()
-    else if (info.menuItemId === 'SHOW_TAB_LIST') tabs.openTabLists()
-    else if (info.menuItemId === 'STORE_ALL_TABS_IN_ALL_WINDOWS') tabs.storeAllTabInAllWindows()
+const setupContextMenus = async pageContext => {
+  await browser.contextMenus.removeAll()
+  const contexts = ['browser_action']
+  if (pageContext) contexts.push('page')
+  const menus = {
+    STORE_SELECTED_TABS: tabs.storeSelectedTabs,
+    STORE_ALL_TABS_IN_CURRENT_WINDOW: tabs.storeAllTabs,
+    SHOW_TAB_LIST: tabs.openTabLists,
+    STORE_ALL_TABS_IN_ALL_WINDOWS: tabs.storeAllTabInAllWindows,
   }
+  for (const key of Object.keys(menus)) {
+    await browser.contextMenus.create({
+      id: key,
+      title: __('menu_' + key),
+      contexts,
+    })
+  }
+  window.contextMenusClickedHandler = info => menus[info.menuItemId]()
 }
 
 const init = async () => {
@@ -72,14 +61,15 @@ const init = async () => {
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
   updateBrowserAction(opts.browserAction)
-  setupContextMenus()
-  browser.runtime.onMessage.addListener(msg => {
+  setupContextMenus(opts.pageContext)
+  browser.runtime.onMessage.addListener(async msg => {
     console.log(msg)
     if (msg.optionsChanged) {
       const changes = msg.optionsChanged
       console.log(changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
-      browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
+      if ('pageContext' in changes) await setupContextMenus(changes.pageContext)
+      await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key, changes[key]))
     }
   })
