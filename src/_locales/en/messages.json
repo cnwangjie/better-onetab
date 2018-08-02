@@ -89,6 +89,9 @@
   "opt_label_restore_new_window": {
     "message": "restore in new window"
   },
+  "ui_nightmode": {
+    "message": "nightmode"
+  },
   "ui_tab": {
     "message": "tabs"
   },

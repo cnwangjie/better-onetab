@@ -89,6 +89,9 @@
   "opt_label_restore_new_window": {
     "message": "恢复至新的窗口"
   },
+  "ui_nightmode": {
+    "message": "夜间模式"
+  },
   "ui_tab": {
     "message": "tabs"
   },

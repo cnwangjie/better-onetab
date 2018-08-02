@@ -1,12 +1,13 @@
 <template>
-<v-app>
-  <v-toolbar
-    color="primary"
-  >
+<v-app :dark="nightmode">
+  <v-toolbar :color="nightmode ? null : 'primary'">
     <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
     <v-spacer></v-spacer>
 
     <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn flat dark @click="nightmode = !nightmode">
+        {{ __('ui_nightmode') }}
+      </v-btn>
       <v-btn flat dark exact :to="'/app/'">
         {{ __('ui_tab_list') }}
       </v-btn>
@@ -133,6 +134,8 @@ import _ from 'lodash'
 import __ from '@/common/i18n'
 import list from '@/common/list'
 import storage from '@/common/storage'
+import browser from 'webextension-polyfill'
+
 export default {
   data() {
     return {
@@ -142,10 +145,24 @@ export default {
       snackbar: false,
       snackbarMsg: '',
       processing: false,
+      nightmode: false,
     }
+  },
+  watch: {
+    async nightmode(newValue) {
+      const window = await browser.runtime.getBackgroundPage()
+      window.nightmode = newValue
+    },
+  },
+  created() {
+    this.init()
   },
   methods: {
     __,
+    async init() {
+      const window = await browser.runtime.getBackgroundPage()
+      if ('nightmode' in window) this.nightmode = window.nightmode || false
+    },
     openShortcutPage() {
       chrome.tabs.create({url: 'chrome://extensions/shortcuts'})
     },
