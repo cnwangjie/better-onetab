@@ -60,7 +60,7 @@
             @click="itemClicked(listIndex, tabIndex)"
             class="list-item"
             :key="tabIndex">
-            <v-list-tile-action>
+            <v-list-tile-action v-if="removeItemBtnPos === 'left'">
               <v-icon class="clear-btn" color="red" @click.stop="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
@@ -78,6 +78,9 @@
                 {{ tab.url }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
+            <v-list-tile-action v-if="removeItemBtnPos === 'right'">
+              <v-icon class="clear-btn" color="red" @click.stop="removeTab(listIndex, tabIndex)">clear</v-icon>
+            </v-list-tile-action>
           </v-list-tile>
         </draggable>
       </v-list>
@@ -101,6 +104,7 @@ export default {
       lists: [],
       itemClickAction: '',
       itemDisplay: '',
+      removeItemBtnPos: 'left',
     }
   },
   created() {
@@ -134,6 +138,7 @@ export default {
       const opts = await storage.getOptions()
       this.itemClickAction = opts.itemClickAction
       this.itemDisplay = opts.itemDisplay
+      this.removeItemBtnPos = opts.removeItemBtnPos
       chrome.storage.onChanged.addListener(changes => {
         if (changes.lists) {
           const newLists = changes.lists.newValue

@@ -1,3 +1,9 @@
+### v1.1.2 8/5/2018
+
+ - feat: nightmode
+ - feat: add an option to change the position of remove item button
+ - change: created time i18n support
+
 ### v1.1.1 8/1/2018
 
  - feat: add an option to turn on the button of context menu in the page

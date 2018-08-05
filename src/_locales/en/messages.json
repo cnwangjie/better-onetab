@@ -41,6 +41,9 @@
   "opt_desc_itemDisplay": {
     "message": "Contents of the items in a list"
   },
+  "opt_desc_removeItemBtnPos": {
+    "message": "The position of remove item button"
+  },
   "opt_desc_popupItemClickAction": {
     "message": "Behavior when item in simple list is clicked"
   },
@@ -88,6 +91,12 @@
   },
   "opt_label_restore_new_window": {
     "message": "restore in new window"
+  },
+  "opt_label_left": {
+    "message": "left"
+  },
+  "opt_label_right": {
+    "message": "right"
   },
   "ui_nightmode": {
     "message": "nightmode"

@@ -41,6 +41,9 @@
   "opt_desc_itemDisplay": {
     "message": "列表中的项显示的内容"
   },
+  "opt_desc_removeItemBtnPos": {
+    "message": "移除标签按钮的位置"
+  },
   "opt_desc_popupItemClickAction": {
     "message": "当弹出列表中的项被点击时的行为"
   },
@@ -88,6 +91,12 @@
   },
   "opt_label_restore_new_window": {
     "message": "恢复至新的窗口"
+  },
+  "opt_label_left": {
+    "message": "标签左侧"
+  },
+  "opt_label_right": {
+    "message": "标签右侧"
   },
   "ui_nightmode": {
     "message": "夜间模式"

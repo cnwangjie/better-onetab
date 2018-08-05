@@ -90,6 +90,22 @@ export const optionsList = [
     ],
   },
   {
+    name: 'removeItemBtnPos',
+    desc: __('opt_desc_removeItemBtnPos'),
+    type: String,
+    default: 'left',
+    items: [
+      {
+        value: 'left',
+        label: __('opt_label_left'),
+      },
+      {
+        value: 'right',
+        label: __('opt_label_right'),
+      },
+    ],
+  },
+  {
     name: 'addHistory',
     desc: __('opt_desc_addHistory'),
     type: Boolean,
