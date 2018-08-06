@@ -61,7 +61,7 @@
             class="list-item"
             :key="tabIndex">
             <v-list-tile-action v-if="removeItemBtnPos === 'left'">
-              <v-icon class="clear-btn" color="red" @click.stop="removeTab(listIndex, tabIndex)">clear</v-icon>
+              <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -79,7 +79,7 @@
               </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action v-if="removeItemBtnPos === 'right'">
-              <v-icon class="clear-btn" color="red" @click.stop="removeTab(listIndex, tabIndex)">clear</v-icon>
+              <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
           </v-list-tile>
         </draggable>
@@ -155,7 +155,9 @@ export default {
     },
     storeLists: _.debounce(function() {
       console.time('store')
-      storage.setLists(this.lists).then(() => console.timeEnd('store'))
+      this.$nextTick(() => {
+        storage.setLists(this.lists).then(() => console.timeEnd('store'))
+      })
     }, 200),
     removeList(listIndex) {
       this.lists.splice(listIndex, 1)

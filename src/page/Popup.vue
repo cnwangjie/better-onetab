@@ -44,16 +44,14 @@ export default {
       this.action = opts.popupItemClickAction
     },
     clicked(index) {
-      if (this.action === 'restore') {
-        tabs.restoreList(this.lists[index])
-      } else if (this.action === 'restore-new-window') {
-        tabs.restoreListInNewWindow(this.lists[index])
+      if (['restore', 'restore-new-window'].includes(this.action)) {
+        chrome.runtime.sendMessage({restoreList: {
+          index,
+          newWindow: this.action === 'restore-new-window',
+        }})
       } else return
 
-      if (!this.lists[index].pinned) {
-        this.lists.splice(index, 1)
-        storage.setLists(this.lists)
-      }
+      if (!this.lists[index].pinned) this.lists.splice(index, 1)
     },
   }
 }

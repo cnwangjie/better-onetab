@@ -15,6 +15,8 @@ if (PRODUCTION) import(
   '@/common/tracker'
 ).then(({tracker}) => tracker())
 
+if (DEBUG) window.tabs = tabs
+
 const getBrowserActionHandler = action => {
   if (action === 'store-selected') return () => tabs.storeSelectedTabs()
   if (action === 'show-list') return () => tabs.openTabLists()
@@ -71,6 +73,20 @@ const init = async () => {
       if ('pageContext' in changes) await setupContextMenus(changes.pageContext)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key, changes[key]))
+    }
+    if (msg.restoreList) {
+      const restoreList = msg.restoreList
+      const listIndex = restoreList.index
+      const lists = await storage.getLists()
+      if (restoreList.newWindow) {
+        tabs.restoreListInNewWindow(lists[listIndex])
+      } else {
+        tabs.restoreList(lists[listIndex])
+      }
+      if (!lists[listIndex].pinned) {
+        lists.splice(index, 1)
+        storage.setLists(lists)
+      }
     }
   })
   browser.runtime.onUpdateAvailable.addListener(detail => {

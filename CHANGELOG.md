@@ -1,3 +1,9 @@
+### v1.1.3 8/6/2018
+
+ - fix: remove list item will not open the tab
+ - fix: restore list from popup
+ - perf: set storage at next tick
+
 ### v1.1.2 8/5/2018
 
  - feat: nightmode
