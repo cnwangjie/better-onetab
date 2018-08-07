@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 
+/* eslint-disable no-unused-vars */
 const app = new Vue({
   el: '#app',
   router,

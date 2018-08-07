@@ -59,7 +59,7 @@ const setupContextMenus = async pageContext => {
 }
 
 const init = async () => {
-  const opts = await storage.getOptions().catch(i => {}) || {}
+  const opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
   updateBrowserAction(opts.browserAction)
@@ -84,7 +84,7 @@ const init = async () => {
         tabs.restoreList(lists[listIndex])
       }
       if (!lists[listIndex].pinned) {
-        lists.splice(index, 1)
+        lists.splice(listIndex, 1)
         storage.setLists(lists)
       }
     }
@@ -106,7 +106,7 @@ const init = async () => {
       const lists = await storage.getLists()
       if (lists.length === 0) return true
       const lastest = lists[0]
-      await restoreList(lastest)
+      await tabs.restoreList(lastest)
       if (lastest.pinned) return true
       lists.shift()
       return storage.setLists(lists)
