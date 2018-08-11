@@ -17,6 +17,18 @@
   "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
     "message": "储存所有窗口的所有标签"
   },
+  "menu_EXTRA": {
+    "message": "额外功能"
+  },
+  "menu_STORE_LEFT_TABS": {
+    "message": "储存左边的标签"
+  },
+  "menu_STORE_RIGHT_TABS": {
+    "message": "储存右边的标签"
+  },
+  "menu_STORE_TWOSIDE_TABS": {
+    "message": "储存未选中的标签"
+  },
   "cmd_store_selected_tabs": {
     "message": "储存选中的标签"
   },
@@ -58,6 +70,9 @@
   },
   "opt_desc_addHistory": {
     "message": "将储存的标签加入浏览器历史记录中"
+  },
+  "opt_desc_openTabListWhenNewTab": {
+    "message": "当前页面为新标签页的时候点击图标时显示标签列表 (不会覆盖弹出简易列表的行为)"
   },
   "opt_desc_syncOptions": {
     "message": "同步设置"

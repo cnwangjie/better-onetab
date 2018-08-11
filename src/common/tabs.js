@@ -41,6 +41,24 @@ const getAllTabsInCurrentWindow = async () => {
   return getAllInWindow(currentWindow.id)
 }
 
+const groupTabsInCurrentWindow = async () => {
+  const tabs = await getAllTabsInCurrentWindow()
+  const result = { left: [], right: [] }
+  let currentIsRight = false
+  for (const tab of tabs) {
+    if (tab.highlighted) {
+      currentIsRight = true
+    } else if (currentIsRight) result.right.push(tab)
+    else result.left.push(tab)
+  }
+  result.twoSide = result.left.concat(result.right)
+  return result
+}
+
+const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left)
+const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right)
+const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide)
+
 const storeTabs = async tabs => {
   const appUrl = browser.runtime.getURL('')
   tabs = tabs.filter(i => !i.url.startsWith(appUrl))
@@ -106,7 +124,11 @@ const openTab = async tab => browser.tabs.create({ url: tab.url })
 
 export default {
   getSelectedTabs,
+  groupTabsInCurrentWindow,
+  storeLeftTabs,
+  storeRightTabs,
   storeSelectedTabs,
+  storeTwoSideTabs,
   storeAllTabs,
   storeAllTabInAllWindows,
   restoreList,

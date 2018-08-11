@@ -17,6 +17,18 @@
   "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
     "message": "store all tabs in all windows"
   },
+  "menu_EXTRA": {
+    "message": "extra"
+  },
+  "menu_STORE_LEFT_TABS": {
+    "message": "store left tabs"
+  },
+  "menu_STORE_RIGHT_TABS": {
+    "message": "store right tabs"
+  },
+  "menu_STORE_TWOSIDE_TABS": {
+    "message": "store unselected tabs"
+  },
   "cmd_store_selected_tabs": {
     "message": "Store selected tabs"
   },
@@ -58,6 +70,9 @@
   },
   "opt_desc_pageContext": {
     "message": "Turn on the button of context menu in the page"
+  },
+  "opt_desc_openTabListWhenNewTab": {
+    "message": "Cover the browser action to show tab lists if current tab is new tab page (won't cover popup simple list)"
   },
   "opt_desc_syncOptions": {
     "message": "Sync settings"
@@ -133,6 +148,15 @@
   },
   "ui_options": {
     "message": "Options"
+  },
+  "ui_options_behaviour": {
+    "message": "Behaviour"
+  },
+  "ui_options_appearance": {
+    "message": "Appearance"
+  },
+  "ui_options_sync": {
+    "message": "Sync"
   },
   "ui_about": {
     "message": "About"

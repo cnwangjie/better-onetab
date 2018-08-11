@@ -1,7 +1,15 @@
+import _ from 'lodash'
 import __ from '@/common/i18n'
+
+const cate = {
+  BEHAVIOUR: 'behaviour',
+  APPEARANCE: 'appearance',
+  SYNC: 'sync',
+}
 
 export const optionsList = [
   {
+    cate: cate.BEHAVIOUR,
     name: 'browserAction',
     desc: __('opt_desc_browserAction'),
     type: String,
@@ -30,6 +38,7 @@ export const optionsList = [
     ],
   },
   {
+    cate: cate.BEHAVIOUR,
     name: 'itemClickAction',
     desc: __('opt_desc_itemClickAction'),
     type: String,
@@ -70,6 +79,7 @@ export const optionsList = [
   //   ],
   // },
   {
+    cate: cate.BEHAVIOUR,
     name: 'popupItemClickAction',
     desc: __('opt_desc_popupItemClickAction'),
     type: String,
@@ -90,6 +100,7 @@ export const optionsList = [
     ],
   },
   {
+    cate: cate.APPEARANCE,
     name: 'removeItemBtnPos',
     desc: __('opt_desc_removeItemBtnPos'),
     type: String,
@@ -106,36 +117,49 @@ export const optionsList = [
     ],
   },
   {
+    cate: cate.BEHAVIOUR,
     name: 'addHistory',
     desc: __('opt_desc_addHistory'),
     type: Boolean,
     default: true,
   },
   {
+    cate: cate.BEHAVIOUR,
     name: 'ignorePinned',
     desc: __('opt_desc_ignorePinned'),
     type: Boolean,
     default: false,
   },
   {
+    cate: cate.BEHAVIOUR,
     name: 'pinNewList',
     desc: __('opt_desc_pinNewList'),
     type: Boolean,
     default: false,
   },
   {
+    cate: cate.BEHAVIOUR,
     name: 'pageContext',
     desc: __('opt_desc_pageContext'),
     type: Boolean,
     default: true,
   },
   {
+    cate: cate.BEHAVIOUR,
+    name: 'openTabListWhenNewTab',
+    desc: __('opt_desc_openTabListWhenNewTab'),
+    type: Boolean,
+    default: false,
+  },
+  {
+    cate: cate.SYNC,
     name: 'syncOptions',
     desc: __('opt_desc_syncOptions'),
     type: Boolean,
     default: true,
   },
   {
+    cate: cate.SYNC,
     name: 'syncList',
     desc: __('opt_desc_syncList'),
     type: Boolean,
@@ -143,8 +167,6 @@ export const optionsList = [
   },
 ]
 
-const getDefaultOptions = () => optionsList.reduce((opts, item) => {
-  return Object.assign(opts, {[item.name]: item.default})
-}, {})
+const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)
 
 export default {getDefaultOptions, optionsList}

@@ -2,44 +2,48 @@
 <div>
   <v-layout>
     <v-flex xs12 sm6 offset-sm3>
-      <v-subheader>{{ __('ui_options') }}</v-subheader>
-      <v-card>
-        <v-list>
-          <template v-for="(option, optionIndex) in optionsList">
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-layout wrap style="width:100%">
-                  <v-flex xs8>
-                    <v-subheader>
-                      {{ option.desc }}
-                      <strong v-if="option.name === 'syncList' && quotaExceeded" :style="{color: 'red', paddingLeft: '8px'}">quota exceeded!</strong>
-                    </v-subheader>
-                  </v-flex>
-                  <v-flex xs4>
-                    <v-select
-                      class="select-amend"
-                      v-if="option.type === String"
-                      :items="option.items"
-                      v-model="options[option.name]"
-                      label=""
-                      item-text="label"
-                      item-value="value"
-                      @change="optionsChanged(option.name, $event)"
-                    ></v-select>
-                    <v-switch
-                      class="switch-amend"
-                      v-if="option.type === Boolean"
-                      v-model="options[option.name]"
-                      @change="optionsChanged(option.name, $event)"
-                    ></v-switch>
-                  </v-flex>
-                </v-layout>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-divider v-if="optionIndex !== optionsList.length - 1"></v-divider>
-          </template>
-        </v-list>
-      </v-card>
+      <div v-for="(optionsList, cate) in optionsLists" :key="cate">
+
+        <v-subheader>{{ __('ui_options_' + cate) }}</v-subheader>
+        <v-card>
+          <v-list>
+            <template v-for="(option, optionIndex) in optionsList">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-layout wrap style="width:100%">
+                    <v-flex xs8>
+                      <v-subheader>
+                        {{ option.desc }}
+                        <strong v-if="option.name === 'syncList' && quotaExceeded" :style="{color: 'red', paddingLeft: '8px'}">quota exceeded!</strong>
+                      </v-subheader>
+                    </v-flex>
+                    <v-flex xs4>
+                      <v-select
+                        class="select-amend"
+                        v-if="option.type === String"
+                        :items="option.items"
+                        v-model="options[option.name]"
+                        label=""
+                        item-text="label"
+                        item-value="value"
+                        @change="optionsChanged(option.name, $event)"
+                      ></v-select>
+                      <v-switch
+                        class="switch-amend"
+                        v-if="option.type === Boolean"
+                        v-model="options[option.name]"
+                        @change="optionsChanged(option.name, $event)"
+                      ></v-switch>
+                    </v-flex>
+                  </v-layout>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider v-if="optionIndex !== optionsList.length - 1"></v-divider>
+            </template>
+          </v-list>
+        </v-card>
+
+      </div>
     </v-flex>
   </v-layout>
   <v-snackbar
@@ -60,7 +64,7 @@ import _ from 'lodash'
 export default {
   data() {
     return {
-      optionsList: options.optionsList,
+      optionsLists: _.groupBy(options.optionsList, 'cate'),
       options: {},
       snackbar: false,
       quotaExceeded: false,

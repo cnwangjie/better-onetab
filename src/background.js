@@ -15,7 +15,10 @@ if (PRODUCTION) import(
   '@/common/tracker'
 ).then(({tracker}) => tracker())
 
-if (DEBUG) window.tabs = tabs
+if (DEBUG) {
+  window.tabs = tabs
+  window.browser = browser
+}
 
 const getBrowserActionHandler = action => {
   if (action === 'store-selected') return () => tabs.storeSelectedTabs()
@@ -25,41 +28,83 @@ const getBrowserActionHandler = action => {
   return () => {}
 }
 
-const updateBrowserAction = action => {
+const updateBrowserAction = (action, tmp = false) => {
+  if (!tmp) window.currentBrowserAction = action
   const items = _.find(options.optionsList, {name: 'browserAction'}).items
   const label = _.find(items, {value: action}).label
   console.log('action is: ', action, 'set title as: ', label)
   browser.browserAction.setTitle({title: label})
   if (action === 'popup') {
     browser.browserAction.setPopup({popup: 'index.html#/popup'})
+    window.coverBrowserAction = () => {}
   } else {
     browser.browserAction.setPopup({popup: ''})
     window.browswerActionClickedHandler = getBrowserActionHandler(action)
+    if (window.opts.openTabListWhenNewTab) window.coverBrowserAction = async activeInfo => {
+      const tab = await browser.tabs.get(activeInfo.tabId)
+      if (['about:home', 'chrome://newtab/'].includes(tab.url)) {
+        updateBrowserAction('show-list', true)
+      } else {
+        updateBrowserAction(window.currentBrowserAction)
+      }
+    }
   }
 }
 
 const setupContextMenus = async pageContext => {
   await browser.contextMenus.removeAll()
-  const contexts = ['browser_action']
-  if (pageContext) contexts.push('page')
+  const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION]
+  if (pageContext) contexts.push(browser.contextMenus.ContextType.PAGE)
   const menus = {
     STORE_SELECTED_TABS: tabs.storeSelectedTabs,
     STORE_ALL_TABS_IN_CURRENT_WINDOW: tabs.storeAllTabs,
     SHOW_TAB_LIST: tabs.openTabLists,
     STORE_ALL_TABS_IN_ALL_WINDOWS: tabs.storeAllTabInAllWindows,
+    EXTRA: {
+      STORE_LEFT_TABS: tabs.storeLeftTabs,
+      STORE_RIGHT_TABS: tabs.storeRightTabs,
+      STORE_TWOSIDE_TABS: tabs.storeTwoSideTabs,
+    },
   }
-  for (const key of Object.keys(menus)) {
-    await browser.contextMenus.create({
-      id: key,
-      title: __('menu_' + key),
-      contexts,
-    })
+  const createMenus = async (obj, parent) => {
+    for (const key of Object.keys(obj)) {
+      const prop = {
+        id: key,
+        title: __('menu_' + key),
+        contexts,
+      }
+      if (parent) {
+        prop.id = parent + '.' + key
+        prop.parentId = parent
+      }
+      const id = await browser.contextMenus.create(prop)
+      console.log('context menu created: ' + id)
+      if (_.isObject(obj[key])) await createMenus(obj[key], key)
+    }
   }
-  window.contextMenusClickedHandler = info => menus[info.menuItemId]()
+  createMenus(menus)
+  window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)
+}
+
+const dynamicDisableMenu = async () => {
+  const groupedTabs = await tabs.groupTabsInCurrentWindow()
+  console.log(groupedTabs)
+  browser.contextMenus.update('EXTRA.STORE_LEFT_TABS', {
+    enabled: groupedTabs.left.length !== 0,
+    title: __('menu_STORE_LEFT_TABS') + ` (${groupedTabs.left.length})`,
+  })
+  browser.contextMenus.update('EXTRA.STORE_RIGHT_TABS', {
+    enabled: groupedTabs.right.length !== 0,
+    title: __('menu_STORE_RIGHT_TABS') + ` (${groupedTabs.right.length})`,
+  })
+  browser.contextMenus.update('EXTRA.STORE_TWOSIDE_TABS', {
+    enabled: groupedTabs.twoSide.length !== 0,
+    title: __('menu_STORE_TWOSIDE_TABS') + ` (${groupedTabs.twoSide.length})`,
+  })
 }
 
 const init = async () => {
-  const opts = await storage.getOptions() || {}
+  const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
   updateBrowserAction(opts.browserAction)
@@ -69,6 +114,7 @@ const init = async () => {
     if (msg.optionsChanged) {
       const changes = msg.optionsChanged
       console.log(changes)
+      Object.assign(opts, changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       if ('pageContext' in changes) await setupContextMenus(changes.pageContext)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
@@ -99,6 +145,10 @@ const init = async () => {
   })
   browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action))
   browser.contextMenus.onClicked.addListener(info => window.contextMenusClickedHandler(info))
+  browser.tabs.onActivated.addListener(_.debounce(activeInfo => {
+    window.coverBrowserAction(activeInfo)
+    dynamicDisableMenu(activeInfo)
+  }, 200))
   browser.commands.onCommand.addListener(async command => {
     if (command === 'store-selected-tabs') tabs.storeSelectedTabs()
     else if (command === 'store-all-tabs') tabs.storeAllTabs()
