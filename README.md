@@ -6,12 +6,11 @@ better-onetab
 
 More beatiful and more feature.
 
-### Feature & Todo
+### Features
 
 [Send us a feature request.](https://github.com/cnwangjie/better-onetab/issues/new)
 
- - [x] Basic functionality
- - [x] Set title of list
+ - [x] Basic feature of onetab
  - [x] Popup page with simple list
  - [x] Pin tab list
  - [x] Keyboard shortcuts
@@ -21,13 +20,22 @@ More beatiful and more feature.
  - [x] Import & export
  - [x] Add stored tabs to history
  - [x] I18N support (only English & Chinese currently)
- - [ ] Sync server (quotas provided by chrome are too less)
+
+More details in [changelog](CHANGELOG.md)
+
+### Next step
+
+You can learn more about the next step of better onetab at [project page](https://github.com/cnwangjie/better-onetab/projects/1) and leave your comment in [issues page](https://github.com/cnwangjie/better-onetab/issues).
 
 ### Installation
 
 Install from [Google Extension Store](https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg)
 
+Install from [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/) (not optimized)
+
 Download the released .crx file in [release page](https://github.com/cnwangjie/better-onetab/releases) and drag it to chrome extensions page.
+
+Build your own from following steps：
 
 ### Development
 

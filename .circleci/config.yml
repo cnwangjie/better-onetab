@@ -1,0 +1,82 @@
+version: 2
+jobs:
+  install_dependencies:
+    docker:
+      - image: circleci/node:8.11.3-jessie
+    working_directory: ~/ext
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn
+      - save_cache:
+          key: deps-{{ checksum "yarn.lock" }}
+          paths: ~/ext/node_modules
+      - save_cache:
+          key: code-{{ .Environment.CIRCLE_SHA1 }}
+          paths: ~/ext
+
+  build:
+    docker:
+      - image: circleci/node:8.11.3-jessie
+    working_directory: ~/ext
+    steps:
+      - restore_cache:
+          key: code-{{ .Environment.CIRCLE_SHA1 }}
+      - run: yarn build
+      - save_cache:
+          key: build-{{ .Environment.CIRCLE_SHA1 }}
+          paths: ~/ext
+
+  publish:
+    docker:
+      - image: circleci/node:8.11.3-jessie
+    working_directory: ~/ext
+    steps:
+      - restore_cache:
+          key: build-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: publish
+          command: |
+            yarn global add chrome-webstore-upload-cli
+            export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+            webstore upload --source dist.zip --extension-id $EXTENSION_ID
+
+  release:
+    docker:
+      - image: circleci/golang:1.9
+    steps:
+      - run:
+          key: download
+          command: wget "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&x=id%3D${EXTENSION_ID}%26installsource%3Dondemand%26uc"
+      - run: go get github.com/tcnksm/ghr
+      - run:
+          name: release
+          command: |
+            ghr -t ${GITHUB_TOKEN} \
+                -u ${CIRCLE_PROJECT_USERNAME} \
+                -r ${CIRCLE_PROJECT_REPONAME} \
+                -c ${CIRCLE_SHA1} \
+                -delete \
+                ${CIRCLE_TAG} ./
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - install_dependencies
+      - build:
+          requires:
+            - install_dependencies
+      - publish:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+      - release:
+          requires:
+            - publish

@@ -9,8 +9,7 @@ OneTab 的标签储存和标签分组功能是一个非常实用的功能，但�
 
 [想要更多功能？在这里告诉我吧](https://github.com/cnwangjie/better-onetab/issues/new)
 
- - [x] 基本的标签储存分组功能
- - [x] 设置标签列表的标题
+ - [x] Onetab中的所有基本功能
  - [x] 弹出式的简易列表
  - [x] 固定标签列表
  - [x] 键盘快捷键
@@ -20,13 +19,22 @@ OneTab 的标签储存和标签分组功能是一个非常实用的功能，但�
  - [x] 导入及导出
  - [x] 将储存的标签加入浏览器历史中
  - [x] 国际化支持 (当前只有英语和中文)
- - [ ] 同步服务器 (chrome 提供的同步配额太少了)
+
+从 [changelog](./CHANGELOG.md) 中了解更多
+
+### 更新计划
+
+你可以从 [project page](https://github.com/cnwangjie/better-onetab/projects/1) 了解 better onetab 的更新动态，并且可以在 [issues page](https://github.com/cnwangjie/better-onetab/issues) 中留下你的意见。
 
 ### 安装
 
 从 [Google 扩展商店](https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg) 安装。
 
+从 [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/) 安装 (尚未优化))
+
 从 [release page](https://github.com/cnwangjie/better-onetab/releases) 下载 .crx 文件并将它拖拽至 chrome 的扩展管理页面。
+
+从源码中编译：
 
 ### 开发
 
