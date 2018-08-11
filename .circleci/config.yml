@@ -27,7 +27,7 @@ jobs:
       - run: yarn build
       - save_cache:
           key: build-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/ext
+          paths: ~/ext/dist.zip
 
   publish:
     docker:
@@ -41,14 +41,14 @@ jobs:
           command: |
             yarn global add chrome-webstore-upload-cli
             export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
-            webstore upload --source dist.zip --extension-id $EXTENSION_ID
+            webstore upload --source dist.zip --extension-id $EXTENSION_ID --auto-publish
 
   release:
     docker:
       - image: circleci/golang:1.9
     steps:
       - run:
-          key: download
+          name: download
           command: wget "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&x=id%3D${EXTENSION_ID}%26installsource%3Dondemand%26uc"
       - run: go get github.com/tcnksm/ghr
       - run:
@@ -63,20 +63,32 @@ jobs:
 
 workflows:
   version: 2
+
   main:
     jobs:
-      - install_dependencies
+      - install_dependencies:
+          filters:
+            tags:
+              only: /^v.*/
       - build:
           requires:
             - install_dependencies
+          filters:
+            tags:
+              only: /^v.*/
       - publish:
           requires:
             - build
           filters:
-            branches:
-              ignore: /.*/
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
       - release:
           requires:
             - publish
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

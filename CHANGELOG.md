@@ -1,3 +1,11 @@
+### v1.2.0 8/12/2018
+
+ - fix: some problem left over last version
+ - feat: allow store two sides
+ - feat: auto disable
+ - change: group options
+ - feat: add an option to allow cover browser action when current page is new tab page
+
 ### v1.1.3 8/6/2018
 
  - fix: remove list item will not open the tab
