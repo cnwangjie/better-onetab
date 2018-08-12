@@ -49,7 +49,8 @@ jobs:
     steps:
       - run:
           name: download
-          command: wget "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&x=id%3D${EXTENSION_ID}%26installsource%3Dondemand%26uc"
+          command: |
+            wget --content-disposition "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&x=id%3D${EXTENSION_ID}%26installsource%3Dondemand%26uc"
       - run: go get github.com/tcnksm/ghr
       - run:
           name: release

@@ -1,5 +1,17 @@
-better-onetab
-======
+<p align="center">
+  <img src="./src/assets/icons/icon_128.png">
+</p>
+
+<h1 align="center">better-onetab</h1>
+
+<p align="center">
+<a href="https://circleci.com/gh/cnwangjie/better-onetab"><img src="https://img.shields.io/circleci/project/github/cnwangjie/better-onetab.svg?style=flat-square" alt="CircleCI"></a>
+<a href="https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg"><img src="https://img.shields.io/chrome-web-store/v/eookhngofldnbnidjlbkeecljkfpmfpg.svg?style=flat-square" alt="Chrome Web Store"></a>
+<a href="https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/"><img src="https://img.shields.io/amo/v/better-onetab.svg?style=flat-square" alt="Mozilla Add-on"></a>
+<img src="https://img.shields.io/github/license/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub">
+<img src="https://img.shields.io/github/last-commit/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub last commit"></p>
+</p>
+
 [中文README](./README.zh.md)
 
 ### A better onetab extensions for chrome.
