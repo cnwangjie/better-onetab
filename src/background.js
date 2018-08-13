@@ -83,7 +83,7 @@ const setupContextMenus = async pageContext => {
     }
   }
   createMenus(menus)
-  window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)
+  window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
 }
 
 const dynamicDisableMenu = async () => {
@@ -118,7 +118,7 @@ const init = async () => {
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       if ('pageContext' in changes) await setupContextMenus(changes.pageContext)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
-      if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key, changes[key]))
+      if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key + ':' + changes[key]))
     }
     if (msg.restoreList) {
       const restoreList = msg.restoreList

@@ -27,9 +27,9 @@ jobs:
       - run: yarn build
       - save_cache:
           key: build-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/ext/dist.zip
+          paths: ~/ext
 
-  publish:
+  publish_chrome:
     docker:
       - image: circleci/node:8.11.3-jessie
     working_directory: ~/ext
@@ -42,6 +42,20 @@ jobs:
             yarn global add chrome-webstore-upload-cli
             export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
             webstore upload --source dist.zip --extension-id $EXTENSION_ID --auto-publish
+
+  publish_firefox:
+    docker:
+      - image: circleci/node:8.11.3-jessie
+    working_directory: ~/ext
+    steps:
+      - restore_cache:
+          key: build-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: publish
+          command: |
+            yarn global add webext@1.9.1-with-submit.1
+            export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+            webext submit --api-key=${FF_API_KEY} --api-secret=${FF_API_SECRET} --id=${FF_ID} -s dist
 
   release:
     docker:
@@ -77,7 +91,15 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      - publish:
+      - publish_chrome:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publish_firefox:
           requires:
             - build
           filters:
@@ -87,7 +109,7 @@ workflows:
               ignore: /.*/
       - release:
           requires:
-            - publish
+            - publish_chrome
           filters:
             tags:
               only: /^v.*/
