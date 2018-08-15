@@ -30,6 +30,7 @@ const getBrowserActionHandler = action => {
 
 const updateBrowserAction = (action, tmp = false) => {
   if (!tmp) window.currentBrowserAction = action
+  if (!window.coverBrowserAction) window.coverBrowserAction = () => {}
   const items = _.find(options.optionsList, {name: 'browserAction'}).items
   const label = _.find(items, {value: action}).label
   console.log('action is: ', action, 'set title as: ', label)

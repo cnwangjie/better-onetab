@@ -7,6 +7,8 @@ const { VueLoaderPlugin } = require('vue-loader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
+const config = require('./config')
+
 const resolve = (...paths) => path.join(__dirname, ...paths)
 const mode = process.env.NODE_ENV || 'development'
 module.exports = {
@@ -26,7 +28,19 @@ module.exports = {
     }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
-      'src/manifest.json',
+      {
+        from: 'src/manifest.json',
+        to: 'manifest.json',
+        transform(content, path) {
+          content = content.toString()
+          if (mode in config) {
+            Object.entries(config[mode]).map(([key, value]) => {
+              content = content.replace(new RegExp(key, 'g'), value)
+            })
+          }
+          return content
+        }
+      },
       { from: 'src/assets/icons', to: 'assets/icons' },
       { from: 'src/_locales', to: '_locales' },
     ]),
@@ -46,6 +60,9 @@ module.exports = {
       }
     }),
   ],
+  performance: {
+    hints: false,
+  },
   optimization: {
     splitChunks: {
       name: true,

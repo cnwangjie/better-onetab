@@ -165,6 +165,13 @@ export const optionsList = [
     type: Boolean,
     default: true,
   },
+  {
+    cate: cate.SYNC,
+    name: 'useBoss',
+    desc: __('opt_desc_useBoss'),
+    type: Boolean,
+    default: false,
+  },
 ]
 
 const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)

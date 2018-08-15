@@ -1,15 +1,21 @@
 import browser from 'webextension-polyfill'
+import boss from '@/common/service/boss'
 
 let lastSync = 0
 let quotaExceeded = false
 
-const sync = async () => {
+export const getSyncItems = async () => {
   const {opts} = await browser.storage.local.get('opts')
   const syncOptions = opts.syncOptions
   const syncList = opts.syncList
   const syncItems = []
   if (syncOptions) syncItems.push('opts')
   if (syncList) syncItems.push('lists')
+  return syncItems
+}
+
+const sync = async () => {
+  const syncItems = await getSyncItems()
   if (syncItems.length === 0) return true
   const syncTime = await browser.storage.sync.get('time') || 0
   const localTime = await browser.storage.local.get('time') || 0
@@ -29,18 +35,26 @@ const sync = async () => {
 }
 
 const get = async key => {
-  if (!quotaExceeded && (Date.now() - lastSync > 5000)) {
+  // TODO: better sync alogrithmn
+  if (Date.now() - lastSync > 5000) {
     lastSync = Date.now()
-    sync().catch(e => {
-      if (e.message.indexOf('quota exceeded') !== 0) quotaExceeded = true
-      console.error('sync error:', e.message)
+    browser.storage.sync.get('opts', ({opts}) => {
+      if (opts.useBoss) {
+        boss.sync().catch(e => {
+          console.error('sync with boss error:', e)
+        })
+      } else {
+        sync().catch(e => {
+          if (e.message.indexOf('quota exceeded') !== 0) quotaExceeded = true
+          console.error('sync error:', e.message)
+        })
+      }
     })
   }
   return browser.storage.local.get(key)
 }
 
 const set = async obj => {
-  Object.assign(obj, {time: Date.now()})
   return browser.storage.local.set(obj)
 }
 
@@ -60,4 +74,10 @@ const setOptions = opts => set({opts})
 
 const isQuotaExceeded = () => quotaExceeded
 
-export default {getLists, setLists, getOptions, setOptions, isQuotaExceeded}
+export default {
+  getLists,
+  setLists,
+  getOptions,
+  setOptions,
+  isQuotaExceeded,
+}

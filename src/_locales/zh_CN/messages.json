@@ -80,6 +80,9 @@
   "opt_desc_syncList": {
     "message": "同步列表"
   },
+  "opt_desc_useBoss": {
+    "message": "使用better onetab同步服务（不限制储存空间）"
+  },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },

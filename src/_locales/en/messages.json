@@ -80,6 +80,9 @@
   "opt_desc_syncList": {
     "message": "Sync lists"
   },
+  "opt_desc_useBoss": {
+    "message": "Use better onetab sync server (unlimited storage)"
+  },
   "opt_label_popup": {
     "message": "popup simple list"
   },

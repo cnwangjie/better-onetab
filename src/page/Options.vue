@@ -14,7 +14,8 @@
                     <v-flex xs8>
                       <v-subheader>
                         {{ option.desc }}
-                        <strong v-if="option.name === 'syncList' && quotaExceeded" :style="{color: 'red', paddingLeft: '8px'}">quota exceeded!</strong>
+                        <!-- <strong v-if="option.name === 'syncList' && quotaExceeded" :style="{color: 'red', paddingLeft: '8px'}">quota exceeded!</strong> -->
+                        <!-- <strong v-if="option.name === 'useBoss' && uid" :style="{color: 'black', paddingLeft: '8px'}">has logged with uid: {{ uid }}</strong> -->
                       </v-subheader>
                     </v-flex>
                     <v-flex xs4>
