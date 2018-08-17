@@ -83,13 +83,14 @@ const setupContextMenus = async pageContext => {
       if (_.isObject(obj[key])) await createMenus(obj[key], key)
     }
   }
-  createMenus(menus)
   window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
+  console.groupCollapsed('create context menu')
+  await createMenus(menus)
+  console.groupEnd('create context menu')
 }
 
 const dynamicDisableMenu = async () => {
   const groupedTabs = await tabs.groupTabsInCurrentWindow()
-  console.log(groupedTabs)
   browser.contextMenus.update('EXTRA.STORE_LEFT_TABS', {
     enabled: groupedTabs.left.length !== 0,
     title: __('menu_STORE_LEFT_TABS') + ` (${groupedTabs.left.length})`,
@@ -135,6 +136,9 @@ const init = async () => {
         storage.setLists(lists)
       }
     }
+    if (msg.sync) {
+      storage.sync()
+    }
   })
   browser.runtime.onUpdateAvailable.addListener(detail => {
     window.update = detail.version
@@ -165,6 +169,9 @@ const init = async () => {
     else return true
     if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
   })
+  setInterval(() => {
+    storage.sync()
+  }, 60 * 1000)
 }
 
 init()

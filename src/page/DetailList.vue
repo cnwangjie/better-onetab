@@ -14,7 +14,7 @@
           label
           small
         >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
-        <strong class="grey--text date">{{ __('ui_created') }} {{ formatTime(list.time) }}</strong>
+        <strong class="grey--text date">{{ __('ui_created') }} <dynamic-time v-model="list.time"></dynamic-time></strong>
       </v-flex>
       <v-flex no-wrap xs7 @keydown.enter="saveTitle(listIndex)">
         <v-text-field
@@ -97,6 +97,7 @@ import tabs from '@/common/tabs'
 import list from '@/common/list'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
+import dynamicTime from '@/component/DynamicTime'
 
 export default {
   data() {
@@ -112,6 +113,7 @@ export default {
   },
   components: {
     draggable,
+    dynamicTime,
   },
   methods: {
     __,

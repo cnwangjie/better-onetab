@@ -4,6 +4,12 @@
     <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
     <v-spacer></v-spacer>
 
+    <v-tooltip left>
+      <v-btn slot="activator" icon dark :ripple="false" :loading="syncing">
+        <v-icon>cloud_upload</v-icon>
+      </v-btn>
+      <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
+    </v-tooltip>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat dark @click="nightmode = !nightmode">
         {{ __('ui_nightmode') }}
@@ -135,6 +141,9 @@ import __ from '@/common/i18n'
 import list from '@/common/list'
 import storage from '@/common/storage'
 import browser from 'webextension-polyfill'
+import dynamicTime from '@/component/DynamicTime'
+
+if (DEBUG) window.browser = browser
 
 export default {
   data() {
@@ -146,6 +155,18 @@ export default {
       snackbarMsg: '',
       processing: false,
       nightmode: false,
+      syncing: false,
+      lastUpdated: NaN,
+    }
+  },
+  components: {
+    dynamicTime,
+  },
+  computed: {
+    tooltip() {
+      return this.syncing ? 'syncing'
+        : isFinite(this.lastUpdated) ? null
+        : 'not sync yet'
     }
   },
   watch: {
@@ -160,6 +181,19 @@ export default {
   methods: {
     __,
     async init() {
+      chrome.runtime.onMessage.addListener(async msg => {
+        console.log(msg)
+        if (msg.syncStart) {
+          this.syncing = true
+        } else if (msg.syncEnd) {
+          this.syncing = false
+          const {time: lastUpdated} = await browser.storage.local.get('time')
+          this.lastUpdated = lastUpdated
+        }
+      })
+      this.switchNightMode()
+    },
+    async switchNightMode() {
       const window = await browser.runtime.getBackgroundPage()
       if ('nightmode' in window) this.nightmode = window.nightmode || false
     },

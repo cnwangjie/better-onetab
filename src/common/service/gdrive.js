@@ -50,7 +50,6 @@ const createFile = async ({ token, filename, data }) => {
     path: 'https://www.googleapis.com/drive/v3/files',
     method: 'POST',
     params: {uploadType: 'multipart'},
-    headers:
   })
   return gapi.client.drive.files.create({
     resource: {

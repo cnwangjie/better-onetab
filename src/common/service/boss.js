@@ -1,24 +1,39 @@
 import browser from 'webextension-polyfill'
 import { getSyncItems } from '@/common/storage'
 
-const apiUrl = 'http://boss.cnwangjie.com:3000'
+const apiUrl = 'https://boss.cnwangjie.com'
 const tokenKey = 'boss_token'
 const tokenHeader = 'auth'
 
 const getToken = async () => {
   const {[tokenKey]: existedToken} = await browser.storage.local.get(tokenKey)
   if (existedToken) return existedToken
+  console.log('[boss]: getting token')
   const lend = browser.identity.getRedirectURL()
   const authUrl = apiUrl + '/auth/google'
-  const to = await new Promise(resolve => chrome.identity.launchWebAuthFlow({ url: authUrl + '?state=ext:' + encodeURIComponent(lend), interactive: true }, resolve))
+  const to = await new Promise((resolve, reject) => {
+    chrome.identity.launchWebAuthFlow({
+      url: authUrl + '?state=ext:' + encodeURIComponent(lend),
+      interactive: true,
+    }, to => {
+      const err = chrome.runtime.lastError
+      if (err) reject(err)
+      resolve(to)
+    })
+  })
   const token = /#(.*)#/.exec(to)[1]
+  console.log('[boss]: got token', token)
   await browser.storage.local.set({[tokenKey]: token})
   return token
 }
 
 const fetchData = async (uri = '', method = 'GET', data = {}) => {
   const headers = new Headers
-  const token = await getToken()
+  const token = await getToken().catch(async err => {
+    console.error(err)
+    await new Promise(resolve => setTimeout(resolve), 5000)
+    return getToken()
+  })
   if (token) headers.append(tokenHeader, token)
 
   const option = {
@@ -31,7 +46,7 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
     return key + '=' + encodeURIComponent(data[key])
   }).filter(i => i).join('&')
 
-  if (method === 'POST') {
+  if (['POST', 'PUT'].includes(method)) {
     headers.append('Content-Type', 'application/x-www-form-urlencoded')
     option.body = requestBody
   } else {
@@ -40,8 +55,9 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
 
   return fetch(apiUrl + uri, option)
     .then(async res => {
-      if (res.headers[tokenHeader]) {
-        await browser.storage.local.set({[tokenKey]: res.headers[tokenHeader]})
+      // use new token
+      if (res.headers.get(tokenHeader)) {
+        await browser.storage.local.set({[tokenKey]: res.headers.get(tokenHeader)})
       }
       return res
     })
@@ -50,6 +66,8 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
       else return res.text()
     })
     .catch(err => {
+      // remove expired token
+      browser.storage.local.remove(tokenKey)
       console.error(err)
       return {
         status: 'error',
@@ -60,11 +78,11 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
 }
 
 let uid = ''
-let updatedAt = 0
+let updatedAt = 0 // remote updatedAt
 
 const getInfo = () => fetchData('/api/info').then(data => {
   uid = data.uid
-  updatedAt = data.updatedAt
+  updatedAt = new Date(data.updatedAt).getTime()
   return data
 })
 const getLists = () => fetchData('/api/lists')
@@ -76,11 +94,19 @@ export const syncWithBoss = async () => {
   console.log('[boss]: ready to sync with boss')
   const syncItems = await getSyncItems()
   if (syncItems.length === 0) return
-  await getInfo()
+  try {
+    await getInfo()
+  } catch (e) { // if not auth
+    await getInfo()
+  }
   const syncTime = updatedAt
-  const localTime = await browser.storage.local.get('time') || 0
-  console.log('[boss]: sync', syncTime, 'local', localTime, syncTime > localTime ? 'sync -> local' : 'local -> sync')
+  const {time: localTime} = await browser.storage.local.get('time') || 0
+  console.log('[boss]: sync', syncTime, 'local', localTime,
+    syncTime === localTime ? ''
+    : syncTime > localTime ? 'sync -> local'
+    : 'local -> sync')
   if (syncTime === localTime) return true
+  chrome.runtime.sendMessage({syncStart: true})
   if (syncItems.includes('opts')) {
     if (syncTime > localTime) {
       const lists = await getLists()
@@ -101,6 +127,7 @@ export const syncWithBoss = async () => {
   }
   await getInfo()
   browser.storage.local.set({time: updatedAt})
+  chrome.runtime.sendMessage({syncEnd: updatedAt})
   console.log('[boss]: synchronized')
   return true
 }
