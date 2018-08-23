@@ -147,6 +147,9 @@ const init = async () => {
     if (msg.forceUpdate) {
       boss.forceUpdate(msg.forceUpdate)
     }
+    if (msg.resolveConflict) {
+      boss.resolveConflict(msg.resolveConflict)
+    }
   })
   browser.runtime.onUpdateAvailable.addListener(detail => {
     window.update = detail.version

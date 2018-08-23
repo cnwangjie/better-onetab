@@ -207,15 +207,24 @@ const forceDownloadRemoteImmediate = async () => {
 
 const forceUpdate = async ({lists, opts}) => {
   const works = []
-  if (lists) works.push(async () => {
-    const {listsUpdatedAt} = await setLists(lists)
-    await browser.storage.local.set({listsUpdatedAt: Date.parse(listsUpdatedAt)})
-  })
-  if (opts) works.push(async () => {
-    const {optsUpdatedAt} = setOpts(opts)
-    await browser.storage.local.set({optsUpdatedAt: Date.parse(optsUpdatedAt)})
-  })
-  return Promise.all(works.map(i => i()))
+  const conflict = await browser.storage.local.get('conflict')
+  if (lists) {
+    delete conflict.lists
+    works.push(async () => {
+      const {listsUpdatedAt} = await setLists(lists)
+      await browser.storage.local.set({listsUpdatedAt: Date.parse(listsUpdatedAt)})
+    })
+  }
+  if (opts) {
+    delete conflict.opts
+    works.push(async () => {
+      const {optsUpdatedAt} = setOpts(opts)
+      await browser.storage.local.set({optsUpdatedAt: Date.parse(optsUpdatedAt)})
+    })
+  }
+  await browser.storage.local.set({conflict})
+  await Promise.all(works.map(i => i()))
+  return browser.runtime.sendMessage({uploaded: {conflict}})
 }
 
 const uploadImmediate = async () => {
@@ -223,10 +232,11 @@ const uploadImmediate = async () => {
   const {listsUpdatedAt, optsUpdatedAt} = _.defaults(localInfo, {listsUpdatedAt: 0, optsUpdatedAt: 0})
   const info = await getRemoteInfo()
   const todo = {}
-  const conflict = {}
+  const conflict = (await browser.storage.local.get('conflict')).conflict || {}
   if (Date.parse(info.listsUpdatedAt) === listsUpdatedAt) {
     const {lists} = await browser.storage.local.get('lists')
     todo.lists = lists
+    delete conflict.lists
   } else {
     const lists = await getLists()
     conflict.lists = {
@@ -237,19 +247,26 @@ const uploadImmediate = async () => {
   if (Date.parse(info.optsUpdatedAt) === optsUpdatedAt) {
     const {opts} = await browser.storage.local.get('opts')
     todo.opts = opts
+    delete conflict.opts
   } else {
     const opts = await getOpts()
-    conflict.opts = {
-      local: {time: optsUpdatedAt},
-      remote: {time: Date.parse(info.optsUpdatedAt), opts}
+    const {opts: localOpts} = await browser.storage.local.get('opts')
+    if (!Object.keys(localOpts).every(key => opts[key] === localOpts[key])) {
+      conflict.opts = {
+        local: {time: optsUpdatedAt},
+        remote: {time: Date.parse(info.optsUpdatedAt), opts}
+      }
+    } else {
+      todo.opts = opts
+      delete conflict.opts
     }
   }
-  console.log(todo)
+  console.group('upload')
+  console.log('todo', todo)
+  console.log('conflict', conflict)
+  console.groupEnd('upload')
   await forceUpdate(todo)
   await browser.storage.local.set({conflict})
-  browser.runtime.sendMessage({uploaded: {
-    conflict,
-  }})
   return conflict
 }
 /**
@@ -261,10 +278,41 @@ const uploadImmediate = async () => {
  *    - 信任远程，直接覆盖
  */
 
+const resolveConflict = async ({type, result}) => {
+  const {conflict} = await browser.storage.local.get('conflict')
+  if (type === 'lists') {
+    const {lists: local} = await browser.storage.local.get('lists')
+    const remote = conflict.lists.remote.lists
+    if (result === 'local') await forceUpdate({lists: local})
+    if (result === 'remote') {
+      await browser.storage.local.set({lists: remote})
+      await forceUpdate({lists: remote})
+    }
+    if (result === 'both') {
+      const both = _.concat(local, remote)
+      await browser.storage.local.set({lists: both})
+      await forceUpdate({lists: both})
+    }
+    delete conflict.lists
+  }
+  if (type === 'opts') {
+    const {opts: local} = await browser.storage.local.get('opts')
+    const remote = conflict.opts.remote.opts
+    if (result === 'local') await forceUpdate({opts: local})
+    if (result === 'remote') {
+      await browser.storage.local.set({opts: remote})
+      await forceUpdate({opts: remote})
+    }
+    delete conflict.opts
+  }
+  return browser.storage.local.set({conflict})
+}
+
 export default {
   getInfo,
   hasToken,
   forceUpdate,
   uploadImmediate,
   forceDownloadRemoteImmediate,
+  resolveConflict,
 }

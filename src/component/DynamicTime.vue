@@ -5,7 +5,7 @@
 import { formatTime } from '@/common/utils'
 export default {
   props: {
-    value: Number,
+    value: [Number, String],
   },
   data() {
     return {

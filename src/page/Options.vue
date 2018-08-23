@@ -49,19 +49,42 @@
         <div v-if="hasToken">
           <v-card-title>
             <h2>{{ __('ui_logged_uid') }}{{ bossinfo.uid }}</h2>
+            <v-btn align="right" small color="error">Deauthorize</v-btn>
           </v-card-title>
 
-          <div v-if="conflict">
-            <h2>There is a conflict when sync with server.</h2>
-            <p>remote lists items</p>
-            <p>remote options</p>
-          </div>
-
-          <v-card-actions v-if="conflict">
-            <v-btn>keep local</v-btn>
-            <v-btn>keep remote</v-btn>
-            <v-btn>keep both</v-btn>
-          </v-card-actions>
+          <v-divider></v-divider>
+          <v-card-text v-if="conflict">
+            <div>
+              <h2>There is a conflict when sync with server.</h2>
+              <div v-if="conflict.lists">
+                <h3 class="warning--text">sync tab lists failed</h3>
+                <h3><span class="grey--text">remote update time:</span> {{ formatTime(conflict.lists.remote.time) }}</h3>
+                <h3><span class="grey--text">local update time:</span> {{ formatTime(conflict.lists.local.time) }}</h3>
+                <h3>remote lists items</h3>
+                <ul>
+                  <li v-for="list, index in conflict.lists.remote.lists" :key="index">
+                    {{ list.title || '(untitled list)' }}: {{ list.tabs.length }} tabs
+                  </li>
+                </ul>
+                <v-btn small @click="resolveConflict('lists', 'local')">keep local</v-btn>
+                <v-btn small @click="resolveConflict('lists', 'remote')">keep remote</v-btn>
+                <v-btn small @click="resolveConflict('lists', 'both')">keep both</v-btn>
+              </div>
+              <div v-if="conflict.opts">
+                <h3 class="warning--text">sync options failed</h3>
+                <h3><span class="grey--text">remote update time:</span> {{ formatTime(conflict.opts.remote.time) }}</h3>
+                <h3><span class="grey--text">local update time:</span> {{ formatTime(conflict.opts.local.time) }}</h3>
+                <h3>options difference</h3>
+                <ul>
+                  <li v-for="value, key in conflict.opts" v-if="(key in options) && options[key] !== value" :key="key">
+                    {{ key }}: {{ value }}
+                  </li>
+                </ul>
+                <v-btn small @click="resolveConflict('opts', 'local')">use local</v-btn>
+                <v-btn small @click="resolveConflict('opts', 'remote')">use remote</v-btn>
+              </div>
+            </div>
+          </v-card-text>
         </div>
 
         <div v-else>
@@ -93,7 +116,7 @@ import options from '@/common/options'
 import __ from '@/common/i18n'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
-
+import {formatTime} from '@/common/utils'
 import boss from '@/common/service/boss'
 
 if (DEBUG) window.boss = boss
@@ -115,6 +138,7 @@ export default {
   },
   methods: {
     __,
+    formatTime,
     optionsChanged: _.debounce(async function (key, value) {
       console.log(1)
       console.log(key, value)
@@ -149,12 +173,18 @@ export default {
       this.loadSyncInfo()
       chrome.runtime.sendMessage({sync: true})
     },
+    async resolveConflict(type, result) {
+      chrome.runtime.sendMessage({resolveConflict: {type, result}})
+    },
     async init() {
       this.loadOpts()
       this.loadSyncInfo()
       chrome.runtime.onMessage.addListener(msg => {
         if (msg.optionsChangeHandledStatus === 'success') {
           this.snackbar = true
+        }
+        if (msg.uploaded) {
+          this.loadSyncInfo()
         }
       })
       this.quotaExceeded = storage.isQuotaExceeded()
