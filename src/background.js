@@ -4,6 +4,7 @@ import options from './common/options'
 import _ from 'lodash'
 import __ from './common/i18n'
 import browser from 'webextension-polyfill'
+import boss from './common/service/boss'
 
 if (DEBUG) import(
   /* webpackChunkName: "autoreload", webpackMode: "lazy" */
@@ -83,7 +84,10 @@ const setupContextMenus = async pageContext => {
       if (_.isObject(obj[key])) await createMenus(obj[key], key)
     }
   }
-  window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
+  window.contextMenusClickedHandler = info => {
+    console.log('context menu clicked', info.menuItemId)
+    _.get(menus, info.menuItemId)()
+  }
   console.groupCollapsed('create context menu')
   await createMenus(menus)
   console.groupEnd('create context menu')
@@ -109,6 +113,7 @@ const init = async () => {
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
+  if (boss.hasToken()) await boss.forceDownloadRemoteImmediate()
   updateBrowserAction(opts.browserAction)
   setupContextMenus(opts.pageContext)
   browser.runtime.onMessage.addListener(async msg => {
@@ -136,8 +141,11 @@ const init = async () => {
         storage.setLists(lists)
       }
     }
-    if (msg.sync) {
-      storage.sync()
+    if (msg.uploadImmediate) {
+      boss.uploadImmediate()
+    }
+    if (msg.forceUpdate) {
+      boss.forceUpdate(msg.forceUpdate)
     }
   })
   browser.runtime.onUpdateAvailable.addListener(detail => {
@@ -169,8 +177,14 @@ const init = async () => {
     else return true
     if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
   })
-  setInterval(() => {
-    storage.sync()
+  browser.storage.onChanged.addListener(changes => {
+    console.log(changes)
+    if (changes.boss_token) {
+      window.boss_token = changes.boss_token
+    }
+  })
+  setInterval(async () => {
+    if (boss.hasToken()) await boss.forceDownloadRemoteImmediate()
   }, 60 * 1000)
 }
 

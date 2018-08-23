@@ -205,5 +205,14 @@
   },
   "ui_title_down_btn": {
     "message": "向下移动列表"
+  },
+  "ui_authorize": {
+    "message": "授权获取Google ID"
+  },
+  "ui_use_boss": {
+    "message": "使用 Better Onetab 同步服务 (无限容量)"
+  },
+  "ui_logged_uid": {
+    "message": "已授权为UID: "
   }
 }

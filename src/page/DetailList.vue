@@ -1,4 +1,5 @@
 <template>
+<div>
 <v-expansion-panel expand popout>
   <v-expansion-panel-content
     hide-actions
@@ -87,6 +88,19 @@
     </v-card>
   </v-expansion-panel-content>
 </v-expansion-panel>
+
+
+<!-- <v-layout v-if="lists.length === 0">
+  <v-flex xs12>
+    <div class="text-xs-center">
+      <h3 class="display-3 grey--text">No list here</h3>
+      <p class="display-2 grey--text">1. Select the tabs you want to store</p>
+      <p class="display-2 grey--text">2. Right click the extension icon</p>
+      <p class="display-2 grey--text">3. Click "store selected tabs"</p>
+    </div>
+  </v-flex>
+</v-layout> -->
+</div>
 </template>
 <script>
 import _ from 'lodash'
@@ -143,6 +157,7 @@ export default {
       this.removeItemBtnPos = opts.removeItemBtnPos
       chrome.storage.onChanged.addListener(changes => {
         if (changes.lists) {
+          console.log(changes)
           const newLists = changes.lists.newValue
           this.lists = newLists.filter(i => Array.isArray(i.tabs))
         }

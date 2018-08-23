@@ -5,8 +5,8 @@
     <v-spacer></v-spacer>
 
     <v-tooltip left>
-      <v-btn slot="activator" icon dark :ripple="false" :loading="syncing">
-        <v-icon>cloud_upload</v-icon>
+      <v-btn slot="activator" icon dark :loading="syncing" @click="syncBtnClicked">
+        <v-icon :style="conflict ? {color: 'red'} : {}">cloud_upload</v-icon>
       </v-btn>
       <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
     </v-tooltip>
@@ -157,6 +157,7 @@ export default {
       nightmode: false,
       syncing: false,
       lastUpdated: NaN,
+      conflict: false,
     }
   },
   components: {
@@ -165,6 +166,7 @@ export default {
   computed: {
     tooltip() {
       return this.syncing ? 'syncing'
+        : this.conflict ? 'conflict'
         : isFinite(this.lastUpdated) ? null
         : 'not sync yet'
     }
@@ -183,15 +185,28 @@ export default {
     async init() {
       chrome.runtime.onMessage.addListener(async msg => {
         console.log(msg)
-        if (msg.syncStart) {
+        if (msg.uploadImmediate) {
           this.syncing = true
-        } else if (msg.syncEnd) {
+        } else if (msg.uploaded) {
           this.syncing = false
-          const {time: lastUpdated} = await browser.storage.local.get('time')
-          this.lastUpdated = lastUpdated
+          this.lastUpdated = Date.now()
+          if (!_.isEmpty(msg.uploaded.conflict)) this.conflict = true
         }
       })
       this.switchNightMode()
+    },
+    async syncBtnClicked() {
+      /**
+       * sync btn:
+       * click: normally manually upload; if there is conflict will go to options page
+       * tooltip: normally display update time and update status if conflict display 'exist conflict'
+       * icon: normally display upload icon or loading icon if conflict display red icon
+       */
+      if (this.conflict) this.$router.go('/app/options')
+      else {
+        browser.runtime.sendMessage({uploadImmediate: true})
+        this.syncing = true
+      }
     },
     async switchNightMode() {
       const window = await browser.runtime.getBackgroundPage()

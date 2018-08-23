@@ -45,7 +45,7 @@ const createFile = async ({ token, filename, data }) => {
   for (let i = 0; i < data.length; i += 1) {
     bytes[i] = data.charCodeAt(i)
   }
-  const blob = new Blob([bytes], {type: 'application/json'})
+  // const blob = new Blob([bytes], {type: 'application/json'})
   gapi.client.request({
     path: 'https://www.googleapis.com/drive/v3/files',
     method: 'POST',
@@ -63,10 +63,10 @@ const createFile = async ({ token, filename, data }) => {
   })
 }
 
-const getFile = async ({ token, fileId }) => {
-  await prepareGapi(token)
-  return gapi.client.drive.files.get({fileId})
-}
+// const getFile = async ({ token, fileId }) => {
+//   await prepareGapi(token)
+//   return gapi.client.drive.files.get({fileId})
+// }
 
 export default {
   getAuth,

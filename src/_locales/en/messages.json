@@ -214,5 +214,14 @@
   },
   "ui_title_down_btn": {
     "message": "move list down"
+  },
+  "ui_authorize": {
+    "message": "Authorize with Google account"
+  },
+  "ui_use_boss": {
+    "message": "Use Better-Onetab Sync Service (unlimited storage)"
+  },
+  "ui_logged_uid": {
+    "message": "Has authorized with uid:"
   }
 }

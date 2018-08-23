@@ -4,7 +4,7 @@ import __ from '@/common/i18n'
 const cate = {
   BEHAVIOUR: 'behaviour',
   APPEARANCE: 'appearance',
-  SYNC: 'sync',
+  // SYNC: 'sync',
 }
 
 export const optionsList = [
@@ -151,27 +151,27 @@ export const optionsList = [
     type: Boolean,
     default: false,
   },
-  {
-    cate: cate.SYNC,
-    name: 'syncOptions',
-    desc: __('opt_desc_syncOptions'),
-    type: Boolean,
-    default: true,
-  },
-  {
-    cate: cate.SYNC,
-    name: 'syncList',
-    desc: __('opt_desc_syncList'),
-    type: Boolean,
-    default: true,
-  },
-  {
-    cate: cate.SYNC,
-    name: 'useBoss',
-    desc: __('opt_desc_useBoss'),
-    type: Boolean,
-    default: false,
-  },
+  // {
+  //   cate: cate.SYNC,
+  //   name: 'syncOptions',
+  //   desc: __('opt_desc_syncOptions'),
+  //   type: Boolean,
+  //   default: true,
+  // },
+  // {
+  //   cate: cate.SYNC,
+  //   name: 'syncList',
+  //   desc: __('opt_desc_syncList'),
+  //   type: Boolean,
+  //   default: true,
+  // },
+  // {
+  //   cate: cate.SYNC,
+  //   name: 'useBoss',
+  //   desc: __('opt_desc_useBoss'),
+  //   type: Boolean,
+  //   default: false,
+  // },
 ]
 
 const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)
