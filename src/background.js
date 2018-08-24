@@ -113,7 +113,7 @@ const init = async () => {
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
-  if (boss.hasToken()) await boss.forceDownloadRemoteImmediate()
+  if (await boss.hasToken()) await boss.forceDownloadRemoteImmediate()
   updateBrowserAction(opts.browserAction)
   setupContextMenus(opts.pageContext)
   browser.runtime.onMessage.addListener(async msg => {

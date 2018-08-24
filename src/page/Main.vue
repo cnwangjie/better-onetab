@@ -165,10 +165,10 @@ export default {
   },
   computed: {
     tooltip() {
-      return this.syncing ? 'syncing'
-        : this.conflict ? 'conflict'
+      return this.syncing ? __('ui_syncing')
+        : this.conflict ? __('ui_conflict')
         : isFinite(this.lastUpdated) ? null
-        : 'not sync yet'
+        : __('ui_not_sync')
     }
   },
   watch: {

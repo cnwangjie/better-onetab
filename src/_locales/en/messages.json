@@ -215,13 +215,61 @@
   "ui_title_down_btn": {
     "message": "move list down"
   },
-  "ui_authorize": {
+  "ui_auth_with_google": {
     "message": "Authorize with Google account"
+  },
+  "ui_auth_with_github": {
+    "message": "Authorize with Github account"
   },
   "ui_use_boss": {
     "message": "Use Better-Onetab Sync Service (unlimited storage)"
   },
   "ui_logged_uid": {
     "message": "Has authorized with uid:"
+  },
+  "ui_sync_exists_conflict_header": {
+    "message": "There is a conflict when sync with server."
+  },
+  "ui_sync_lists_failed": {
+    "message": "sync tab lists failed"
+  },
+  "ui_sync_opts_failed": {
+    "message": "sync options failed"
+  },
+  "ui_sync_remote_time": {
+    "message": "remote update time"
+  },
+  "ui_sync_local_time": {
+    "message": "local update time"
+  },
+  "ui_sync_lists_item": {
+    "message": "remote lists items"
+  },
+  "ui_opts_diff": {
+    "message": "options difference"
+  },
+  "ui_sync_keep_local": {
+    "message": "keep local"
+  },
+  "ui_sync_keep_remote": {
+    "message": "keep remote"
+  },
+  "ui_sync_keep_both": {
+    "message": "keep both"
+  },
+  "ui_sync_use_local": {
+    "message": "use local"
+  },
+  "ui_sync_use_remote": {
+    "message": "use remote"
+  },
+  "ui_syncing": {
+    "message": "syncing"
+  },
+  "ui_conflict": {
+    "message": "conflict"
+  },
+  "ui_not_sync": {
+    "message": "not_sync_yet"
   }
 }

@@ -55,33 +55,33 @@
           <v-divider></v-divider>
           <v-card-text v-if="conflict">
             <div>
-              <h2>There is a conflict when sync with server.</h2>
+              <h2>{{ __('ui_sync_exists_conflict_header') }}</h2>
               <div v-if="conflict.lists">
-                <h3 class="warning--text">sync tab lists failed</h3>
-                <h3><span class="grey--text">remote update time:</span> {{ formatTime(conflict.lists.remote.time) }}</h3>
-                <h3><span class="grey--text">local update time:</span> {{ formatTime(conflict.lists.local.time) }}</h3>
-                <h3>remote lists items</h3>
+                <h3 class="warning--text">{{ __('ui_sync_lists_failed') }}</h3>
+                <h3><span class="grey--text">{{ __('ui_sync_remote_time') }}:</span> {{ formatTime(conflict.lists.remote.time) }}</h3>
+                <h3><span class="grey--text">{{ __('ui_sync_local_time') }}:</span> {{ formatTime(conflict.lists.local.time) }}</h3>
+                <h3>{{ __('ui_sync_lists_item') }}</h3>
                 <ul>
                   <li v-for="list, index in conflict.lists.remote.lists" :key="index">
                     {{ list.title || '(untitled list)' }}: {{ list.tabs.length }} tabs
                   </li>
                 </ul>
-                <v-btn small @click="resolveConflict('lists', 'local')">keep local</v-btn>
-                <v-btn small @click="resolveConflict('lists', 'remote')">keep remote</v-btn>
-                <v-btn small @click="resolveConflict('lists', 'both')">keep both</v-btn>
+                <v-btn small @click="resolveConflict('lists', 'local')">{{ __('ui_sync_keep_local') }}</v-btn>
+                <v-btn small @click="resolveConflict('lists', 'remote')">{{ __('ui_sync_keep_remote') }}</v-btn>
+                <v-btn small @click="resolveConflict('lists', 'both')">{{ __('ui_sync_keep_both') }}</v-btn>
               </div>
               <div v-if="conflict.opts">
-                <h3 class="warning--text">sync options failed</h3>
-                <h3><span class="grey--text">remote update time:</span> {{ formatTime(conflict.opts.remote.time) }}</h3>
-                <h3><span class="grey--text">local update time:</span> {{ formatTime(conflict.opts.local.time) }}</h3>
-                <h3>options difference</h3>
+                <h3 class="warning--text">{{ __('ui_sync_opts_failed') }}</h3>
+                <h3><span class="grey--text">{{ __('ui_sync_remote_time') }}:</span> {{ formatTime(conflict.opts.remote.time) }}</h3>
+                <h3><span class="grey--text">{{ __('ui_sync_local_time') }}:</span> {{ formatTime(conflict.opts.local.time) }}</h3>
+                <h3>{{ __('ui_opts_diff') }}</h3>
                 <ul>
                   <li v-for="value, key in conflict.opts" v-if="(key in options) && options[key] !== value" :key="key">
                     {{ key }}: {{ value }}
                   </li>
                 </ul>
-                <v-btn small @click="resolveConflict('opts', 'local')">use local</v-btn>
-                <v-btn small @click="resolveConflict('opts', 'remote')">use remote</v-btn>
+                <v-btn small @click="resolveConflict('opts', 'local')">{{  __('ui_sync_use_local') }}</v-btn>
+                <v-btn small @click="resolveConflict('opts', 'remote')">{{ __('ui_sync_use_remote') }}</v-btn>
               </div>
             </div>
           </v-card-text>
@@ -93,7 +93,7 @@
           </v-card-title>
 
           <v-card-actions>
-            <v-btn color="primary" large @click="auth">{{ __('ui_authorize') }}
+            <v-btn color="primary" large @click="authWithGoogle">{{ __('ui_auth_with_google') }}
               <v-icon dark right>fab fa-google</v-icon>
             </v-btn>
           </v-card-actions>
@@ -167,7 +167,15 @@ export default {
         this.conflict = _.isEmpty(conflict) ? null : conflict
       }
     },
-    async auth() {
+    async authWithGoogle() {
+      await boss.getToken('google')
+      return this.afterFirstAuth()
+    },
+    async authWithGithub() {
+      await boss.getToken('github')
+      return this.afterFirstAuth()
+    },
+    async afterFirstAuth() {
       this.bossinfo = await boss.getInfo()
       await browser.storage.local.set({sync_info: this.bossinfo})
       this.loadSyncInfo()

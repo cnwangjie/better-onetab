@@ -9,15 +9,22 @@ const hasToken = async () => {
   return tokenKey in await browser.storage.local.get(tokenKey)
 }
 
-const getToken = async () => {
-  const {[tokenKey]: existedToken} = await browser.storage.local.get(tokenKey)
-  if (existedToken) return existedToken
+const getToken = async (auth) => {
+  const {[tokenKey]: existedToken, sync_info} = await browser.storage.local.get([tokenKey, 'sync_info'])
+  if (auth === 'google' && sync_info && sync_info.googleId && existedToken
+    || auth === 'github' && sync_info && sync_info.githubId && existedToken
+    || !auth && existedToken) return existedToken
+  else if (!['google', 'github'].includes(auth)) throw new Error('[boss]: unsupported auth')
   console.log('[boss]: getting token')
   const lend = browser.identity.getRedirectURL()
-  const authUrl = apiUrl + '/auth/google'
+  const authUrl = apiUrl + `/auth/${auth}`
+  const uid = sync_info ? sync_info.uid : null
+  const uidPart = uid ? `;uid:${uid}` : ''
+  const url = authUrl + '?state=ext:' + encodeURIComponent(lend) + uidPart
+  console.log('[boss]: url', url)
   const to = await new Promise((resolve, reject) => {
     chrome.identity.launchWebAuthFlow({
-      url: authUrl + '?state=ext:' + encodeURIComponent(lend),
+      url,
       interactive: true,
     }, to => {
       const err = chrome.runtime.lastError
@@ -207,7 +214,7 @@ const forceDownloadRemoteImmediate = async () => {
 
 const forceUpdate = async ({lists, opts}) => {
   const works = []
-  const conflict = await browser.storage.local.get('conflict')
+  const conflict = (await browser.storage.local.get('conflict')).conflict || {}
   if (lists) {
     delete conflict.lists
     works.push(async () => {
@@ -309,6 +316,7 @@ const resolveConflict = async ({type, result}) => {
 }
 
 export default {
+  getToken,
   getInfo,
   hasToken,
   forceUpdate,

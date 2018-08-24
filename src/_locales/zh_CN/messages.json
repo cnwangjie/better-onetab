@@ -206,13 +206,61 @@
   "ui_title_down_btn": {
     "message": "向下移动列表"
   },
-  "ui_authorize": {
-    "message": "授权获取Google ID"
+  "ui_auth_with_google": {
+    "message": "通过 Google 账号授权"
+  },
+  "ui_auth_with_github": {
+    "message": "通过 Github 账号授权"
   },
   "ui_use_boss": {
     "message": "使用 Better Onetab 同步服务 (无限容量)"
   },
   "ui_logged_uid": {
     "message": "已授权为UID: "
+  },
+  "ui_sync_exists_conflict_header": {
+    "message": "同步时发生冲突。"
+  },
+  "ui_sync_lists_failed": {
+    "message": "同步列表失败"
+  },
+  "ui_sync_opts_failed": {
+    "message": "同步设置失败"
+  },
+  "ui_sync_remote_time": {
+    "message": "远程更新时间"
+  },
+  "ui_sync_local_time": {
+    "message": "本地更新时间"
+  },
+  "ui_sync_lists_item": {
+    "message": "远程列表"
+  },
+  "ui_opts_diff": {
+    "message": "远程设置"
+  },
+  "ui_sync_keep_local": {
+    "message": "保留本地"
+  },
+  "ui_sync_keep_remote": {
+    "message": "保留远程"
+  },
+  "ui_sync_keep_both": {
+    "message": "同时保留"
+  },
+  "ui_sync_use_local": {
+    "message": "使用本地"
+  },
+  "ui_sync_use_remote": {
+    "message": "使用远程"
+  },
+  "ui_syncing": {
+    "message": "同步中"
+  },
+  "ui_conflict": {
+    "message": "冲突"
+  },
+  "ui_not_sync": {
+    "message": "未同步"
   }
 }
