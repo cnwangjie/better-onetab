@@ -49,7 +49,7 @@
   "oauth2": {
     "client_id": "__CLIENT_ID__",
     "scopes": [
-      "https://www.googleapis.com/auth/drive.file"
+      "https://www.googleapis.com/auth/drive"
     ]
   },
   "offline_enabled": true,

@@ -49,10 +49,12 @@
         <div v-if="hasToken">
           <v-card-title>
             <h2>{{ __('ui_logged_uid') }}{{ bossinfo.uid }}</h2>
-            <v-btn align="right" small color="error">Deauthorize</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn align="right" small color="error" @click="deauth">{{ __('ui_deauth') }}</v-btn>
           </v-card-title>
 
           <v-divider></v-divider>
+
           <v-card-text v-if="conflict">
             <div>
               <h2>{{ __('ui_sync_exists_conflict_header') }}</h2>
@@ -87,10 +89,13 @@
           </v-card-text>
         </div>
 
+
         <div v-else>
           <v-card-title>
             <h2>{{ __('ui_use_boss') }}</h2>
           </v-card-title>
+
+          <v-divider></v-divider>
 
           <v-card-actions>
             <v-btn color="primary" large @click="authWithGoogle">{{ __('ui_auth_with_google') }}
@@ -116,7 +121,7 @@ import options from '@/common/options'
 import __ from '@/common/i18n'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
-import {formatTime} from '@/common/utils'
+import {formatTime, one} from '@/common/utils'
 import boss from '@/common/service/boss'
 
 if (DEBUG) window.boss = boss
@@ -127,7 +132,6 @@ export default {
       optionsLists: _.groupBy(options.optionsList, 'cate'),
       options: {},
       snackbar: false,
-      quotaExceeded: false,
       bossinfo: {},
       hasToken: null,
       conflict: null,
@@ -167,22 +171,27 @@ export default {
         this.conflict = _.isEmpty(conflict) ? null : conflict
       }
     },
-    async authWithGoogle() {
+    authWithGoogle: one(async function () {
       await boss.getToken('google')
       return this.afterFirstAuth()
-    },
-    async authWithGithub() {
+    }),
+    authWithGithub: one(async function () {
       await boss.getToken('github')
       return this.afterFirstAuth()
-    },
+    }),
     async afterFirstAuth() {
       this.bossinfo = await boss.getInfo()
       await browser.storage.local.set({sync_info: this.bossinfo})
       this.loadSyncInfo()
-      chrome.runtime.sendMessage({sync: true})
+      chrome.runtime.sendMessage({forceDownload: true})
     },
     async resolveConflict(type, result) {
       chrome.runtime.sendMessage({resolveConflict: {type, result}})
+    },
+    async deauth() {
+      chrome.storage.local.remove(['boss_token', 'sync_info'])
+      this.hasToken = null
+      this.bossinfo = {}
     },
     async init() {
       this.loadOpts()
@@ -195,7 +204,6 @@ export default {
           this.loadSyncInfo()
         }
       })
-      this.quotaExceeded = storage.isQuotaExceeded()
     }
   }
 }

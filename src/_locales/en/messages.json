@@ -271,5 +271,8 @@
   },
   "ui_not_sync": {
     "message": "not_sync_yet"
+  },
+  "ui_deauth": {
+    "message": "deauthorize"
   }
 }

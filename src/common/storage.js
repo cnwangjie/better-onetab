@@ -1,15 +1,11 @@
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 
-// let lastSync = 0
-let quotaExceeded = false
-
 const uploadDebounce = _.debounce(() => {
   browser.runtime.sendMessage({uploadImmediate: true})
-}, 2000)
+}, 5000)
 
 const get = async key => {
-  // TODO: better sync alogrithmn
   return browser.storage.local.get(key)
 }
 
@@ -32,12 +28,9 @@ const getOptions = () => get('opts')
 
 const setOptions = opts => set({opts})
 
-const isQuotaExceeded = () => quotaExceeded
-
 export default {
   getLists,
   setLists,
   getOptions,
   setOptions,
-  isQuotaExceeded,
 }

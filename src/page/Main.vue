@@ -145,6 +145,11 @@ import dynamicTime from '@/component/DynamicTime'
 
 if (DEBUG) window.browser = browser
 
+import gdrive from '@/common/service/gdrive'
+import * as gt from '@/common/service/gdrive'
+window.gdrive = gdrive
+window.gt = gt
+
 export default {
   data() {
     return {

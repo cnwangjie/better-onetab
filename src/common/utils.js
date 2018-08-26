@@ -7,3 +7,19 @@ export const formatTime = time => {
   const withYear = !moment(time).isSame(new Date(), 'year')
   return moment(time).format(`ddd, MMMM Do ${withYear ? 'YYYY' : ''}, kk:mm:ss`)
 }
+export const one = fn => {
+  let executing = false
+  return async function (...args) {
+    if (executing) return
+    executing = true
+    let re
+    try {
+      re = await fn.apply(this, args)
+    } catch (error) {
+      throw error
+    } finally {
+      executing = false
+    }
+    return re
+  }
+}

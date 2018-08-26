@@ -262,5 +262,8 @@
   },
   "ui_not_sync": {
     "message": "未同步"
+  },
+  "ui_deauth": {
+    "message": "取消授权"
   }
 }

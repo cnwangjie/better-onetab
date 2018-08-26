@@ -150,6 +150,9 @@ const init = async () => {
     if (msg.resolveConflict) {
       boss.resolveConflict(msg.resolveConflict)
     }
+    if (msg.forceDownload) {
+      boss.forceDownloadRemoteImmediate()
+    }
   })
   browser.runtime.onUpdateAvailable.addListener(detail => {
     window.update = detail.version
