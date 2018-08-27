@@ -1,32 +1,35 @@
 <template>
 <v-expansion-panel expand popout>
+  <v-layout wrap spacer>
+    <v-flex v-for="(list, listIndex) in lists" :xs6="columnView" :xs12="!columnView" :key="listIndex">
+
   <v-expansion-panel-content
     hide-actions
-    v-for="(list, listIndex) in lists"
+
     :value="list.expand"
     @input="expandList($event, listIndex)"
     class="tab-list"
     :key="listIndex"
   >
     <v-layout slot="header" row spacer>
-      <v-flex no-wrap xs3>
+      <v-flex no-wrap xs10>
         <v-chip
           label
           small
         >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
         <strong class="grey--text date">{{ __('ui_created') }} {{ formatTime(list.time) }}</strong>
-      </v-flex>
-      <v-flex no-wrap xs7 @keydown.enter="saveTitle(listIndex)">
-        <v-text-field
-          class="title-editor"
-          autofocus
-          v-if="list.titleEditing"
-          @blur="saveTitle(listIndex)"
-          v-model="list.title"
-          single-line
-          hide-details
-        ></v-text-field>
-        <strong class="list-title" v-else>{{ list.title }}</strong>
+        <div @keydown.enter="saveTitle(listIndex)" :style="{display: 'inline-block'}">
+          <v-text-field
+            class="title-editor"
+            autofocus
+            v-if="list.titleEditing"
+            @blur="saveTitle(listIndex)"
+            v-model="list.title"
+            single-line
+            hide-details
+          ></v-text-field>
+          <strong class="list-title" v-else>{{ list.title }}</strong>
+        </div>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
         <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
@@ -86,6 +89,9 @@
       </v-list>
     </v-card>
   </v-expansion-panel-content>
+
+    </v-flex>
+  </v-layout>
 </v-expansion-panel>
 </template>
 <script>
@@ -99,6 +105,9 @@ import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 
 export default {
+  props: {
+    columnView: Boolean,
+  },
   data() {
     return {
       lists: [],

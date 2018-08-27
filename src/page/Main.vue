@@ -4,6 +4,9 @@
     <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
     <v-spacer></v-spacer>
 
+    <v-btn v-if="$route.name === 'detailList'" icon dark @click="columnView = !columnView">
+      <v-icon>{{ columnView ? 'view_column' : 'view_stream' }}</v-icon>
+    </v-btn>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat dark @click="nightmode = !nightmode">
         {{ __('ui_nightmode') }}
@@ -68,7 +71,7 @@
   </v-toolbar>
   <v-content>
     <v-container>
-      <router-view></router-view>
+      <router-view :column-view="columnView"></router-view>
     </v-container>
   </v-content>
   <v-footer>
@@ -146,12 +149,17 @@ export default {
       snackbarMsg: '',
       processing: false,
       nightmode: false,
+      columnView: false,
     }
   },
   watch: {
     async nightmode(newValue) {
       const window = await browser.runtime.getBackgroundPage()
       window.nightmode = newValue
+    },
+    async columnView(newValue) {
+      const window = await browser.runtime.getBackgroundPage()
+      window.columnView = newValue
     },
   },
   created() {
@@ -162,6 +170,7 @@ export default {
     async init() {
       const window = await browser.runtime.getBackgroundPage()
       if ('nightmode' in window) this.nightmode = window.nightmode || false
+      if ('columnView' in window) this.columnView = window.columnView || false
     },
     openShortcutPage() {
       chrome.tabs.create({url: 'chrome://extensions/shortcuts'})
