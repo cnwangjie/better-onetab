@@ -260,10 +260,19 @@
   "ui_conflict": {
     "message": "冲突"
   },
+  "ui_upload_error": {
+    "message": "同步错误"
+  },
   "ui_not_sync": {
     "message": "未同步"
   },
   "ui_deauth": {
     "message": "取消授权"
+  },
+  "ui_auth": {
+    "message": "授权"
+  },
+  "ui_sync_authed_with": {
+    "message": "授权账户:"
   }
 }

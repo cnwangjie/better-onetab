@@ -269,10 +269,19 @@
   "ui_conflict": {
     "message": "conflict"
   },
+  "ui_upload_error": {
+    "message": "sync error"
+  },
   "ui_not_sync": {
     "message": "not_sync_yet"
   },
   "ui_deauth": {
-    "message": "deauthorize"
+    "message": "Deauthorize"
+  },
+  "ui_auth": {
+    "message": "Authorize"
+  },
+  "ui_sync_authed_with": {
+    "message": "Has authorized with:"
   }
 }

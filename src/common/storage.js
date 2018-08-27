@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
+import boss from '@/common/service/boss'
 
-const uploadDebounce = _.debounce(() => {
-  browser.runtime.sendMessage({uploadImmediate: true})
+const uploadDebounce = _.debounce(async () => {
+  if (await boss.hasToken()) browser.runtime.sendMessage({uploadImmediate: true})
 }, 5000)
 
 const get = async key => {

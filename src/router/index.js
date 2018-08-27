@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import DetailList from '@/page/DetailList'
 import Options from '@/page/Options'
+import SyncInfo from '@/page/SyncInfo'
 import About from '@/page/About'
 import Main from '@/page/Main'
 import Popup from '@/page/Popup'
@@ -19,6 +20,11 @@ const router = new Router({
       path: '/app',
       component: Main,
       children: [
+        {
+          path: 'options/sync',
+          component: SyncInfo,
+          name: 'syncInfo',
+        },
         {
           path: 'options',
           component: Options,

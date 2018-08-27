@@ -140,8 +140,12 @@ const forceUpdate = async ({lists, opts}) => {
     })
   }
   await browser.storage.local.set({conflict})
-  await Promise.all(works.map(i => i()))
-  return browser.runtime.sendMessage({uploaded: {conflict}})
+  try {
+    await Promise.all(works.map(i => i()))
+    browser.runtime.sendMessage({uploaded: {conflict}})
+  } catch (error) {
+    browser.runtime.sendMessage({uploaded: {error}})
+  }
 }
 
 const uploadImmediate = async () => {
@@ -169,9 +173,12 @@ const uploadImmediate = async () => {
     const opts = await getOpts()
     const {opts: localOpts} = await browser.storage.local.get('opts')
     if (!Object.keys(localOpts).every(key => opts[key] === localOpts[key])) {
+      const diff = _.pickBy(opts, (v, k) => {
+        return (k in localOpts) && v !== localOpts[k]
+      })
       conflict.opts = {
         local: {time: optsUpdatedAt},
-        remote: {time: Date.parse(info.optsUpdatedAt), opts}
+        remote: {time: Date.parse(info.optsUpdatedAt), opts: diff}
       }
     } else {
       todo.opts = opts

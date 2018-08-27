@@ -32,6 +32,7 @@
           </v-list-tile>
           <v-list-tile :to="'/app/about'">
             <v-list-tile-action>
+              <v-icon>fas fa-exclamation-circle</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               {{ __('ui_about') }}
@@ -39,6 +40,7 @@
           </v-list-tile>
           <v-list-tile @click="dialog = true">
             <v-list-tile-action>
+              <v-icon>fas fa-file-import</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               {{ __('ui_export_import') }}
@@ -54,10 +56,18 @@
           </v-list-tile>
           <v-list-tile href="https://github.com/cnwangjie/better-onetab/issues/new/choose">
             <v-list-tile-action>
-              <v-icon>fas fa-exclamation-circle</v-icon>
+              <v-icon>fas fa-bug</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               {{ __('ui_create_issue') }}
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile href="https://gitter.im/better-onetab/Lobby?utm_source=app">
+            <v-list-tile-action>
+              <v-icon>fab fa-gitter</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              Gitter
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile href="https://github.com/cnwangjie/better-onetab">
@@ -145,11 +155,6 @@ import dynamicTime from '@/component/DynamicTime'
 
 if (DEBUG) window.browser = browser
 
-import gdrive from '@/common/service/gdrive'
-import * as gt from '@/common/service/gdrive'
-window.gdrive = gdrive
-window.gt = gt
-
 export default {
   data() {
     return {
@@ -163,6 +168,7 @@ export default {
       syncing: false,
       lastUpdated: NaN,
       conflict: false,
+      uploadError: null,
     }
   },
   components: {
@@ -172,6 +178,7 @@ export default {
     tooltip() {
       return this.syncing ? __('ui_syncing')
         : this.conflict ? __('ui_conflict')
+        : this.uploadError ? __('ui_upload_error')
         : isFinite(this.lastUpdated) ? null
         : __('ui_not_sync')
     }
@@ -194,8 +201,9 @@ export default {
           this.syncing = true
         } else if (msg.uploaded) {
           this.syncing = false
-          this.lastUpdated = Date.now()
           if (!_.isEmpty(msg.uploaded.conflict)) this.conflict = true
+          else if (!_.isEmpty(msg.uploaded.error)) this.uploadError = msg.uploaded.error
+          else this.lastUpdated = Date.now()
         }
       })
       this.switchNightMode()
@@ -207,7 +215,7 @@ export default {
        * tooltip: normally display update time and update status if conflict display 'exist conflict'
        * icon: normally display upload icon or loading icon if conflict display red icon
        */
-      if (this.conflict) this.$router.go('/app/options')
+      if (this.conflict) this.$router.push('/app/options/sync')
       else {
         browser.runtime.sendMessage({uploadImmediate: true})
         this.syncing = true

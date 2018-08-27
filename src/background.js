@@ -190,7 +190,7 @@ const init = async () => {
     }
   })
   setInterval(async () => {
-    if (boss.hasToken()) await boss.forceDownloadRemoteImmediate()
+    if (await boss.hasToken()) await boss.forceDownloadRemoteImmediate()
   }, 60 * 1000)
 }
 
