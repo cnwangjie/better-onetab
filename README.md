@@ -16,6 +16,8 @@
 
 ### A better onetab extensions for chrome.
 
+[![Join the chat at https://gitter.im/better-onetab/Lobby](https://badges.gitter.im/better-onetab/Lobby.svg)](https://gitter.im/better-onetab/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 More beatiful and more feature.
 
 ### Features
