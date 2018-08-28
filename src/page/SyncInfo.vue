@@ -136,15 +136,15 @@ export default {
   computed: {
     bossSubtitle() {
       if (this.hasToken) return __('ui_logged_uid') + ' ' + this.bossinfo.uid
-      return 'not login'
+      return __('ui_not_login')
     },
     googleSubtitle() {
       if (this.bossinfo.googleName) return __('ui_sync_authed_with') + ' ' + this.bossinfo.googleName
-      return 'unauthorized'
+      return __('ui_unauth')
     },
     githubSubtitle() {
       if (this.bossinfo.githubName) return __('ui_sync_authed_with') + ' ' + this.bossinfo.githubName
-      return 'unauthorized'
+      return __('ui_unauth')
     },
   },
   methods: {

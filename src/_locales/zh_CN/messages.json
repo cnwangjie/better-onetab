@@ -274,5 +274,11 @@
   },
   "ui_sync_authed_with": {
     "message": "授权账户:"
+  },
+  "ui_not_login": {
+    "message": "未登录"
+  },
+  "ui_unauth": {
+    "message": "未授权"
   }
 }

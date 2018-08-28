@@ -1,8 +1,17 @@
+import _ from 'lodash'
 
 const GOOGLE_ACCESS_TOKEN_KEY = 'at'
 const STORAGE_FOLDER_NAME = 'better-onetab-storage'
+const STORAGE_FOLDER_ID_KEY = 'sfid'
+
+const clearTokenWhenExpired = _.debounce(() => {
+  localStorage[GOOGLE_ACCESS_TOKEN_KEY] = null
+}, 60 * 1000)
 
 const getAuth = async () => {
+  if (localStorage[GOOGLE_ACCESS_TOKEN_KEY])
+    return localStorage[GOOGLE_ACCESS_TOKEN_KEY]
+
   const token = await new Promise((resolve, reject) => {
     chrome.identity.getAuthToken({ 'interactive': true }, token => {
       const err = chrome.runtime.lastError
@@ -10,7 +19,8 @@ const getAuth = async () => {
       else resolve(token)
     })
   })
-  localStorage.setItem(GOOGLE_ACCESS_TOKEN_KEY, token)
+  localStorage[GOOGLE_ACCESS_TOKEN_KEY] = token
+  clearTokenWhenExpired()
   return token
 }
 
@@ -31,38 +41,39 @@ export const prepareGapi = async token => {
   let gapi = window.gapi
   if (!gapi) await loadGapi()
   gapi = window.gapi
+  if (gapi && gapi.client && gapi.client.drive) return gapi
   await new Promise(resolve => {
     gapi.load('client', resolve)
   })
   gapi.client.setApiKey('AIzaSyCyOBoGAipfBCC74QGhDd6CohnPZhnmb3A')
+  gapi.auth.setToken({access_token: token})
   await gapi.client.load('https://content.googleapis.com/discovery/v1/apis/drive/v3/rest')
-  gapi.client.setToken(token)
   return gapi
 }
 
-const createFile = async ({ token, filename, data }) => {
-  const gapi = await prepareGapi(token)
-  const bytes = new Uint8Array(data.length)
-  for (let i = 0; i < data.length; i += 1) {
-    bytes[i] = data.charCodeAt(i)
-  }
-  // const blob = new Blob([bytes], {type: 'application/json'})
-  gapi.client.request({
-    path: 'https://www.googleapis.com/drive/v3/files',
-    method: 'POST',
-    params: {uploadType: 'multipart'},
-  })
-  return gapi.client.drive.files.create({
-    resource: {
-      name: filename,
-    },
-    media: {
-      mimeType: 'application/json',
-      body: data,
-    },
-    field: 'id',
-  })
-}
+// const createFile = async ({ token, filename, data }) => {
+//   const gapi = await prepareGapi(token)
+//   const bytes = new Uint8Array(data.length)
+//   for (let i = 0; i < data.length; i += 1) {
+//     bytes[i] = data.charCodeAt(i)
+//   }
+//   // const blob = new Blob([bytes], {type: 'application/json'})
+//   gapi.client.request({
+//     path: 'https://www.googleapis.com/drive/v3/files',
+//     method: 'POST',
+//     params: {uploadType: 'multipart'},
+//   })
+//   return gapi.client.drive.files.create({
+//     resource: {
+//       name: filename,
+//     },
+//     media: {
+//       mimeType: 'application/json',
+//       body: data,
+//     },
+//     field: 'id',
+//   })
+// }
 
 // const getFile = async ({ token, fileId }) => {
 //   await prepareGapi(token)
@@ -84,29 +95,52 @@ const uploadJSON = ({ token, json, filename }) => {
   })
 }
 
-const getStorageFolder = async () => {
+const createFolder = async () => {
   const gapi = await prepareGapi()
-  const files = await gapi.client.drive.files.list({
-    q: `mimeType = 'application/vnd.google-apps.folder' and name = '${STORAGE_FOLDER_NAME}'`
-  })
-  const [folder] = files.files
-  if (folder) return folder
-  return gapi.client.drive.files.create({
+  const res = await gapi.client.drive.files.create({
     "resource": {
-      "name": "better-onetab-storage",
+      "name": STORAGE_FOLDER_NAME,
       "mimeType": "application/vnd.google-apps.folder"
     }
   })
+  const folder = res.result
+  localStorage[STORAGE_FOLDER_ID_KEY] = folder.id
+  return folder
+}
+
+const getStorageFolder = async () => {
+  if (localStorage[STORAGE_FOLDER_ID_KEY]) return {id: localStorage[STORAGE_FOLDER_ID_KEY]}
+  const gapi = await prepareGapi()
+  const res = await gapi.client.drive.files.list({
+    q: `mimeType = 'application/vnd.google-apps.folder' and name = '${STORAGE_FOLDER_NAME}'`
+  })
+  const [folder] = res.result.files
+  if (folder) return folder
+  return createFolder()
+}
+
+const createFile = async filename => {
+  const gapi = await prepareGapi()
+  const folder = await getStorageFolder()
+  const res = await gapi.client.drive.files.create({
+    resource: {
+      name: filename,
+      mimeType: 'text/plain',
+      parents: [folder.id],
+    }
+  })
+  return res.result
 }
 
 const getFileInStorageFolder = async filename => {
   const gapi = await prepareGapi()
   const folder = await getStorageFolder()
-  const files = await gapi.client.drive.files.list({
-    q: `'${folder.id}' in parents and name = ${filename}`,
+  const res = await gapi.client.drive.files.list({
+    q: `'${folder.id}' in parents and name = '${filename}'`,
   })
-  const [file] = files.files
-  return file
+  const [file] = res.result.files
+  if (file) return file
+  else return createFile(filename)
 }
 
 const forceSaveFile = async (data, filename) => {

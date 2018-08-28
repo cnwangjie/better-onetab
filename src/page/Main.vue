@@ -5,7 +5,7 @@
     <v-spacer></v-spacer>
 
     <v-tooltip left>
-      <v-btn slot="activator" icon dark :loading="syncing" @click="syncBtnClicked">
+      <v-btn slot="activator" icon dark :loading="syncing" @click="syncBtnClicked" :disabled="!hasToken">
         <v-icon :style="conflict ? {color: 'red'} : {}">cloud_upload</v-icon>
       </v-btn>
       <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
@@ -150,10 +150,16 @@ import _ from 'lodash'
 import __ from '@/common/i18n'
 import list from '@/common/list'
 import storage from '@/common/storage'
+import boss from '@/common/service/boss'
 import browser from 'webextension-polyfill'
 import dynamicTime from '@/component/DynamicTime'
 
 if (DEBUG) window.browser = browser
+
+import gdrive from '@/common/service/gdrive'
+import * as gt from '@/common/service/gdrive'
+window.gdrive = gdrive
+window.gt = gt
 
 export default {
   data() {
@@ -169,6 +175,7 @@ export default {
       lastUpdated: NaN,
       conflict: false,
       uploadError: null,
+      hasToken: false,
     }
   },
   components: {
@@ -176,7 +183,8 @@ export default {
   },
   computed: {
     tooltip() {
-      return this.syncing ? __('ui_syncing')
+      return !this.hasToken ? __('ui_not_login')
+        : this.syncing ? __('ui_syncing')
         : this.conflict ? __('ui_conflict')
         : this.uploadError ? __('ui_upload_error')
         : isFinite(this.lastUpdated) ? null
@@ -195,6 +203,7 @@ export default {
   methods: {
     __,
     async init() {
+      this.hasToken = await boss.hasToken()
       chrome.runtime.onMessage.addListener(async msg => {
         console.log(msg)
         if (msg.uploadImmediate) {
@@ -209,12 +218,6 @@ export default {
       this.switchNightMode()
     },
     async syncBtnClicked() {
-      /**
-       * sync btn:
-       * click: normally manually upload; if there is conflict will go to options page
-       * tooltip: normally display update time and update status if conflict display 'exist conflict'
-       * icon: normally display upload icon or loading icon if conflict display red icon
-       */
       if (this.conflict) this.$router.push('/app/options/sync')
       else {
         browser.runtime.sendMessage({uploadImmediate: true})

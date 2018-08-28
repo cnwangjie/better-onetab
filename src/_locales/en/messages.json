@@ -283,5 +283,11 @@
   },
   "ui_sync_authed_with": {
     "message": "Has authorized with:"
+  },
+  "ui_not_login": {
+    "message": "not login"
+  },
+  "ui_unauth": {
+    "message": "unauthorized"
   }
 }

@@ -11,10 +11,27 @@
   >
     <v-layout slot="header" row spacer>
       <v-flex no-wrap xs3>
-        <v-chip
-          label
-          small
-        >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
+
+        <v-menu open-on-hover top offset-y>
+          <v-chip
+            slot="activator"
+            label
+            small
+            :color="list.color"
+            class="lighten-3"
+          >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
+          <v-card>
+            <v-layout wrap class="color-panel">
+              <v-flex wrap xs3 v-for="color, colorIndex in colorList" :key="colorIndex">
+                <div
+                  class="color-selector lighten-3"
+                  :class="color"
+                  @click.stop="changeColor(listIndex, color)"
+                ></div>
+              </v-flex>
+            </v-layout>
+          </v-card>
+        </v-menu>
         <strong class="grey--text date">{{ __('ui_created') }} <dynamic-time v-model="list.time"></dynamic-time></strong>
       </v-flex>
       <v-flex no-wrap xs7 @keydown.enter="saveTitle(listIndex)">
@@ -113,9 +130,16 @@ import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
 
+const colorList = [
+  '', 'red', 'pink', 'purple',
+  'indigo', 'blue', 'cyan', 'teal',
+  'green', 'yellow', 'orange', 'brown',
+]
+
 export default {
   data() {
     return {
+      colorList,
       lists: [],
       itemClickAction: '',
       itemDisplay: '',
@@ -229,11 +253,31 @@ export default {
     expandList(expand, listIndex) {
       this.lists[listIndex].expand = expand
       this.storeLists()
-    }
+    },
+    changeColor(listIndex, color) {
+      this.lists[listIndex].color = color
+      this.$forceUpdate()
+      this.storeLists()
+    },
   }
 }
 </script>
 <style lang="scss" scoped>
+.color-panel {
+  width: 136px;
+  height: 110px;
+  padding: 5px;
+  .color-selector {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    border-radius: 13px;
+    border: 2px solid white !important;
+    &:hover {
+      border: 2px solid gray !important;
+    }
+  }
+}
 .date {
   font-size: 100%;
 }
