@@ -101,8 +101,9 @@ const getRemoteInfo = () => {
 }
 
 const forceDownloadRemoteImmediate = async () => {
+  if (!await hasToken()) return
   const {conflict} = await browser.storage.local.get('conflict')
-  if (conflict) return
+  if (conflict) return browser.runtime.sendMessage({downloaded: {conflict}})
   const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
   const {listsUpdatedAt, optsUpdatedAt} = _.defaults(localInfo, {listsUpdatedAt: 0, optsUpdatedAt: 0})
   const info = await getRemoteInfo()
@@ -120,6 +121,7 @@ const forceDownloadRemoteImmediate = async () => {
     })
   }
   await Promise.all(works.map(i => i()))
+  browser.storage.sendMessage({downloaded: 'success'})
 }
 
 const forceUpdate = async ({lists, opts}) => {
@@ -176,9 +178,14 @@ const uploadImmediate = async () => {
       const diff = _.pickBy(opts, (v, k) => {
         return (k in localOpts) && v !== localOpts[k]
       })
-      conflict.opts = {
-        local: {time: optsUpdatedAt},
-        remote: {time: Date.parse(info.optsUpdatedAt), opts: diff}
+      if (_.isEmpty(diff)) {
+        todo.opts = opts
+        delete conflict.opts
+      } else {
+        conflict.opts = {
+          local: {time: optsUpdatedAt},
+          remote: {time: Date.parse(info.optsUpdatedAt), opts: diff}
+        }
       }
     } else {
       todo.opts = opts
@@ -223,8 +230,13 @@ const resolveConflict = async ({type, result}) => {
     const remote = conflict.opts.remote.opts
     if (result === 'local') await forceUpdate({opts: local})
     if (result === 'remote') {
-      await browser.storage.local.set({opts: remote})
-      await forceUpdate({opts: remote})
+      for (let key in local) {
+        if (key in remote) {
+          local[key] = remote[key]
+        }
+      }
+      await browser.storage.local.set({opts: local})
+      await forceUpdate({opts: local})
     }
     delete conflict.opts
   }

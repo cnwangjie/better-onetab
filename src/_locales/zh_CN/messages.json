@@ -212,6 +212,9 @@
   "ui_auth_with_github": {
     "message": "通过 Github 账号授权"
   },
+  "ui_boss": {
+    "message": "Better Onetab 同步服务器 (不限制储存容量)"
+  },
   "ui_use_boss": {
     "message": "使用 Better Onetab 同步服务 (无限容量)"
   },

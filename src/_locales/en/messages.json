@@ -221,6 +221,9 @@
   "ui_auth_with_github": {
     "message": "Authorize with Github account"
   },
+  "ui_boss": {
+    "message": "Better-Onetab Sync Server (unlimited storage)"
+  },
   "ui_use_boss": {
     "message": "Use Better-Onetab Sync Service (unlimited storage)"
   },

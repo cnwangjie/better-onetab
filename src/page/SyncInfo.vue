@@ -18,15 +18,16 @@
             color="error"
             icon="warning"
             outline
+            transition="fade-transition"
           >
-            Sync Error
+            SYNC ERROR {{ syncError && syncError.message ? syncError.message : '' }}
           </v-alert>
 
           <v-list>
             <v-list-tile>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  Better-Onetab Sync Server (unlimited storage)
+                  {{ __('ui_boss') }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ bossSubtitle }}
@@ -50,7 +51,13 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn v-if="!bossinfo.googleName" outline color="success" @click="auth('google')">{{ __('ui_auth') }}</v-btn>
+                <v-btn
+                  v-if="!bossinfo.googleName"
+                  outline
+                  color="success"
+                  @click="auth('google')"
+                  :loading="logging"
+                >{{ __('ui_auth') }}</v-btn>
               </v-list-tile-action>
             </v-list-tile>
             <v-divider></v-divider>
@@ -67,7 +74,13 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn v-if="!bossinfo.githubName" outline color="success" @click="auth('github')">{{ __('ui_auth') }}</v-btn>
+                <v-btn
+                  v-if="!bossinfo.githubName"
+                  outline
+                  color="success"
+                  @click="auth('github')"
+                  :loading="logging"
+                >{{ __('ui_auth') }}</v-btn>
               </v-list-tile-action>
             </v-list-tile>
           </v-list>
@@ -149,11 +162,12 @@ export default {
   },
   methods: {
     __,
+    formatTime,
     async init() {
-      this.loadSyncInfo()
-      browser.runtime.onMessage.addListener(msg => {
+      await this.loadSyncInfo()
+      browser.runtime.onMessage.addListener(async msg => {
         if (msg.uploaded) {
-          this.loadSyncInfo()
+          await this.loadSyncInfo()
         }
       })
     },
@@ -171,9 +185,11 @@ export default {
       }
     },
     async afterFirstAuth() {
+      console.log('[info]: after finish auth')
       this.bossinfo = await boss.getInfo()
+      this.$emit('login')
       await browser.storage.local.set({sync_info: this.bossinfo})
-      this.loadSyncInfo()
+      await this.loadSyncInfo()
       chrome.runtime.sendMessage({forceDownload: true})
     },
     async resolveConflict(type, result) {
@@ -184,6 +200,7 @@ export default {
       try {
         await boss.getToken(auth)
         await this.afterFirstAuth()
+        this.syncError = null
       } catch (e) {
         console.error(e)
         this.syncError = e
@@ -195,6 +212,7 @@ export default {
       chrome.storage.local.remove(['boss_token', 'sync_info'])
       this.hasToken = null
       this.bossinfo = {}
+      this.$emit('login')
     },
 
   }

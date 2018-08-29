@@ -84,7 +84,9 @@
   </v-toolbar>
   <v-content>
     <v-container>
-      <router-view></router-view>
+      <keep-alive>
+        <router-view @login="login"></router-view>
+      </keep-alive>
     </v-container>
   </v-content>
   <v-footer>
@@ -202,20 +204,26 @@ export default {
   },
   methods: {
     __,
-    async init() {
+    async login() {
       this.hasToken = await boss.hasToken()
+    },
+    async init() {
+      this.switchNightMode()
+      this.login()
       chrome.runtime.onMessage.addListener(async msg => {
         console.log(msg)
-        if (msg.uploadImmediate) {
+        if (msg.uploadImmediate || msg.forceDownload) {
           this.syncing = true
-        } else if (msg.uploaded) {
+        } else if (msg.uploaded || msg.downloaded) {
           this.syncing = false
-          if (!_.isEmpty(msg.uploaded.conflict)) this.conflict = true
-          else if (!_.isEmpty(msg.uploaded.error)) this.uploadError = msg.uploaded.error
+          const result = msg.uploaded || msg.downloaded
+          if (!_.isEmpty(result.conflict)) this.conflict = true
+          else if (!_.isEmpty(result.error)) this.uploadError = result.error
           else this.lastUpdated = Date.now()
         }
       })
-      this.switchNightMode()
+      const {conflict} = await browser.storage.local.get('conflict')
+      this.conflict = !_.isEmpty(conflict)
     },
     async syncBtnClicked() {
       if (this.conflict) this.$router.push('/app/options/sync')

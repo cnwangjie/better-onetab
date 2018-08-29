@@ -113,7 +113,6 @@ const init = async () => {
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
-  if (await boss.hasToken()) await boss.forceDownloadRemoteImmediate()
   updateBrowserAction(opts.browserAction)
   setupContextMenus(opts.pageContext)
   browser.runtime.onMessage.addListener(async msg => {
@@ -189,9 +188,8 @@ const init = async () => {
       window.boss_token = changes.boss_token
     }
   })
-  setInterval(async () => {
-    if (await boss.hasToken()) await boss.forceDownloadRemoteImmediate()
-  }, 60 * 1000)
+  await boss.forceDownloadRemoteImmediate()
+  setInterval(() => boss.forceDownloadRemoteImmediate(), 60 * 1000)
 }
 
 init()
