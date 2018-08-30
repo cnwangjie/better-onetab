@@ -40,11 +40,7 @@ const getToken = async (auth) => {
 
 const fetchData = async (uri = '', method = 'GET', data = {}) => {
   const headers = new Headers
-  const token = await getToken().catch(async err => {
-    console.error(err)
-    await new Promise(resolve => setTimeout(resolve), 5000)
-    return getToken()
-  })
+  const token = await getToken()
   if (token) headers.append(tokenHeader, token)
 
   const option = {
@@ -68,7 +64,8 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
   return fetch(apiUrl + uri, option)
     .then(async res => {
       // use new token
-      if (res.headers.get(tokenHeader)) {
+      if (res.headers.has(tokenHeader)) {
+        console.debug('[boss]: got new token', res.headers.get(tokenHeader))
         await browser.storage.local.set({[tokenKey]: res.headers.get(tokenHeader)})
       }
       return res
@@ -79,9 +76,10 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
         return json
       } else return res.text()
     })
-    .catch(err => {
+    .catch(async err => {
       // remove expired token
-      browser.storage.local.remove(tokenKey)
+      await browser.storage.local.remove(tokenKey)
+      await browser.storage.local.remove('sync_info')
       console.error(err)
       throw new Error('Internal Server Error')
     })
