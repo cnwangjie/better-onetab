@@ -1,3 +1,15 @@
+### v1.3.0 8/XX/2018
+
+ - feat: better onetab sync server (it is provided by a self-hosted server, with unlimited storage space, allow authorize with google / github account now) !IMPORTANT
+ - change: some icons changed
+ - change: add a gitter link
+ - feat: allow set list color just need to click the tabs label
+ - change: new logo
+
+### v1.2.1 8/13/2018
+
+ - fix: context menus click handler won't be called
+
 ### v1.2.0 8/12/2018
 
  - fix: some problem left over last version

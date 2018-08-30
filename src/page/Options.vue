@@ -49,8 +49,13 @@
         <v-list>
           <v-list-tile>
             <v-list-tile-content>
+
               <v-subheader>
-                Sync <v-chip outline color="red" small>BETA</v-chip>
+                Sync
+                <v-tooltip top>
+                  <v-chip slot="activator" outline color="red" small>BETA</v-chip>
+                  <span>{{ __('ui_beta_warn') }}</span>
+                </v-tooltip>
               </v-subheader>
             </v-list-tile-content>
             <v-list-tile-action>

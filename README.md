@@ -58,6 +58,10 @@ Build your own from following steps：
 0. Click LOAD UNPACKED button and select ./dist path
 0. Build (use `yarn build` command)
 
+### Especially thanks
+
+Thanks for [@Yasujizr](https://github.com/Yasujizr) helped this project design new logo and banners.
+
 ### License
 
 MIT LICENSE

@@ -292,5 +292,8 @@
   },
   "ui_unauth": {
     "message": "unauthorized"
+  },
+  "ui_beta_warn": {
+    "message": "This is a feature in the test, if you find any problem please send me a feedback."
   }
 }
