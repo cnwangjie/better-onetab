@@ -1,8 +1,8 @@
 {
-  "name": "webpack-simple-test",
-  "description": "A Vue.js project",
-  "version": "1.0.0",
-  "author": "chevionlu@163.com",
+  "name": "Extension Manager (Chrome)",
+  "description": "One-click management of all extensions, fast open/disable, lightning group management, smart sorting, right-click unloading, locking, option configuration, corner reminder, size layout. Fast, simple and safe.",
+  "version": "8.x",
+  "author": "chevionlu@gmail.com",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -13,9 +13,7 @@
     "vue": "^2.5.11"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "Chrome >= 49"
   ],
   "devDependencies": {
     "babel-core": "^6.26.0",
