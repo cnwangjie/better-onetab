@@ -1,6 +1,6 @@
 {
   "name": "Extension Manager (Chrome)",
-  "description": "One-click management of all extensions, fast open/disable, lightning group management, smart sorting, right-click unloading, locking, option configuration, corner reminder, size layout. Fast, simple and safe.",
+  "description": "Extension Manager (Chrome)",
   "version": "8.x",
   "author": "chevionlu@gmail.com",
   "license": "MIT",
