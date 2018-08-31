@@ -1,8 +1,9 @@
-### v1.3.0 8/XX/2018
+### v1.3.0 8/31/2018
 
  - feat: better onetab sync server (it is provided by a self-hosted server, with unlimited storage space, allow authorize with google / github account now) !IMPORTANT
+ - feat: save list to google drive (we will allow user access the saved file and import manually currently) !IMPORTANT
  - change: some icons changed
- - change: add a gitter link
+ - change: add a gitter link (you can get communicate with the developer instantly)
  - feat: allow set list color just need to click the tabs label
  - change: new logo
 

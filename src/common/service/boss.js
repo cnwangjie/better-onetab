@@ -91,20 +91,13 @@ const setLists = lists => fetchData('/api/lists', 'PUT', {lists})
 const getOpts = () => fetchData('/api/opts')
 const setOpts = opts => fetchData('/api/opts', 'PUT', {opts})
 
-const getRemoteInfo = () => {
-  return getInfo().catch(err => {
-    console.error('[boss]: first time to get info error:', err)
-    return getInfo()
-  })
-}
-
 const forceDownloadRemoteImmediate = async () => {
   if (!await hasToken()) return
   const {conflict} = await browser.storage.local.get('conflict')
   if (conflict) return browser.runtime.sendMessage({downloaded: {conflict}})
   const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
   const {listsUpdatedAt, optsUpdatedAt} = _.defaults(localInfo, {listsUpdatedAt: 0, optsUpdatedAt: 0})
-  const info = await getRemoteInfo()
+  const info = await getInfo()
   const works = []
   if (Date.parse(info.listsUpdatedAt) > listsUpdatedAt) {
     works.push(async () => {
@@ -151,7 +144,7 @@ const forceUpdate = async ({lists, opts}) => {
 const uploadImmediate = async () => {
   const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
   const {listsUpdatedAt, optsUpdatedAt} = _.defaults(localInfo, {listsUpdatedAt: 0, optsUpdatedAt: 0})
-  const info = await getRemoteInfo()
+  const info = await getInfo()
   const todo = {}
   const conflict = (await browser.storage.local.get('conflict')).conflict || {}
   if (Date.parse(info.listsUpdatedAt) === listsUpdatedAt) {

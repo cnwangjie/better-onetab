@@ -286,5 +286,11 @@
   },
   "ui_beta_warn": {
     "message": "这是一个测试中的功能，如果遇到了任何问题请向我反馈。"
+  },
+  "ui_save_to_gdrive": {
+    "message": "将列表保存至 google drive"
+  },
+  "ui_save_immediately": {
+    "message": "立即保存"
   }
 }

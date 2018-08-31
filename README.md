@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="./src/assets/icons/icon_128.png">
+  <img src="https://user-images.githubusercontent.com/36993664/44917039-f208ad80-ad3f-11e8-85e9-e29489f0ffb4.png">
 </p>
-
-<h1 align="center">better-onetab</h1>
 
 <p align="center">
 <a href="https://circleci.com/gh/cnwangjie/better-onetab"><img src="https://img.shields.io/circleci/project/github/cnwangjie/better-onetab/master.svg?style=flat-square" alt="CircleCI"></a>

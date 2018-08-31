@@ -141,7 +141,9 @@ const init = async () => {
       }
     }
     if (msg.uploadImmediate) {
-      boss.uploadImmediate()
+      boss.uploadImmediate().catch(() => {
+        browser.runtime.sendMessage({uploaded: {error: true}})
+      })
     }
     if (msg.forceUpdate) {
       boss.forceUpdate(msg.forceUpdate)

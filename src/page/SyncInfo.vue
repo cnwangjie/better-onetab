@@ -14,13 +14,13 @@
 
 
           <v-alert
-            :value="syncError"
-            color="error"
-            icon="warning"
+            :value="alert.status"
+            :color="alert.status"
+            :icon="alert.status === 'success' ? 'check_circle' : 'warning'"
             outline
             transition="fade-transition"
           >
-            SYNC ERROR {{ syncError && syncError.message ? syncError.message : '' }}
+            {{ alert && alert.msg ? alert.msg : '' }}
           </v-alert>
 
           <v-list>
@@ -118,6 +118,48 @@
             </div>
           </div>
 
+          <v-divider></v-divider>
+
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ __('ui_save_to_gdrive') }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn
+                  depressed small color="success" @click="saveToGdrive"
+                  :loading="saving">
+                  {{ __('ui_save_immediately') }}
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+
+            <!-- <v-list-tile>
+              <v-list-tile-content>
+                <v-layout wrap style="width:100%">
+                  <v-flex xs8>
+                    <v-subheader>
+                      Timed upload
+                    </v-subheader>
+                  </v-flex>
+                  <v-flex xs4>
+                    <v-select
+                      class="select-amend"
+                      :items="uploadTimerItems"
+                      v-model="uploadTimerSelected"
+                      label=""
+                      item-text=""
+                      item-value="value"
+                      @change=""
+                    ></v-select>
+                  </v-flex>
+                </v-layout>
+              </v-list-tile-content>
+            </v-list-tile> -->
+          </v-list>
+
         </v-card-text>
       </v-card>
     </v-flex>
@@ -129,6 +171,7 @@
 import __ from '@/common/i18n'
 import {formatTime, one} from '@/common/utils'
 import boss from '@/common/service/boss'
+import gdrive from '@/common/service/gdrive'
 import browser from 'webextension-polyfill'
 
 if (DEBUG) window.boss = boss
@@ -140,7 +183,10 @@ export default {
       hasToken: null,
       conflict: null,
       logging: false,
-      syncError: null,
+      alert: { status: '', msg: '' },
+      uploadTimerItems: ['never', 'daily', 'hourly', 'onchange'],
+      uploadTimerSelected: null,
+      saving: false,
     }
   },
   created() {
@@ -200,10 +246,10 @@ export default {
       try {
         await boss.getToken(auth)
         await this.afterFirstAuth()
-        this.syncError = null
+        this.alert = { status: 'success', msg: 'success' }
       } catch (e) {
         console.error(e)
-        this.syncError = e
+        this.alert = { status: 'error', msg: e.message }
       } finally {
         this.logging = false
       }
@@ -214,7 +260,19 @@ export default {
       this.bossinfo = {}
       this.$emit('login')
     },
-
+    saveToGdrive: one(async function () {
+      this.saving = true
+      try {
+        await gdrive.saveCurrentTabLists()
+        this.alert = { status: 'success', msg: 'success' }
+      } catch (e) {
+        console.error(e)
+        this.alert = { status: 'error', msg: e.result.error.message }
+        gdrive.clearToken()
+      } finally {
+        this.saving = false
+      }
+    }),
   }
 }
 </script>

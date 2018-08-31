@@ -295,5 +295,11 @@
   },
   "ui_beta_warn": {
     "message": "This is a feature in the test, if you find any problem please send me a feedback."
+  },
+  "ui_save_to_gdrive": {
+    "message": "Save list to google drive"
+  },
+  "ui_save_immediately": {
+    "message": "save immediately"
   }
 }

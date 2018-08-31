@@ -1,17 +1,21 @@
 import _ from 'lodash'
+import browser from 'webextension-polyfill'
 
 const GOOGLE_ACCESS_TOKEN_KEY = 'at'
 const STORAGE_FOLDER_NAME = 'better-onetab-storage'
 const STORAGE_FOLDER_ID_KEY = 'sfid'
 
-const clearTokenWhenExpired = _.debounce(() => {
-  localStorage[GOOGLE_ACCESS_TOKEN_KEY] = null
-}, 60 * 1000)
+const clearToken = () => {
+  delete localStorage[GOOGLE_ACCESS_TOKEN_KEY]
+}
+
+const clearTokenWhenExpired = _.debounce(clearToken, 60 * 1000)
 
 const getAuth = async () => {
   if (localStorage[GOOGLE_ACCESS_TOKEN_KEY])
     return localStorage[GOOGLE_ACCESS_TOKEN_KEY]
 
+  console.debug('[gdrive]: getting token')
   const token = await new Promise((resolve, reject) => {
     chrome.identity.getAuthToken({ 'interactive': true }, token => {
       const err = chrome.runtime.lastError
@@ -20,11 +24,13 @@ const getAuth = async () => {
     })
   })
   localStorage[GOOGLE_ACCESS_TOKEN_KEY] = token
+  console.debug('[gdrive]: got token ' + token)
   clearTokenWhenExpired()
   return token
 }
 
 export const loadGapi = async () => {
+  console.debug('[gdrive]: loading gapi')
   return new Promise(resolve => {
     window.gapiLoaded = () => setTimeout(resolve, 0)
     const po = document.createElement('script')
@@ -132,6 +138,15 @@ const createFile = async filename => {
   return res.result
 }
 
+const getAllFileInStorageFolder = async () => {
+  const gapi = await prepareGapi()
+  const folder = await getStorageFolder()
+  const res = await gapi.client.drive.files.list({
+    q: `'${folder.id}' in parents`,
+  })
+  return res.result.files
+}
+
 const getFileInStorageFolder = async filename => {
   const gapi = await prepareGapi()
   const folder = await getStorageFolder()
@@ -171,14 +186,24 @@ const forceSaveFile = async (data, filename) => {
   })
 }
 
+const saveCurrentTabLists = async () => {
+  const {lists} = await browser.storage.local.get('lists')
+  if (_.isEmpty(lists)) return
+  const filename = 'list_save_' + new Date().toISOString() + '.json'
+  return forceSaveFile(lists, filename)
+}
+
 const gdrive = {
   getAuth,
   createFile,
   uploadJSON,
   forceSaveFile,
+  getAllFileInStorageFolder,
+  saveCurrentTabLists,
+  clearToken,
 }
 
-window.gdrive = gdrive
+if (DEBUG) window.gdrive = gdrive
 
 export default gdrive
 
@@ -447,5 +472,3 @@ MediaUploader.prototype.buildUrl_ = function(id, params, baseUrl) {
   }
   return url;
 };
-
-
