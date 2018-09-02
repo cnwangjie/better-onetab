@@ -113,6 +113,7 @@ const init = async () => {
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
+  window.nightmode = opts.defaultNightMode
   updateBrowserAction(opts.browserAction)
   setupContextMenus(opts.pageContext)
   browser.runtime.onMessage.addListener(async msg => {

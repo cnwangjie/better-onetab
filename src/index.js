@@ -13,4 +13,14 @@ const app = new Vue({
   template: '<App/>',
   components: { App }
 })
-if (DEBUG) window.app = app
+
+if (DEBUG) {
+  window.app = app
+  import('webextension-polyfill').then(browser => {
+    window.browser = browser
+  })
+  import('@/common/service/gdrive').then(gt => {
+    window.gt = gt
+    window.gdrive = gt.gdrive
+  })
+}

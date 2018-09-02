@@ -1,3 +1,12 @@
+### v1.3.1 9/2/2018
+
+ - feat: add an option to allow using night mode by default
+ - feat: add an option to allow choosing items displayed
+ - feat: add an option to allow hiding favicon
+ - feat: add an option to allow useing fixed toolbar
+ - change: hiding dialog after imported
+ - change: put imported lists before current lists
+
 ### v1.3.0 8/31/2018
 
  - feat: better onetab sync server (it is provided by a self-hosted server, with unlimited storage space, allow authorize with google / github account now) !IMPORTANT

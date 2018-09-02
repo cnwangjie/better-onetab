@@ -58,26 +58,6 @@ export const optionsList = [
       },
     ],
   },
-  // {
-  //   name: 'itemDisplay',
-  //   desc: __('opt_desc_itemDisplay'),
-  //   type: String,
-  //   default: 'title-and-url',
-  //   items: [
-  //     {
-  //       value: 'title-and-url',
-  //       label: 'title and url',
-  //     },
-  //     {
-  //       value: 'title',
-  //       label: 'title',
-  //     },
-  //     {
-  //       value: 'url',
-  //       label: 'url',
-  //     },
-  //   ],
-  // },
   {
     cate: cate.BEHAVIOUR,
     name: 'popupItemClickAction',
@@ -117,6 +97,48 @@ export const optionsList = [
     ],
   },
   {
+    cate: cate.APPEARANCE,
+    name: 'defaultNightMode',
+    desc: __('opt_desc_defaultNightMode'),
+    type: Boolean,
+    default: false,
+  },
+  {
+    cate: cate.APPEARANCE,
+    name: 'itemDisplay',
+    desc: __('opt_desc_itemDisplay'),
+    type: String,
+    default: 'title-and-url',
+    items: [
+      {
+        value: 'title-and-url',
+        label: __('opt_label_title_and_url'),
+      },
+      {
+        value: 'title',
+        label: __('opt_label_title'),
+      },
+      {
+        value: 'url',
+        label: __('opt_label_url'),
+      },
+    ],
+  },
+  {
+    cate: cate.APPEARANCE,
+    name: 'hideFavicon',
+    desc: __('opt_desc_hideFavicon'),
+    type: Boolean,
+    default: false,
+  },
+  {
+    cate: cate.APPEARANCE,
+    name: 'fixedToolbar',
+    desc: __('opt_desc_fixedToolbar'),
+    type: Boolean,
+    default: false,
+  },
+  {
     cate: cate.BEHAVIOUR,
     name: 'addHistory',
     desc: __('opt_desc_addHistory'),
@@ -151,27 +173,6 @@ export const optionsList = [
     type: Boolean,
     default: false,
   },
-  // {
-  //   cate: cate.SYNC,
-  //   name: 'syncOptions',
-  //   desc: __('opt_desc_syncOptions'),
-  //   type: Boolean,
-  //   default: true,
-  // },
-  // {
-  //   cate: cate.SYNC,
-  //   name: 'syncList',
-  //   desc: __('opt_desc_syncList'),
-  //   type: Boolean,
-  //   default: true,
-  // },
-  // {
-  //   cate: cate.SYNC,
-  //   name: 'useBoss',
-  //   desc: __('opt_desc_useBoss'),
-  //   type: Boolean,
-  //   default: false,
-  // },
 ]
 
 const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)

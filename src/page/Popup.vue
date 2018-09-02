@@ -6,6 +6,7 @@
         ripple
         @click="clicked(index)"
         :key="index"
+        :color="list.color"
       >
         <v-list-tile-content>
           <v-list-tile-title><strong>[{{ list.tabs.length }}]</strong> {{ list.title || '(untitled)' }}</v-list-tile-title>

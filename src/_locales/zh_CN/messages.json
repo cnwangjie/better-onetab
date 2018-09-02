@@ -53,6 +53,12 @@
   "opt_desc_itemDisplay": {
     "message": "列表中的项显示的内容"
   },
+  "opt_desc_hideFavicon": {
+    "message": "隐藏列表中的图标"
+  },
+  "opt_desc_fixedToolbar": {
+    "message": "固定工具栏"
+  },
   "opt_desc_removeItemBtnPos": {
     "message": "移除标签按钮的位置"
   },
@@ -67,6 +73,9 @@
   },
   "opt_desc_pageContext": {
     "message": "开启页面中的右键菜单中的按钮"
+  },
+  "opt_desc_defaultNightMode": {
+    "message": "默认使用夜间模式"
   },
   "opt_desc_addHistory": {
     "message": "将储存的标签加入浏览器历史记录中"
@@ -115,6 +124,15 @@
   },
   "opt_label_right": {
     "message": "标签右侧"
+  },
+  "opt_label_title_and_url": {
+    "message": "标题和地址"
+  },
+  "opt_label_title": {
+    "message": "标题"
+  },
+  "opt_label_url": {
+    "message": "地址"
   },
   "ui_nightmode": {
     "message": "夜间模式"
@@ -292,5 +310,11 @@
   },
   "ui_save_immediately": {
     "message": "立即保存"
+  },
+  "ui_no_list": {
+    "message": "没有标签"
+  },
+  "ui_no_list_tip": {
+    "message": "1. 选中你想储存的标签</br>2. 右键点击扩展图标</br>3. 点击 \"储存选中的标签\"<p class=\"body-2\">在其他设备使用过？ 授权同步服务可以自动恢复列表。</p>"
   }
 }

@@ -87,12 +87,13 @@
                   tile
                   size="16"
                   color="grey lighten-4"
+                  v-if="!hideFavicon"
                 >
                   <img :src="tab.favIconUrl ? tab.favIconUrl : `https://www.google.com/s2/favicons?domain=${getDomain(tab.url)}`">
                 </v-avatar>
-                {{ tab.title }}
+                {{ itemDisplay === 'url' ? tab.url : tab.title }}
               </v-list-tile-title>
-              <v-list-tile-sub-title>
+              <v-list-tile-sub-title v-if="itemDisplay === 'title-and-url'">
                 {{ tab.url }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
@@ -106,17 +107,10 @@
   </v-expansion-panel-content>
 </v-expansion-panel>
 
-
-<!-- <v-layout v-if="lists.length === 0">
-  <v-flex xs12>
-    <div class="text-xs-center">
-      <h3 class="display-3 grey--text">No list here</h3>
-      <p class="display-2 grey--text">1. Select the tabs you want to store</p>
-      <p class="display-2 grey--text">2. Right click the extension icon</p>
-      <p class="display-2 grey--text">3. Click "store selected tabs"</p>
-    </div>
-  </v-flex>
-</v-layout> -->
+<v-layout v-if="processed && lists.length === 0" align-center justify-center column fill-height class="no-list-tip">
+  <h3 class="display-3 grey--text" v-text="__('ui_no_list')"></h3>
+  <p class="display-2 grey--text text--lighten-1" v-html="__('ui_no_list_tip')"></p>
+</v-layout>
 </div>
 </template>
 <script>
@@ -143,7 +137,9 @@ export default {
       lists: [],
       itemClickAction: '',
       itemDisplay: '',
+      hideFavicon: false,
       removeItemBtnPos: 'left',
+      processed: false,
     }
   },
   created() {
@@ -171,19 +167,21 @@ export default {
         if (lists) {
           this.lists = lists.filter(i => Array.isArray(i.tabs))
         }
+        this.processed = true
       })
     },
     async init() {
       this.getLists()
       const opts = await storage.getOptions()
-      this.itemClickAction = opts.itemClickAction
-      this.itemDisplay = opts.itemDisplay
-      this.removeItemBtnPos = opts.removeItemBtnPos
+      this.applyOptions(opts)
       chrome.storage.onChanged.addListener(changes => {
+        console.debug(changes)
         if (changes.lists) {
-          console.log(changes)
           const newLists = changes.lists.newValue
           this.lists = newLists.filter(i => Array.isArray(i.tabs))
+        }
+        if (changes.opts) {
+          this.applyOptions(changes.opts.newValue)
         }
       })
       chrome.runtime.onMessage.addListener(msg => {
@@ -193,6 +191,12 @@ export default {
           })
         }
       })
+    },
+    applyOptions(opts) {
+      this.itemClickAction = opts.itemClickAction
+      this.itemDisplay = opts.itemDisplay
+      this.removeItemBtnPos = opts.removeItemBtnPos
+      this.hideFavicon = opts.hideFavicon
     },
     storeLists: _.debounce(function() {
       console.time('store')
@@ -316,5 +320,8 @@ export default {
       display: block;
     }
   }
+}
+.no-list-tip {
+  user-select: none;
 }
 </style>

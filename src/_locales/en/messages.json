@@ -53,11 +53,20 @@
   "opt_desc_itemDisplay": {
     "message": "Contents of the items in a list"
   },
+  "opt_desc_hideFavicon": {
+    "message": "Hide favicon of items in the list"
+  },
   "opt_desc_removeItemBtnPos": {
     "message": "The position of remove item button"
   },
   "opt_desc_popupItemClickAction": {
     "message": "Behavior when item in simple list is clicked"
+  },
+  "opt_desc_defaultNightMode": {
+    "message": "Use night mode by default"
+  },
+  "opt_desc_fixedToolbar": {
+    "message": "Fixed toolbar"
   },
   "opt_desc_addHistory": {
     "message": "Add stored tab to history"
@@ -115,6 +124,15 @@
   },
   "opt_label_right": {
     "message": "right"
+  },
+  "opt_label_title_and_url": {
+    "message": "title and url"
+  },
+  "opt_label_title": {
+    "message": "title"
+  },
+  "opt_label_url": {
+    "message": "url"
   },
   "ui_nightmode": {
     "message": "nightmode"
@@ -301,5 +319,11 @@
   },
   "ui_save_immediately": {
     "message": "save immediately"
+  },
+  "ui_no_list": {
+    "message": "No list here"
+  },
+  "ui_no_list_tip": {
+    "message": "1. Select the tabs you want to store</br>2. Right click the extension icon</br>3. Click \"store selected tabs\"<p class=\"body-2\">Already used in other device? Authorizing with sync service could restore lists automatically.</p>"
   }
 }

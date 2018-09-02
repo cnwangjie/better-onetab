@@ -1,6 +1,6 @@
 <template>
 <v-app :dark="nightmode">
-  <v-toolbar :color="nightmode ? null : 'primary'">
+  <v-toolbar :color="nightmode ? null : 'primary'" :fixed="fixedToolbar">
     <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
     <v-spacer></v-spacer>
 
@@ -38,7 +38,7 @@
               {{ __('ui_about') }}
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile @click="dialog = true">
+          <v-list-tile @click="showIEP">
             <v-list-tile-action>
               <v-icon>fas fa-file-import</v-icon>
             </v-list-tile-action>
@@ -82,7 +82,7 @@
       </v-menu>
     </v-toolbar-items>
   </v-toolbar>
-  <v-content>
+  <v-content :style="fixedToolbar ? {marginTop: '64px'} : null">
     <v-container>
       <keep-alive>
         <router-view @login="login"></router-view>
@@ -96,92 +96,33 @@
     </span>
     <v-spacer></v-spacer>
   </v-footer>
-  <v-dialog v-model="dialog" max-width="700px">
-    <v-card>
-
-        <v-tabs
-          color="cyan"
-          dark
-          grow
-          slider-color="yellow"
-        >
-          <v-tab key="export">{{ __('ui_export') }}</v-tab>
-          <v-tab key="import">{{ __('ui_import') }}</v-tab>
-          <v-tab-item key="export">
-            <v-card flat>
-              <v-card-text>
-                <v-text-field
-                  multi-line
-                  autofocus
-                  auto-grow
-                  v-model="exportData"
-                ></v-text-field>
-                <v-btn @click="exp(true)">{{ __('ui_export_comp') }}</v-btn>
-                <v-btn @click="exp(false)">{{ __('ui_export_json') }}</v-btn>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item key="import">
-            <v-card flat>
-              <v-card-text>
-                <v-text-field
-                  multi-line
-                  v-model="importData"
-                ></v-text-field>
-                <v-btn @click="imp(true)">{{ __('ui_import_comp') }}</v-btn>
-                <v-btn @click="imp(false)">{{ __('ui_import_json') }}</v-btn>
-              </v-card-text>
-            </v-card>
-          </v-tab-item>
-        </v-tabs>
-
-    </v-card>
-  </v-dialog>
-
-  <v-snackbar
-    :timeout="2000"
-    bottom
-    v-model="snackbar"
-  >
-    {{ snackbarMsg }}
-  </v-snackbar>
+  <import-export-panel ref="IEP"></import-export-panel>
 </v-app>
 </template>
 <script>
 import _ from 'lodash'
 import __ from '@/common/i18n'
-import list from '@/common/list'
 import storage from '@/common/storage'
 import boss from '@/common/service/boss'
 import browser from 'webextension-polyfill'
 import dynamicTime from '@/component/DynamicTime'
-
-if (DEBUG) window.browser = browser
-
-import gdrive from '@/common/service/gdrive'
-import * as gt from '@/common/service/gdrive'
-window.gdrive = gdrive
-window.gt = gt
+import importExportPanel from '@/component/ImportExportPanel'
 
 export default {
   data() {
     return {
-      dialog: false,
-      exportData: '',
-      importData: '',
-      snackbar: false,
-      snackbarMsg: '',
-      processing: false,
       nightmode: false,
       syncing: false,
       lastUpdated: NaN,
       conflict: false,
       uploadError: null,
       hasToken: false,
+      fixedToolbar: false,
     }
   },
   components: {
     dynamicTime,
+    importExportPanel,
   },
   computed: {
     tooltip() {
@@ -210,6 +151,7 @@ export default {
     async init() {
       this.switchNightMode()
       this.login()
+      this.loadOpts()
       chrome.runtime.onMessage.addListener(async msg => {
         console.log(msg)
         if (msg.uploadImmediate || msg.forceDownload) {
@@ -225,6 +167,10 @@ export default {
       const {conflict} = await browser.storage.local.get('conflict')
       this.conflict = !_.isEmpty(conflict)
     },
+    async loadOpts() {
+      const opts = await storage.getOptions()
+      this.fixedToolbar = opts.fixedToolbar
+    },
     async syncBtnClicked() {
       if (this.conflict) this.$router.push('/app/options/sync')
       else {
@@ -239,63 +185,9 @@ export default {
     openShortcutPage() {
       chrome.tabs.create({url: 'chrome://extensions/shortcuts'})
     },
-    async exp(comp) {
-      if (this.processing) {
-        this.snackbarMsg = __('ui_main_processing')
-        this.snackbar = true
-      }
-      this.processing = true
-      try {
-        const lists = await storage.getLists()
-        if (comp) {
-          this.exportData = lists.map(list => {
-            return list.tabs.map(tab => {
-              return tab.url + ' | ' + tab.title
-            }).join('\n')
-          }).join('\n\n')
-        } else {
-          this.exportData = JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])))
-        }
-      } catch (e) {
-        this.snackbarMsg = __('ui_main_error_occured')
-        this.snackbar = true
-      } finally {
-        this.snackbarMsg = __('ui_main_successed')
-        this.snackbar = true
-        this.processing = false
-      }
+    showIEP() {
+      this.$refs.IEP.show = true
     },
-    async imp(comp) {
-      if (this.processing) {
-        this.snackbarMsg = __('ui_main_processing')
-        this.snackbar = true
-      }
-      this.processing = true
-      try {
-        let lists
-        if (comp) {
-          lists = this.importData.split('\n\n')
-            .filter(i => i).map(i => {
-              return i.split('\n')
-                .filter(i => i)
-                .map(j => j.split('|').map(k => k.trim()))
-                .map(j => ({ url: j[0], title: j[1] }))
-            }).map(i => {
-              return list.createNewTabList({tabs: i})
-            })
-        } else {
-          lists = JSON.parse(this.importData).map(i => list.createNewTabList(i))
-        }
-        await storage.setLists((await storage.getLists()).concat(lists))
-      } catch (e) {
-        this.snackbarMsg = __('ui_main_error_occured')
-        this.snackbar = true
-      } finally {
-        this.snackbarMsg = __('ui_main_successed')
-        this.snackbar = true
-        this.processing = false
-      }
-    }
   }
 }
 </script>
