@@ -1,6 +1,6 @@
 <template>
 <v-app :dark="nightmode">
-  <v-toolbar :color="nightmode ? null : 'primary'" :fixed="fixedToolbar">
+  <v-toolbar :color="nightmode ? null : 'primary'" :fixed="opts.fixedToolbar">
     <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
     <v-spacer></v-spacer>
 
@@ -82,10 +82,10 @@
       </v-menu>
     </v-toolbar-items>
   </v-toolbar>
-  <v-content :style="fixedToolbar ? {marginTop: '64px'} : null">
+  <v-content :style="opts.fixedToolbar ? {marginTop: '64px'} : null">
     <v-container>
       <keep-alive>
-        <router-view @login="login"></router-view>
+        <router-view></router-view>
       </keep-alive>
     </v-container>
   </v-content>
@@ -107,6 +107,7 @@ import boss from '@/common/service/boss'
 import browser from 'webextension-polyfill'
 import dynamicTime from '@/component/DynamicTime'
 import importExportPanel from '@/component/ImportExportPanel'
+import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default {
   data() {
@@ -114,9 +115,7 @@ export default {
       nightmode: false,
       syncing: false,
       lastUpdated: NaN,
-      conflict: false,
       uploadError: null,
-      hasToken: false,
       fixedToolbar: false,
     }
   },
@@ -125,6 +124,7 @@ export default {
     importExportPanel,
   },
   computed: {
+    ...mapState(['opts', 'hasToken', 'conflict']),
     tooltip() {
       return !this.hasToken ? __('ui_not_login')
         : this.syncing ? __('ui_syncing')
@@ -145,13 +145,13 @@ export default {
   },
   methods: {
     __,
-    async login() {
-      this.hasToken = await boss.hasToken()
-    },
+    ...mapActions(['loadOptions', 'checkToken', 'loadConflict']),
+    ...mapMutations(['setConflict']),
     async init() {
       this.switchNightMode()
-      this.login()
-      this.loadOpts()
+      this.checkToken()
+      this.loadOptions()
+      this.loadConflict()
       chrome.runtime.onMessage.addListener(async msg => {
         console.log(msg)
         if (msg.uploadImmediate || msg.forceDownload) {
@@ -159,17 +159,11 @@ export default {
         } else if (msg.uploaded || msg.downloaded) {
           this.syncing = false
           const result = msg.uploaded || msg.downloaded
-          if (!_.isEmpty(result.conflict)) this.conflict = true
+          if (!_.isEmpty(result.conflict)) this.setConflict(result.conflict)
           else if (!_.isEmpty(result.error)) this.uploadError = result.error
           else this.lastUpdated = Date.now()
         }
       })
-      const {conflict} = await browser.storage.local.get('conflict')
-      this.conflict = !_.isEmpty(conflict)
-    },
-    async loadOpts() {
-      const opts = await storage.getOptions()
-      this.fixedToolbar = opts.fixedToolbar
     },
     async syncBtnClicked() {
       if (this.conflict) this.$router.push('/app/options/sync')

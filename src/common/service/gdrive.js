@@ -57,35 +57,6 @@ export const prepareGapi = async token => {
   return gapi
 }
 
-// const createFile = async ({ token, filename, data }) => {
-//   const gapi = await prepareGapi(token)
-//   const bytes = new Uint8Array(data.length)
-//   for (let i = 0; i < data.length; i += 1) {
-//     bytes[i] = data.charCodeAt(i)
-//   }
-//   // const blob = new Blob([bytes], {type: 'application/json'})
-//   gapi.client.request({
-//     path: 'https://www.googleapis.com/drive/v3/files',
-//     method: 'POST',
-//     params: {uploadType: 'multipart'},
-//   })
-//   return gapi.client.drive.files.create({
-//     resource: {
-//       name: filename,
-//     },
-//     media: {
-//       mimeType: 'application/json',
-//       body: data,
-//     },
-//     field: 'id',
-//   })
-// }
-
-// const getFile = async ({ token, fileId }) => {
-//   await prepareGapi(token)
-//   return gapi.client.drive.files.get({fileId})
-// }
-
 const uploadJSON = ({ token, json, filename }) => {
   const jsonstr = JSON.stringify(json, null, 4)
   const content = new Blob([jsonstr], {type: 'application/json'})

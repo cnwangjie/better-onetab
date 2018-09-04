@@ -173,6 +173,7 @@ import {formatTime, one} from '@/common/utils'
 import boss from '@/common/service/boss'
 import gdrive from '@/common/service/gdrive'
 import browser from 'webextension-polyfill'
+import {mapState, mapActions, mapMutations} from 'vuex';
 
 if (DEBUG) window.boss = boss
 
@@ -180,8 +181,6 @@ export default {
   data() {
     return {
       bossinfo: {},
-      hasToken: null,
-      conflict: null,
       logging: false,
       alert: { status: '', msg: '' },
       uploadTimerItems: ['never', 'daily', 'hourly', 'onchange'],
@@ -193,6 +192,7 @@ export default {
     this.init()
   },
   computed: {
+    ...mapState(['hasToken', 'conflict']),
     bossSubtitle() {
       if (this.hasToken) return __('ui_logged_uid') + ' ' + this.bossinfo.uid
       return __('ui_not_login')
@@ -209,6 +209,8 @@ export default {
   methods: {
     __,
     formatTime,
+    ...mapMutations(['setToken']),
+    ...mapActions(['checkToken', 'loadConflict']),
     async init() {
       await this.loadSyncInfo()
       browser.runtime.onMessage.addListener(async msg => {
@@ -218,22 +220,21 @@ export default {
       })
     },
     async loadSyncInfo() {
-      this.hasToken = await boss.hasToken()
+      await this.checkToken()
       if (this.hasToken) {
-        const {sync_info, conflict} = await browser.storage.local.get(['sync_info', 'conflict'])
+        const {sync_info} = await browser.storage.local.get(['sync_info'])
         if (sync_info && sync_info.uid) {
           this.bossinfo = sync_info
         } else {
           this.bossinfo = await boss.getInfo()
           await browser.storage.local.set({sync_info: this.bossinfo})
         }
-        this.conflict = _.isEmpty(conflict) ? null : conflict
+        await this.loadConflict()
       }
     },
     async afterFirstAuth() {
       console.log('[info]: after finish auth')
       this.bossinfo = await boss.getInfo()
-      this.$emit('login')
       await browser.storage.local.set({sync_info: this.bossinfo})
       await this.loadSyncInfo()
       chrome.runtime.sendMessage({forceDownload: true})
@@ -256,9 +257,8 @@ export default {
     }),
     async deauth() {
       chrome.storage.local.remove(['boss_token', 'sync_info'])
-      this.hasToken = null
+      this.setToken(false)
       this.bossinfo = {}
-      this.$emit('login')
     },
     saveToGdrive: one(async function () {
       this.saving = true

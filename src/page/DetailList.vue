@@ -73,12 +73,12 @@
         >
           <v-list-tile
             v-for="(tab, tabIndex) in list.tabs"
-            :href="itemClickAction !== 'none' ? tab.url : null"
-            :target="itemClickAction !== 'none' ? '_blank' : null"
+            :href="opts.itemClickAction !== 'none' ? tab.url : null"
+            :target="opts.itemClickAction !== 'none' ? '_blank' : null"
             @click="itemClicked(listIndex, tabIndex)"
             class="list-item"
             :key="tabIndex">
-            <v-list-tile-action v-if="removeItemBtnPos === 'left'">
+            <v-list-tile-action v-if="opts.removeItemBtnPos === 'left'">
               <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
@@ -87,17 +87,17 @@
                   tile
                   size="16"
                   color="grey lighten-4"
-                  v-if="!hideFavicon"
+                  v-if="!opts.hideFavicon"
                 >
                   <img :src="tab.favIconUrl ? tab.favIconUrl : `https://www.google.com/s2/favicons?domain=${getDomain(tab.url)}`">
                 </v-avatar>
-                {{ itemDisplay === 'url' ? tab.url : tab.title }}
+                {{ opts.itemDisplay === 'url' ? tab.url : tab.title }}
               </v-list-tile-title>
-              <v-list-tile-sub-title v-if="itemDisplay === 'title-and-url'">
+              <v-list-tile-sub-title v-if="opts.itemDisplay === 'title-and-url'">
                 {{ tab.url }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
-            <v-list-tile-action v-if="removeItemBtnPos === 'right'">
+            <v-list-tile-action v-if="opts.removeItemBtnPos === 'right'">
               <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon>
             </v-list-tile-action>
           </v-list-tile>
@@ -123,6 +123,7 @@ import list from '@/common/list'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
+import {mapState} from 'vuex';
 
 const colorList = [
   '', 'red', 'pink', 'purple',
@@ -135,12 +136,11 @@ export default {
     return {
       colorList,
       lists: [],
-      itemClickAction: '',
-      itemDisplay: '',
-      hideFavicon: false,
-      removeItemBtnPos: 'left',
       processed: false,
     }
+  },
+  computed: {
+    ...mapState(['opts']),
   },
   created() {
     this.init()
@@ -172,31 +172,13 @@ export default {
     },
     async init() {
       this.getLists()
-      const opts = await storage.getOptions()
-      this.applyOptions(opts)
       chrome.storage.onChanged.addListener(changes => {
         console.debug(changes)
         if (changes.lists) {
           const newLists = changes.lists.newValue
           this.lists = newLists.filter(i => Array.isArray(i.tabs))
         }
-        if (changes.opts) {
-          this.applyOptions(changes.opts.newValue)
-        }
       })
-      chrome.runtime.onMessage.addListener(msg => {
-        if (msg.optionsChanged && ['itemClickAction', 'itemDisplay'].indexOf(Object.keys(msg.optionsChanged)) !== -1) {
-          Object.keys(msg.optionsChanged).map(key => {
-            this[key] = msg.optionsChanged[key]
-          })
-        }
-      })
-    },
-    applyOptions(opts) {
-      this.itemClickAction = opts.itemClickAction
-      this.itemDisplay = opts.itemDisplay
-      this.removeItemBtnPos = opts.removeItemBtnPos
-      this.hideFavicon = opts.hideFavicon
     },
     storeLists: _.debounce(function() {
       console.time('store')

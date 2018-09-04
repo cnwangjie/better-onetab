@@ -21,7 +21,7 @@
                         class="select-amend"
                         v-if="option.type === String"
                         :items="option.items"
-                        v-model="options[option.name]"
+                        :value="opts[option.name]"
                         label=""
                         item-text="label"
                         item-value="value"
@@ -30,7 +30,7 @@
                       <v-switch
                         class="switch-amend"
                         v-if="option.type === Boolean"
-                        v-model="options[option.name]"
+                        v-model="opts[option.name]"
                         @change="optionsChanged(option.name, $event)"
                       ></v-switch>
                     </v-flex>
@@ -84,14 +84,17 @@ import __ from '@/common/i18n'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 import {formatTime} from '@/common/utils'
+import {mapState, mapMutations} from 'vuex'
 
 export default {
   data() {
     return {
       optionsLists: _.groupBy(options.optionsList, 'cate'),
-      options: {},
       snackbar: false,
     }
+  },
+  computed: {
+    ...mapState(['opts']),
   },
   created() {
     this.init()
@@ -99,7 +102,8 @@ export default {
   methods: {
     __,
     formatTime,
-    optionsChanged: _.debounce(async function (key, value) {
+    ...mapMutations(['setOption']),
+    emitChanges: _.debounce(async function (key, value) {
       console.log(1)
       console.log(key, value)
       // when type of option is string options can not be set correctly after first storage.setOptions() called
@@ -108,14 +112,11 @@ export default {
       console.log(2)
       chrome.runtime.sendMessage({optionsChanged: {[key]: value}})
     }, 100),
-    async loadOpts() {
-      const opts = await storage.getOptions()
-      Object.keys(opts).map(key => {
-        this.$set(this.options, key, opts[key])
-      })
+    optionsChanged(key, value) {
+      this.setOption({[key]: value})
+      this.emitChanges(key, value)
     },
     async init() {
-      this.loadOpts()
       chrome.runtime.onMessage.addListener(msg => {
         if (msg.optionsChangeHandledStatus === 'success') {
           this.snackbar = true

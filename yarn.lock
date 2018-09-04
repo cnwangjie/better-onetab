@@ -6587,6 +6587,10 @@ vuetify@^1.0.17:
   version "1.0.17"
   resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-1.0.17.tgz#646991024b327514b5fc50fb5c34e15451ad14b6"
 
+vuex@^3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/vuex/download/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
+
 watchpack@^1.5.0:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/watchpack/download/watchpack-1.6.0.tgz#4bc12c2ebe8aa277a71f1d3f14d685c7b446cd00"
