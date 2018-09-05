@@ -168,6 +168,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import __ from '@/common/i18n'
 import {formatTime, one} from '@/common/utils'
 import boss from '@/common/service/boss'
@@ -237,7 +238,11 @@ export default {
       this.bossinfo = await boss.getInfo()
       await browser.storage.local.set({sync_info: this.bossinfo})
       await this.loadSyncInfo()
-      chrome.runtime.sendMessage({forceDownload: true})
+      const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
+      const {lists} = await browser.storage.local.get(['lists'])
+      // if never uploaded but there are lists in the local making a conflict first
+      if (_.isEmpty(localInfo) && !_.isEmpty(lists)) chrome.runtime.sendMessage({uploadImmediate: true})
+      else chrome.runtime.sendMessage({forceDownload: true})
     },
     async resolveConflict(type, result) {
       chrome.runtime.sendMessage({resolveConflict: {type, result}})

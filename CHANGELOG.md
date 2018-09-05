@@ -1,3 +1,9 @@
+### v1.3.2 9/5/2018
+
+ - pref: use vuex store options and login status
+ - feat: add an option to alert before removing list
+ - fix: make conflict if local is not empty after login (avoid directly downloading if local is not empty)
+
 ### v1.3.1 9/2/2018
 
  - feat: add an option to allow using night mode by default
