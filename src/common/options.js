@@ -173,7 +173,16 @@ export const optionsList = [
     type: Boolean,
     default: false,
   },
+  {
+    cate: cate.BEHAVIOUR,
+    name: 'alertRemoveList',
+    desc: __('opt_desc_alertRemoveList'),
+    type: Boolean,
+    default: false,
+  },
 ]
+
+if (DEBUG) console.debug('current options number:', optionsList.length)
 
 const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)
 

@@ -92,6 +92,9 @@
   "opt_desc_useBoss": {
     "message": "使用better onetab同步服务（不限制储存空间）"
   },
+  "opt_desc_alertRemoveList": {
+    "message": "在删除列表前显示警告"
+  },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },
@@ -316,5 +319,8 @@
   },
   "ui_no_list_tip": {
     "message": "1. 选中你想储存的标签</br>2. 右键点击扩展图标</br>3. 点击 \"储存选中的标签\"<p class=\"body-2\">在其他设备使用过？ 授权同步服务可以自动恢复列表。</p>"
+  },
+  "ui_untitled": {
+    "message": "未命名"
   }
 }

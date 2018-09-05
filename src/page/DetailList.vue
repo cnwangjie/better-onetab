@@ -187,6 +187,10 @@ export default {
       })
     }, 200),
     removeList(listIndex) {
+      const list = this.lists[listIndex]
+      if ((list.tabs.length !== 0) && this.opts.alertRemoveList && !confirm(`${__('ui_remove_list')}:
+        [${list.tabs.length}] ${list.title || __('ui_untitled')}
+        ${__('ui_created')} ${formatTime(list.time)}`)) return
       this.lists.splice(listIndex, 1)
       this.storeLists()
     },

@@ -107,8 +107,8 @@ export default {
       console.log(1)
       console.log(key, value)
       // when type of option is string options can not be set correctly after first storage.setOptions() called
-      await storage.setOptions(this.options)
-      await storage.setOptions(this.options)
+      await storage.setOptions(this.opts)
+      await storage.setOptions(this.opts)
       console.log(2)
       chrome.runtime.sendMessage({optionsChanged: {[key]: value}})
     }, 100),

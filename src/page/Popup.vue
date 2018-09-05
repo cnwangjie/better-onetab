@@ -9,7 +9,7 @@
         :color="list.color"
       >
         <v-list-tile-content>
-          <v-list-tile-title><strong>[{{ list.tabs.length }}]</strong> {{ list.title || '(untitled)' }}</v-list-tile-title>
+          <v-list-tile-title><strong>[{{ list.tabs.length }}]</strong> {{ list.title || __('ui_untitled') }}</v-list-tile-title>
           <v-list-tile-sub-title>{{ formatTime(list.time) }}</v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -22,6 +22,7 @@
 </v-app>
 </template>
 <script>
+import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'

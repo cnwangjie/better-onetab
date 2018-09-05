@@ -92,6 +92,9 @@
   "opt_desc_useBoss": {
     "message": "Use better onetab sync server (unlimited storage)"
   },
+  "opt_desc_alertRemoveList": {
+    "message": "Alert before remove list"
+  },
   "opt_label_popup": {
     "message": "popup simple list"
   },
@@ -325,5 +328,8 @@
   },
   "ui_no_list_tip": {
     "message": "1. Select the tabs you want to store</br>2. Right click the extension icon</br>3. Click \"store selected tabs\"<p class=\"body-2\">Already used in other device? Authorizing with sync service could restore lists automatically.</p>"
+  },
+  "ui_untitled": {
+    "message": "untitled"
   }
 }
