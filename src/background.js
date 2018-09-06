@@ -109,6 +109,22 @@ const dynamicDisableMenu = async () => {
   })
 }
 
+const commandHandler = async command => {
+  if (command === 'store-selected-tabs') tabs.storeSelectedTabs()
+  else if (command === 'store-all-tabs') tabs.storeAllTabs()
+  else if (command === 'restore-lastest-list') {
+    const lists = await storage.getLists()
+    if (lists.length === 0) return true
+    const lastest = lists[0]
+    await tabs.restoreList(lastest)
+    if (lastest.pinned) return true
+    lists.shift()
+    return storage.setLists(lists)
+  } else if (command === 'open-lists') tabs.openTabLists()
+  else return true
+  if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
+}
+
 const init = async () => {
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
@@ -156,6 +172,8 @@ const init = async () => {
       boss.forceDownloadRemoteImmediate()
     }
   })
+  browser.runtime.onMessageExternal.addListener(commandHandler)
+  browser.commands.onCommand.addListener(commandHandler)
   browser.runtime.onUpdateAvailable.addListener(detail => {
     window.update = detail.version
   })
@@ -170,21 +188,6 @@ const init = async () => {
     window.coverBrowserAction(activeInfo)
     dynamicDisableMenu(activeInfo)
   }, 200))
-  browser.commands.onCommand.addListener(async command => {
-    if (command === 'store-selected-tabs') tabs.storeSelectedTabs()
-    else if (command === 'store-all-tabs') tabs.storeAllTabs()
-    else if (command === 'restore-lastest-list') {
-      const lists = await storage.getLists()
-      if (lists.length === 0) return true
-      const lastest = lists[0]
-      await tabs.restoreList(lastest)
-      if (lastest.pinned) return true
-      lists.shift()
-      return storage.setLists(lists)
-    } else if (command === 'open-lists') tabs.openTabLists()
-    else return true
-    if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
-  })
   browser.storage.onChanged.addListener(changes => {
     console.log(changes)
     if (changes.boss_token) {

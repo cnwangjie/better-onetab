@@ -170,7 +170,7 @@ const uploadImmediate = async () => {
         return (k in localOpts) && v !== localOpts[k]
       })
       if (_.isEmpty(diff)) {
-        todo.opts = opts
+        todo.opts = localOpts
         delete conflict.opts
       } else {
         conflict.opts = {

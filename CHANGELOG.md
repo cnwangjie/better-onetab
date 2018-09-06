@@ -1,3 +1,9 @@
+### v1.3.3 9/#/2018
+
+ - pref: reduce size
+ - fix: make sure remote options is same as local
+ - feat: allow other extension send message to better onetab
+
 ### v1.3.2 9/5/2018
 
  - pref: use vuex store options and login status
