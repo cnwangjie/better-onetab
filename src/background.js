@@ -6,7 +6,7 @@ import __ from './common/i18n'
 import browser from 'webextension-polyfill'
 import boss from './common/service/boss'
 
-if (DEBUG) import(
+if (DEBUG && !MOZ) import(
   /* webpackChunkName: "autoreload", webpackMode: "lazy" */
   './common/autoreload'
 ).then(({autoreload}) => autoreload())

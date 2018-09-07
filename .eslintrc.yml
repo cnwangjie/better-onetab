@@ -12,4 +12,5 @@ rules:
 globals:
   DEBUG: true
   PRODUCTION: true
+  MOZ: true
   ga: true

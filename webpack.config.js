@@ -11,6 +11,7 @@ const config = require('./config')
 
 const resolve = (...paths) => path.join(__dirname, ...paths)
 const mode = process.env.NODE_ENV || 'development'
+const moz = process.env.MOZ
 module.exports = {
   mode,
   entry: {
@@ -25,6 +26,7 @@ module.exports = {
     new webpack.DefinePlugin({
       DEBUG: mode === 'development',
       PRODUCTION: mode !== 'development',
+      MOZ: moz,
     }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([

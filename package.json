@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development webpack --watch",
+    "dev:moz": "MOZ=1 yarn dev",
     "build": "NODE_ENV=production webpack",
     "postbuild": "yarn run package",
     "package": "rm -f dist.zip && cd dist && zip -r ../dist.zip ./*",
