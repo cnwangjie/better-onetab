@@ -13,7 +13,7 @@
 
 [中文README](./README.zh.md)
 
-### A better onetab extensions for chrome.
+### A better onetab extension
 
 More beatiful and more feature.
 

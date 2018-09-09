@@ -10,7 +10,7 @@
       </v-btn>
       <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
     </v-tooltip>
-    <v-toolbar-items class="hidden-sm-and-down">
+    <v-toolbar-items>
       <v-btn flat dark @click="nightmode = !nightmode">
         {{ __('ui_nightmode') }}
       </v-btn>

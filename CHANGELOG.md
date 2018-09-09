@@ -1,4 +1,10 @@
-### v1.3.3 9/#/2018
+### v1.3.4 9/9/2018
+
+ - fix: item click cannot be removed problem
+ - fix: store all tabs from all windows
+ - fix: create time and title overlap on small screen
+
+### v1.3.3 9/7/2018
 
  - pref: reduce size
  - fix: make sure remote options is same as local

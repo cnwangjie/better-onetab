@@ -96,7 +96,7 @@ const storeAllTabInAllWindows = async () => {
   await openTabLists()
   for (const window of windows) {
     const tabs = await getAllInWindow(window.id)
-    storeTabs(tabs)
+    await storeTabs(tabs)
   }
 }
 

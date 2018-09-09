@@ -10,7 +10,7 @@
     :key="listIndex"
   >
     <v-layout slot="header" row spacer>
-      <v-flex no-wrap xs3>
+      <v-flex no-wrap md7 lg4>
 
         <v-menu open-on-hover top offset-y>
           <v-chip
@@ -34,7 +34,7 @@
         </v-menu>
         <strong class="grey--text date">{{ __('ui_created') }} <dynamic-time v-model="list.time"></dynamic-time></strong>
       </v-flex>
-      <v-flex no-wrap xs7 @keydown.enter="saveTitle(listIndex)">
+      <v-flex no-wrap md6 lg9 @keydown.enter="saveTitle(listIndex)">
         <v-text-field
           class="title-editor"
           autofocus
@@ -153,7 +153,7 @@ export default {
     __,
     formatTime,
     async itemClicked(listIndex, tabIndex) {
-      const action = this.itemClickAction
+      const action = this.opts.itemClickAction
       if (action === 'open-and-remove') {
         this.removeTab(listIndex, tabIndex)
       }
