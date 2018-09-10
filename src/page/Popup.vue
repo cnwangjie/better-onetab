@@ -38,6 +38,7 @@ export default {
     this.init()
   },
   methods: {
+    __,
     formatTime,
     async init() {
       const lists = await storage.getLists()

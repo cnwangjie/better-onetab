@@ -10,14 +10,15 @@
             <template v-for="(option, optionIndex) in optionsList">
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-layout wrap style="width:100%">
+                  <v-layout wrap row align-center style="width:100%">
                     <v-flex xs8>
                       <v-subheader>
                         {{ option.desc }}
                       </v-subheader>
                     </v-flex>
-                    <v-flex xs4>
+                    <v-flex xs4 class="text-xs-right" align-center>
                       <v-select
+                        dense
                         class="select-amend"
                         v-if="option.type === String"
                         :items="option.items"
@@ -28,7 +29,7 @@
                         @change="optionsChanged(option.name, $event)"
                       ></v-select>
                       <v-switch
-                        class="switch-amend"
+                        class="d-inline-flex"
                         v-if="option.type === Boolean"
                         v-model="opts[option.name]"
                         @change="optionsChanged(option.name, $event)"
@@ -129,11 +130,5 @@ export default {
 <style lang="scss">
 .select-amend {
   padding: 4px 0 0;
-}
-.switch-amend {
-  height: 100%;
-  div {
-    height: 100%;
-  }
 }
 </style>

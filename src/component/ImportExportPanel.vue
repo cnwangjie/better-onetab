@@ -15,12 +15,11 @@
           <v-tab-item key="export">
             <v-card flat>
               <v-card-text>
-                <v-text-field
-                  multi-line
+                <v-textarea
                   autofocus
                   auto-grow
                   v-model="exportData"
-                ></v-text-field>
+                ></v-textarea>
                 <v-btn @click="exp(true)">{{ __('ui_export_comp') }}</v-btn>
                 <v-btn @click="exp(false)">{{ __('ui_export_json') }}</v-btn>
               </v-card-text>
@@ -29,10 +28,9 @@
           <v-tab-item key="import">
             <v-card flat>
               <v-card-text>
-                <v-text-field
-                  multi-line
+                <v-textarea
                   v-model="importData"
-                ></v-text-field>
+                ></v-textarea>
                 <v-btn @click="imp(true)">{{ __('ui_import_comp') }}</v-btn>
                 <v-btn @click="imp(false)">{{ __('ui_import_json') }}</v-btn>
               </v-card-text>

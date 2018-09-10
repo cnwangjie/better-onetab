@@ -1,3 +1,8 @@
+### v1.3.5 9/10/2018
+
+ - fix: simple list
+ - fix: style of options page
+
 ### v1.3.4 9/9/2018
 
  - fix: item click cannot be removed problem
