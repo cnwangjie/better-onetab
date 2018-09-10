@@ -44,7 +44,7 @@ const updateBrowserAction = (action, tmp = false) => {
     window.browswerActionClickedHandler = getBrowserActionHandler(action)
     if (window.opts.openTabListWhenNewTab) window.coverBrowserAction = async activeInfo => {
       const tab = await browser.tabs.get(activeInfo.tabId)
-      if (['about:home', 'chrome://newtab/'].includes(tab.url)) {
+      if (['about:home', 'about:newtab', 'chrome://newtab/'].includes(tab.url)) {
         updateBrowserAction('show-list', true)
       } else {
         updateBrowserAction(window.currentBrowserAction)

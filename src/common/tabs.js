@@ -23,8 +23,13 @@ const openTabLists = async () => {
   if (windowId in window.appTabId) {
     const tabs = await getAllInWindow(windowId)
     const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId])
-    if (tabIndex !== -1)
-      return browser.tabs.highlight({ windowId, tabs: tabIndex })
+    if (tabIndex !== -1) {
+      if (browser.tabs.highlight) {
+        return browser.tabs.highlight({ windowId, tabs: tabIndex })
+      } else {
+        return browser.tabs.update(tabs[tabIndex].id, { active: true })
+      }
+    }
   }
   const createdTab = await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')})
   window.appTabId[windowId] = createdTab.id
