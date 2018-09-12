@@ -81,7 +81,7 @@
     "message": "Turn on the button of context menu in the page"
   },
   "opt_desc_openTabListWhenNewTab": {
-    "message": "Cover the browser action to show tab lists if current tab is new tab page (won't cover popup simple list)"
+    "message": "Always open tab list when clicking on the icon if current tab is a new tab. (Doesn't work if behavior is set to \"popup simple list\""
   },
   "opt_desc_syncOptions": {
     "message": "Sync settings"

@@ -247,7 +247,8 @@ export default {
     async resolveConflict(type, result) {
       chrome.runtime.sendMessage({resolveConflict: {type, result}})
     },
-    auth: one(async function (auth) {
+    async auth(auth) {
+      if (this.logging) return
       this.logging = true
       try {
         await boss.getToken(auth)
@@ -259,7 +260,7 @@ export default {
       } finally {
         this.logging = false
       }
-    }),
+    },
     async deauth() {
       chrome.storage.local.remove(['boss_token', 'sync_info'])
       this.setToken(false)

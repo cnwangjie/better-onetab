@@ -78,7 +78,12 @@ const storeTabs = async tabs => {
   await storage.setLists(lists)
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
-      await browser.history.addUrl({url: tabs[i].url})
+      // maybe occur Error: "An unexpected error occurred" when trying to add about:* to history
+      try {
+        await browser.history.addUrl({url: tabs[i].url})
+      } catch (e) {
+        console.debug(`${tabs[i].url} cannot be added to history`)
+      }
     }
   }
 }
