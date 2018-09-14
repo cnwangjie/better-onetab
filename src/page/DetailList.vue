@@ -1,11 +1,9 @@
 <template>
 <div>
-<v-expansion-panel expand popout>
+<v-expansion-panel ref="panel" expand popout :value="expandStatus" @input="expandStatusChanged">
   <v-expansion-panel-content
     hide-actions
     v-for="(list, listIndex) in lists"
-    :value="list.expand"
-    @input="expandList($event, listIndex)"
     class="tab-list"
     :key="listIndex"
   >
@@ -123,7 +121,7 @@ import list from '@/common/list'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
-import {mapState} from 'vuex';
+import {mapState} from 'vuex'
 
 const colorList = [
   '', 'red', 'pink', 'purple',
@@ -136,11 +134,14 @@ export default {
     return {
       colorList,
       lists: [],
-      processed: false,
+      processed: false, // if task to get list completed
     }
   },
   computed: {
     ...mapState(['opts']),
+    expandStatus() {
+      return this.lists.map(i => i.expand)
+    },
   },
   created() {
     this.init()
@@ -158,17 +159,19 @@ export default {
         this.removeTab(listIndex, tabIndex)
       }
     },
+    expandStatusChanged(newStatus) {
+      const index = this.lists.findIndex((list, i) => list.expand !== newStatus[i])
+      this.expandList(newStatus[index], index)
+    },
     tabMoved() {
       this.lists = this.lists.filter(list => list.tabs.length !== 0)
       this.storeLists()
     },
-    getLists() {
-      storage.getLists().then(lists => {
-        if (lists) {
-          this.lists = lists.filter(i => Array.isArray(i.tabs))
-        }
-        this.processed = true
-      })
+    async getLists() {
+      const lists = await storage.getLists()
+      if (lists) lists.filter(i => Array.isArray(i.tabs)).forEach(i => this.lists.push(i))
+      this.$refs.panel.updateFromValue(this.expandStatus)
+      this.processed = true
     },
     async init() {
       this.getLists()
