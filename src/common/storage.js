@@ -6,11 +6,9 @@ const uploadDebounce = _.debounce(async () => {
   if (await boss.hasToken()) browser.runtime.sendMessage({uploadImmediate: true})
 }, 5000)
 
-const get = async key => {
-  return browser.storage.local.get(key)
-}
+const get = key => browser.storage.local.get(key)
 
-const set = async obj => {
+const set = obj => {
   uploadDebounce()
   return browser.storage.local.set(obj)
 }
@@ -18,7 +16,7 @@ const set = async obj => {
 const getLists = () => get('lists')
   .then(({lists}) => lists || [])
 
-const setLists = async lists => {
+const setLists = lists => {
   if (!Array.isArray(lists)) throw new TypeError(lists)
   const handledLists = lists.filter(i => Array.isArray(i.tabs))
   return set({lists: handledLists})

@@ -12,12 +12,13 @@ const clearToken = () => {
 const clearTokenWhenExpired = _.debounce(clearToken, 60 * 1000)
 
 const getAuth = async () => {
+  /* eslint-disable-next-line */
   if (localStorage[GOOGLE_ACCESS_TOKEN_KEY])
     return localStorage[GOOGLE_ACCESS_TOKEN_KEY]
 
   console.debug('[gdrive]: getting token')
   const token = await new Promise((resolve, reject) => {
-    chrome.identity.getAuthToken({ 'interactive': true }, token => {
+    chrome.identity.getAuthToken({ interactive: true }, token => {
       const err = chrome.runtime.lastError
       if (err) reject(err)
       else resolve(token)
@@ -29,7 +30,7 @@ const getAuth = async () => {
   return token
 }
 
-export const loadGapi = async () => {
+export const loadGapi = () => {
   console.debug('[gdrive]: loading gapi')
   return new Promise(resolve => {
     window.gapiLoaded = () => setTimeout(resolve, 0)
@@ -37,15 +38,16 @@ export const loadGapi = async () => {
     po.type = 'text/javascript'
     po.async = true
     po.src = 'https://apis.google.com/js/api.js?onload=gapiLoaded'
-    const s = document.getElementsByTagName('script')[0]
+    const [s] = document.getElementsByTagName('script')
     s.parentNode.insertBefore(po, s)
   })
 }
 
 export const prepareGapi = async token => {
   if (!token) token = await getAuth()
-  let gapi = window.gapi
+  let {gapi} = window
   if (!gapi) await loadGapi()
+  /* eslint-disable-next-line */
   gapi = window.gapi
   if (gapi && gapi.client && gapi.client.drive) return gapi
   await new Promise(resolve => {
@@ -62,6 +64,7 @@ const uploadJSON = ({ token, json, filename }) => {
   const content = new Blob([jsonstr], {type: 'application/json'})
   content.name = filename || 'test.json'
   return new Promise((resolve, reject) => {
+    /* eslint-disable-next-line */
     const uploader = new MediaUploader({
       file: content,
       token,
@@ -75,9 +78,9 @@ const uploadJSON = ({ token, json, filename }) => {
 const createFolder = async () => {
   const gapi = await prepareGapi()
   const res = await gapi.client.drive.files.create({
-    "resource": {
-      "name": STORAGE_FOLDER_NAME,
-      "mimeType": "application/vnd.google-apps.folder"
+    resource: {
+      name: STORAGE_FOLDER_NAME,
+      mimeType: 'application/vnd.google-apps.folder'
     }
   })
   const folder = res.result
@@ -152,6 +155,7 @@ const forceSaveFile = async (data, filename) => {
       onError: reject,
     }
     if (file && file.id) opts.fileId = file.id
+    /* eslint-disable-next-line */
     const uploader = new MediaUploader(opts)
     uploader.upload()
   })
@@ -177,6 +181,7 @@ const gdrive = {
 if (DEBUG) window.gdrive = gdrive
 
 export default gdrive
+/* eslint-disable */
 
 /**
  * Helper for implementing retries with backoff. Initial retry

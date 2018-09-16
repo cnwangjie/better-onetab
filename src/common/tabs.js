@@ -35,7 +35,7 @@ const openTabLists = async () => {
   window.appTabId[windowId] = createdTab.id
 }
 
-const openAboutPage = async () => {
+const openAboutPage = () => {
   window.open(browser.runtime.getURL('index.html#/app/about'))
 }
 
@@ -60,9 +60,6 @@ const groupTabsInCurrentWindow = async () => {
   return result
 }
 
-const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left)
-const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right)
-const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide)
 
 const storeTabs = async tabs => {
   const appUrl = browser.runtime.getURL('')
@@ -87,6 +84,10 @@ const storeTabs = async tabs => {
     }
   }
 }
+
+const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left)
+const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right)
+const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide)
 
 const storeSelectedTabs = async () => {
   const tabs = await getSelectedTabs()
@@ -125,12 +126,12 @@ const restoreList = async (list, windowId) => {
 
 const restoreListInNewWindow = async list => {
   const createdWindow = await browser.windows.create({url: list.tabs.map(i => i.url)})
-  list.tabs.map((tab, index) => {
+  list.tabs.forEach((tab, index) => {
     if (tab.muted) browser.tabs.update(createdWindow.tabs[index].id, {muted: true})
   })
 }
 
-const openTab = async tab => browser.tabs.create({ url: tab.url })
+const openTab = tab => browser.tabs.create({ url: tab.url })
 
 export default {
   getSelectedTabs,

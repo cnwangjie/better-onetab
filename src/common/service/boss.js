@@ -5,11 +5,9 @@ const apiUrl = 'https://boss.cnwangjie.com'
 const tokenKey = 'boss_token'
 const tokenHeader = 'auth'
 
-const hasToken = async () => {
-  return tokenKey in await browser.storage.local.get(tokenKey)
-}
+const hasToken = async () => tokenKey in await browser.storage.local.get(tokenKey)
 
-const getToken = async (auth) => {
+const getToken = async auth => {
   const {[tokenKey]: existedToken, sync_info} = await browser.storage.local.get([tokenKey, 'sync_info'])
   if (auth === 'google' && sync_info && sync_info.googleId && existedToken
     || auth === 'github' && sync_info && sync_info.githubId && existedToken
@@ -32,14 +30,14 @@ const getToken = async (auth) => {
       resolve(to)
     })
   })
-  const token = /#(.*)#/.exec(to)[1]
+  const [, token] = /#(.*)#/.exec(to)
   console.log('[boss]: got token', token)
   await browser.storage.local.set({[tokenKey]: token})
   return token
 }
 
 const fetchData = async (uri = '', method = 'GET', data = {}) => {
-  const headers = new Headers
+  const headers = new Headers()
   const token = await getToken()
   if (token) headers.append(tokenHeader, token)
 
@@ -49,7 +47,7 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
     mode: 'cors',
   }
 
-  let requestBody = Object.keys(data).map(key => {
+  const requestBody = Object.keys(data).map(key => {
     if (typeof data[key] === 'object') data[key] = JSON.stringify(data[key])
     return key + '=' + encodeURIComponent(data[key])
   }).filter(i => i).join('&')
@@ -165,10 +163,8 @@ const uploadImmediate = async () => {
   } else {
     const opts = await getOpts()
     const {opts: localOpts} = await browser.storage.local.get('opts')
-    if (!Object.keys(localOpts).every(key => opts[key] === localOpts[key])) {
-      const diff = _.pickBy(opts, (v, k) => {
-        return (k in localOpts) && v !== localOpts[k]
-      })
+    if (Object.keys(localOpts).some(key => opts[key] !== localOpts[key])) {
+      const diff = _.pickBy(opts, (v, k) => (k in localOpts) && v !== localOpts[k])
       if (_.isEmpty(diff)) {
         todo.opts = localOpts
         delete conflict.opts
@@ -221,7 +217,7 @@ const resolveConflict = async ({type, result}) => {
     const remote = conflict.opts.remote.opts
     if (result === 'local') await forceUpdate({opts: local})
     if (result === 'remote') {
-      for (let key in local) {
+      for (const key in local) {
         if (key in remote) {
           local[key] = remote[key]
         }

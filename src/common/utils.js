@@ -9,12 +9,12 @@ export const formatTime = time => {
 }
 export const one = fn => {
   let executing = false
-  return async function (...args) {
+  return async function onceAtSameTimeFunction(...args) {
     if (executing) return
     executing = true
     let re
     try {
-      re = await fn.apply(this, args)
+      re = await fn.apply(this, args) // eslint-disable-line
     } catch (error) {
       throw error
     } finally {

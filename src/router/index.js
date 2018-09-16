@@ -45,16 +45,18 @@ const router = new Router({
   ]
 })
 
-if (PRODUCTION) import(
-  /* webpackChunkName: "tracker", webpackMode: "lazy" */
-  '@/common/tracker'
-).then(({tracker}) => {
-  tracker()
-  router.beforeEach((to, from, next) => {
-    ga('set', 'page', to.name)
-    ga('send', 'pageview')
-    next()
-  })
-})
+if (PRODUCTION) {
+ import(
+   /* webpackChunkName: "tracker", webpackMode: "lazy" */
+   '@/common/tracker'
+ ).then(({tracker}) => {
+   tracker()
+   router.beforeEach((to, from, next) => {
+     ga('set', 'page', to.name)
+     ga('send', 'pageview')
+     next()
+   })
+ })
+}
 
 export default router

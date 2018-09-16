@@ -6,11 +6,13 @@ import __ from './common/i18n'
 import browser from 'webextension-polyfill'
 import boss from './common/service/boss'
 
+/* eslint-disable-next-line */
 if (DEBUG && !MOZ) import(
   /* webpackChunkName: "autoreload", webpackMode: "lazy" */
   './common/autoreload'
 ).then(({autoreload}) => autoreload())
 
+/* eslint-disable-next-line */
 if (PRODUCTION) import(
   /* webpackChunkName: "tracker", webpackMode: "lazy" */
   '@/common/tracker'
@@ -26,23 +28,27 @@ const getBrowserActionHandler = action => {
   if (action === 'show-list') return () => tabs.openTabLists()
   if (action === 'store-all') return () => tabs.storeAllTabs()
   if (action === 'store-all-in-all-windows') return () => tabs.storeAllTabInAllWindows()
+  /* eslint-disable-next-line */
   return () => {}
 }
 
 const updateBrowserAction = (action, tmp = false) => {
   if (!tmp) window.currentBrowserAction = action
+  /* eslint-disable-next-line */
   if (!window.coverBrowserAction) window.coverBrowserAction = () => {}
-  const items = _.find(options.optionsList, {name: 'browserAction'}).items
-  const label = _.find(items, {value: action}).label
+  const {items} = _.find(options.optionsList, {name: 'browserAction'})
+  const {label} = _.find(items, {value: action})
   console.log('action is: ', action, 'set title as: ', label)
   browser.browserAction.setTitle({title: label})
   if (action === 'popup') {
     browser.browserAction.setPopup({popup: 'index.html#/popup'})
+    /* eslint-disable-next-line */
     window.coverBrowserAction = () => {}
   } else {
     browser.browserAction.setPopup({popup: ''})
     window.browswerActionClickedHandler = getBrowserActionHandler(action)
-    if (window.opts.openTabListWhenNewTab) window.coverBrowserAction = async activeInfo => {
+    if (!window.opts.openTabListWhenNewTab) return
+    window.coverBrowserAction = async activeInfo => {
       const tab = await browser.tabs.get(activeInfo.tabId)
       if (['about:home', 'about:newtab', 'chrome://newtab/'].includes(tab.url)) {
         updateBrowserAction('show-list', true)
@@ -115,7 +121,7 @@ const commandHandler = async command => {
   else if (command === 'restore-lastest-list') {
     const lists = await storage.getLists()
     if (lists.length === 0) return true
-    const lastest = lists[0]
+    const [lastest] = lists
     await tabs.restoreList(lastest)
     if (lastest.pinned) return true
     lists.shift()
@@ -144,7 +150,7 @@ const init = async () => {
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key + ':' + changes[key]))
     }
     if (msg.restoreList) {
-      const restoreList = msg.restoreList
+      const {restoreList} = msg
       const listIndex = restoreList.index
       const lists = await storage.getLists()
       if (restoreList.newWindow) {
