@@ -59,10 +59,13 @@ const updateBrowserAction = (action, tmp = false) => {
   }
 }
 
-const setupContextMenus = async pageContext => {
+const setupContextMenus = async ({pageContext, allContext}) => {
   await browser.contextMenus.removeAll()
   const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION]
-  if (pageContext) contexts.push(browser.contextMenus.ContextType.PAGE)
+  if (pageContext) {
+    contexts.push(browser.contextMenus.ContextType.PAGE)
+    if (allContext) contexts.push(browser.contextMenus.ContextType.ALL)
+  }
   const menus = {
     STORE_SELECTED_TABS: tabs.storeSelectedTabs,
     STORE_ALL_TABS_IN_CURRENT_WINDOW: tabs.storeAllTabs,
@@ -94,7 +97,7 @@ const setupContextMenus = async pageContext => {
     console.log('context menu clicked', info.menuItemId)
     _.get(menus, info.menuItemId)()
   }
-  console.groupCollapsed('create context menu')
+  console.groupCollapsed('create context menu', contexts)
   await createMenus(menus)
   console.groupEnd('create context menu')
 }
@@ -137,7 +140,7 @@ const init = async () => {
   await storage.setOptions(opts)
   window.nightmode = opts.defaultNightMode
   updateBrowserAction(opts.browserAction)
-  setupContextMenus(opts.pageContext)
+  setupContextMenus(opts)
   browser.runtime.onMessage.addListener(async msg => {
     console.log(msg)
     if (msg.optionsChanged) {
@@ -145,7 +148,7 @@ const init = async () => {
       console.log(changes)
       Object.assign(opts, changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
-      if ('pageContext' in changes) await setupContextMenus(changes.pageContext)
+      if (('pageContext' in changes) || ('allContext' in changes)) await setupContextMenus(changes)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key + ':' + changes[key]))
     }
@@ -185,7 +188,21 @@ const init = async () => {
   })
   browser.runtime.onInstalled.addListener(detail => {
     if (detail.reason === chrome.runtime.OnInstalledReason.UPDATE) {
-      tabs.openAboutPage()
+      const updatedNotificationId = 'updated'
+      browser.notifications.onClicked.addListener(id => {
+        if (id === updatedNotificationId) {
+          browser.tabs.create({ url: 'https://github.com/cnwangjie/better-onetab/blob/master/CHANGELOG.md' })
+        }
+      })
+      browser.notifications.create(updatedNotificationId, {
+        type: 'basic',
+        iconUrl: 'assets/icons/icon_128.png',
+        title: __('ui_updated_to_ver') + ' v' + browser.runtime.getManifest().version,
+        message: __('ui_click_view_changelog'),
+      })
+      setTimeout(() => {
+        browser.notifications.clear(updatedNotificationId)
+      }, 5000)
     }
   })
   browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action))

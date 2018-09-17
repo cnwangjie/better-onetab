@@ -74,6 +74,9 @@
   "opt_desc_pageContext": {
     "message": "开启页面中的右键菜单中的按钮"
   },
+  "opt_desc_allContext": {
+    "message": "开启所有元素上右键菜单中的按钮"
+  },
   "opt_desc_defaultNightMode": {
     "message": "默认使用夜间模式"
   },
@@ -94,6 +97,12 @@
   },
   "opt_desc_alertRemoveList": {
     "message": "在删除列表前显示警告"
+  },
+  "opt_desc_excludeIllegalURL": {
+    "message": "排除非法的 URL 类似 about:* 或 chrome://*"
+  },
+  "opt_desc_removeDuplicate": {
+    "message": "去除列表中重复的项目"
   },
   "opt_label_popup": {
     "message": "弹出简单列表"
@@ -308,6 +317,9 @@
   "ui_beta_warn": {
     "message": "这是一个测试中的功能，如果遇到了任何问题请向我反馈。"
   },
+  "ui_new_warn": {
+    "message": "这是当前版本的新特性。"
+  },
   "ui_save_to_gdrive": {
     "message": "将列表保存至 google drive"
   },
@@ -322,5 +334,11 @@
   },
   "ui_untitled": {
     "message": "未命名"
+  },
+  "ui_updated_to_ver": {
+    "message": "Better Onetab 已更新至"
+  },
+  "ui_click_view_changelog": {
+    "message": "点击查看详细更新日志"
   }
 }

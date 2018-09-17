@@ -80,6 +80,9 @@
   "opt_desc_pageContext": {
     "message": "Turn on the button of context menu in the page"
   },
+  "opt_desc_allContext": {
+    "message": "Turn on the button of context menu on all elements"
+  },
   "opt_desc_openTabListWhenNewTab": {
     "message": "Always open tab list when clicking on the icon if current tab is a new tab. (Doesn't work if behavior is set to \"popup simple list\""
   },
@@ -94,6 +97,12 @@
   },
   "opt_desc_alertRemoveList": {
     "message": "Alert before remove list"
+  },
+  "opt_desc_excludeIllegalURL": {
+    "message": "Exclude illegal URL like about:* or chrome://*"
+  },
+  "opt_desc_removeDuplicate": {
+    "message": "Remove duplicate item in a list"
   },
   "opt_label_popup": {
     "message": "popup simple list"
@@ -317,6 +326,9 @@
   "ui_beta_warn": {
     "message": "This is a feature in the test, if you find any problem please send me a feedback."
   },
+  "ui_new_warn": {
+    "message": "This is a new feature in current version."
+  },
   "ui_save_to_gdrive": {
     "message": "Save list to google drive"
   },
@@ -331,5 +343,11 @@
   },
   "ui_untitled": {
     "message": "untitled"
+  },
+  "ui_updated_to_ver": {
+    "message": "Better Onetab has updated to"
+  },
+  "ui_click_view_changelog": {
+    "message": "click to view detail changelog"
   }
 }

@@ -1,3 +1,14 @@
+### v1.3.6 9/17/2018
+
+ - fix: cover browser action in firefox
+ - fix: auth button invalid
+ - fix: store multi window failed in firefox
+ - fix: vuetify expansion-panel bug
+ - fix: open list page bug
+ - feat: add an option to allow display context button on all elements
+ - feat: add an option to exclude illegal URL
+ - feat: add an option to remove duplicate
+
 ### v1.3.5 9/10/2018
 
  - fix: simple list

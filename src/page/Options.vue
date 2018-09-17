@@ -14,6 +14,10 @@
                     <v-flex xs8>
                       <v-subheader>
                         {{ option.desc }}
+                        <v-tooltip top v-if="isNew(option)">
+                          <v-chip slot="activator" outline color="red" small>NEW</v-chip>
+                          <span>{{ __('ui_new_warn') }}</span>
+                        </v-tooltip>
                       </v-subheader>
                     </v-flex>
                     <v-flex xs4 class="text-xs-right" align-center>
@@ -27,12 +31,14 @@
                         item-text="label"
                         item-value="value"
                         @change="optionsChanged(option.name, $event)"
+                        :disabled="option.deps && !opts[option.deps]"
                       ></v-select>
                       <v-switch
                         class="d-inline-flex"
                         v-if="option.type === Boolean"
                         v-model="opts[option.name]"
                         @change="optionsChanged(option.name, $event)"
+                        :disabled="option.deps && !opts[option.deps]"
                       ></v-switch>
                     </v-flex>
                   </v-layout>
@@ -87,6 +93,8 @@ import browser from 'webextension-polyfill'
 import {formatTime} from '@/common/utils'
 import {mapState, mapMutations} from 'vuex'
 
+const currentVersion = browser.runtime.getManifest().version
+
 export default {
   data() {
     return {
@@ -104,6 +112,9 @@ export default {
     __,
     formatTime,
     ...mapMutations(['setOption']),
+    isNew(option) {
+      return option.new && currentVersion.startsWith(option.new)
+    },
     emitChanges: _.debounce(async function (key, value) {
       console.log(1)
       console.log(key, value)

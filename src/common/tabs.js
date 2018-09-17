@@ -19,19 +19,18 @@ const openTabLists = async () => {
   if (!_.isObject(window.appTabId)) window.appTabId = {}
   const currentWindow = await browser.windows.getCurrent()
   const windowId = currentWindow.id
-
+  const tabListsUrl = browser.runtime.getURL('index.html#/app/')
   if (windowId in window.appTabId) {
     const tabs = await getAllInWindow(windowId)
-    const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId])
-    if (tabIndex !== -1) {
-      if (browser.tabs.highlight) {
-        return browser.tabs.highlight({ windowId, tabs: tabIndex })
-      } else {
-        return browser.tabs.update(tabs[tabIndex].id, { active: true })
+    const tab = tabs.find(tab => tab.id === window.appTabId[windowId])
+    if (tab) {
+      if (tab.url.startsWith(tabListsUrl)) {
+        return browser.tabs.update(tab.id, { active: true })
       }
+      delete window.appTabId[windowId]
     }
   }
-  const createdTab = await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')})
+  const createdTab = await browser.tabs.create({url: tabListsUrl})
   window.appTabId[windowId] = createdTab.id
 }
 
@@ -60,12 +59,16 @@ const groupTabsInCurrentWindow = async () => {
   return result
 }
 
+const isLegalURL = url => [
+  'about:', 'chrome:', 'file:', 'wss:'
+].every(prefix => !url.startsWith(prefix))
 
 const storeTabs = async tabs => {
   const appUrl = browser.runtime.getURL('')
   tabs = tabs.filter(i => !i.url.startsWith(appUrl))
   const opts = await storage.getOptions()
   if (opts.ignorePinned) tabs = tabs.filter(i => !i.pinned)
+  if (opts.excludeIllegalURL) tabs = tabs.filter(i => isLegalURL(i.url))
   if (tabs.length === 0) return
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()

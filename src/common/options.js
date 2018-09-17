@@ -168,6 +168,15 @@ export const optionsList = [
   },
   {
     cate: cate.BEHAVIOUR,
+    name: 'allContext',
+    desc: __('opt_desc_allContext'),
+    type: Boolean,
+    default: false,
+    deps: 'pageContext',
+    new: '1.3.6',
+  },
+  {
+    cate: cate.BEHAVIOUR,
     name: 'openTabListWhenNewTab',
     desc: __('opt_desc_openTabListWhenNewTab'),
     type: Boolean,
@@ -179,6 +188,22 @@ export const optionsList = [
     desc: __('opt_desc_alertRemoveList'),
     type: Boolean,
     default: false,
+  },
+  {
+    cate: cate.BEHAVIOUR,
+    name: 'excludeIllegalURL',
+    desc: __('opt_desc_excludeIllegalURL'),
+    type: Boolean,
+    default: true,
+    new: '1.3.6',
+  },
+  {
+    cate: cate.BEHAVIOUR,
+    name: 'removeDuplicate',
+    desc: __('opt_desc_removeDuplicate'),
+    type: Boolean,
+    default: false,
+    new: '1.3.6',
   },
 ]
 

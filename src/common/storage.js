@@ -16,9 +16,15 @@ const set = obj => {
 const getLists = () => get('lists')
   .then(({lists}) => lists || [])
 
-const setLists = lists => {
+const setLists = async lists => {
   if (!Array.isArray(lists)) throw new TypeError(lists)
   const handledLists = lists.filter(i => Array.isArray(i.tabs))
+  const {opts} = await get('opts')
+  if (opts && opts.removeDuplicate) {
+    handledLists.forEach(list => {
+      list.tabs = _.unionBy(list.tabs, tab => tab.url)
+    })
+  }
   return set({lists: handledLists})
 }
 

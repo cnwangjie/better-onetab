@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_ext_name__",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "default_locale": "en",
   "description": "__MSG_ext_desc__",
   "author": "WangJie <doudou19758@gmail.com>",
@@ -50,7 +50,8 @@
     "storage",
     "tabs",
     "history",
-    "identity"
+    "identity",
+    "notifications"
   ],
   "homepage_url": "https://github.com/cnwangjie/better-onetab",
   "oauth2": {
