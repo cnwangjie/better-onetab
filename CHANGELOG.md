@@ -1,3 +1,7 @@
+### v1.3.7 9/19/2018
+
+ - feat: search function in the detail list page & add an option to allow to enable or disable it
+
 ### v1.3.6 9/17/2018
 
  - fix: cover browser action in firefox

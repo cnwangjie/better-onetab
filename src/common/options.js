@@ -205,9 +205,20 @@ export const optionsList = [
     default: false,
     new: '1.3.6',
   },
+  {
+    cate: cate.APPEARANCE,
+    name: 'enableSearch',
+    desc: __('opt_desc_enableSearch'),
+    type: Boolean,
+    default: true,
+    new: '1.3.7',
+  },
 ]
 
-if (DEBUG) console.debug('current options number:', optionsList.length)
+if (DEBUG) {
+  console.debug('current options number', optionsList.length)
+  window.printOptionsMap = () => console.debug(optionsList.map(i => i.name + ': ' + i.type.name + ',').join('\n'))
+}
 
 const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)
 

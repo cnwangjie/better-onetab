@@ -104,6 +104,9 @@
   "opt_desc_removeDuplicate": {
     "message": "去除列表中重复的项目"
   },
+  "opt_desc_enableSearch": {
+    "message": "启用详细列表中的搜索功能"
+  },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },

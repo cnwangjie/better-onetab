@@ -1,11 +1,41 @@
 <template>
 <div>
+
+<v-autocomplete
+  v-if="opts.enableSearch"
+  solo
+  :label="'search'"
+  :items="searchItems"
+  clearable
+  item-text="title"
+  item-value="value"
+  :filter="searchItem"
+  v-model="choice"
+>
+  <template
+    slot="item"
+    slot-scope="{ item }"
+  >
+    <v-list-tile-content
+      :class="item.color ? item.color + '--text' : ''"
+      transition="none"
+    >
+      <v-list-tile-title v-text="item.title"></v-list-tile-title>
+      <v-list-tile-sub-title v-text="item.subtitle"></v-list-tile-sub-title>
+    </v-list-tile-content>
+    <v-list-tile-action>
+      <v-icon>{{ 'tabIndex' in item.value ? 'link' : 'list' }}</v-icon>
+    </v-list-tile-action>
+  </template>
+</v-autocomplete>
+
 <v-expansion-panel ref="panel" expand popout :value="expandStatus" @input="expandStatusChanged">
   <v-expansion-panel-content
     hide-actions
     v-for="(list, listIndex) in lists"
     class="tab-list"
     :key="listIndex"
+    ref="list"
   >
     <v-layout slot="header" row spacer>
       <v-flex no-wrap md7 lg4>
@@ -75,6 +105,7 @@
             :target="opts.itemClickAction !== 'none' ? '_blank' : null"
             @click="itemClicked(listIndex, tabIndex)"
             class="list-item"
+            :ref="'list-' + listIndex + '-tab'"
             :key="tabIndex">
             <v-list-tile-action v-if="opts.removeItemBtnPos === 'left'">
               <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon>
@@ -129,12 +160,15 @@ const colorList = [
   'green', 'yellow', 'orange', 'brown',
 ]
 
+const SEPARATOR = '__$$SEPARATOR$$__'
+
 export default {
   data() {
     return {
       colorList,
       lists: [],
       processed: false, // if task to get list completed
+      choice: null,
     }
   },
   computed: {
@@ -142,17 +176,63 @@ export default {
     expandStatus() {
       return this.lists.map(i => i.expand)
     },
+    searchItems() {
+      const tabs = this.lists.map((list, listIndex) => {
+        return list.tabs.map((tab, tabIndex) => ({
+          text: [tab.title, tab.url].join(SEPARATOR),
+          title: tab.title,
+          subtitle: tab.url,
+          value: {listIndex, tabIndex},
+          color: list.color || '',
+        }))
+      })
+      const lists = this.lists.map((list, listIndex) => {
+        return {
+          text: [list.title || '', formatTime(list.time), list.color || ''].join(SEPARATOR),
+          title: list.title || __('ui_untitled'),
+          subtitle: formatTime(list.time),
+          value: {listIndex},
+          color: list.color || '',
+        }
+      })
+      return _.flatten(tabs).concat(lists)
+    },
   },
   created() {
     this.init()
+    window.d = this
   },
   components: {
     draggable,
     dynamicTime,
   },
+  watch: {
+    choice(item) {
+      const opt = {
+        duration: 500,
+        offset: -50,
+        easing: 'easeInOutCubic',
+      }
+      if (item.tabIndex) {
+        this.expandList(true, item.listIndex)
+        this.$vuetify.goTo(this.$refs[`list-${item.listIndex}-tab`][item.tabIndex], opt)
+      } else {
+        this.$vuetify.goTo(this.$refs.list[item.listIndex], opt)
+      }
+    }
+  },
   methods: {
     __,
     formatTime,
+    searchItem(item, query, itemText) {
+      const texts = itemText.split(SEPARATOR)
+        .filter(t => t)
+        .map(i => i.toLowerCase())
+      return query.split(' ')
+        .filter(i => i)
+        .map(i => i.toLowerCase())
+        .every(i => texts.some(t => ~t.indexOf(i)))
+    },
     async itemClicked(listIndex, tabIndex) {
       const action = this.opts.itemClickAction
       if (action === 'open-and-remove') {
@@ -244,6 +324,7 @@ export default {
       this.swapListItem(listIndex, listIndex + 1)
     },
     expandList(expand, listIndex) {
+      if (this.lists[listIndex].expand === expand) return
       this.lists[listIndex].expand = expand
       this.storeLists()
     },

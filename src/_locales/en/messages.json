@@ -104,6 +104,9 @@
   "opt_desc_removeDuplicate": {
     "message": "Remove duplicate item in a list"
   },
+  "opt_desc_enableSearch": {
+    "message": "Enable search in the detail list page"
+  },
   "opt_label_popup": {
     "message": "popup simple list"
   },
