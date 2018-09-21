@@ -1,3 +1,11 @@
+### v1.3.8 9/21/2018
+
+ - fix: popup simple list is too short
+ - fix: store all tabs in all window command not work
+ - change: untitled list will show the title of tabs in popup simple list
+ - change: do not display the change logs in about page
+ - change: apply the nightmode to the popup simple list
+
 ### v1.3.7 9/19/2018
 
  - feat: search function in the detail list page & add an option to allow to enable or disable it

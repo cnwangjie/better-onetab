@@ -1,5 +1,5 @@
 <template>
-<v-app :style="{width: '320px', height: 'auto', maxHeight: '75vh'}">
+<v-app :style="{width: '320px'}" :dark="nightmode">
   <v-list dense>
     <template v-for="(list, index) in lists">
       <v-list-tile
@@ -9,7 +9,7 @@
         :color="list.color"
       >
         <v-list-tile-content>
-          <v-list-tile-title><strong>[{{ list.tabs.length }}]</strong> {{ list.title || __('ui_untitled') }}</v-list-tile-title>
+          <v-list-tile-title><strong>[{{ list.tabs.length }}]</strong> {{ friendlyTitle(list) }}</v-list-tile-title>
           <v-list-tile-sub-title>{{ formatTime(list.time) }}</v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -26,12 +26,14 @@ import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
+import browser from 'webextension-polyfill'
 
 export default {
   data() {
     return {
       lists: [],
       action: '',
+      nightmode: false,
     }
   },
   created() {
@@ -40,7 +42,23 @@ export default {
   methods: {
     __,
     formatTime,
+    friendlyTitle(list) {
+      if (list.title) return list.title
+      const maxLen = 100
+      const titles = list.tabs.map(i => i.title)
+      let title = ''
+      while (title.length < maxLen && titles.length !== 0) {
+        title += titles.shift() + ', '
+      }
+      title = ': ' + title.slice(0, -2).substr(0, maxLen - 3) + '...'
+      return title
+    },
+    async switchNightMode() {
+      const window = await browser.runtime.getBackgroundPage()
+      if ('nightmode' in window) this.nightmode = window.nightmode || false
+    },
     async init() {
+      this.switchNightMode()
       const lists = await storage.getLists()
       this.lists = lists
       const opts = await storage.getOptions()

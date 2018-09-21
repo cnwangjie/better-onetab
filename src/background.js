@@ -119,8 +119,10 @@ const dynamicDisableMenu = async () => {
 }
 
 const commandHandler = async command => {
+  console.log('received command', command)
   if (command === 'store-selected-tabs') tabs.storeSelectedTabs()
   else if (command === 'store-all-tabs') tabs.storeAllTabs()
+  else if (command === 'store-all-in-all-windows') tabs.storeAllTabInAllWindows()
   else if (command === 'restore-lastest-list') {
     const lists = await storage.getLists()
     if (lists.length === 0) return true

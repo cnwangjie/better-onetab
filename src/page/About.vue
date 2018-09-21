@@ -29,24 +29,19 @@
         </v-list>
       </v-card>
       <v-subheader>Change Logs</v-subheader>
-      <v-card>
-        <v-card-text v-html="changelog">
-        </v-card-text>
-      </v-card>
+      <v-btn flat block href="https://github.com/cnwangjie/better-onetab/blob/master/CHANGELOG.md">Click to view the whole change logs</v-btn>
     </v-flex>
   </v-layout>
 </div>
 </template>
 <script>
 import __ from '@/common/i18n'
-import changelog from '@/../CHANGELOG.md'
 
 export default {
   data() {
     return {
       version: '',
       update: '',
-      changelog,
     }
   },
   created() {
