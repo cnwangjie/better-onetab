@@ -11,6 +11,7 @@ import './assets/css/fontawesome-all.min.css'
 export default {
   name: 'app',
   created() {
+    /* eslint-disable-next-line */
     if (PRODUCTION) import(
       /* webpackChunkName: "tracker", webpackMode: "lazy" */
       '@/common/tracker'

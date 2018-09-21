@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     __,
-    async init() {
+    init() {
       const manifest = chrome.runtime.getManifest()
       this.version = manifest.version
       chrome.runtime.getBackgroundPage(background => {

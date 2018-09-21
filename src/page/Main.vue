@@ -102,8 +102,6 @@
 <script>
 import _ from 'lodash'
 import __ from '@/common/i18n'
-import storage from '@/common/storage'
-import boss from '@/common/service/boss'
 import browser from 'webextension-polyfill'
 import dynamicTime from '@/component/DynamicTime'
 import importExportPanel from '@/component/ImportExportPanel'
@@ -126,7 +124,7 @@ export default {
   computed: {
     ...mapState(['opts', 'hasToken', 'conflict']),
     tooltip() {
-      return !this.hasToken ? __('ui_not_login')
+      return !this.hasToken ? __('ui_not_login') // eslint-disable-line
         : this.syncing ? __('ui_syncing')
         : this.conflict ? __('ui_conflict')
         : this.uploadError ? __('ui_upload_error')
@@ -147,12 +145,12 @@ export default {
     __,
     ...mapActions(['loadOptions', 'checkToken', 'loadConflict']),
     ...mapMutations(['setConflict']),
-    async init() {
+    init() {
       this.switchNightMode()
       this.checkToken()
       this.loadOptions()
       this.loadConflict()
-      chrome.runtime.onMessage.addListener(async msg => {
+      chrome.runtime.onMessage.addListener(msg => {
         console.log(msg)
         if (msg.uploadImmediate || msg.forceDownload) {
           this.syncing = true
@@ -160,12 +158,12 @@ export default {
           this.syncing = false
           const result = msg.uploaded || msg.downloaded
           if (!_.isEmpty(result.conflict)) this.setConflict(result.conflict)
-          else if (!_.isEmpty(result.error)) this.uploadError = result.error
+          else if (!_.isEmpty(result.error)) this.uploadError = result.error // eslint-disable-line
           else this.lastUpdated = Date.now()
         }
       })
     },
-    async syncBtnClicked() {
+    syncBtnClicked() {
       if (this.conflict) this.$router.push('/app/options/sync')
       else {
         browser.runtime.sendMessage({uploadImmediate: true})

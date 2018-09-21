@@ -2,9 +2,11 @@ env:
   es6: true
   browser: true
   webextensions: true
-extends: '@cnwangjie/eslint-config'
-parser: babel-eslint
+extends:
+  - plugin:vue/base
+  - '@cnwangjie/eslint-config'
 parserOptions:
+  parser: babel-eslint
   ecmaVersion: 8
   sourceType: module
 rules:

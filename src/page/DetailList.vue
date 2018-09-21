@@ -50,7 +50,7 @@
           >{{ list.tabs.length }} {{ __('ui_tab') }}</v-chip>
           <v-card>
             <v-layout wrap class="color-panel">
-              <v-flex wrap xs3 v-for="color, colorIndex in colorList" :key="colorIndex">
+              <v-flex wrap xs3 v-for="(color, colorIndex) in colorList" :key="colorIndex">
                 <div
                   class="color-selector lighten-3"
                   :class="color"
@@ -148,19 +148,17 @@ import draggable from 'vuedraggable'
 
 import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
-import list from '@/common/list'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
 import {mapState} from 'vuex'
 
+const SEPARATOR = '__$$SEPARATOR$$__'
 const colorList = [
   '', 'red', 'pink', 'purple',
   'indigo', 'blue', 'cyan', 'teal',
   'green', 'yellow', 'orange', 'brown',
 ]
-
-const SEPARATOR = '__$$SEPARATOR$$__'
 
 export default {
   data() {
@@ -177,30 +175,25 @@ export default {
       return this.lists.map(i => i.expand)
     },
     searchItems() {
-      const tabs = this.lists.map((list, listIndex) => {
-        return list.tabs.map((tab, tabIndex) => ({
-          text: [tab.title, tab.url].join(SEPARATOR),
-          title: tab.title,
-          subtitle: tab.url,
-          value: {listIndex, tabIndex},
-          color: list.color || '',
-        }))
-      })
-      const lists = this.lists.map((list, listIndex) => {
-        return {
-          text: [list.title || '', formatTime(list.time), list.color || ''].join(SEPARATOR),
-          title: list.title || __('ui_untitled'),
-          subtitle: formatTime(list.time),
-          value: {listIndex},
-          color: list.color || '',
-        }
-      })
+      const tabs = this.lists.map((list, listIndex) => list.tabs.map((tab, tabIndex) => ({
+        text: [tab.title, tab.url].join(SEPARATOR),
+        title: tab.title,
+        subtitle: tab.url,
+        value: {listIndex, tabIndex},
+        color: list.color || '',
+      })))
+      const lists = this.lists.map((list, listIndex) => ({
+        text: [list.title || '', formatTime(list.time), list.color || ''].join(SEPARATOR),
+        title: list.title || __('ui_untitled'),
+        subtitle: formatTime(list.time),
+        value: {listIndex},
+        color: list.color || '',
+      }))
       return _.flatten(tabs).concat(lists)
     },
   },
   created() {
     this.init()
-    window.d = this
   },
   components: {
     draggable,
@@ -233,7 +226,7 @@ export default {
         .map(i => i.toLowerCase())
         .every(i => texts.some(t => ~t.indexOf(i)))
     },
-    async itemClicked(listIndex, tabIndex) {
+    itemClicked(listIndex, tabIndex) {
       const action = this.opts.itemClickAction
       if (action === 'open-and-remove') {
         this.removeTab(listIndex, tabIndex)
@@ -253,7 +246,7 @@ export default {
       this.$refs.panel.updateFromValue(this.expandStatus)
       this.processed = true
     },
-    async init() {
+    init() {
       this.getLists()
       chrome.storage.onChanged.addListener(changes => {
         console.debug(changes)
@@ -263,10 +256,10 @@ export default {
         }
       })
     },
-    storeLists: _.debounce(function() {
+    storeLists: _.debounce(function storeLists() {
       console.time('store')
-      this.$nextTick(() => {
-        storage.setLists(this.lists).then(() => console.timeEnd('store'))
+      this.$nextTick(() => { // eslint-disable-line
+        storage.setLists(this.lists).then(() => console.timeEnd('store')) // eslint-disable-line
       })
     }, 200),
     removeList(listIndex) {
@@ -279,8 +272,7 @@ export default {
     },
     removeTab(listIndex, tabIndex) {
       this.lists[listIndex].tabs.splice(tabIndex, 1)
-      if (this.lists[listIndex].tabs.length === 0)
-        this.removeList(listIndex)
+      if (this.lists[listIndex].tabs.length === 0) this.removeList(listIndex)
       this.storeLists()
     },
     openTab(listIndex, tabIndex) {

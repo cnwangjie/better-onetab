@@ -174,7 +174,7 @@ import {formatTime, one} from '@/common/utils'
 import boss from '@/common/service/boss'
 import gdrive from '@/common/service/gdrive'
 import browser from 'webextension-polyfill'
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {mapState, mapActions, mapMutations} from 'vuex'
 
 if (DEBUG) window.boss = boss
 
@@ -244,7 +244,7 @@ export default {
       if (_.isEmpty(localInfo) && !_.isEmpty(lists)) chrome.runtime.sendMessage({uploadImmediate: true})
       else chrome.runtime.sendMessage({forceDownload: true})
     },
-    async resolveConflict(type, result) {
+    resolveConflict(type, result) {
       chrome.runtime.sendMessage({resolveConflict: {type, result}})
     },
     async auth(auth) {
@@ -261,12 +261,13 @@ export default {
         this.logging = false
       }
     },
-    async deauth() {
+    deauth() {
       chrome.storage.local.remove(['boss_token', 'sync_info'])
       this.setToken(false)
       this.bossinfo = {}
     },
-    saveToGdrive: one(async function () {
+    saveToGdrive: one(async function saveToGdrive() {
+      /* eslint no-invalid-this: 0 */
       this.saving = true
       try {
         await gdrive.saveCurrentTabLists()

@@ -23,7 +23,6 @@
 </template>
 <script>
 import __ from '@/common/i18n'
-import tabs from '@/common/tabs'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 import browser from 'webextension-polyfill'

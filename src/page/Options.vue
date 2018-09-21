@@ -115,12 +115,12 @@ export default {
     isNew(option) {
       return option.new && currentVersion.startsWith(option.new)
     },
-    emitChanges: _.debounce(async function (key, value) {
+    emitChanges: _.debounce(async function emitChanges(key, value) {
       console.log(1)
       console.log(key, value)
       // when type of option is string options can not be set correctly after first storage.setOptions() called
-      await storage.setOptions(this.opts)
-      await storage.setOptions(this.opts)
+      await storage.setOptions(this.opts) // eslint-disable-line
+      await storage.setOptions(this.opts) // eslint-disable-line
       console.log(2)
       chrome.runtime.sendMessage({optionsChanged: {[key]: value}})
     }, 100),
@@ -128,7 +128,7 @@ export default {
       this.setOption({[key]: value})
       this.emitChanges(key, value)
     },
-    async init() {
+    init() {
       chrome.runtime.onMessage.addListener(msg => {
         if (msg.optionsChangeHandledStatus === 'success') {
           this.snackbar = true

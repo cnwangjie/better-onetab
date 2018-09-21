@@ -78,11 +78,7 @@ export default {
       try {
         const lists = await storage.getLists()
         if (comp) {
-          this.exportData = lists.map(list => {
-            return list.tabs.map(tab => {
-              return tab.url + ' | ' + tab.title
-            }).join('\n')
-          }).join('\n\n')
+          this.exportData = lists.map(list => list.tabs.map(tab => tab.url + ' | ' + tab.title).join('\n')).join('\n\n')
         } else {
           this.exportData = JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])))
         }
@@ -105,14 +101,12 @@ export default {
         let lists
         if (comp) {
           lists = this.importData.split('\n\n')
-            .filter(i => i).map(i => {
-              return i.split('\n')
-                .filter(i => i)
-                .map(j => j.split('|').map(k => k.trim()))
-                .map(j => ({ url: j[0], title: j[1] }))
-            }).map(i => {
-              return list.createNewTabList({tabs: i})
-            })
+            .filter(i => i)
+            .map(i => i.split('\n')
+              .filter(j => j)
+              .map(j => j.split('|').map(k => k.trim()))
+              .map(j => ({ url: j[0], title: j[1] })))
+            .map(i => list.createNewTabList({tabs: i}))
         } else {
           lists = JSON.parse(this.importData).map(i => list.createNewTabList(i))
         }
