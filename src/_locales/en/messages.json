@@ -107,6 +107,9 @@
   "opt_desc_enableSearch": {
     "message": "Enable search in the detail list page"
   },
+  "opt_desc_openEnd": {
+    "message": "When restore list open at the ending of tabs"
+  },
   "opt_label_popup": {
     "message": "popup simple list"
   },

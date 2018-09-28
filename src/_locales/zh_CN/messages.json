@@ -107,6 +107,9 @@
   "opt_desc_enableSearch": {
     "message": "启用详细列表中的搜索功能"
   },
+  "opt_desc_openEnd": {
+    "message": "恢复列表时在末尾打开标签"
+  },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },

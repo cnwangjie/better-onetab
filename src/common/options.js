@@ -213,6 +213,14 @@ export const optionsList = [
     default: true,
     new: '1.3.7',
   },
+  {
+    cate: cate.BEHAVIOUR,
+    name: 'openEnd',
+    desc: __('opt_desc_openEnd'),
+    type: Boolean,
+    default: true,
+    new: '1.3.9',
+  },
 ]
 
 if (DEBUG) {

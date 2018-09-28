@@ -115,12 +115,19 @@ const storeAllTabInAllWindows = async () => {
 }
 
 const restoreList = async (list, windowId) => {
+  const opts = await storage.getOptions()
+  let indexOffset = 0
+  if (opts.openEnd) {
+    const tabs = await getAllTabsInCurrentWindow()
+    const {index} = tabs.pop()
+    indexOffset = index + 1
+  }
   for (let i = 0; i < list.tabs.length; i += 1) {
     const tab = list.tabs[i]
     const createdTab = await browser.tabs.create({
       url: tab.url,
       pinned: tab.pinned,
-      index: i,
+      index: i + indexOffset,
       windowId,
     })
     if (tab.muted) browser.tabs.update(createdTab.id, {muted: true})
