@@ -1,3 +1,8 @@
+### v1.3.9 9/29/2018
+
+ - feat: add an option to allow open tabs at the ending
+ - change: sort items of search
+
 ### v1.3.8 9/21/2018
 
  - fix: popup simple list is too short

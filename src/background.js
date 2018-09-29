@@ -96,6 +96,7 @@ const setupContextMenus = async ({pageContext, allContext}) => {
   window.contextMenusClickedHandler = info => {
     console.log('context menu clicked', info.menuItemId)
     _.get(menus, info.menuItemId)()
+    if (PRODUCTION) ga('send', 'event', 'Menu clicked', info.menuItemId)
   }
   console.groupCollapsed('create context menu', contexts)
   await createMenus(menus)
@@ -133,7 +134,7 @@ const commandHandler = async command => {
     return storage.setLists(lists)
   } else if (command === 'open-lists') tabs.openTabLists()
   else return true
-  if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
+  if (PRODUCTION) ga('send', 'event', 'Command used', command)
 }
 
 const init = async () => {
@@ -152,7 +153,7 @@ const init = async () => {
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       if (('pageContext' in changes) || ('allContext' in changes)) await setupContextMenus(changes)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
-      if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key + ':' + changes[key]))
+      if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options changed', key, changes[key]))
     }
     if (msg.restoreList) {
       const {restoreList} = msg
@@ -167,6 +168,7 @@ const init = async () => {
         lists.splice(listIndex, 1)
         storage.setLists(lists)
       }
+      if (PRODUCTION) ga('send', 'event', 'Popup item clicked')
     }
     if (msg.uploadImmediate) {
       boss.uploadImmediate().catch(() => {

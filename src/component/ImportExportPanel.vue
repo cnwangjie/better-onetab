@@ -90,6 +90,7 @@ export default {
         this.snackbar = true
         this.processing = false
       }
+      if (PRODUCTION) ga('send', 'event', 'IES', 'export', comp)
     },
     async imp(comp) {
       if (this.processing) {
@@ -121,6 +122,7 @@ export default {
         this.snackbar = true
         this.processing = false
       }
+      if (PRODUCTION) ga('send', 'event', 'IES', 'import', comp)
     },
   }
 }

@@ -136,6 +136,7 @@ export default {
     async nightmode(newValue) {
       const window = await browser.runtime.getBackgroundPage()
       window.nightmode = newValue
+      if (PRODUCTION) ga('send', 'event', 'Nightmode switch', newValue)
     },
   },
   created() {
@@ -168,6 +169,10 @@ export default {
       else {
         browser.runtime.sendMessage({uploadImmediate: true})
         this.syncing = true
+      }
+      if (PRODUCTION) {
+        if (this.conflict) ga('send', 'event', 'Sync btn clicked', 'conflict')
+        else ga('send', 'event', 'Sync btn clicked', 'upload')
       }
     },
     async switchNightMode() {

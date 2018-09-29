@@ -72,7 +72,7 @@
           single-line
           hide-details
         ></v-text-field>
-        <strong class="list-title" v-else>{{ list.title }}</strong>
+        <strong class="list-title" v-else :class="list.color ? list.color + '--text' : ''">{{ list.title }}</strong>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
         <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
@@ -189,7 +189,7 @@ export default {
         value: {listIndex},
         color: list.color || '',
       }))
-      return _.flatten(tabs).concat(lists)
+      return _.sortBy(_.flatten(tabs).concat(lists), 'title')
     },
   },
   created() {
