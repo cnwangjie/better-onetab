@@ -82,10 +82,10 @@ export default {
         } else {
           this.exportData = JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])))
         }
-        this.snackbarMsg = __('ui_main_successed')
+        this.snackbarMsg = __('ui_main_succeeded')
       } catch (e) {
         console.error(e)
-        this.snackbarMsg = __('ui_main_error_occured')
+        this.snackbarMsg = __('ui_main_error_occurred')
       } finally {
         this.snackbar = true
         this.processing = false
@@ -113,11 +113,11 @@ export default {
         }
         const currentList = await storage.getLists()
         await storage.setLists(_.concat(lists, currentList))
-        this.snackbarMsg = __('ui_main_successed')
+        this.snackbarMsg = __('ui_main_succeeded')
         this.show = false
       } catch (e) {
         console.error(e)
-        this.snackbarMsg = __('ui_main_error_occured')
+        this.snackbarMsg = __('ui_main_error_occurred')
       } finally {
         this.snackbar = true
         this.processing = false
