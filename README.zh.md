@@ -5,7 +5,7 @@
 <p align="center">
 <a href="https://circleci.com/gh/cnwangjie/better-onetab"><img src="https://img.shields.io/circleci/project/github/cnwangjie/better-onetab/master.svg?style=flat-square" alt="CircleCI"></a>
 <a href="https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg"><img src="https://img.shields.io/chrome-web-store/v/eookhngofldnbnidjlbkeecljkfpmfpg.svg?style=flat-square" alt="Chrome Web Store"></a>
-<a href="https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/"><img src="https://img.shields.io/amo/v/better-onetab.svg?style=flat-square" alt="Mozilla Add-on"></a>
+<a href="https://addons.mozilla.org/firefox/addon/better-onetab/"><img src="https://img.shields.io/amo/v/better-onetab.svg?style=flat-square" alt="Mozilla Add-ons"></a>
 <img src="https://img.shields.io/github/license/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub">
 <img src="https://img.shields.io/github/last-commit/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub last commit">
 <a href="https://gitter.im/better-onetab/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://img.shields.io/gitter/room/better-onetab/Lobby.svg?style=flat-square" alt="Join the chat at https://gitter.im/better-onetab/Lobby"></a>
@@ -13,24 +13,24 @@
 
 ### 一个更好的 OneTab 扩展
 
-OneTab 的标签储存和标签分组功能是一个非常实用的功能，但是OneTab扩展还缺少一些诸如简易列表，只储存选中的标签等功能。由于开发时间久远长期无人更新，并且也不开源，所有也没办法为 OneTab 增加新的功能，所以这里又做了一个更好的 (Better-Onetab) 扩展。相比于 OneTab 拥有更美观的界面以及更多的功能。
+OneTab 的标签页储存和标签页分组功能是一个非常实用的功能，但是 OneTab 扩展还缺少一些诸如简易列表，只储存选中的标签页等功能。由于开发时间久远且长期无人更新，并且也不开源，所以也没办法为 OneTab 增加新的功能，因此这里又做了一个更好的（Better-Onetab）扩展。它比 OneTab 拥有更美观的界面以及更多的功能。
 
 ### 功能
 
 [想要更多功能？在这里告诉我吧](https://github.com/cnwangjie/better-onetab/issues/new)
 
- - [x] Onetab中的所有基本功能
+ - [x] OneTab 中的所有基本功能
  - [x] 弹出式的简易列表
- - [x] 固定标签列表
+ - [x] 固定标签页列表
  - [x] 键盘快捷键
  - [x] 自定义的设置
- - [x] 通过拖拽操作来重新排列标签
+ - [x] 通过拖拽操作来重新排列标签页
  - [x] 数据和选项的同步
  - [x] 导入及导出
- - [x] 将储存的标签加入浏览器历史中
- - [x] 国际化支持 (当前只有英语和中文)
+ - [x] 将储存的标签页加入浏览器历史中
+ - [x] 国际化支持（当前只有英语和简体中文）
 
-从 [changelog](./CHANGELOG.md) 中了解更多
+从 [变更日志](./CHANGELOG.md) 中了解更多
 
 ### 更新计划
 
@@ -40,9 +40,9 @@ OneTab 的标签储存和标签分组功能是一个非常实用的功能，但�
 
 从 [Google 扩展商店](https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg) 安装。
 
-从 [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/) 安装 (尚未优化))
+从 [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/better-onetab/) 安装 (尚未优化))
 
-从 [release page](https://github.com/cnwangjie/better-onetab/releases) 下载 .crx 文件并将它拖拽至 chrome 的扩展管理页面。
+从 [releases 页面](https://github.com/cnwangjie/better-onetab/releases) 下载 .crx 文件并将它拖拽至 chrome 的扩展管理页面。
 
 从源码中编译：
 

@@ -5,7 +5,7 @@
 <p align="center">
 <a href="https://circleci.com/gh/cnwangjie/better-onetab"><img src="https://img.shields.io/circleci/project/github/cnwangjie/better-onetab/master.svg?style=flat-square" alt="CircleCI"></a>
 <a href="https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg"><img src="https://img.shields.io/chrome-web-store/v/eookhngofldnbnidjlbkeecljkfpmfpg.svg?style=flat-square" alt="Chrome Web Store"></a>
-<a href="https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/"><img src="https://img.shields.io/amo/v/better-onetab.svg?style=flat-square" alt="Mozilla Add-on"></a>
+<a href="https://addons.mozilla.org/firefox/addon/better-onetab/"><img src="https://img.shields.io/amo/v/better-onetab.svg?style=flat-square" alt="Mozilla Add-ons"></a>
 <img src="https://img.shields.io/github/license/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub">
 <img src="https://img.shields.io/github/last-commit/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub last commit">
 <a href="https://gitter.im/better-onetab/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://img.shields.io/gitter/room/better-onetab/Lobby.svg?style=flat-square" alt="Join the chat at https://gitter.im/better-onetab/Lobby"></a>
@@ -15,20 +15,20 @@
 
 ### A better onetab extension
 
-More beatiful and more feature.
+More beautiful and more feature.
 
 ### Features
 
 [Send us a feature request.](https://github.com/cnwangjie/better-onetab/issues/new)
 
- - [x] Basic feature of onetab
+ - [x] Basic feature of OneTab
  - [x] Popup page with simple list
  - [x] Pin tab list
  - [x] Keyboard shortcuts
  - [x] Options
  - [x] Drag and drop re-ordering
- - [x] Data & options sync
- - [x] Import & export
+ - [x] Data & Options sync
+ - [x] Import & Export
  - [x] Add stored tabs to history
  - [x] I18N support (only English & Chinese currently)
 
@@ -42,9 +42,9 @@ You can learn more about the next step of better onetab at [project page](https:
 
 Install from [Google Extension Store](https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg)
 
-Install from [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/better-onetab/) (not optimized)
+Install from [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/better-onetab/) (not optimized)
 
-Download the released .crx file in [release page](https://github.com/cnwangjie/better-onetab/releases) and drag it to chrome extensions page.
+Download the released .crx file in [releases page](https://github.com/cnwangjie/better-onetab/releases) and drag it to chrome extensions page.
 
 Build your own from following steps：
 
