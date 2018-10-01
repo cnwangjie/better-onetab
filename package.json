@@ -1,7 +1,7 @@
 {
   "name": "better-onetab",
   "version": "1.0.0",
-  "description": "a better onetab for chrome",
+  "description": "a better OneTab for browsers",
   "main": "index.js",
   "repository": "https://github.com/cnwangjie/better-onetab",
   "author": "cnwangjie",

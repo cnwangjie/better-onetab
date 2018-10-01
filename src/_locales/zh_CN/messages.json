@@ -3,88 +3,88 @@
     "message": "better-onetab"
   },
   "ext_desc": {
-    "message": "一个更好的onetab扩展"
+    "message": "一个更好的 OneTab 扩展"
   },
   "menu_STORE_SELECTED_TABS": {
-    "message": "储存选中的标签"
+    "message": "保存选中的标签页"
   },
   "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
-    "message": "储存当前窗口的所有标签"
+    "message": "保存当前窗口的所有标签页"
   },
   "menu_SHOW_TAB_LIST": {
-    "message": "显示标签列表"
+    "message": "显示标签页列表"
   },
   "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
-    "message": "储存所有窗口的所有标签"
+    "message": "保存所有窗口的所有标签页"
   },
   "menu_EXTRA": {
     "message": "额外功能"
   },
   "menu_STORE_LEFT_TABS": {
-    "message": "储存左边的标签"
+    "message": "保存左侧标签页"
   },
   "menu_STORE_RIGHT_TABS": {
-    "message": "储存右边的标签"
+    "message": "保存右侧标签页"
   },
   "menu_STORE_TWOSIDE_TABS": {
-    "message": "储存未选中的标签"
+    "message": "保存未选中标签页"
   },
   "cmd_store_selected_tabs": {
-    "message": "储存选中的标签"
+    "message": "保存已选中标签页"
   },
   "cmd_store_all_tabs": {
-    "message": "储存所有标签"
+    "message": "保存所有标签页"
   },
   "cmd_restore_lastest_list": {
-    "message": "恢复最后一个列表"
+    "message": "恢复最后的列表"
   },
   "cmd_open_lists": {
-    "message": "打开标签列表"
+    "message": "打开标签页列表"
   },
   "cmd_store_all_in_all_windows": {
-    "message": "储存所有窗口的所有标签"
+    "message": "保存所有窗口的所有标签页"
   },
   "opt_desc_browserAction": {
-    "message": "当图标被点击时的行为"
+    "message": "图标被点击的行为"
   },
   "opt_desc_itemClickAction": {
-    "message": "当列表中的一项被点击时的行为"
+    "message": "列表中的某一项被点击的行为"
   },
   "opt_desc_itemDisplay": {
     "message": "列表中的项显示的内容"
   },
   "opt_desc_hideFavicon": {
-    "message": "隐藏列表中的图标"
-  },
-  "opt_desc_fixedToolbar": {
-    "message": "固定工具栏"
+    "message": "列表中不显示图标"
   },
   "opt_desc_removeItemBtnPos": {
-    "message": "移除标签按钮的位置"
+    "message": "移除标签页的按钮位置"
   },
   "opt_desc_popupItemClickAction": {
-    "message": "当弹出列表中的项被点击时的行为"
-  },
-  "opt_desc_ignorePinned": {
-    "message": "阻止储存被固定的标签"
-  },
-  "opt_desc_pinNewList": {
-    "message": "自动固定新列表"
-  },
-  "opt_desc_pageContext": {
-    "message": "开启页面中的右键菜单中的按钮"
-  },
-  "opt_desc_allContext": {
-    "message": "开启所有元素上右键菜单中的按钮"
+    "message": "弹出列表中的项被点击的行为"
   },
   "opt_desc_defaultNightMode": {
     "message": "默认使用夜间模式"
   },
+  "opt_desc_fixedToolbar": {
+    "message": "固定顶部工具栏"
+  },
   "opt_desc_addHistory": {
-    "message": "将储存的标签加入浏览器历史记录中"
+    "message": "保存的标签页添加到历史记录"
+  },
+  "opt_desc_ignorePinned": {
+    "message": "不保存已固定的标签页"
+  },
+  "opt_desc_pinNewList": {
+    "message": "自动固定新的列表"
+  },
+  "opt_desc_pageContext": {
+    "message": "出现在页面的右键菜单中"
+  },
+  "opt_desc_allContext": {
+    "message": "出现在所有元素的右键菜单中"
   },
   "opt_desc_openTabListWhenNewTab": {
-    "message": "当前页面为新标签页的时候点击图标时显示标签列表 (不会覆盖弹出简易列表的行为)"
+    "message": "当前页面为新标签页的时候点击图标时显示标签页列表 (不会覆盖弹出简易列表的行为)"
   },
   "opt_desc_syncOptions": {
     "message": "同步设置"
@@ -93,34 +93,34 @@
     "message": "同步列表"
   },
   "opt_desc_useBoss": {
-    "message": "使用better onetab同步服务（不限制储存空间）"
+    "message": "使用better onetab同步服务（不限制保存空间）"
   },
   "opt_desc_alertRemoveList": {
-    "message": "在删除列表前显示警告"
+    "message": "删除列表时确认"
   },
   "opt_desc_excludeIllegalURL": {
-    "message": "排除非法的 URL 类似 about:* 或 chrome://*"
+    "message": "排除非标准 URL，例如 about:* 和 chrome://*"
   },
   "opt_desc_removeDuplicate": {
-    "message": "去除列表中重复的项目"
+    "message": "列表中避免重复"
   },
   "opt_desc_enableSearch": {
-    "message": "启用详细列表中的搜索功能"
+    "message": "详细列表中启用搜索功能"
   },
   "opt_desc_openEnd": {
-    "message": "恢复列表时在末尾打开标签"
+    "message": "恢复列表时标签页在末尾打开"
   },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },
   "opt_label_store_selected": {
-    "message": "储存选中的标签页"
+    "message": "保存选中的标签页"
   },
   "opt_label_store_all": {
-    "message": "储存当前窗口的所有标签页"
+    "message": "保存当前窗口的所有标签页"
   },
   "opt_label_show_list": {
-    "message": "显示完整标签列表"
+    "message": "显示完整标签页列表"
   },
   "opt_label_none": {
     "message": "无动作"
@@ -138,10 +138,10 @@
     "message": "恢复至新的窗口"
   },
   "opt_label_left": {
-    "message": "标签左侧"
+    "message": "标签页左侧"
   },
   "opt_label_right": {
-    "message": "标签右侧"
+    "message": "标签页右侧"
   },
   "opt_label_title_and_url": {
     "message": "标题和地址"
@@ -156,19 +156,19 @@
     "message": "夜间模式"
   },
   "ui_tab": {
-    "message": "tabs"
+    "message": "个标签页"
   },
   "ui_created": {
     "message": "创建于"
   },
   "ui_retitle_list": {
-    "message": "重命名列表"
+    "message": "列表更名"
   },
   "ui_restore_all": {
-    "message": "恢复列表"
+    "message": "列表还原"
   },
   "ui_restore_all_in_new_window": {
-    "message": "恢复列表至新窗口"
+    "message": "列表还原至新窗口"
   },
   "ui_remove_list": {
     "message": "删除列表"
@@ -188,6 +188,15 @@
   "ui_options": {
     "message": "选项"
   },
+  "ui_options_behaviour": {
+    "message": "行为"
+  },
+  "ui_options_appearance": {
+    "message": "外观"
+  },
+  "ui_options_sync": {
+    "message": "同步"
+  },
   "ui_about": {
     "message": "关于"
   },
@@ -201,7 +210,7 @@
     "message": "代码仓库"
   },
   "ui_tab_list": {
-    "message": "标签列表"
+    "message": "标签页列表"
   },
   "ui_export": {
     "message": "导出"
@@ -210,13 +219,13 @@
     "message": "导入"
   },
   "ui_export_comp": {
-    "message": "导出 (兼容 onetab)"
+    "message": "导出 (兼容 OneTab)"
   },
   "ui_export_json": {
     "message": "导出至 JSON"
   },
   "ui_import_comp": {
-    "message": "导入 (兼容 onetab)"
+    "message": "导入 (兼容 OneTab)"
   },
   "ui_import_json": {
     "message": "从 JSON 中导入"
@@ -224,11 +233,11 @@
   "ui_main_processing": {
     "message": "处理中..."
   },
-  "ui_main_error_occured": {
+  "ui_main_error_occurred": {
     "message": "发生了一些错误"
   },
-  "ui_main_successed": {
-    "message": "成功!"
+  "ui_main_succeeded": {
+    "message": "成功！"
   },
   "ui_opt_changes_saved": {
     "message": "修改已保存！"
@@ -237,10 +246,10 @@
     "message": "固定列表"
   },
   "ui_title_up_btn": {
-    "message": "向上移动列表"
+    "message": "上移列表"
   },
   "ui_title_down_btn": {
-    "message": "向下移动列表"
+    "message": "下移列表"
   },
   "ui_auth_with_google": {
     "message": "通过 Google 账号授权"
@@ -249,13 +258,13 @@
     "message": "通过 Github 账号授权"
   },
   "ui_boss": {
-    "message": "Better Onetab 同步服务器 (不限制储存容量)"
+    "message": "Better Onetab 同步服务器 (不限制保存容量)"
   },
   "ui_use_boss": {
     "message": "使用 Better Onetab 同步服务 (无限容量)"
   },
   "ui_logged_uid": {
-    "message": "已授权为UID: "
+    "message": "已授权 UID: "
   },
   "ui_sync_exists_conflict_header": {
     "message": "同步时发生冲突。"
@@ -312,7 +321,7 @@
     "message": "授权"
   },
   "ui_sync_authed_with": {
-    "message": "授权账户:"
+    "message": "授权账户："
   },
   "ui_not_login": {
     "message": "未登录"
@@ -327,16 +336,16 @@
     "message": "这是当前版本的新特性。"
   },
   "ui_save_to_gdrive": {
-    "message": "将列表保存至 google drive"
+    "message": "将列表保存至 Google Drive"
   },
   "ui_save_immediately": {
     "message": "立即保存"
   },
   "ui_no_list": {
-    "message": "没有标签"
+    "message": "没有标签页"
   },
   "ui_no_list_tip": {
-    "message": "1. 选中你想储存的标签</br>2. 右键点击扩展图标</br>3. 点击 \"储存选中的标签\"<p class=\"body-2\">在其他设备使用过？ 授权同步服务可以自动恢复列表。</p>"
+    "message": "1. 选中你想保存的标签页</br>2. 右键点击扩展图标</br>3. 点击 \"保存选中的标签页\"<p class=\"body-2\">在其他设备使用过？ 授权同步服务可以自动恢复列表。</p>"
   },
   "ui_untitled": {
     "message": "未命名"

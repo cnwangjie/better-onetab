@@ -3,31 +3,31 @@
     "message": "better-onetab"
   },
   "ext_desc": {
-    "message": "a better onetab for chrome"
+    "message": "A better OneTab"
   },
   "menu_STORE_SELECTED_TABS": {
-    "message": "store selected tabs"
+    "message": "Store selected tabs"
   },
   "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
-    "message": "store all tabs in current window"
+    "message": "Store all tabs in current window"
   },
   "menu_SHOW_TAB_LIST": {
-    "message": "show tab list"
+    "message": "Show tab lists"
   },
   "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
-    "message": "store all tabs in all windows"
+    "message": "Store all tabs in all windows"
   },
   "menu_EXTRA": {
-    "message": "extra"
+    "message": "Extra"
   },
   "menu_STORE_LEFT_TABS": {
-    "message": "store left tabs"
+    "message": "Store left tabs"
   },
   "menu_STORE_RIGHT_TABS": {
-    "message": "store right tabs"
+    "message": "Store right tabs"
   },
   "menu_STORE_TWOSIDE_TABS": {
-    "message": "store unselected tabs"
+    "message": "Store unselected tabs"
   },
   "cmd_store_selected_tabs": {
     "message": "Store selected tabs"
@@ -78,10 +78,10 @@
     "message": "Auto pin new list"
   },
   "opt_desc_pageContext": {
-    "message": "Turn on the button of context menu in the page"
+    "message": "Enable context menu for page"
   },
   "opt_desc_allContext": {
-    "message": "Turn on the button of context menu on all elements"
+    "message": "Enable context menu for all elements"
   },
   "opt_desc_openTabListWhenNewTab": {
     "message": "Always open tab list when clicking on the icon if current tab is a new tab. (Doesn't work if behavior is set to \"popup simple list\""
@@ -96,7 +96,7 @@
     "message": "Use better onetab sync server (unlimited storage)"
   },
   "opt_desc_alertRemoveList": {
-    "message": "Alert before remove list"
+    "message": "Confirm to remove list"
   },
   "opt_desc_excludeIllegalURL": {
     "message": "Exclude illegal URL like about:* or chrome://*"
@@ -111,49 +111,49 @@
     "message": "When restore list open at the ending of tabs"
   },
   "opt_label_popup": {
-    "message": "popup simple list"
+    "message": "Popup simple list"
   },
   "opt_label_store_selected": {
-    "message": "store selected tabs"
+    "message": "Store selected tabs"
   },
   "opt_label_store_all": {
-    "message": "store all tabs in current window"
+    "message": "Store all tabs in current window"
   },
   "opt_label_show_list": {
-    "message": "show list"
+    "message": "Show list"
   },
   "opt_label_none": {
-    "message": "none"
+    "message": "None"
   },
   "opt_label_open_and_remove": {
-    "message": "open and remove"
+    "message": "Open and remove"
   },
   "opt_label_open": {
-    "message": "open"
+    "message": "Open"
   },
   "opt_label_restore": {
-    "message": "restore"
+    "message": "Restore"
   },
   "opt_label_restore_new_window": {
-    "message": "restore in new window"
+    "message": "Restore in new window"
   },
   "opt_label_left": {
-    "message": "left"
+    "message": "Left"
   },
   "opt_label_right": {
-    "message": "right"
+    "message": "Right"
   },
   "opt_label_title_and_url": {
-    "message": "title and url"
+    "message": "Title and URL"
   },
   "opt_label_title": {
-    "message": "title"
+    "message": "Title"
   },
   "opt_label_url": {
-    "message": "url"
+    "message": "URL"
   },
   "ui_nightmode": {
-    "message": "nightmode"
+    "message": "Night mode"
   },
   "ui_tab": {
     "message": "tabs"
@@ -162,22 +162,22 @@
     "message": "Created"
   },
   "ui_retitle_list": {
-    "message": "retitle list"
+    "message": "Retitle list"
   },
   "ui_restore_all": {
-    "message": "restore list"
+    "message": "Restore list"
   },
   "ui_restore_all_in_new_window": {
-    "message": "restore all in new window"
+    "message": "Restore all in new window"
   },
   "ui_remove_list": {
-    "message": "remove list"
+    "message": "Remove list"
   },
   "ui_pin": {
-    "message": "pin"
+    "message": "Pin"
   },
   "ui_unpin": {
-    "message": "unpin"
+    "message": "Unpin"
   },
   "ui_list": {
     "message": "list"
@@ -210,7 +210,7 @@
     "message": "GitHub"
   },
   "ui_tab_list": {
-    "message": "Tab List"
+    "message": "Tab Lists"
   },
   "ui_export": {
     "message": "Export"
@@ -219,37 +219,37 @@
     "message": "Import"
   },
   "ui_export_comp": {
-    "message": "Export (compatible with onetab)"
+    "message": "Export (compatible with OneTab)"
   },
   "ui_export_json": {
     "message": "Export to JSON"
   },
   "ui_import_comp": {
-    "message": "Import (compatible with onetab)"
+    "message": "Import (compatible with OneTab)"
   },
   "ui_import_json": {
     "message": "Import from JSON"
   },
   "ui_main_processing": {
-    "message": "processing..."
+    "message": "Processing..."
   },
-  "ui_main_error_occured": {
-    "message": "some errors occured"
+  "ui_main_error_occurred": {
+    "message": "Some errors occurred"
   },
-  "ui_main_successed": {
-    "message": "successed!"
+  "ui_main_succeeded": {
+    "message": "succeeded!"
   },
   "ui_opt_changes_saved": {
     "message": "Changes saved!"
   },
   "ui_title_pin_btn": {
-    "message": "pin list"
+    "message": "Pin list"
   },
   "ui_title_up_btn": {
-    "message": "move list up"
+    "message": "Move list up"
   },
   "ui_title_down_btn": {
-    "message": "move list down"
+    "message": "Move list down"
   },
   "ui_auth_with_google": {
     "message": "Authorize with Google account"
@@ -270,49 +270,49 @@
     "message": "There is a conflict when sync with server."
   },
   "ui_sync_lists_failed": {
-    "message": "sync tab lists failed"
+    "message": "Syncing tab lists failed"
   },
   "ui_sync_opts_failed": {
-    "message": "sync options failed"
+    "message": "Syncing options failed"
   },
   "ui_sync_remote_time": {
-    "message": "remote update time"
+    "message": "Remote update time"
   },
   "ui_sync_local_time": {
-    "message": "local update time"
+    "message": "Local update time"
   },
   "ui_sync_lists_item": {
-    "message": "remote lists items"
+    "message": "Remote lists items"
   },
   "ui_opts_diff": {
-    "message": "options difference"
+    "message": "Options difference"
   },
   "ui_sync_keep_local": {
-    "message": "keep local"
+    "message": "Keep local"
   },
   "ui_sync_keep_remote": {
-    "message": "keep remote"
+    "message": "Keep remote"
   },
   "ui_sync_keep_both": {
-    "message": "keep both"
+    "message": "Keep both"
   },
   "ui_sync_use_local": {
-    "message": "use local"
+    "message": "Use local"
   },
   "ui_sync_use_remote": {
-    "message": "use remote"
+    "message": "Use remote"
   },
   "ui_syncing": {
-    "message": "syncing"
+    "message": "Syncing"
   },
   "ui_conflict": {
-    "message": "conflict"
+    "message": "Conflict"
   },
   "ui_upload_error": {
-    "message": "sync error"
+    "message": "Sync error"
   },
   "ui_not_sync": {
-    "message": "not_sync_yet"
+    "message": "Not sync yet"
   },
   "ui_deauth": {
     "message": "Deauthorize"
@@ -324,10 +324,10 @@
     "message": "Has authorized with:"
   },
   "ui_not_login": {
-    "message": "not login"
+    "message": "Not login"
   },
   "ui_unauth": {
-    "message": "unauthorized"
+    "message": "Unauthorized"
   },
   "ui_beta_warn": {
     "message": "This is a feature in the test, if you find any problem please send me a feedback."
@@ -339,7 +339,7 @@
     "message": "Save list to google drive"
   },
   "ui_save_immediately": {
-    "message": "save immediately"
+    "message": "Save immediately"
   },
   "ui_no_list": {
     "message": "No list here"
