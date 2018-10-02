@@ -47,11 +47,12 @@ const getAllTabsInCurrentWindow = async () => {
 
 const groupTabsInCurrentWindow = async () => {
   const tabs = await getAllTabsInCurrentWindow()
-  const result = { left: [], right: [] }
+  const result = { left: [], right: [], inter: [], all: tabs }
   let currentIsRight = false
   for (const tab of tabs) {
     if (tab.highlighted) {
       currentIsRight = true
+      result.inter.push(tab)
     } else if (currentIsRight) result.right.push(tab)
     else result.left.push(tab)
   }
@@ -63,7 +64,7 @@ const isLegalURL = url => [
   'about:', 'chrome:', 'file:', 'wss:'
 ].every(prefix => !url.startsWith(prefix))
 
-const storeTabs = async tabs => {
+const storeTabs = async (tabs, listIndex) => {
   const appUrl = browser.runtime.getURL('')
   tabs = tabs.filter(i => !i.url.startsWith(appUrl))
   const opts = await storage.getOptions()
@@ -72,9 +73,13 @@ const storeTabs = async tabs => {
   if (tabs.length === 0) return
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
-  const newList = list.createNewTabList({tabs: pickTabs(tabs)})
-  if (opts.pinNewList) newList.pinned = true
-  lists.unshift(newList)
+  if (listIndex == null) {
+    const newList = list.createNewTabList({tabs: pickTabs(tabs)})
+    if (opts.pinNewList) newList.pinned = true
+    lists.unshift(newList)
+  } else {
+    tabs.forEach(tab => lists[listIndex].tabs.push(tab))
+  }
   await storage.setLists(lists)
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
@@ -88,21 +93,21 @@ const storeTabs = async tabs => {
   }
 }
 
-const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left)
-const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right)
-const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide)
+const storeLeftTabs = async listIndex => storeTabs((await groupTabsInCurrentWindow()).left, listIndex)
+const storeRightTabs = async listIndex => storeTabs((await groupTabsInCurrentWindow()).right, listIndex)
+const storeTwoSideTabs = async listIndex => storeTabs((await groupTabsInCurrentWindow()).twoSide, listIndex)
 
-const storeSelectedTabs = async () => {
+const storeSelectedTabs = async listIndex => {
   const tabs = await getSelectedTabs()
   const allTabs = await getAllTabsInCurrentWindow()
   if (tabs.length === allTabs.length) await openTabLists()
-  return storeTabs(tabs)
+  return storeTabs(tabs, listIndex)
 }
 
-const storeAllTabs = async () => {
+const storeAllTabs = async listIndex => {
   const tabs = await getAllTabsInCurrentWindow()
   await openTabLists()
-  return storeTabs(tabs)
+  return storeTabs(tabs, listIndex)
 }
 
 const storeAllTabInAllWindows = async () => {

@@ -104,6 +104,7 @@
             :href="opts.itemClickAction !== 'none' ? tab.url : null"
             :target="opts.itemClickAction !== 'none' ? '_blank' : null"
             @click="itemClicked(listIndex, tabIndex)"
+            @contextmenu="rightClicked(listIndex, tabIndex, $event)"
             class="list-item"
             :ref="'list-' + listIndex + '-tab'"
             :key="tabIndex">
@@ -140,6 +141,31 @@
   <h3 class="display-3 grey--text" v-text="__('ui_no_list')"></h3>
   <p class="display-2 grey--text text--lighten-1" v-html="__('ui_no_list_tip')"></p>
 </v-layout>
+
+<v-menu
+  v-model="showMenu"
+  :position-x="x"
+  :position-y="y"
+  min-width="200"
+  absolute
+  offset-y
+>
+  <v-list subheader dense>
+    <v-subheader>{{ __('ui_move_to') }}</v-subheader>
+    <v-list-tile
+      v-for="(list, listIndex) in lists"
+      :key="listIndex"
+      @click="moveTo(listIndex)"
+      v-if="list.title"
+      :color="list.color"
+    >
+      <v-list-tile-title>{{ list.title }}</v-list-tile-title>
+    </v-list-tile>
+    <v-list-tile @click="moveTo(-1)">
+      <v-list-tile-title>{{ __('ui_a_new_list') }}</v-list-tile-title>
+    </v-list-tile>
+  </v-list>
+</v-menu>
 </div>
 </template>
 <script>
@@ -148,6 +174,7 @@ import draggable from 'vuedraggable'
 
 import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
+import list from '@/common/list'
 import storage from '@/common/storage'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
@@ -166,7 +193,10 @@ export default {
       colorList,
       lists: [],
       processed: false, // if task to get list completed
-      choice: null,
+      choice: null, // choice in search result
+      showMenu: false, // item right click menu
+      x: NaN, y: NaN, // menu position
+      rightClickedItem: null,
     }
   },
   computed: {
@@ -324,6 +354,28 @@ export default {
       this.lists[listIndex].color = color
       this.$forceUpdate()
       this.storeLists()
+    },
+    rightClicked(listIndex, tabIndex, $event) {
+      $event.preventDefault()
+      this.showMenu = false
+      this.rightClickedItem = {listIndex, tabIndex}
+      this.x = $event.clientX
+      this.y = $event.clientY
+      this.$nextTick(() => {
+        this.showMenu = true
+      })
+    },
+    moveTo(targetListIndex) {
+      if (!this.rightClickedItem) return
+      const {listIndex, tabIndex} = this.rightClickedItem
+      this.rightClickedItem = null
+      const [tab] = this.lists[listIndex].tabs.splice(tabIndex, 1)
+      if (targetListIndex === -1) {
+        this.lists.unshift(list.createNewTabList({tabs: [tab]}))
+      } else {
+        this.lists[targetListIndex].tabs.push(tab)
+      }
+      this.tabMoved()
     },
   }
 }

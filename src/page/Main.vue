@@ -40,7 +40,7 @@
           </v-list-tile>
           <v-list-tile @click="showIEP">
             <v-list-tile-action>
-              <v-icon>fas fa-file-import</v-icon>
+              <v-icon>import_export</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               {{ __('ui_export_import') }}

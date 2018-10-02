@@ -1,3 +1,8 @@
+### v1.3.10 10/3/2018
+
+ - feat: allow store tabs into a specific list by clicking the items in context menu or a button in the simple list
+ - feat: right clicking an item in the list will show a menu allows moving the tab to another list
+
 ### v1.3.9 9/29/2018
 
  - feat: add an option to allow open tabs at the ending

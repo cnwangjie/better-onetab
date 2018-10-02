@@ -29,6 +29,12 @@
   "menu_STORE_TWOSIDE_TABS": {
     "message": "储存未选中的标签"
   },
+  "menu_STORE": {
+    "message": "储存"
+  },
+  "menu_STORE_TO_TITLED_LIST": {
+    "message": "储存至"
+  },
   "cmd_store_selected_tabs": {
     "message": "储存选中的标签"
   },
@@ -346,5 +352,11 @@
   },
   "ui_click_view_changelog": {
     "message": "点击查看详细更新日志"
+  },
+  "ui_move_to": {
+    "message": "移动至"
+  },
+  "ui_a_new_list": {
+    "message": "(一个新列表)"
   }
 }

@@ -29,6 +29,12 @@
   "menu_STORE_TWOSIDE_TABS": {
     "message": "store unselected tabs"
   },
+  "menu_STORE": {
+    "message": "store"
+  },
+  "menu_STORE_TO_TITLED_LIST": {
+    "message": "store into a titled list"
+  },
   "cmd_store_selected_tabs": {
     "message": "Store selected tabs"
   },
@@ -355,5 +361,11 @@
   },
   "ui_click_view_changelog": {
     "message": "click to view detail changelog"
+  },
+  "ui_move_to": {
+    "message": "Move to"
+  },
+  "ui_a_new_list": {
+    "message": "(a new list)"
   }
 }
