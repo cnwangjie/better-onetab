@@ -40,10 +40,10 @@ const updateBrowserAction = (action, tmp = false) => {
   const {label} = _.find(items, {value: action})
   console.log('action is: ', action, 'set title as: ', label)
   browser.browserAction.setTitle({title: label})
+  /* eslint-disable-next-line */
+  window.coverBrowserAction = () => {}
   if (action === 'popup') {
     browser.browserAction.setPopup({popup: 'index.html#/popup'})
-    /* eslint-disable-next-line */
-    window.coverBrowserAction = () => {}
   } else {
     browser.browserAction.setPopup({popup: ''})
     window.browswerActionClickedHandler = getBrowserActionHandler(action)
@@ -76,7 +76,6 @@ const dynamicDisableMenu = async () => {
   })
   browser.contextMenus.update('STORE.STORE_ALL_TABS_IN_ALL_WINDOWS', {
     enabled: windows.length > 1,
-    title: __('menu_STORE_ALL_TABS_IN_ALL_WINDOWS') + ` (${groupedTabs.all.length})`,
   })
   browser.contextMenus.update('STORE.STORE_ALL_TABS_IN_CURRENT_WINDOW', {
     title: __('menu_STORE_ALL_TABS_IN_CURRENT_WINDOW') + ` (${groupedTabs.all.length})`,
@@ -221,7 +220,7 @@ const init = async () => {
     if (msg.optionsChanged) {
       const changes = msg.optionsChanged
       console.log(changes)
-      Object.assign(opts, changes)
+      Object.assign(window.opts, changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       if (('pageContext' in changes) || ('allContext' in changes)) await setupContextMenus(changes)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
