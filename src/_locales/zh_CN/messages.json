@@ -116,6 +116,9 @@
   "opt_desc_openEnd": {
     "message": "恢复列表时标签页在末尾打开"
   },
+  "opt_desc_openTabListNoTab": {
+    "message": "当储存所有标签时打开标签列表"
+  },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },

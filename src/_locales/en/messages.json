@@ -116,6 +116,9 @@
   "opt_desc_openEnd": {
     "message": "When restore list open at the ending of tabs"
   },
+  "opt_desc_openTabListNoTab": {
+    "message": "Open the tab list when store all tabs"
+  },
   "opt_label_popup": {
     "message": "Popup simple list"
   },

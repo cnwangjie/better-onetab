@@ -106,13 +106,15 @@ const storeSelectedTabs = async listIndex => {
 
 const storeAllTabs = async listIndex => {
   const tabs = await getAllTabsInCurrentWindow()
-  await openTabLists()
+  const opts = await storage.getOptions()
+  if (opts.openTabListNoTab) await openTabLists()
   return storeTabs(tabs, listIndex)
 }
 
 const storeAllTabInAllWindows = async () => {
   const windows = await browser.windows.getAll()
-  await openTabLists()
+  const opts = await storage.getOptions()
+  if (opts.openTabListNoTab) await openTabLists()
   for (const window of windows) {
     const tabs = await getAllInWindow(window.id)
     await storeTabs(tabs)

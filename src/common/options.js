@@ -221,6 +221,14 @@ export const optionsList = [
     default: true,
     new: '1.3.9',
   },
+  {
+    cate: cate.BEHAVIOUR,
+    name: 'openTabListNoTab',
+    desc: __('opt_desc_openTabListNoTab'),
+    type: Boolean,
+    default: true,
+    new: '1.4.0',
+  },
 ]
 
 if (DEBUG) {
