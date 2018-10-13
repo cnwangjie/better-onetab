@@ -71,15 +71,19 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
     .then(async res => {
       if (res.status === 200) {
         const json = await res.json()
+        if (json.status === 'error') throw new Error(json.message)
         return json
       } else return res.text()
     })
     .catch(async err => {
       // remove expired token
-      await browser.storage.local.remove(tokenKey)
-      await browser.storage.local.remove('sync_info')
-      console.error(err)
-      throw new Error('Internal Server Error')
+      if (err.status === 401) {
+        await browser.storage.local.remove(tokenKey)
+        await browser.storage.local.remove('sync_info')
+      } else {
+        console.error(err)
+        throw new Error('Internal Server Error')
+      }
     })
 }
 

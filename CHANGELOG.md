@@ -1,3 +1,10 @@
+### v1.3.11 10/13/2018
+
+ - change: refine i18n strings
+ - fix: change of openTabListWhenNewTab take effect immediately
+ - feat: add an option to allow disable open list tab when store all tabs
+ - pref: clear login status only if token expired
+
 ### v1.3.10 10/3/2018
 
  - feat: allow store tabs into a specific list by clicking the items in context menu or a button in the simple list
