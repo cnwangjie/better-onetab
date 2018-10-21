@@ -3,10 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Vuetify from 'vuetify'
+import VueClipboard from 'vue-clipboard2'
+import colors from 'vuetify/es5/util/colors'
 
 Vue.config.productionTip = false
 Vue.config.devtools = true
-Vue.use(Vuetify)
+Vue.use(VueClipboard)
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.lightBlue,
+  }
+})
 
 const app = new Vue({
   el: '#app',

@@ -1,88 +1,8 @@
 <template>
 <v-app :dark="nightmode">
-  <v-toolbar :color="nightmode ? null : 'primary'" :fixed="opts.fixedToolbar">
-    <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
-    <v-spacer></v-spacer>
-
-    <v-tooltip left>
-      <v-btn slot="activator" icon dark :loading="syncing" @click="syncBtnClicked" :disabled="!hasToken">
-        <v-icon :style="conflict ? {color: 'red'} : {}">cloud_upload</v-icon>
-      </v-btn>
-      <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
-    </v-tooltip>
-    <v-toolbar-items>
-      <v-btn flat dark @click="nightmode = !nightmode">
-        {{ __('ui_nightmode') }}
-      </v-btn>
-      <v-btn flat dark exact :to="'/app/'">
-        {{ __('ui_tab_list') }}
-      </v-btn>
-      <v-menu offset-y>
-        <v-btn slot="activator" flat dark>
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile :to="'/app/options'">
-            <v-list-tile-action>
-              <v-icon>fas fa-cog</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              {{ __('ui_options') }}
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile :to="'/app/about'">
-            <v-list-tile-action>
-              <v-icon>fas fa-exclamation-circle</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              {{ __('ui_about') }}
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="showIEP">
-            <v-list-tile-action>
-              <v-icon>import_export</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              {{ __('ui_export_import') }}
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="openShortcutPage">
-            <v-list-tile-action>
-              <v-icon>fas fa-keyboard</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              {{ __('ui_keyboard_shortcuts') }}
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile href="https://github.com/cnwangjie/better-onetab/issues/new/choose">
-            <v-list-tile-action>
-              <v-icon>fas fa-bug</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              {{ __('ui_create_issue') }}
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile href="https://gitter.im/better-onetab/Lobby?utm_source=app">
-            <v-list-tile-action>
-              <v-icon>fab fa-gitter</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              Gitter
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile href="https://github.com/cnwangjie/better-onetab">
-            <v-list-tile-action>
-              <v-icon>fab fa-github</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              {{ __('ui_github') }}
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
-    </v-toolbar-items>
-  </v-toolbar>
-  <v-content :style="opts.fixedToolbar ? {marginTop: '64px'} : null">
+  <drawer v-model="drawer"></drawer>
+  <toolbar></toolbar>
+  <v-content>
     <v-container>
       <keep-alive>
         <router-view></router-view>
@@ -96,94 +16,48 @@
     </span>
     <v-spacer></v-spacer>
   </v-footer>
-  <import-export-panel ref="IEP"></import-export-panel>
+  <snackbar></snackbar>
 </v-app>
 </template>
 <script>
 import _ from 'lodash'
 import __ from '@/common/i18n'
 import browser from 'webextension-polyfill'
-import dynamicTime from '@/component/DynamicTime'
-import importExportPanel from '@/component/ImportExportPanel'
+
+import drawer from '@/component/main/Drawer'
+import toolbar from '@/component/main/Toolbar'
+import snackbar from '@/component/main/Snackbar'
+
 import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default {
   data() {
     return {
-      nightmode: false,
       syncing: false,
       lastUpdated: NaN,
       uploadError: null,
-      fixedToolbar: false,
     }
   },
   components: {
-    dynamicTime,
-    importExportPanel,
+    drawer,
+    toolbar,
+    snackbar,
   },
   computed: {
-    ...mapState(['opts', 'hasToken', 'conflict']),
-    tooltip() {
-      return !this.hasToken ? __('ui_not_login') // eslint-disable-line
-        : this.syncing ? __('ui_syncing')
-        : this.conflict ? __('ui_conflict')
-        : this.uploadError ? __('ui_upload_error')
-        : isFinite(this.lastUpdated) ? null
-        : __('ui_not_sync')
-    }
-  },
-  watch: {
-    async nightmode(newValue) {
-      const window = await browser.runtime.getBackgroundPage()
-      window.nightmode = newValue
-      if (PRODUCTION) ga('send', 'event', 'Nightmode switch', newValue)
-    },
+    ...mapState(['drawer', 'nightmode']),
   },
   created() {
     this.init()
   },
   methods: {
     __,
-    ...mapActions(['loadOptions', 'checkToken', 'loadConflict']),
+    ...mapActions(['loadOptions', 'checkToken', 'loadConflict', 'loadNightmode']),
     ...mapMutations(['setConflict']),
     init() {
-      this.switchNightMode()
+      this.loadNightmode()
       this.checkToken()
       this.loadOptions()
       this.loadConflict()
-      chrome.runtime.onMessage.addListener(msg => {
-        console.log(msg)
-        if (msg.uploadImmediate || msg.forceDownload) {
-          this.syncing = true
-        } else if (msg.uploaded || msg.downloaded) {
-          this.syncing = false
-          const result = msg.uploaded || msg.downloaded
-          if (!_.isEmpty(result.conflict)) this.setConflict(result.conflict)
-          else if (!_.isEmpty(result.error)) this.uploadError = result.error // eslint-disable-line
-          else this.lastUpdated = Date.now()
-        }
-      })
-    },
-    syncBtnClicked() {
-      if (this.conflict) this.$router.push('/app/options/sync')
-      else {
-        browser.runtime.sendMessage({uploadImmediate: true})
-        this.syncing = true
-      }
-      if (PRODUCTION) {
-        if (this.conflict) ga('send', 'event', 'Sync btn clicked', 'conflict')
-        else ga('send', 'event', 'Sync btn clicked', 'upload')
-      }
-    },
-    async switchNightMode() {
-      const window = await browser.runtime.getBackgroundPage()
-      if ('nightmode' in window) this.nightmode = window.nightmode || false
-    },
-    openShortcutPage() {
-      chrome.tabs.create({url: 'chrome://extensions/shortcuts'})
-    },
-    showIEP() {
-      this.$refs.IEP.show = true
     },
   }
 }

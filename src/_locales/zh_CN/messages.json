@@ -233,6 +233,18 @@
   "ui_export_json": {
     "message": "导出至 JSON"
   },
+  "ui_save_as_file": {
+    "message": "保存为文件"
+  },
+  "ui_copy": {
+    "message": "复制"
+  },
+  "ui_copied": {
+    "message": "复制成功!"
+  },
+  "ui_import_from_file": {
+    "message": "导入文件"
+  },
   "ui_import_comp": {
     "message": "导入 (兼容 OneTab)"
   },
