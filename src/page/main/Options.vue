@@ -35,6 +35,7 @@
                       ></v-select>
                       <v-switch
                         class="d-inline-flex"
+                        color="primary"
                         v-if="option.type === Boolean"
                         v-model="opts[option.name]"
                         @change="optionsChanged(option.name, $event)"

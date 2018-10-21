@@ -36,6 +36,7 @@
     class="tab-list"
     :key="listIndex"
     ref="list"
+    v-if="listIndex < 3"
   >
     <v-layout slot="header" row spacer>
       <v-flex no-wrap md7 lg4>
@@ -186,7 +187,8 @@ const colorList = [
   'indigo', 'blue', 'cyan', 'teal',
   'green', 'yellow', 'orange', 'brown',
 ]
-
+// TODO: UI performance
+// TODO: pageination
 export default {
   data() {
     return {

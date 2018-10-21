@@ -1,5 +1,7 @@
-import moment from 'moment'
 import __ from './i18n'
+import moment from 'moment'
+import browser from 'webextension-polyfill'
+
 moment.locale(__('@@ui_locale'))
 export const formatTime = time => {
   if (Date.now() - time < 3600E3) return moment(time).fromNow()
@@ -23,3 +25,13 @@ export const one = fn => {
     return re
   }
 }
+export const checkPermission = async permission => {
+  if (await browser.permissions.contains({permissions: [permission]})) return true
+  return browser.permissions.request({permissions: [permission]})
+}
+export const readFile = file => new Promise((resolve, reject) => {
+  const reader = new FileReader()
+  reader.onloadend = event => resolve(event.target.result)
+  reader.onerror = reject
+  reader.readAsText(file)
+})

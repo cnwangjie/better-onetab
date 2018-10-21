@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import DetailList from '@/page/DetailList'
-import Options from '@/page/Options'
-import SyncInfo from '@/page/SyncInfo'
-import About from '@/page/About'
-import Main from '@/page/Main'
-import Popup from '@/page/Popup'
+const Popup = () => import(/* webpackChunkName: "popup" */ '@/page/Popup')
+const Main = () => import(/* webpackChunkName: "main" */ '@/page/Main')
+const SyncInfo = () => import(/* webpackChunkName: "main" */ '@/page/main/SyncInfo')
+const Options = () => import(/* webpackChunkName: "main" */ '@/page/main/Options')
+const About = () => import(/* webpackChunkName: "main" */ '@/page/main/About')
+const ImportExport = () => import(/* webpackChunkName: "main" */ '@/page/main/ImportExport')
+const DetailList = () => import(/* webpackChunkName: "main" */ '@/page/main/DetailList')
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ const router = new Router({
           path: 'about',
           component: About,
           name: 'about',
+        },
+        {
+          path: 'import-export',
+          component: ImportExport,
+          name: 'import-export',
         },
         {
           path: '*',

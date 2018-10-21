@@ -233,6 +233,18 @@
   "ui_export_json": {
     "message": "Export to JSON"
   },
+  "ui_save_as_file": {
+    "message": "Save as file"
+  },
+  "ui_copy": {
+    "message": "Copy"
+  },
+  "ui_copied": {
+    "message": "Copied!"
+  },
+  "ui_import_from_file": {
+    "message": "Import from file"
+  },
   "ui_import_comp": {
     "message": "Import (compatible with OneTab)"
   },
