@@ -18,7 +18,7 @@
     <v-divider class="my-1"></v-divider>
     <v-list-tile :to="'/app/options'">
       <v-list-tile-action>
-        <v-icon>fas fa-cog</v-icon>
+        <v-icon>settings</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         {{ __('ui_options') }}
@@ -26,7 +26,7 @@
     </v-list-tile>
     <v-list-tile :to="'/app/about'">
       <v-list-tile-action>
-        <v-icon>fas fa-exclamation-circle</v-icon>
+        <v-icon>info</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         {{ __('ui_about') }}
@@ -42,15 +42,18 @@
     </v-list-tile>
     <v-list-tile @click="openShortcutPage" :disabled="isFirefox">
       <v-list-tile-action>
-        <v-icon>fas fa-keyboard</v-icon>
+        <v-icon>keyboard</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         {{ __('ui_keyboard_shortcuts') }}
       </v-list-tile-content>
+      <v-list-tile-action>
+        <v-icon small>open_in_new</v-icon>
+      </v-list-tile-action>
     </v-list-tile>
     <v-list-tile href="https://github.com/cnwangjie/better-onetab/issues/new/choose">
       <v-list-tile-action>
-        <v-icon>fas fa-bug</v-icon>
+        <v-icon>feedback</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         {{ __('ui_create_issue') }}
@@ -78,7 +81,6 @@
 <script>
 import __ from '@/common/i18n'
 import browser from 'webextension-polyfill'
-import {mapMutations} from 'vuex'
 
 export default {
   data() {
@@ -94,13 +96,12 @@ export default {
   },
   methods: {
     __,
-    ...mapMutations(['showSnackbar']),
     async init() {
       try {
         const {name} = await browser.runtime.getBrowserInfo()
         if (name === 'Firefox') this.isFirefox = true
-      } finally {
-
+      } catch (e) {
+        // ignored
       }
     },
     async openShortcutPage() {

@@ -6,6 +6,7 @@ const SyncInfo = () => import(/* webpackChunkName: "main" */ '@/page/main/SyncIn
 const Options = () => import(/* webpackChunkName: "main" */ '@/page/main/Options')
 const About = () => import(/* webpackChunkName: "main" */ '@/page/main/About')
 const ImportExport = () => import(/* webpackChunkName: "main" */ '@/page/main/ImportExport')
+const Search = () => import(/* webpackChunkName: "main" */ '@/page/main/Search')
 const DetailList = () => import(/* webpackChunkName: "main" */ '@/page/main/DetailList')
 
 Vue.use(Router)
@@ -42,9 +43,18 @@ const router = new Router({
           name: 'import-export',
         },
         {
-          path: '*',
+          path: 'search',
+          component: Search,
+          name: 'search',
+        },
+        {
+          path: 'list',
           component: DetailList,
           name: 'detailList',
+        },
+        {
+          path: '*',
+          redirect: { name: 'detailList' }
         },
       ],
     },

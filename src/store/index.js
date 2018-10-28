@@ -10,12 +10,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    opts: options.getDefaultOptions(),
-    hasToken: false,
-    conflict: null,
-    drawer: false,
-    nightmode: false,
-    snackbar: { status: false, msg: '' },
+    opts: options.getDefaultOptions(),    // all options
+    hasToken: false,                      // whether token exists
+    conflict: null,                       // conflict object
+    drawer: false,                        // drawer status
+    nightmode: false,                     // nightmode status
+    snackbar: { status: false, msg: '' }, // snackbar status
+    listColors: [],                       // be used colors of lists
   },
   mutations: {
     setOption(state, payload) {
@@ -29,8 +30,8 @@ export default new Vuex.Store({
     setConflict(state, payload) {
       state.conflict = _.isEmpty(payload) ? null : payload
     },
-    switchDrawer(state) {
-      state.drawer = !state.drawer
+    setDrawer(state, drawer) {
+      state.drawer = drawer
     },
     setNightmode(state, payload) {
       state.nightmode = payload
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     showSnackbar(state, message) {
       state.snackbar.msg = message
       state.snackbar.status = true
+    },
+    setListColors(state, colors) {
+      state.listColors = colors
     },
   },
   actions: {
@@ -51,6 +55,15 @@ export default new Vuex.Store({
       const {conflict} = await browser.storage.local.get('conflict')
       commit('setConflict', conflict)
     },
+    async loadDrawer({commit}) {
+      const window = await browser.runtime.getBackgroundPage()
+      window.drawer = _.defaultTo(window.drawer, true)
+      commit('setDrawer', window.drawer)
+    },
+    async switchDrawer({commit, state}) {
+      const window = await browser.runtime.getBackgroundPage()
+      commit('setDrawer', window.drawer = !state.drawer)
+    },
     async loadNightmode({commit, state}) {
       const window = await browser.runtime.getBackgroundPage()
       window.nightmode = _.defaultTo(window.nightmode, state.opts.defaultNightMode)
@@ -59,6 +72,14 @@ export default new Vuex.Store({
     async switchNightmode({commit, state}) {
       const window = await browser.runtime.getBackgroundPage()
       commit('setNightmode', window.nightmode = !state.nightmode)
+    },
+    async loadListColors({commit}) {
+      const lists = await storage.getLists()
+      const colors = new Set()
+      lists.forEach(list => {
+        colors.add(list.color || '')
+      })
+      commit('setListColors', Array.from(colors))
     },
   }
 })

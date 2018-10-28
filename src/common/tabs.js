@@ -2,11 +2,10 @@ import storage from './storage'
 import list from './list'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
-
-const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned']
+import {PICKED_TAB_PROPS} from './constants'
 
 const pickTabs = tabs => tabs.map(tab => {
-  const pickedTab = _.pick(tab, pickedTabAttrs)
+  const pickedTab = _.pick(tab, PICKED_TAB_PROPS)
   pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted
   return pickedTab
 })

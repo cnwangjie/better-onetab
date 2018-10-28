@@ -1,6 +1,6 @@
 <template>
 <v-app :dark="nightmode">
-  <drawer v-model="drawer"></drawer>
+  <drawer :value="drawer"></drawer>
   <toolbar></toolbar>
   <v-content>
     <v-container>
@@ -20,9 +20,7 @@
 </v-app>
 </template>
 <script>
-import _ from 'lodash'
 import __ from '@/common/i18n'
-import browser from 'webextension-polyfill'
 
 import drawer from '@/component/main/Drawer'
 import toolbar from '@/component/main/Toolbar'
@@ -51,11 +49,12 @@ export default {
   },
   methods: {
     __,
-    ...mapActions(['loadOptions', 'checkToken', 'loadConflict', 'loadNightmode']),
+    ...mapActions(['loadOptions', 'checkToken', 'loadConflict', 'loadNightmode', 'loadDrawer', 'switchDrawer']),
     ...mapMutations(['setConflict']),
     init() {
       this.loadNightmode()
       this.checkToken()
+      this.loadDrawer()
       this.loadOptions()
       this.loadConflict()
     },
