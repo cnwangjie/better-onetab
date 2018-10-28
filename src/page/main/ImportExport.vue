@@ -34,6 +34,13 @@
           <v-btn @click="exp(false)">{{ __('ui_export_json') }}</v-btn>
           <v-btn @click="copy" :disabled="exportData.length === 0">{{ __('ui_copy') }}</v-btn>
           <v-btn @click="save" :disabled="!exportType">{{ __('ui_save_as_file') }}</v-btn>
+          <v-btn
+            color="success" @click="saveToGdrive"
+            :loading="saving"
+          >
+            {{ __('ui_save_to_gdrive') }}
+            <v-icon drak right>fab fa-google-drive</v-icon>
+          </v-btn>
           <v-textarea
             auto-grow
             v-model="exportData"
@@ -49,6 +56,7 @@
 import __ from '@/common/i18n'
 import exchange from '@/common/exchange'
 import {readFile} from '@/common/utils'
+import gdrive from '@/common/service/gdrive'
 import {mapMutations} from 'vuex'
 
 export default {
@@ -59,6 +67,7 @@ export default {
       exportType: null,
       processing: false,
       file: null,
+      saving: false,
     }
   },
   methods: {
@@ -118,6 +127,19 @@ export default {
         this.showSnackbar(__('ui_main_error_occurred'))
       } finally {
         this.processing = false
+      }
+    },
+    async saveToGdrive() {
+      this.saving = true
+      try {
+        await gdrive.saveCurrentTabLists()
+        this.showSnackbar(__('ui_main_succeeded'))
+      } catch (e) {
+        console.error(e)
+        this.showSnackbar(__('ui_main_error_occurred'))
+        gdrive.clearToken()
+      } finally {
+        this.saving = false
       }
     },
   }

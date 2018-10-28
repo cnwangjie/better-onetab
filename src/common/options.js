@@ -95,6 +95,7 @@ export const optionsList = [
         label: __('opt_label_right'),
       },
     ],
+    deprecated: '1.4',
   },
   {
     cate: cate.APPEARANCE,
@@ -137,6 +138,7 @@ export const optionsList = [
     desc: __('opt_desc_fixedToolbar'),
     type: Boolean,
     default: false,
+    deprecated: '1.4',
   },
   {
     cate: cate.BEHAVIOUR,
@@ -212,6 +214,7 @@ export const optionsList = [
     type: Boolean,
     default: true,
     new: '1.3.7',
+    deprecated: '1.4',
   },
   {
     cate: cate.BEHAVIOUR,
@@ -229,13 +232,38 @@ export const optionsList = [
     default: true,
     new: '1.4.0',
   },
+  {
+    cate: cate.APPEARANCE,
+    name: 'listsPerPage',
+    desc: __('opt_desc_listsPerPage'),
+    type: String,
+    default: 10,
+    items: [
+      {
+        value: 5,
+        label: 5,
+      },
+      {
+        value: 10,
+        label: 10,
+      },
+      {
+        value: 15,
+        label: 15,
+      },
+    ],
+    new: '1.4.0',
+  },
 ]
 
+const availableOptionsList = optionsList.filter(i => !i.deprecated)
+
 if (DEBUG) {
-  console.debug('current options number', optionsList.length)
-  window.printOptionsMap = () => console.debug(optionsList.map(i => i.name + ': ' + i.type.name + ',').join('\n'))
+  console.debug('current options number', availableOptionsList.length)
+  window.printOptionsMap = () => console.debug(availableOptionsList.map(i => i.name + ': ' + i.type.name + ',').join('\n'))
 }
 
-const getDefaultOptions = () => _.mapValues(_.keyBy(optionsList, 'name'), i => i.default)
+
+const getDefaultOptions = () => _.mapValues(_.keyBy(availableOptionsList, 'name'), i => i.default)
 
 export default {getDefaultOptions, optionsList}

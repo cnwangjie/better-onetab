@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import list from '@/common/list'
 import browser from 'webextension-polyfill'
 import boss from '@/common/service/boss'
 
@@ -18,7 +19,7 @@ const getLists = () => get('lists')
 
 const setLists = async lists => {
   if (!Array.isArray(lists)) throw new TypeError(lists)
-  const handledLists = lists.filter(i => Array.isArray(i.tabs))
+  const handledLists = lists.filter(i => Array.isArray(i.tabs)).map(list.normalize)
   const {opts} = await get('opts')
   if (opts && opts.removeDuplicate) {
     handledLists.forEach(list => {

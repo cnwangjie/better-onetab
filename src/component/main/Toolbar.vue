@@ -3,6 +3,8 @@
   <v-toolbar-side-icon dark @click="switchDrawer"></v-toolbar-side-icon>
   <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
   <v-spacer></v-spacer>
+  <search-form></search-form>
+  <v-spacer></v-spacer>
 
   <v-tooltip left>
     <v-btn slot="activator" icon dark :loading="syncing" :disabled="!hasToken">
@@ -10,21 +12,20 @@
     </v-btn>
     <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
   </v-tooltip>
-  <v-toolbar-items>
-    <v-btn flat dark @click="switchNightmode">
-      {{ __('ui_nightmode') }}
+  <v-tooltip left>
+    <v-btn slot="activator" icon dark @click="switchNightmode">
+      <v-icon>{{ nightmode ? 'brightness_5' : 'brightness_4' }}</v-icon>
     </v-btn>
-    <v-btn flat dark exact :to="'/app/list'">
-      {{ __('ui_tab_list') }}
-    </v-btn>
-  </v-toolbar-items>
+    <span>{{ __('ui_nightmode') }}</span>
+  </v-tooltip>
 </v-toolbar>
 </template>
 <script>
 import _ from 'lodash'
 import __ from '@/common/i18n'
+import searchForm from './SearchForm'
 import dynamicTime from '@/component/DynamicTime'
-import {mapState, mapMutations, mapActions} from 'vuex'
+import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default {
   data() {
@@ -34,6 +35,7 @@ export default {
     }
   },
   components: {
+    searchForm,
     dynamicTime,
   },
   computed: {
@@ -52,9 +54,10 @@ export default {
   },
   methods: {
     __,
-    ...mapMutations(['switchDrawer']),
-    ...mapActions(['switchNightmode']),
+    ...mapActions(['switchNightmode', 'switchDrawer']),
+    ...mapMutations(['setConflict']),
     init() {
+      window.app = this
       chrome.runtime.onMessage.addListener(msg => {
         console.log(msg)
         if (msg.uploadImmediate || msg.forceDownload) {

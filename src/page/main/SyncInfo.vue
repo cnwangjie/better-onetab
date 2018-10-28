@@ -118,48 +118,6 @@
             </div>
           </div>
 
-          <v-divider></v-divider>
-
-          <v-list>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ __('ui_save_to_gdrive') }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn
-                  depressed small color="success" @click="saveToGdrive"
-                  :loading="saving">
-                  {{ __('ui_save_immediately') }}
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-
-            <!-- <v-list-tile>
-              <v-list-tile-content>
-                <v-layout wrap style="width:100%">
-                  <v-flex xs8>
-                    <v-subheader>
-                      Timed upload
-                    </v-subheader>
-                  </v-flex>
-                  <v-flex xs4>
-                    <v-select
-                      class="select-amend"
-                      :items="uploadTimerItems"
-                      v-model="uploadTimerSelected"
-                      label=""
-                      item-text=""
-                      item-value="value"
-                      @change=""
-                    ></v-select>
-                  </v-flex>
-                </v-layout>
-              </v-list-tile-content>
-            </v-list-tile> -->
-          </v-list>
-
         </v-card-text>
       </v-card>
     </v-flex>
@@ -170,9 +128,8 @@
 <script>
 import _ from 'lodash'
 import __ from '@/common/i18n'
-import {formatTime, one} from '@/common/utils'
+import {formatTime} from '@/common/utils'
 import boss from '@/common/service/boss'
-import gdrive from '@/common/service/gdrive'
 import browser from 'webextension-polyfill'
 import {mapState, mapActions, mapMutations} from 'vuex'
 
@@ -266,20 +223,6 @@ export default {
       this.setToken(false)
       this.bossinfo = {}
     },
-    saveToGdrive: one(async function saveToGdrive() {
-      /* eslint no-invalid-this: 0 */
-      this.saving = true
-      try {
-        await gdrive.saveCurrentTabLists()
-        this.alert = { status: 'success', msg: 'success' }
-      } catch (e) {
-        console.error(e)
-        this.alert = { status: 'error', msg: e.result.error.message }
-        gdrive.clearToken()
-      } finally {
-        this.saving = false
-      }
-    }),
   }
 }
 </script>
