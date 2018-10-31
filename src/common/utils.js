@@ -35,3 +35,7 @@ export const readFile = file => new Promise((resolve, reject) => {
   reader.onerror = reject
   reader.readAsText(file)
 })
+export const genObjectId = () => {
+  const timestamp = (new Date().getTime() / 1000 | 0).toString(16)
+  return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16)).toLowerCase()
+}

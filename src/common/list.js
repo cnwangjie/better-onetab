@@ -3,8 +3,10 @@ import {
   PICKED_TAB_PROPS,
   PICKED_LIST_RPOPS,
 } from './constants'
+import {genObjectId} from './utils'
 
 const createNewTabList = ({tabs, title, time}) => ({
+  _id: genObjectId(),
   tabs: tabs || [],
   title: title || '',
   time: time || Date.now(),

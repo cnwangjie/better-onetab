@@ -266,4 +266,4 @@ if (DEBUG) {
 
 const getDefaultOptions = () => _.mapValues(_.keyBy(availableOptionsList, 'name'), i => i.default)
 
-export default {getDefaultOptions, optionsList}
+export default {getDefaultOptions, optionsList: availableOptionsList}
