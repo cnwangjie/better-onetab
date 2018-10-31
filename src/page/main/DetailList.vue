@@ -114,14 +114,13 @@
             v-if="tabIndex < 10 || list.showAll"
           >
             <div class="drag-indicator" @click.stop.prevent><i></i></div>
-            <v-list-tile-action v-if="opts.removeItemBtnPos === 'left'">
+            <v-list-tile-action>
               <v-checkbox
                 hide-details
                 class="checkbox"
                 v-model="tab.selected"
                 @click.prevent.stop.self="$set(tab, 'selected', !tab.selected)"
               ></v-checkbox>
-              <!-- <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon> -->
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -139,9 +138,6 @@
                 {{ tab.url }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
-            <!-- <v-list-tile-action v-if="opts.removeItemBtnPos === 'right'">
-              <v-icon class="clear-btn" color="red" @click.stop.prevent="removeTab(listIndex, tabIndex)">clear</v-icon>
-            </v-list-tile-action> -->
           </v-list-tile>
           <v-layout v-if="list.tabs.length > 9 && !list.showAll">
             <v-flex class="text-xs-center">

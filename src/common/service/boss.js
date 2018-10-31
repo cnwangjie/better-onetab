@@ -1,85 +1,70 @@
 import _ from 'lodash'
+import {
+  TOKEN_KEY,
+  AUTH_HEADER,
+} from '../constants'
 import browser from 'webextension-polyfill'
 
 const apiUrl = 'https://boss.cnwangjie.com'
-const tokenKey = 'boss_token'
-const tokenHeader = 'auth'
 
-const hasToken = async () => tokenKey in await browser.storage.local.get(tokenKey)
+const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
 
-const getToken = async auth => {
-  const {[tokenKey]: existedToken, sync_info} = await browser.storage.local.get([tokenKey, 'sync_info'])
-  if (auth === 'google' && sync_info && sync_info.googleId && existedToken
-    || auth === 'github' && sync_info && sync_info.githubId && existedToken
-    || !auth && existedToken) return existedToken
-  else if (!['google', 'github'].includes(auth)) throw new Error('[boss]: unsupported auth')
-  console.log('[boss]: getting token')
-  const lend = browser.identity.getRedirectURL()
-  const authUrl = apiUrl + `/auth/${auth}`
-  const uid = sync_info ? sync_info.uid : null
-  const uidPart = uid ? `;uid:${uid}` : ''
-  const url = authUrl + '?state=ext:' + encodeURIComponent(lend) + uidPart
-  console.log('[boss]: url', url)
-  const to = await new Promise((resolve, reject) => {
-    chrome.identity.launchWebAuthFlow({
-      url,
-      interactive: true,
-    }, to => {
-      const err = chrome.runtime.lastError
-      if (err) reject(err)
-      resolve(to)
-    })
-  })
-  const [, token] = /#(.*)#/.exec(to)
-  console.log('[boss]: got token', token)
-  await browser.storage.local.set({[tokenKey]: token})
-  return token
+const getToken = async () => {
+  const {token: localToken} = await browser.storage.local.get(TOKEN_KEY)
+  if (localToken) return localToken
+  const {token: remoteToken} = await browser.storage.sync.get(TOKEN_KEY)
+  if (remoteToken) return remoteToken
+}
+
+const setToken = async token => {
+  await browser.storage.local.set({[TOKEN_KEY]: token})
+  await browser.storage.sync.set({[TOKEN_KEY]: token})
+}
+
+const removeToken = async () => {
+  await browser.storage.local.remove(TOKEN_KEY)
+  await browser.storage.sync.remove(TOKEN_KEY)
 }
 
 const fetchData = async (uri = '', method = 'GET', data = {}) => {
   const headers = new Headers()
   const token = await getToken()
-  if (token) headers.append(tokenHeader, token)
-
+  if (token) headers.append(AUTH_HEADER, token)
   const option = {
     headers,
     method,
     mode: 'cors',
   }
 
-  const requestBody = Object.keys(data).map(key => {
-    if (typeof data[key] === 'object') data[key] = JSON.stringify(data[key])
-    return key + '=' + encodeURIComponent(data[key])
-  }).filter(i => i).join('&')
-
-  if (['POST', 'PUT'].includes(method)) {
-    headers.append('Content-Type', 'application/x-www-form-urlencoded')
-    option.body = requestBody
+  if (['POST', 'PUT', 'PATCH'].includes(method)) {
+    headers.append('Content-Type', 'application/json')
+    option.body = JSON.stringify(data)
   } else {
-    uri += '?' + requestBody
+    uri += '?' + Object.keys(data).map(key => {
+      if (typeof data[key] === 'object') data[key] = JSON.stringify(data[key])
+      return key + '=' + encodeURIComponent(data[key])
+    }).filter(i => i).join('&')
   }
 
   return fetch(apiUrl + uri, option)
     .then(async res => {
       // use new token
-      if (res.headers.has(tokenHeader)) {
-        console.debug('[boss]: got new token', res.headers.get(tokenHeader))
-        await browser.storage.local.set({[tokenKey]: res.headers.get(tokenHeader)})
+      if (res.headers.has(AUTH_HEADER)) {
+        const newToken = res.headers.get(AUTH_HEADER)
+        console.debug('[boss]: got new token', newToken)
+        await setToken(newToken)
       }
       return res
     })
-    .then(async res => {
-      if (res.status === 200) {
-        const json = await res.json()
-        if (json.status === 'error') throw new Error(json.message)
-        return json
-      } else return res.text()
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 'error') throw new Error(res.message)
+      return res
     })
     .catch(async err => {
       // remove expired token
       if (err.status === 401) {
-        await browser.storage.local.remove(tokenKey)
-        await browser.storage.local.remove('sync_info')
+        await removeToken()
       } else {
         console.error(err)
         throw new Error('Internal Server Error')
@@ -87,159 +72,77 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
     })
 }
 
-const getInfo = () => fetchData('/api/info')
+const getInfo = () => fetchData('/api/info').then(info => {
+  info.optsUpdatedAt = Date.parse(info.optsUpdatedAt) || 0
+  info.listsUpdatedAt = Date.parse(info.listsUpdatedAt) || 0
+  return info
+})
 const getLists = () => fetchData('/api/lists')
-const setLists = lists => fetchData('/api/lists', 'PUT', {lists})
 const getOpts = () => fetchData('/api/opts')
-const setOpts = opts => fetchData('/api/opts', 'PUT', {opts})
+const setOpts = opts => fetchData('/api/v2/opts', 'PUT', {opts})
+const changeListBulk = changes => fetchData('/api/v2/lists/bulk', 'POST', {changes})
 
-const forceDownloadRemoteImmediate = async () => {
-  if (!await hasToken()) return
-  const {conflict} = await browser.storage.local.get('conflict')
-  if (conflict) return browser.runtime.sendMessage({downloaded: {conflict}})
+const uploadOperations = async () => {
+  const {ops} = await browser.storage.local.get('ops')
+  if (!ops) return
+  const time = Date.now()
+  const changes = ops.sort((a, b) => a.time - b.time).map(op => ([op.method, ...op.args]))
+  const result = await changeListBulk(changes)
+  if (result.status === 'success') {
+    const {ops} = await browser.storage.local.get('ops')
+    await browser.storage.local.set({ops: ops.filter(op => op.time > time)})
+  }
+  result.listsUpdatedAt = Date.parse(result.listsUpdatedAt)
+  return result
+}
+
+const applyRemoteLists = async () => {
+  const lists = await getLists()
+  const {listsUpdatedAt} = browser.storage.local.set(lists)
+  return Date.parse(listsUpdatedAt)
+}
+
+const uploadOpts = async () => {
+  const {opts} = await browser.storage.local.get('opts')
+  const optsUpdatedAt = await setOpts(opts)
+  const result = await browser.storage.local.set(optsUpdatedAt)
+  result.optsUpdatedAt = Date.parse(result.optsUpdatedAt)
+  return result
+}
+
+const applyRemoteOpts = async () => {
+  const opts = await getOpts()
+  return browser.storage.local.set(opts)
+}
+
+const refresh = async () => {
+  const remoteInfo = await getInfo()
   const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
-  const {listsUpdatedAt, optsUpdatedAt} = _.defaults(localInfo, {listsUpdatedAt: 0, optsUpdatedAt: 0})
-  const info = await getInfo()
-  const works = []
-  if (Date.parse(info.listsUpdatedAt) > listsUpdatedAt) {
-    works.push(async () => {
-      const remoteLists = await getLists()
-      await browser.storage.local.set({lists: remoteLists, listsUpdatedAt: Date.parse(info.listsUpdatedAt)})
-    })
-  }
-  if (Date.parse(info.optsUpdatedAt) > optsUpdatedAt) {
-    works.push(async () => {
-      const remoteOpts = await getOpts()
-      await browser.storage.local.set({opts: remoteOpts, optsUpdatedAt: Date.parse(info.optsUpdatedAt)})
-    })
-  }
-  await Promise.all(works.map(i => i()))
-  browser.storage.sendMessage({downloaded: 'success'})
-}
+  localInfo.listsUpdatedAt = localInfo.listsUpdatedAt || 0
+  localInfo.optsUpdatedAt = localInfo.optsUpdatedAt || 0
 
-const forceUpdate = async ({lists, opts}) => {
-  const works = []
-  const conflict = (await browser.storage.local.get('conflict')).conflict || {}
-  if (lists) {
-    delete conflict.lists
-    works.push(async () => {
-      const {listsUpdatedAt} = await setLists(lists)
-      await browser.storage.local.set({listsUpdatedAt: Date.parse(listsUpdatedAt)})
-    })
+  // normal lists sync logic: apply local operations firstly
+  const {ops} = await browser.storage.local.get('ops')
+  if (ops && ops.length) {
+    const {listsUpdatedAt} = await uploadOperations()
+    await browser.storage.local.set({listsUpdatedAt})
   }
-  if (opts) {
-    delete conflict.opts
-    works.push(async () => {
-      const {optsUpdatedAt} = setOpts(opts)
-      await browser.storage.local.set({optsUpdatedAt: Date.parse(optsUpdatedAt)})
-    })
+  // apply remote lists if remote lists update time later than local
+  if (remoteInfo.listsUpdatedAt > localInfo.listsUpdatedAt) {
+    const listsUpdatedAt = await applyRemoteLists()
+    await browser.storage.local.set({listsUpdatedAt})
   }
-  await browser.storage.local.set({conflict})
-  try {
-    await Promise.all(works.map(i => i()))
-    browser.runtime.sendMessage({uploaded: {conflict}})
-  } catch (error) {
-    browser.runtime.sendMessage({uploaded: {error}})
-  }
-}
 
-const uploadImmediate = async () => {
-  const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
-  const {listsUpdatedAt, optsUpdatedAt} = _.defaults(localInfo, {listsUpdatedAt: 0, optsUpdatedAt: 0})
-  const info = await getInfo()
-  const todo = {}
-  const conflict = (await browser.storage.local.get('conflict')).conflict || {}
-  if (Date.parse(info.listsUpdatedAt) === listsUpdatedAt) {
-    const {lists} = await browser.storage.local.get('lists')
-    todo.lists = lists
-    delete conflict.lists
-  } else {
-    const lists = await getLists()
-    conflict.lists = {
-      local: {time: listsUpdatedAt},
-      remote: {time: Date.parse(info.listsUpdatedAt), lists}
-    }
+  if (localInfo.optsUpdatedAt > remoteInfo.optsUpdatedAt) {
+    const {optsUpdatedAt} = await uploadOpts()
+    await browser.storage.local.set({optsUpdatedAt})
+  } else if (localInfo.optsUpdatedAt < remoteInfo.optsUpdatedAt) {
+    await applyRemoteOpts()
+    await browser.storage.local.set({optsUpdatedAt: remoteInfo.optsUpdatedAt})
   }
-  if (Date.parse(info.optsUpdatedAt) === optsUpdatedAt) {
-    const {opts} = await browser.storage.local.get('opts')
-    todo.opts = opts
-    delete conflict.opts
-  } else {
-    const opts = await getOpts()
-    const {opts: localOpts} = await browser.storage.local.get('opts')
-    if (Object.keys(localOpts).some(key => opts[key] !== localOpts[key])) {
-      const diff = _.pickBy(opts, (v, k) => (k in localOpts) && v !== localOpts[k])
-      if (_.isEmpty(diff)) {
-        todo.opts = localOpts
-        delete conflict.opts
-      } else {
-        conflict.opts = {
-          local: {time: optsUpdatedAt},
-          remote: {time: Date.parse(info.optsUpdatedAt), opts: diff}
-        }
-      }
-    } else {
-      todo.opts = opts
-      delete conflict.opts
-    }
-  }
-  console.group('upload')
-  console.log('todo', todo)
-  console.log('conflict', conflict)
-  console.groupEnd('upload')
-  await forceUpdate(todo)
-  await browser.storage.local.set({conflict})
-  return conflict
-}
-/**
- * 同步规则：2018年08月22日22:36:51
- *  - 每次操作上传 debounce
- *    - 期望服务器上次更新时间与本地相同
- *    - 不相同的话显示同步冲突由用户选择是否上传
- *  - 定时下载
- *    - 信任远程，直接覆盖
- */
-const resolveConflict = async ({type, result}) => {
-  const {conflict} = await browser.storage.local.get('conflict')
-  if (type === 'lists') {
-    const {lists: local} = await browser.storage.local.get('lists')
-    const remote = conflict.lists.remote.lists
-    if (result === 'local') await forceUpdate({lists: local})
-    if (result === 'remote') {
-      await browser.storage.local.set({lists: remote})
-      await forceUpdate({lists: remote})
-    }
-    if (result === 'both') {
-      const both = _.concat(local, remote)
-      await browser.storage.local.set({lists: both})
-      await forceUpdate({lists: both})
-    }
-    delete conflict.lists
-  }
-  if (type === 'opts') {
-    const {opts: local} = await browser.storage.local.get('opts')
-    const remote = conflict.opts.remote.opts
-    if (result === 'local') await forceUpdate({opts: local})
-    if (result === 'remote') {
-      for (const key in local) {
-        if (key in remote) {
-          local[key] = remote[key]
-        }
-      }
-      await browser.storage.local.set({opts: local})
-      await forceUpdate({opts: local})
-    }
-    delete conflict.opts
-  }
-  return browser.storage.local.set({conflict})
 }
 
 export default {
-  getToken,
-  getInfo,
   hasToken,
-  forceUpdate,
-  uploadImmediate,
-  forceDownloadRemoteImmediate,
-  resolveConflict,
+  refresh,
 }
