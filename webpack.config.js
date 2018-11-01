@@ -1,4 +1,4 @@
- /* eslint-disable */
+/* eslint-disable */
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -17,6 +17,7 @@ module.exports = {
   entry: {
     index: ['./src/index.js'],
     background: './src/background.js',
+    content: './src/content.js',
   },
   output: {
     path: resolve('dist'),

@@ -98,7 +98,7 @@
         <draggable
           v-model="list.tabs"
           :options="draggableOptions"
-          @change="tabMoved"
+          @change="tabMoved([listIndex])"
         >
           <v-list-tile
             v-for="(tab, tabIndex) in list.tabs"
@@ -251,10 +251,11 @@ import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import list from '@/common/list'
 import storage from '@/common/storage'
+import listManager from '@/common/listManager'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
 import {mapState, mapMutations} from 'vuex'
-
+if (DEBUG) window.listManager = listManager
 const colorList = [
   '', 'red', 'pink', 'purple',
   'indigo', 'blue', 'cyan', 'teal',
@@ -328,26 +329,28 @@ export default {
       const index = this.lists.findIndex((list, i) => list.expand !== newStatus[i]) + (this.currentPage - 1) * this.opts.listsPerPage
       this.expandList(newStatus[index], index)
     },
-    tabMoved() {
-      this.lists = this.lists.filter(list => list.tabs.length !== 0)
-      this.storeLists()
+    tabMoved(changedLists) {
+      _.uniq(changedLists).sort((a, b) => b - a).forEach(listIndex => {
+        const list = this.lists[listIndex]
+        if (list.tabs.length === 0) this.removeList(listIndex)
+        else listManager.updateListById(list._id, _.pick(list, 'tabs'))
+      })
+      // this.storeLists()
+
     },
     async getLists() {
       const lists = await storage.getLists()
       if (lists) lists.filter(i => Array.isArray(i.tabs)).forEach(i => this.lists.push(i))
       this.updateExpandStatus()
-      this.processed = true
+      if (!this.processed) {
+        this.processed = true
+        if (this.$route.query.listIndex != null) this.jumpTo(this.$route.query)
+      }
     },
     init() {
       this.getLists()
-      // TODO: load new list from message
-      // chrome.storage.onChanged.addListener(changes => {
-      //   console.debug(changes)
-      //   if (changes.lists) {
-      //     const newLists = changes.lists.newValue
-      //     this.lists = newLists.filter(i => Array.isArray(i.tabs))
-      //   }
-      // })
+      listManager.init()
+      listManager.receiveBackgroundModified(this.lists)
       document.addEventListener('click', () => {
         if (!this.currentHighlightItem) return
         this.currentHighlightItem.$el.classList.remove('elevation-20')
@@ -370,12 +373,15 @@ export default {
         [${list.tabs.length}] ${list.title || __('ui_untitled')}
         ${__('ui_created')} ${formatTime(list.time)}`)) return
       this.lists.splice(listIndex, 1)
-      this.storeLists()
+      listManager.removeListById(list._id)
+      // this.storeLists()
     },
     removeTab(listIndex, tabIndex) {
-      this.lists[listIndex].tabs.splice(tabIndex, 1)
+      const list = this.lists[listIndex]
+      list.tabs.splice(tabIndex, 1)
       if (this.lists[listIndex].tabs.length === 0) this.removeList(listIndex)
-      this.storeLists()
+      listManager.updateListById(this.lists[listIndex]._id, _.pick(list, 'tabs'))
+      // this.storeLists()
     },
     openTab(listIndex, tabIndex) {
       tabs.openTab(this.lists[listIndex].tabs[tabIndex])
@@ -390,8 +396,10 @@ export default {
       this.$set(this.lists[listIndex], 'titleEditing', true)
     },
     saveTitle(listIndex) {
-      this.$set(this.lists[listIndex], 'titleEditing', false)
-      this.storeLists()
+      const list = this.lists[listIndex]
+      this.$set(list, 'titleEditing', false)
+      // this.storeLists()
+      listManager.updateListById(list._id, _.pick(list, 'title'))
     },
     getDomain(url) {
       try {
@@ -401,13 +409,17 @@ export default {
       }
     },
     pinList(listIndex, pin = true) {
-      this.lists[listIndex].pinned = pin
-      this.storeLists()
+      const list = this.lists[listIndex]
+      list.pinned = pin
+      // this.storeLists()
+      listManager.updateListById(list._id, _.pick(list, 'pinned'))
     },
     swapListItem(a, b) {
       [this.lists[a], this.lists[b]] = [this.lists[b], this.lists[a]]
-      this.storeLists()
+      // this.storeLists()
       this.$forceUpdate()
+      const list = this.lists[a]
+      listManager.changeListOrderRelatively(list._id, b - a)
     },
     moveListUp(listIndex) {
       if (listIndex === 0) return
@@ -418,14 +430,18 @@ export default {
       this.swapListItem(listIndex, listIndex + 1)
     },
     expandList(expand, listIndex) {
-      if (this.lists[listIndex].expand === expand) return
-      this.lists[listIndex].expand = expand
-      this.storeLists()
+      const list = this.lists[listIndex]
+      if (list.expand === expand) return
+      list.expand = expand
+      // this.storeLists()
+      listManager.updateListById(list._id, _.pick(list, 'expand'))
     },
     changeColor(listIndex, color) {
-      this.lists[listIndex].color = color
-      this.$forceUpdate()
-      this.storeLists()
+      const list = this.lists[listIndex]
+      this.$set(list, 'color', color)
+      list.color = color
+      // this.storeLists()
+      listManager.updateListById(list._id, _.pick(list, 'color'))
     },
     rightClicked(listIndex, tabIndex, $event) {
       $event.preventDefault()
@@ -440,7 +456,7 @@ export default {
     },
     getSelectedItems() {
       if (this.rightClickedItem) return [this.rightClickedItem]
-      else if (this.multiOpBtnClickedListIndex) {
+      else if (isFinite(this.multiOpBtnClickedListIndex)) {
         const listIndex = this.multiOpBtnClickedListIndex
         const list = this.lists[listIndex]
         const selectedItems = []
@@ -454,7 +470,9 @@ export default {
       const items = this.getSelectedItems()
       if (!items) return
       const tabs = []
+      const changedLists = [targetListIndex]
       items.forEach(({listIndex, tabIndex}) => {
+        changedLists.push(listIndex)
         const [tab] = this.lists[listIndex].tabs.splice(tabIndex, 1)
         tabs.push(tab)
       })
@@ -463,16 +481,20 @@ export default {
       } else {
         tabs.forEach(tab => this.lists[targetListIndex].tabs.push(tab))
       }
-      this.tabMoved()
+      this.tabMoved(changedLists)
     },
     duplicateSelectedItems() {
       const items = this.getSelectedItems()
+      console.log('item', items)
       if (!items) return
+      const changedLists = []
       items.forEach(({listIndex, tabIndex}) => {
+        changedLists.push(listIndex)
         const tab = Object.assign({}, this.lists[listIndex].tabs[tabIndex])
         this.lists[listIndex].tabs.push(tab)
       })
-      this.tabMoved()
+      console.log('list', this.lists[changedLists[0]])
+      this.tabMoved(changedLists)
     },
     async copyLinksOfSelectedItems() {
       const items = this.getSelectedItems()
