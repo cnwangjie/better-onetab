@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {normalize} from './list'
+import {normalizeList} from './list'
 import options from './options'
 import {genObjectId} from './utils'
 import listManager from './listManager'
@@ -12,7 +12,7 @@ const migrate = async () => {
   if (version >= '1.4.0') return
   // every list need an ID
   const {lists} = await browser.storage.local.get('lists')
-  const {0: listsWithoutId, 1: listsWithId} = _.groupBy(lists.map(normalize), list => +!!list._id)
+  const {0: listsWithoutId, 1: listsWithId} = _.groupBy(lists.map(normalizeList), list => +!!list._id)
   await browser.storage.local.set({lists: listsWithId})
 
   for (const list of listsWithoutId.reverse()) {

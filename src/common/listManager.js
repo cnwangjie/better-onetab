@@ -5,6 +5,7 @@ import {
   END_FRONT,
   END_BACKGROUND,
 } from './constants'
+import {isBackground} from './utils'
 
 const cache = { lists: null, ops: null }
 const getStorage = async () => {
@@ -87,32 +88,33 @@ manager.modifiers = {
     return true
   },
 }
+const applyChangesToStorage = async (method, args) => {
+  const {lists, ops} = await getStorage()
+  if (manager.modifiers[method](lists, args)) ops.push({method: name, args, time: Date.now()})
+  saveStorage()
+}
 const addEventListener = (receiveFrom, callback) => browser.runtime.onMessage.addListener(({listModifed, from}) => {
-  if (receiveFrom !== from) return
-  if (!listModifed) return
+  if (receiveFrom !== from || !listModifed) return
   const {method, args} = listModifed
   return callback(method, args)
 })
 const genMethods = isBackground => {
-  for (const [name, func] of Object.entries(manager.modifiers)) {
-    manager[name] = isBackground ? async (...args) => { // for background
-      console.debug('[list manager] modify list:', name, ...args)
-      const {lists, ops} = await getStorage()
-      if (func(lists, args)) ops.push({method: name, args, time: Date.now()})
-      saveStorage()
-      await browser.runtime.sendMessage({listModifed: {method: name, args}, from: END_BACKGROUND})
+  Object.keys(manager.modifiers).forEach(method => {
+    manager[method] = isBackground ? async (...args) => { // for background
+      console.debug('[list manager] modify list:', method, ...args)
+      await applyChangesToStorage(method, args)
+      await browser.runtime.sendMessage({listModifed: {method, args}, from: END_BACKGROUND})
     } : async (...args) => { // for front end
       console.debug('[list manager] call to modify list:', name, ...args)
-      await browser.runtime.sendMessage({listModifed: {method: name, args}, from: END_FRONT})
+      await browser.runtime.sendMessage({listModifed: {method, args}, from: END_FRONT})
     }
-  }
+  })
 }
 manager.init = async () => {
   if (manager.inited) return
-  const background = await browser.runtime.getBackgroundPage()
-  const isBackground = window === background
-  if (isBackground) await addEventListener(END_FRONT, (method, args) => manager[method](...args))
-  genMethods(isBackground)
+  const _isBackground = await isBackground()
+  if (_isBackground) await addEventListener(END_FRONT, applyChangesToStorage)
+  genMethods(_isBackground)
   manager.inited = true
 }
 const receiver = []
