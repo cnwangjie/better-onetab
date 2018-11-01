@@ -5,7 +5,7 @@ import {
 } from '../constants'
 import browser from 'webextension-polyfill'
 
-const apiUrl = 'https://boss.cnwangjie.com'
+   const apiUrl = 'http://127.0.0.1:3000'
 
 const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
 
@@ -78,9 +78,18 @@ const getInfo = () => fetchData('/api/info').then(info => {
   return info
 })
 const getLists = () => fetchData('/api/lists')
+const setLists = lists => fetchData('/api/lists', 'PUT', {lists})
 const getOpts = () => fetchData('/api/opts')
 const setOpts = opts => fetchData('/api/v2/opts', 'PUT', {opts})
 const changeListBulk = changes => fetchData('/api/v2/lists/bulk', 'POST', {changes})
+
+const uploadWholeLists = async () => {
+  const {lists} = await browser.storage.local.get('lists')
+  if (!lists) return
+  const result = await setLists(lists)
+  result.listsUpdatedAt = Date.parse(result.listsUpdatedAt)
+  return result
+}
 
 const uploadOperations = async () => {
   const {ops} = await browser.storage.local.get('ops')
@@ -98,32 +107,35 @@ const uploadOperations = async () => {
 
 const applyRemoteLists = async () => {
   const lists = await getLists()
-  const {listsUpdatedAt} = browser.storage.local.set(lists)
+  const {listsUpdatedAt} = browser.storage.local.set({lists})
   return Date.parse(listsUpdatedAt)
 }
 
 const uploadOpts = async () => {
   const {opts} = await browser.storage.local.get('opts')
   const optsUpdatedAt = await setOpts(opts)
-  const result = await browser.storage.local.set(optsUpdatedAt)
-  result.optsUpdatedAt = Date.parse(result.optsUpdatedAt)
-  return result
+  await browser.storage.local.set({optsUpdatedAt})
+  return Date.parse(optsUpdatedAt)
 }
 
 const applyRemoteOpts = async () => {
   const opts = await getOpts()
-  return browser.storage.local.set(opts)
+  return browser.storage.local.set({opts})
 }
 
 const refresh = async () => {
+  if (!(await hasToken())) return
   const remoteInfo = await getInfo()
   const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
   localInfo.listsUpdatedAt = localInfo.listsUpdatedAt || 0
   localInfo.optsUpdatedAt = localInfo.optsUpdatedAt || 0
 
-  // normal lists sync logic: apply local operations firstly
   const {ops} = await browser.storage.local.get('ops')
-  if (ops && ops.length) {
+  if (remoteInfo.listsUpdatedAt === 0) {
+    const {listsUpdatedAt} = await uploadWholeLists()
+    await browser.storage.local.set({listsUpdatedAt})
+  } else if (ops && ops.length) {
+    // normal lists sync logic: apply local operations firstly
     const {listsUpdatedAt} = await uploadOperations()
     await browser.storage.local.set({listsUpdatedAt})
   }
@@ -134,15 +146,34 @@ const refresh = async () => {
   }
 
   if (localInfo.optsUpdatedAt > remoteInfo.optsUpdatedAt) {
-    const {optsUpdatedAt} = await uploadOpts()
+    const optsUpdatedAt = await uploadOpts()
     await browser.storage.local.set({optsUpdatedAt})
   } else if (localInfo.optsUpdatedAt < remoteInfo.optsUpdatedAt) {
     await applyRemoteOpts()
     await browser.storage.local.set({optsUpdatedAt: remoteInfo.optsUpdatedAt})
   }
+  await browser.runtime.sendMessage({refreshed: true})
+}
+
+const login = async token => {
+  if (await hasToken()) return
+  await setToken(token)
+  await getInfo()
+  const loginNotificationId = 'login'
+  browser.notifications.create(loginNotificationId, {
+    type: 'basic',
+    iconUrl: 'assets/icons/icon_128.png',
+    title: 'you have login to boss successfully',
+    message: '',
+  })
+  setTimeout(() => {
+    browser.notifications.clear(loginNotificationId)
+  }, 5000)
+  await refresh()
 }
 
 export default {
   hasToken,
   refresh,
+  login,
 }

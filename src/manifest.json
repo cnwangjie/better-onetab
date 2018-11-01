@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "__MSG_ext_name__",
+  "name": "__EXT_NAME__",
   "version": "1.4.0",
   "default_locale": "en",
   "description": "__MSG_ext_desc__",
@@ -38,6 +38,12 @@
       "global": true
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["__CONTENT_SCRIPTS_MATCHES__"],
+      "js": ["content.js"]
+    }
+  ],
   "browser_action": {
     "default_icon": {
       "16": "assets/icons/icon_16.png",

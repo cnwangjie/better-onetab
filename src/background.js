@@ -1,10 +1,12 @@
+import _ from 'lodash'
+import __ from './common/i18n'
 import tabs from './common/tabs'
 import storage from './common/storage'
 import options from './common/options'
-import _ from 'lodash'
-import __ from './common/i18n'
-import browser from 'webextension-polyfill'
+import migrate from './common/migrate'
 import boss from './common/service/boss'
+import browser from 'webextension-polyfill'
+
 
 /* eslint-disable-next-line */
 if (DEBUG && !MOZ) import(
@@ -21,6 +23,7 @@ if (PRODUCTION) import(
 if (DEBUG) {
   window.tabs = tabs
   window.browser = browser
+  browser.browserAction.setBadgeText({text: 'dev'})
 }
 
 const getBrowserActionHandler = action => {
@@ -241,22 +244,14 @@ const init = async () => {
       }
       if (PRODUCTION) ga('send', 'event', 'Popup item clicked')
     }
-    if (msg.uploadImmediate) {
-      boss.uploadImmediate().catch(() => {
-        browser.runtime.sendMessage({uploaded: {error: true}})
-      })
-    }
-    if (msg.forceUpdate) {
-      boss.forceUpdate(msg.forceUpdate)
-    }
-    if (msg.resolveConflict) {
-      boss.resolveConflict(msg.resolveConflict)
-    }
-    if (msg.forceDownload) {
-      boss.forceDownloadRemoteImmediate()
-    }
     if (msg.storeInto) {
       tabs.storeSelectedTabs(msg.storeInto.index)
+    }
+    if (msg.login) {
+      boss.login(msg.login.token)
+    }
+    if (msg.refresh) {
+      boss.refresh()
     }
   })
   browser.runtime.onMessageExternal.addListener(commandHandler)
@@ -299,8 +294,8 @@ const init = async () => {
       setupContextMenus(await storage.getOptions())
     }
   })
-  await boss.forceDownloadRemoteImmediate()
-  setInterval(() => boss.forceDownloadRemoteImmediate(), 60 * 1000)
+  await migrate()
+  await boss.refresh()
 }
 
 init()

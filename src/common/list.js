@@ -5,7 +5,7 @@ import {
 } from './constants'
 import {genObjectId} from './utils'
 
-const createNewTabList = ({tabs, title, time}) => ({
+export const createNewTabList = ({tabs, title, time}) => ({
   _id: genObjectId(),
   tabs: tabs || [],
   title: title || '',
@@ -17,7 +17,7 @@ const createNewTabList = ({tabs, title, time}) => ({
 })
 
 // Preserving the needed properties before store lists.
-const normalize = list => {
+export const normalize = list => {
   const normalizedList = _.pick(list, PICKED_LIST_RPOPS)
   normalizedList.tabs = normalizedList.tabs.map(tab => _.pick(tab, PICKED_TAB_PROPS))
   return normalizedList

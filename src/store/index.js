@@ -53,7 +53,7 @@ export default new Vuex.Store({
     },
     async loadConflict({commit}) {
       const {conflict} = await browser.storage.local.get('conflict')
-      commit('setConflict', conflict)
+      commit('setConflict', conflict || null)
     },
     async loadDrawer({commit}) {
       const window = await browser.runtime.getBackgroundPage()

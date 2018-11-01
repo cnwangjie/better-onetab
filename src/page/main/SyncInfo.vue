@@ -172,7 +172,7 @@ export default {
     async init() {
       await this.loadSyncInfo()
       browser.runtime.onMessage.addListener(async msg => {
-        if (msg.uploaded) {
+        if (msg.uploaded || msg.downloaded || msg.gotInfo) {
           await this.loadSyncInfo()
         }
       })
@@ -204,8 +204,11 @@ export default {
     resolveConflict(type, result) {
       chrome.runtime.sendMessage({resolveConflict: {type, result}})
     },
-    async auth(auth) {
+    auth(auth) {
       if (this.logging) return
+      boss.oauth(auth)
+    },
+    async _auth(auth) { // deprecated
       this.logging = true
       try {
         await boss.getToken(auth)

@@ -1,9 +1,10 @@
 import storage from './storage'
-import list from './list'
+import {createNewTabList} from './list'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
+import listManager from './listManager'
 import {PICKED_TAB_PROPS} from './constants'
-
+listManager.init()
 const pickTabs = tabs => tabs.map(tab => {
   const pickedTab = _.pick(tab, PICKED_TAB_PROPS)
   pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted
@@ -73,13 +74,15 @@ const storeTabs = async (tabs, listIndex) => {
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
   if (listIndex == null) {
-    const newList = list.createNewTabList({tabs: pickTabs(tabs)})
+    const newList = createNewTabList({tabs: pickTabs(tabs)})
     if (opts.pinNewList) newList.pinned = true
     lists.unshift(newList)
+    await listManager.addList(newList)
   } else {
-    tabs.forEach(tab => lists[listIndex].tabs.push(tab))
+    const list = lists[listIndex]
+    tabs.forEach(tab => list.tabs.push(tab))
+    await storage.setLists(lists._id, _.pick(list, 'tabs'))
   }
-  await storage.setLists(lists)
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
       // maybe occur Error: "An unexpected error occurred" when trying to add about:* to history

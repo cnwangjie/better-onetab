@@ -347,6 +347,12 @@
   "ui_not_login": {
     "message": "Not login"
   },
+  "ui_offline": {
+    "message": "You are offline"
+  },
+  "ui_refresh": {
+    "message": "Refresh"
+  },
   "ui_unauth": {
     "message": "Unauthorized"
   },

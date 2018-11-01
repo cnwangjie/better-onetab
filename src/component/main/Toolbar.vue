@@ -7,8 +7,11 @@
   <v-spacer></v-spacer>
 
   <v-tooltip left>
-    <v-btn slot="activator" icon dark :loading="syncing" :disabled="!hasToken">
-      <v-icon :style="conflict ? {color: 'red'} : {}">cloud_upload</v-icon>
+    <v-btn slot="activator" icon dark :loading="syncing" :disabled="!online" @click="syncBtnClicked">
+      <transition name="fade" mode="out-in">
+        <v-icon v-if="uploadSuccess" key="success">cloud_done</v-icon>
+        <v-icon v-else="!uploadSuccess" key="normal">{{ syncIcon }}</v-icon>
+      </transition>
     </v-btn>
     <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
   </v-tooltip>
@@ -25,6 +28,7 @@ import _ from 'lodash'
 import __ from '@/common/i18n'
 import searchForm from './SearchForm'
 import dynamicTime from '@/component/DynamicTime'
+import browser from 'webextension-polyfill'
 import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default {
@@ -32,6 +36,9 @@ export default {
     return {
       flat: false,
       syncing: false,
+      // lastUpdated: NaN,
+      online: navigator.onLine,
+      uploadSuccess: false,
     }
   },
   components: {
@@ -41,13 +48,20 @@ export default {
   computed: {
     ...mapState(['opts', 'hasToken', 'conflict', 'nightmode']),
     tooltip() {
-      return !this.hasToken ? __('ui_not_login') // eslint-disable-line
+      return !this.online ? __('ui_offline')
+        : !this.hasToken ? __('ui_not_login') // eslint-disable-line
         : this.syncing ? __('ui_syncing')
-        : this.conflict ? __('ui_conflict')
-        : this.uploadError ? __('ui_upload_error')
-        : isFinite(this.lastUpdated) ? null
-        : __('ui_not_sync')
-    }
+        // : this.conflict ? __('ui_conflict')
+        // : this.uploadError ? __('ui_upload_error')
+        // : isFinite(this.lastUpdated) ? null
+        : __('ui_refresh')
+    },
+    syncIcon() {
+      return !this.online ? 'offline_bolt'
+        : !this.hasToken ? 'cloud_off'
+        // : this.uploadSuccess ? 'cloud_done'
+        : 'cloud_upload'
+    },
   },
   created() {
     this.init()
@@ -57,22 +71,27 @@ export default {
     ...mapActions(['switchNightmode', 'switchDrawer']),
     ...mapMutations(['setConflict']),
     init() {
-      window.app = this
+      this.onScroll()
+      document.addEventListener('online', () => this.online = true)
+      document.addEventListener('offline', () => this.online = false)
       chrome.runtime.onMessage.addListener(msg => {
         console.log(msg)
-        if (msg.uploadImmediate || msg.forceDownload) {
+        if (msg.refresh) {
           this.syncing = true
-        } else if (msg.uploaded || msg.downloaded) {
+        } else if (msg.refreshed) {
           this.syncing = false
-          const result = msg.uploaded || msg.downloaded
-          if (!_.isEmpty(result.conflict)) this.setConflict(result.conflict)
-          else if (!_.isEmpty(result.error)) this.uploadError = result.error // eslint-disable-line
-          else this.lastUpdated = Date.now()
+          this.uploadSuccess = true
+          setTimeout(() => this.uploadSuccess = false, 3000)
         }
       })
     },
     onScroll() {
       this.flat = (window.pageYOffset || document.documentElement.scrollTop) === 0
+    },
+    syncBtnClicked() {
+      if (this.uploadSuccess) return
+      if (!this.hasToken) return browser.tabs.create({url: 'http://127.0.0.1:3000/login'})
+      return browser.runtime.sendMessage({refresh: true})
     },
   }
 }
@@ -83,5 +102,14 @@ export default {
   transition-duration: .25s;
   transition-property: box-shadow;
   transition-timing-function: ease;
+}
+.slide-enter-active, .slide-leave-active {
+  transition: all ease-out .22s;
+}
+.fade-enter-to, .fade-leave {
+  opacity: 1;
+}
+.fade-leave-to, .fade-enter {
+  opacity: 0;
 }
 </style>
