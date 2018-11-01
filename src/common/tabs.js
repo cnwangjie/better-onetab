@@ -3,13 +3,8 @@ import {createNewTabList} from './list'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 import listManager from './listManager'
-import {PICKED_TAB_PROPS} from './constants'
+import {ILLEGAL_URLS} from './constants'
 listManager.init()
-const pickTabs = tabs => tabs.map(tab => {
-  const pickedTab = _.pick(tab, PICKED_TAB_PROPS)
-  pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted
-  return pickedTab
-})
 
 const getAllInWindow = windowId => browser.tabs.query({windowId})
 
@@ -60,9 +55,7 @@ const groupTabsInCurrentWindow = async () => {
   return result
 }
 
-const isLegalURL = url => [
-  'about:', 'chrome:', 'file:', 'wss:'
-].every(prefix => !url.startsWith(prefix))
+const isLegalURL = url => ILLEGAL_URLS.every(prefix => !url.startsWith(prefix))
 
 const storeTabs = async (tabs, listIndex) => {
   const appUrl = browser.runtime.getURL('')
@@ -74,7 +67,7 @@ const storeTabs = async (tabs, listIndex) => {
   browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
   if (listIndex == null) {
-    const newList = createNewTabList({tabs: pickTabs(tabs)})
+    const newList = createNewTabList({tabs})
     if (opts.pinNewList) newList.pinned = true
     lists.unshift(newList)
     await listManager.addList(newList)

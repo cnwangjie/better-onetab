@@ -1,3 +1,5 @@
+export const ILLEGAL_URLS = ['about:', 'chrome:', 'file:', 'wss:']
+
 export const PICKED_TAB_PROPS = ['url', 'title', 'favIconUrl', 'pinned']
 export const PICKED_LIST_RPOPS = ['_id', 'tabs', 'title', 'time', 'pinned', 'expand', 'color']
 export const SYNCED_LIST_PROPS = ['_id', 'tabs', 'title', 'time', 'pinned', 'color']

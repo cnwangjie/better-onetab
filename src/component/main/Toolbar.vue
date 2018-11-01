@@ -72,8 +72,8 @@ export default {
     ...mapMutations(['setConflict']),
     init() {
       this.onScroll()
-      document.addEventListener('online', () => this.online = true)
-      document.addEventListener('offline', () => this.online = false)
+      window.addEventListener('online', () => this.online = true)
+      window.addEventListener('offline', () => this.online = false)
       chrome.runtime.onMessage.addListener(msg => {
         console.log(msg)
         if (msg.refresh) {

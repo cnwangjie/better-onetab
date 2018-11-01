@@ -1,8 +1,8 @@
-import _ from 'lodash'
 import {
   TOKEN_KEY,
   AUTH_HEADER,
 } from '../constants'
+import {isBackground} from '../utils'
 import browser from 'webextension-polyfill'
 
    const apiUrl = 'http://127.0.0.1:3000'
@@ -172,8 +172,18 @@ const login = async token => {
   await refresh()
 }
 
+const initTimer = async () => {
+  if (window._timerInited || !await isBackground()) return
+  window._timerInited = true
+  window.setInterval(() => {
+    if (!navigator.onLine) return
+    refresh()
+  }, 60000)
+}
+
 export default {
   hasToken,
   refresh,
   login,
+  initTimer,
 }
