@@ -40,6 +40,6 @@ export const genObjectId = () => {
   return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16)).toLowerCase()
 }
 export const isBackground = async () => {
-  if (window._isBackground != null) window._isBackground = window === await browser.runtime.getBackgroundPage()
+  if (window._isBackground == null) window._isBackground = window === await browser.runtime.getBackgroundPage()
   return window._isBackground
 }

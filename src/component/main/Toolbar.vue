@@ -9,8 +9,7 @@
   <v-tooltip left>
     <v-btn slot="activator" icon dark :loading="syncing" :disabled="!online" @click="syncBtnClicked">
       <transition name="fade" mode="out-in">
-        <v-icon v-if="uploadSuccess" key="success">cloud_done</v-icon>
-        <v-icon v-else="!uploadSuccess" key="normal">{{ syncIcon }}</v-icon>
+        <v-icon :key="syncIcon">{{ syncIcon }}</v-icon>
       </transition>
     </v-btn>
     <span>{{ tooltip }}<dynamic-time v-if="!tooltip" v-model="lastUpdated"></dynamic-time></span>
@@ -24,7 +23,6 @@
 </v-toolbar>
 </template>
 <script>
-import _ from 'lodash'
 import __ from '@/common/i18n'
 import searchForm from './SearchForm'
 import dynamicTime from '@/component/DynamicTime'
@@ -48,7 +46,7 @@ export default {
   computed: {
     ...mapState(['opts', 'hasToken', 'conflict', 'nightmode']),
     tooltip() {
-      return !this.online ? __('ui_offline')
+      return !this.online ? __('ui_offline') // eslint-disable-line
         : !this.hasToken ? __('ui_not_login') // eslint-disable-line
         : this.syncing ? __('ui_syncing')
         // : this.conflict ? __('ui_conflict')
@@ -57,9 +55,9 @@ export default {
         : __('ui_refresh')
     },
     syncIcon() {
-      return !this.online ? 'offline_bolt'
-        : !this.hasToken ? 'cloud_off'
-        // : this.uploadSuccess ? 'cloud_done'
+      return !this.online ? 'cloud_off' // eslint-disable-line
+        : !this.hasToken ? 'cloud_off' // eslint-disable-line
+        : this.uploadSuccess ? 'cloud_done'
         : 'cloud_upload'
     },
   },
@@ -72,16 +70,15 @@ export default {
     ...mapMutations(['setConflict']),
     init() {
       this.onScroll()
-      window.addEventListener('online', () => this.online = true)
-      window.addEventListener('offline', () => this.online = false)
+      window.addEventListener('online', () => { this.online = true })
+      window.addEventListener('offline', () => { this.online = false })
       chrome.runtime.onMessage.addListener(msg => {
-        console.log(msg)
         if (msg.refresh) {
           this.syncing = true
         } else if (msg.refreshed) {
           this.syncing = false
           this.uploadSuccess = true
-          setTimeout(() => this.uploadSuccess = false, 3000)
+          setTimeout(() => { this.uploadSuccess = false }, 3000)
         }
       })
     },
