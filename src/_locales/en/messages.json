@@ -119,6 +119,9 @@
   "opt_desc_openTabListNoTab": {
     "message": "Open the tab list when store all tabs"
   },
+  "opt_desc_listsPerPage": {
+    "message": "Number of lists per page"
+  },
   "opt_label_popup": {
     "message": "Popup simple list"
   },

@@ -137,7 +137,7 @@
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-layout v-if="list.tabs.length > 9 && !list.showAll">
+          <v-layout v-if="list.tabs.length > 10 && !list.showAll">
             <v-flex class="text-xs-center">
               <v-btn small flat @click="showAll(listIndex)"><v-icon>more_horiz</v-icon></v-btn>
             </v-flex>

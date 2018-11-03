@@ -119,6 +119,9 @@
   "opt_desc_openTabListNoTab": {
     "message": "当储存所有标签时打开标签列表"
   },
+  "opt_desc_listsPerPage": {
+    "message": "每页的列表数量"
+  },
   "opt_label_popup": {
     "message": "弹出简单列表"
   },

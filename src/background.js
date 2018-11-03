@@ -5,6 +5,7 @@ import storage from './common/storage'
 import options from './common/options'
 import migrate from './common/migrate'
 import boss from './common/service/boss'
+import listManger from './common/listManager'
 import browser from 'webextension-polyfill'
 
 
@@ -212,6 +213,7 @@ const commandHandler = async command => {
 }
 
 const init = async () => {
+  await listManger.init()
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)

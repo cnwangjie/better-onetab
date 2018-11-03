@@ -5,7 +5,7 @@ import {
 import {isBackground} from '../utils'
 import browser from 'webextension-polyfill'
 
-   const apiUrl = 'http://127.0.0.1:3000'
+const apiUrl = 'http://127.0.0.1:3000' // TODO: use online address
 
 const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
 
@@ -107,15 +107,15 @@ const uploadOperations = async () => {
 
 const applyRemoteLists = async () => {
   const lists = await getLists()
-  const {listsUpdatedAt} = browser.storage.local.set({lists})
-  return Date.parse(listsUpdatedAt)
+  await browser.storage.local.set({lists})
+  return getInfo()
 }
 
 const uploadOpts = async () => {
   const {opts} = await browser.storage.local.get('opts')
-  const optsUpdatedAt = await setOpts(opts)
-  await browser.storage.local.set({optsUpdatedAt})
-  return Date.parse(optsUpdatedAt)
+  const result = await setOpts(opts)
+  result.optsUpdatedAt = Date.parse(result.optsUpdatedAt)
+  return result
 }
 
 const applyRemoteOpts = async () => {
@@ -141,12 +141,12 @@ const refresh = async () => {
   }
   // apply remote lists if remote lists update time later than local
   if (remoteInfo.listsUpdatedAt > localInfo.listsUpdatedAt) {
-    const listsUpdatedAt = await applyRemoteLists()
+    const {listsUpdatedAt} = await applyRemoteLists()
     await browser.storage.local.set({listsUpdatedAt})
   }
 
   if (localInfo.optsUpdatedAt > remoteInfo.optsUpdatedAt) {
-    const optsUpdatedAt = await uploadOpts()
+    const {optsUpdatedAt} = await uploadOpts()
     await browser.storage.local.set({optsUpdatedAt})
   } else if (localInfo.optsUpdatedAt < remoteInfo.optsUpdatedAt) {
     await applyRemoteOpts()

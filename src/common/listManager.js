@@ -19,7 +19,6 @@ const compressOps = ops => {
   const removed = []
   const updated = {}
   const finalOps = []
-  console.log(ops)
   for (let i = ops.length - 1; i > -1; i -= 1) {
     const op = ops[i]
     // ignore all actions for the list if that list will be removed finally
