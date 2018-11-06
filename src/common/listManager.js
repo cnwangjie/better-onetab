@@ -16,6 +16,7 @@ const getStorage = async () => {
   return cache
 }
 const compressOps = ops => {
+  console.debug('[listManager] compress ops: (before)', ops)
   const removed = []
   const updated = {}
   const finalOps = []
@@ -50,13 +51,13 @@ const compressOps = ops => {
       finalOps.unshift(op)
     }
   }
+  console.debug('[listManager] compress ops: (after)', finalOps)
   return finalOps
 }
 const saveStorage = _.debounce(async () => {
   cache.ops = compressOps(cache.ops)
   await browser.storage.local.set(cache)
   cache.lists = cache.ops = null
-  await browser.runtime.sendMessage({refresh: true})
 }, 5000)
 const manager = {}
 // lists modifier (return true if need to add ops)
@@ -89,7 +90,7 @@ manager.modifiers = {
 }
 const applyChangesToStorage = async (method, args) => {
   const {lists, ops} = await getStorage()
-  if (manager.modifiers[method](lists, args)) ops.push({method: name, args, time: Date.now()})
+  if (manager.modifiers[method](lists, args)) ops.push({method, args, time: Date.now()})
   saveStorage()
 }
 const addEventListener = (receiveFrom, callback) => browser.runtime.onMessage.addListener(({listModifed, from}) => {

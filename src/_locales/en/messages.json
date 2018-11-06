@@ -359,6 +359,18 @@
   "ui_unauth": {
     "message": "Unauthorized"
   },
+  "ui_turn_off": {
+    "message": "Turn off"
+  },
+  "ui_sync_setting": {
+    "message": "Sync Setting"
+  },
+  "ui_manage_account": {
+    "message": "Manage Account"
+  },
+  "ui_login": {
+    "message": "Login"
+  },
   "ui_beta_warn": {
     "message": "This is a feature in the test, if you find any problem please send me a feedback."
   },

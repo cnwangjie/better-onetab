@@ -12,12 +12,14 @@ const migrate = async () => {
   if (version >= '1.4.0') return
   // every list need an ID
   const {lists} = await browser.storage.local.get('lists')
-  const {0: listsWithoutId, 1: listsWithId} = _.groupBy(lists.map(normalizeList), list => +!!list._id)
-  await browser.storage.local.set({lists: listsWithId})
+  if (lists) {
+    const {0: listsWithoutId, 1: listsWithId} = _.groupBy(lists.map(normalizeList), list => +!!list._id)
+    if (listsWithId) await browser.storage.local.set({lists: listsWithId})
 
-  for (const list of listsWithoutId.reverse()) {
-    list._id = genObjectId()
-    await listManager.addList(list)
+    for (const list of listsWithoutId.reverse()) {
+      list._id = genObjectId()
+      await listManager.addList(list)
+    }
   }
   // remove depracated options
   const {opts} = await browser.storage.local.get('opts')

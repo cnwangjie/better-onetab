@@ -359,6 +359,18 @@
   "ui_new_warn": {
     "message": "这是当前版本的新特性。"
   },
+  "ui_turn_off": {
+    "message": "停用"
+  },
+  "ui_sync_setting": {
+    "message": "同步设置"
+  },
+  "ui_manage_account": {
+    "message": "管理账户"
+  },
+  "ui_login": {
+    "message": "登录"
+  },
   "ui_save_to_gdrive": {
     "message": "将列表保存至 Google Drive"
   },

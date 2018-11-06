@@ -14,6 +14,12 @@ export const createNewTabList = ({tabs, title, time}) => ({
   color: '',
 })
 
+export const validateList = list => {
+  if (list == null) return false
+  if (!Array.isArray(list.tabs)) return false
+  return true
+}
+
 // Preserving the needed properties before store lists.
 export const normalizeList = list => {
   const normalizedList = _.pick(list, PICKED_LIST_RPOPS)
@@ -21,4 +27,4 @@ export const normalizeList = list => {
   return normalizedList
 }
 
-export default {createNewTabList, normalizeList}
+export default {createNewTabList, normalizeList, validateList}

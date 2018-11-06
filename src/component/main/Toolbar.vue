@@ -27,6 +27,7 @@ import __ from '@/common/i18n'
 import searchForm from './SearchForm'
 import dynamicTime from '@/component/DynamicTime'
 import browser from 'webextension-polyfill'
+import {SYNC_SERVICE_URL} from '@/common/constants'
 import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default {
@@ -73,12 +74,14 @@ export default {
       window.addEventListener('online', () => { this.online = true })
       window.addEventListener('offline', () => { this.online = false })
       chrome.runtime.onMessage.addListener(msg => {
-        if (msg.refresh) {
+        if (msg.refreshing) {
           this.syncing = true
         } else if (msg.refreshed) {
           this.syncing = false
-          this.uploadSuccess = true
-          setTimeout(() => { this.uploadSuccess = false }, 3000)
+          this.uploadSuccess = msg.refreshed.success
+          if (this.uploadSuccess) {
+            setTimeout(() => { this.uploadSuccess = false }, 3000)
+          }
         }
       })
     },
@@ -87,7 +90,7 @@ export default {
     },
     syncBtnClicked() {
       if (this.uploadSuccess) return
-      if (!this.hasToken) return browser.tabs.create({url: 'http://127.0.0.1:3000/login'})
+      if (!this.hasToken) return browser.tabs.create({url: SYNC_SERVICE_URL + '/login'})
       return browser.runtime.sendMessage({refresh: true})
     },
   }

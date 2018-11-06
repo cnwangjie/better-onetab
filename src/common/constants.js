@@ -9,3 +9,5 @@ export const AUTH_HEADER = 'auth'
 
 export const END_FRONT = 'front'
 export const END_BACKGROUND = 'background'
+
+export const SYNC_SERVICE_URL = DEBUG ? 'http://127.0.0.1:3000' : 'https://boss.cnwangjie.com'

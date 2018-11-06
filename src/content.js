@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill'
+import {SYNC_SERVICE_URL} from './common/constants'
 console.debug('content_script loaded')
 const main = async () => {
-  const url = DEBUG ? 'http://127.0.0.1' : 'https://boss.cnwangjie.com'
-  if (!document.URL.startsWith(url)) return
+  if (!document.URL.startsWith(SYNC_SERVICE_URL)) return
   const token = localStorage._BOSS_TOKEN
   console.debug('token', token)
   if (!token) return

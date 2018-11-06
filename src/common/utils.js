@@ -36,10 +36,17 @@ export const readFile = file => new Promise((resolve, reject) => {
   reader.readAsText(file)
 })
 export const genObjectId = () => {
+  // refer: https://gist.github.com/solenoid/1372386
   const timestamp = (new Date().getTime() / 1000 | 0).toString(16)
   return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16)).toLowerCase()
 }
 export const isBackground = async () => {
   if (window._isBackground == null) window._isBackground = window === await browser.runtime.getBackgroundPage()
   return window._isBackground
+}
+export const formatSize = bytes => {
+  // refer: https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string
+  const sufixes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(1024))
+  return !bytes && '0 Bytes' || (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]
 }

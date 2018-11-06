@@ -1,11 +1,12 @@
 import {
   TOKEN_KEY,
   AUTH_HEADER,
+  SYNC_SERVICE_URL,
 } from '../constants'
 import {isBackground} from '../utils'
 import browser from 'webextension-polyfill'
 
-const apiUrl = 'http://127.0.0.1:3000' // TODO: use online address
+const apiUrl = SYNC_SERVICE_URL
 
 const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
 
@@ -125,40 +126,47 @@ const applyRemoteOpts = async () => {
 
 const refresh = async () => {
   if (!(await hasToken())) return
-  const remoteInfo = await getInfo()
-  const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
-  localInfo.listsUpdatedAt = localInfo.listsUpdatedAt || 0
-  localInfo.optsUpdatedAt = localInfo.optsUpdatedAt || 0
+  await browser.runtime.sendMessage({refreshing: true})
+  try {
+    const remoteInfo = await getInfo()
+    const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
+    localInfo.listsUpdatedAt = localInfo.listsUpdatedAt || 0
+    localInfo.optsUpdatedAt = localInfo.optsUpdatedAt || 0
 
-  const {ops} = await browser.storage.local.get('ops')
-  if (remoteInfo.listsUpdatedAt === 0) {
-    const {listsUpdatedAt} = await uploadWholeLists()
-    await browser.storage.local.set({listsUpdatedAt})
-  } else if (ops && ops.length) {
-    // normal lists sync logic: apply local operations firstly
-    const {listsUpdatedAt} = await uploadOperations()
-    await browser.storage.local.set({listsUpdatedAt})
-  }
-  // apply remote lists if remote lists update time later than local
-  if (remoteInfo.listsUpdatedAt > localInfo.listsUpdatedAt) {
-    const {listsUpdatedAt} = await applyRemoteLists()
-    await browser.storage.local.set({listsUpdatedAt})
-  }
+    const {ops} = await browser.storage.local.get('ops')
+    if (remoteInfo.listsUpdatedAt === 0) {
+      const {listsUpdatedAt} = await uploadWholeLists()
+      await browser.storage.local.set({listsUpdatedAt})
+    } else if (ops && ops.length) {
+      // normal lists sync logic: apply local operations firstly
+      const {listsUpdatedAt} = await uploadOperations()
+      await browser.storage.local.set({listsUpdatedAt})
+    }
+    // apply remote lists if remote lists update time later than local
+    if (remoteInfo.listsUpdatedAt > localInfo.listsUpdatedAt) {
+      const {listsUpdatedAt} = await applyRemoteLists()
+      await browser.storage.local.set({listsUpdatedAt})
+    }
 
-  if (localInfo.optsUpdatedAt > remoteInfo.optsUpdatedAt) {
-    const {optsUpdatedAt} = await uploadOpts()
-    await browser.storage.local.set({optsUpdatedAt})
-  } else if (localInfo.optsUpdatedAt < remoteInfo.optsUpdatedAt) {
-    await applyRemoteOpts()
-    await browser.storage.local.set({optsUpdatedAt: remoteInfo.optsUpdatedAt})
+    if (localInfo.optsUpdatedAt > remoteInfo.optsUpdatedAt) {
+      const {optsUpdatedAt} = await uploadOpts()
+      await browser.storage.local.set({optsUpdatedAt})
+    } else if (localInfo.optsUpdatedAt < remoteInfo.optsUpdatedAt) {
+      await applyRemoteOpts()
+      await browser.storage.local.set({optsUpdatedAt: remoteInfo.optsUpdatedAt})
+    }
+    await browser.runtime.sendMessage({refreshed: {success: true}})
+  } catch (error) {
+    console.error(error)
+    await browser.runtime.sendMessage({refreshed: {success: false}})
   }
-  await browser.runtime.sendMessage({refreshed: true})
 }
 
 const login = async token => {
   if (await hasToken()) return
   await setToken(token)
-  await getInfo()
+  const {uid} = await getInfo()
+  browser.runtime.sendMessage({logged: {uid}})
   const loginNotificationId = 'login'
   browser.notifications.create(loginNotificationId, {
     type: 'basic',
@@ -183,7 +191,9 @@ const initTimer = async () => {
 
 export default {
   hasToken,
+  removeToken,
   refresh,
   login,
   initTimer,
+  getInfo,
 }

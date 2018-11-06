@@ -298,6 +298,7 @@ const init = async () => {
   })
   await migrate()
   await boss.refresh()
+  boss.initTimer()
 }
 
 init()
