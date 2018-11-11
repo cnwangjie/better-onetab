@@ -1,6 +1,6 @@
 <template>
 <v-app :style="{width: '360px'}" :dark="nightmode">
-  <v-list dense>
+  <v-list dense v-if="lists.length > 0">
     <template v-for="(list, index) in lists">
       <v-list-tile
         ripple
@@ -25,6 +25,13 @@
       <v-divider v-if="index + 1 < lists.length"></v-divider>
     </template>
   </v-list>
+
+  <v-layout
+    :style="{minHeight: '100px'}"
+    v-if="processed && lists.length === 0" align-center justify-center column fill-height
+  >
+    <h3 class="display-2 grey--text" v-text="__('ui_no_list')"></h3>
+  </v-layout>
 </v-app>
 </template>
 <script>
@@ -39,6 +46,7 @@ export default {
       lists: [],
       action: '',
       nightmode: false,
+      processed: false,
     }
   },
   created() {
@@ -68,6 +76,7 @@ export default {
       this.lists = lists
       const opts = await storage.getOptions()
       this.action = opts.popupItemClickAction
+      this.processed = true
     },
     clicked(index) {
       if (['restore', 'restore-new-window'].includes(this.action)) {

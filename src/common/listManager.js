@@ -8,11 +8,24 @@ import {
 import {isBackground} from './utils'
 
 const cache = { lists: null, ops: null }
+let _readingStorage = false
 const getStorage = async () => {
+  if (_readingStorage) {
+    await new Promise(resolve => {
+      const interval = setInterval(() => {
+        console.log('await reading storage')
+        if (_readingStorage) return
+        clearInterval(interval)
+        resolve()
+      }, 20)
+    })
+  }
   if (cache.lists && cache.ops) return cache
+  _readingStorage = true
   const {lists, ops} = await browser.storage.local.get(['lists', 'ops'])
   cache.lists = lists || []
   cache.ops = ops || []
+  _readingStorage = false
   return cache
 }
 const compressOps = ops => {
@@ -58,11 +71,13 @@ const saveStorage = _.debounce(async () => {
   cache.ops = compressOps(cache.ops)
   await browser.storage.local.set(cache)
   cache.lists = cache.ops = null
+  await browser.runtime.sendMessage({refresh: true})
 }, 5000)
 const manager = {}
 // lists modifier (return true if need to add ops)
 manager.modifiers = {
   addList(lists, [list]) {
+    if (~lists.findIndex(i => i._id === list._id)) return
     lists.unshift(list)
     return true
   },
@@ -88,10 +103,20 @@ manager.modifiers = {
     return true
   },
 }
-const applyChangesToStorage = async (method, args) => {
-  const {lists, ops} = await getStorage()
-  if (manager.modifiers[method](lists, args)) ops.push({method, args, time: Date.now()})
+
+// avoid getting storage at the same time
+const _modifyQueue = []
+const _startModifyWork = (lists, ops) => {
+  while (_modifyQueue.length !== 0) {
+    const [method, args] = _modifyQueue.shift()
+    if (manager.modifiers[method](lists, args)) ops.push({method, args, time: Date.now()})
+  }
   saveStorage()
+}
+const applyChangesToStorage = async (method, args) => {
+  if (_readingStorage) return _modifyQueue.push([method, args])
+  const {lists, ops} = await getStorage()
+  _startModifyWork(lists, ops)
 }
 const addEventListener = (receiveFrom, callback) => browser.runtime.onMessage.addListener(({listModifed, from}) => {
   if (receiveFrom !== from || !listModifed) return
@@ -112,10 +137,10 @@ const genMethods = isBackground => {
 }
 manager.init = async () => {
   if (manager.inited) return
+  manager.inited = true
   const _isBackground = await isBackground()
   if (_isBackground) await addEventListener(END_FRONT, applyChangesToStorage)
   genMethods(_isBackground)
-  manager.inited = true
 }
 const receiver = []
 manager.receiveBackgroundModified = async lists => {

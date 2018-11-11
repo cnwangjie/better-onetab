@@ -49,14 +49,12 @@ export default {
   },
   methods: {
     __,
-    ...mapActions(['loadOptions', 'checkToken', 'loadConflict', 'loadNightmode', 'loadDrawer', 'switchDrawer']),
-    ...mapMutations(['setConflict']),
+    ...mapActions(['loadOptions', 'checkToken', 'loadNightmode', 'loadDrawer', 'switchDrawer']),
     init() {
       this.loadNightmode()
       this.checkToken()
       this.loadDrawer()
       this.loadOptions()
-      this.loadConflict()
     },
   }
 }

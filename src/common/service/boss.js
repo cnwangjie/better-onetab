@@ -89,6 +89,7 @@ const uploadWholeLists = async () => {
   if (!lists) return
   const result = await setLists(lists)
   result.listsUpdatedAt = Date.parse(result.listsUpdatedAt)
+  await browser.storage.local.remove('ops')
   return result
 }
 
@@ -124,8 +125,9 @@ const applyRemoteOpts = async () => {
   return browser.storage.local.set({opts})
 }
 
+let _refreshing = false
 const refresh = async () => {
-  if (!(await hasToken())) return
+  if (_refreshing || !(await hasToken())) return
   await browser.runtime.sendMessage({refreshing: true})
   try {
     const remoteInfo = await getInfo()
@@ -159,6 +161,8 @@ const refresh = async () => {
   } catch (error) {
     console.error(error)
     await browser.runtime.sendMessage({refreshed: {success: false}})
+  } finally {
+    _refreshing = false
   }
 }
 

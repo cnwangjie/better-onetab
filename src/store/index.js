@@ -12,7 +12,6 @@ export default new Vuex.Store({
   state: {
     opts: options.getDefaultOptions(),    // all options
     hasToken: false,                      // whether token exists
-    conflict: null,                       // conflict object
     drawer: false,                        // drawer status
     nightmode: false,                     // nightmode status
     snackbar: { status: false, msg: '' }, // snackbar status
@@ -26,9 +25,6 @@ export default new Vuex.Store({
     },
     setToken(state, payload) {
       state.hasToken = payload
-    },
-    setConflict(state, payload) {
-      state.conflict = _.isEmpty(payload) ? null : payload
     },
     setDrawer(state, drawer) {
       state.drawer = drawer
@@ -50,10 +46,6 @@ export default new Vuex.Store({
     },
     async checkToken({commit}) {
       commit('setToken', await boss.hasToken())
-    },
-    async loadConflict({commit}) {
-      const {conflict} = await browser.storage.local.get('conflict')
-      commit('setConflict', conflict || null)
     },
     async loadDrawer({commit}) {
       const window = await browser.runtime.getBackgroundPage()

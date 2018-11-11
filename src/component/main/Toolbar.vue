@@ -45,14 +45,11 @@ export default {
     dynamicTime,
   },
   computed: {
-    ...mapState(['opts', 'hasToken', 'conflict', 'nightmode']),
+    ...mapState(['opts', 'hasToken', 'nightmode']),
     tooltip() {
       return !this.online ? __('ui_offline') // eslint-disable-line
         : !this.hasToken ? __('ui_not_login') // eslint-disable-line
         : this.syncing ? __('ui_syncing')
-        // : this.conflict ? __('ui_conflict')
-        // : this.uploadError ? __('ui_upload_error')
-        // : isFinite(this.lastUpdated) ? null
         : __('ui_refresh')
     },
     syncIcon() {
@@ -68,7 +65,6 @@ export default {
   methods: {
     __,
     ...mapActions(['switchNightmode', 'switchDrawer']),
-    ...mapMutations(['setConflict']),
     init() {
       this.onScroll()
       window.addEventListener('online', () => { this.online = true })

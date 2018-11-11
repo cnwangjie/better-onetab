@@ -10,7 +10,7 @@
   ></v-pagination>
 </div>
 
-<v-expansion-panel ref="panel" expand popout :value="expandStatus" @input="expandStatusChanged" class="my-3">
+<v-expansion-panel ref="panel" expand popout v-model="expandStatus" class="my-3">
   <v-expansion-panel-content
     hide-actions
     v-for="(list, listIndex) in lists"
@@ -255,6 +255,7 @@ import storage from '@/common/storage'
 import listManager from '@/common/listManager'
 import {formatTime} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
+import browser from 'webextension-polyfill'
 import {mapState, mapMutations} from 'vuex'
 if (DEBUG) window.listManager = listManager
 const colorList = [
@@ -286,16 +287,35 @@ export default {
       },
     }
   },
+  watch: {
+    ['$route.query.p']() {
+      this.$forceUpdate()
+    },
+  },
   computed: {
     ...mapState(['opts']),
-    expandStatus() {
-      return this.lists.slice(
-        (this.currentPage - 1) * this.opts.listsPerPage,
-        this.currentPage * this.opts.listsPerPage
-      ).map(i => i.expand)
-    },
     currentPage() {
       return +this.$route.query.p || 1
+    },
+    expandStatus: {
+      get() {
+        // return this.lists.map(i => !!i.expand)
+        const listsInView = this.lists.slice(
+          (this.currentPage - 1) * this.opts.listsPerPage,
+          this.currentPage * this.opts.listsPerPage
+        )
+        console.log(listsInView)
+        const expandStatus = listsInView.map(i => !!i.expand)
+        console.log(expandStatus)
+        return expandStatus
+      },
+      set(newStatus) {
+        const changedListIndex = this.expandStatus.findIndex((s, i) => s !== newStatus[i])
+          + (this.currentPage - 1) * this.opts.listsPerPage
+        console.log(this.expandStatus, newStatus, changedListIndex)
+        const {expand} = this.lists[changedListIndex]
+        this.expandList(expand, changedListIndex)
+      },
     },
     pageLength() {
       return Math.ceil(this.lists.length / this.opts.listsPerPage)
@@ -311,11 +331,6 @@ export default {
     draggable,
     dynamicTime,
   },
-  watch: {
-    currentPage() {
-      this.updateExpandStatus()
-    },
-  },
   methods: {
     __,
     formatTime,
@@ -325,10 +340,6 @@ export default {
       if (action === 'open-and-remove') {
         this.removeTab(listIndex, tabIndex)
       }
-    },
-    expandStatusChanged(newStatus) {
-      const index = this.lists.findIndex((list, i) => list.expand !== newStatus[i]) + (this.currentPage - 1) * this.opts.listsPerPage
-      this.expandList(newStatus[index], index)
     },
     tabMoved(changedLists) {
       // judge last list firstly in order to avoid list index changed
@@ -341,7 +352,10 @@ export default {
     },
     async getLists() {
       const lists = await storage.getLists()
-      if (lists) lists.filter(i => Array.isArray(i.tabs)).forEach(i => this.lists.push(i))
+      if (lists) {
+        this.lists.splice(0, this.lists.length)
+        lists.filter(i => Array.isArray(i.tabs)).forEach(i => this.lists.push(i))
+      }
       this.updateExpandStatus()
       if (!this.processed) {
         this.processed = true
@@ -349,9 +363,13 @@ export default {
       }
     },
     init() {
+      window.dl = this
       this.getLists()
       listManager.init()
       listManager.receiveBackgroundModified(this.lists)
+      browser.runtime.onMessage.addListener(({refreshed}) => {
+        if (refreshed) this.getLists()
+      })
       document.addEventListener('click', () => {
         if (!this.currentHighlightItem) return
         this.currentHighlightItem.$el.classList.remove('elevation-20')
@@ -360,8 +378,9 @@ export default {
         if (event.keyCode === 27) this.showMenu = false
       })
     },
-    updateExpandStatus() {
-      this.$refs.panel.updateFromValue(this.expandStatus)
+    async updateExpandStatus() {
+      console.log('update', this.expandStatus)
+      this.$refs.panel.updatePanels(this.expandStatus)
     },
     removeList(listIndex) {
       const list = this.lists[listIndex]
@@ -401,14 +420,15 @@ export default {
         return ''
       }
     },
-    pinList(listIndex, pin = true) {
+    pinList(listIndex, pinned = true) {
       const list = this.lists[listIndex]
-      list.pinned = pin
-      listManager.updateListById(list._id, _.pick(list, 'pinned'))
+      this.$set(list, 'pinned', pinned)
+      listManager.updateListById(list._id, {pinned})
     },
     swapListItem(a, b) {
-      [this.lists[a], this.lists[b]] = [this.lists[b], this.lists[a]]
-      this.$forceUpdate()
+      const tmp = this.lists[a]
+      this.$set(this.lists, a, this.lists[b])
+      this.$set(this.lists, b, tmp)
       const list = this.lists[a]
       listManager.changeListOrderRelatively(list._id, b - a)
     },
@@ -423,14 +443,13 @@ export default {
     expandList(expand, listIndex) {
       const list = this.lists[listIndex]
       if (list.expand === expand) return
-      list.expand = expand
-      listManager.updateListById(list._id, _.pick(list, 'expand'))
+      this.$set(list, 'expand', expand)
+      listManager.updateListById(list._id, {expand})
     },
     changeColor(listIndex, color) {
       const list = this.lists[listIndex]
       this.$set(list, 'color', color)
-      list.color = color
-      listManager.updateListById(list._id, _.pick(list, 'color'))
+      listManager.updateListById(list._id, {color})
     },
     rightClicked(listIndex, tabIndex, $event) {
       $event.preventDefault()
@@ -515,8 +534,7 @@ export default {
       this.tabMoved(changedLists)
     },
     showAll(listIndex) {
-      this.lists[listIndex].showAll = true
-      this.$forceUpdate()
+      this.$set(this.lists[listIndex], 'showAll', true)
     },
     changePage(page) {
       this.$router.push({name: 'detailList', query: {p: page}})

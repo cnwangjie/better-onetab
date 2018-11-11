@@ -26,6 +26,8 @@ const migrate = async () => {
   if (opts) {
     await browser.storage.local.set({opts: _.pick(opts, _.keys(options.getDefaultOptions()))})
   }
+  // remove deprecated storage keys
+  await browser.storage.local.remove(['conflict'])
 }
 
 export default migrate

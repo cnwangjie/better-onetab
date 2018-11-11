@@ -1,10 +1,11 @@
 import _ from 'lodash'
 import moment from 'moment'
-import list from '@/common/list'
-import storage from '@/common/storage'
 import download from 'downloadjs'
+import list from './list'
+import storage from './storage'
+import browser from 'webextension-polyfill'
 
-const importFromText = async (compatible, data) => {
+const importFromText = (compatible, data) => {
   const lists = compatible ? data.split('\n\n')
     .filter(i => i)
     .map(i => i.split('\n')
@@ -14,8 +15,7 @@ const importFromText = async (compatible, data) => {
     .map(i => list.createNewTabList({tabs: i}))
     : JSON.parse(data).map(i => list.createNewTabList(i))
 
-  const currentList = await storage.getLists()
-  await storage.setLists(_.concat(lists, currentList))
+  return browser.runtime.sendMessage({import: {lists}})
 }
 
 const exportToText = async compatible => {

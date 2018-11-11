@@ -11,10 +11,10 @@
     <v-tab-item key="import">
       <v-card flat>
         <v-card-text>
-          <v-btn @click="imp(true)">{{ __('ui_import_comp') }}</v-btn>
-          <v-btn @click="imp(false)">{{ __('ui_import_json') }}</v-btn>
+          <v-btn :loading="processing" @click="imp(true)">{{ __('ui_import_comp') }}</v-btn>
+          <v-btn :loading="processing" @click="imp(false)">{{ __('ui_import_json') }}</v-btn>
           <input ref="fileSelector" type="file" hidden @change="impFile"></input>
-          <v-btn @click="$refs.fileSelector.click()">
+          <v-btn :loading="processing" @click="$refs.fileSelector.click()">
             {{ __('ui_import_from_file') }}
             <v-icon dark right>attach_file</v-icon>
           </v-btn>

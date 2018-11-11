@@ -219,12 +219,12 @@ const init = async () => {
   await storage.setOptions(opts)
   window.nightmode = opts.defaultNightMode
   updateBrowserAction(opts.browserAction)
-  setupContextMenus(opts)
+  await setupContextMenus(opts)
   browser.runtime.onMessage.addListener(async msg => {
-    console.log(msg)
+    console.debug('received', msg)
     if (msg.optionsChanged) {
       const changes = msg.optionsChanged
-      console.log(changes)
+      console.debug('options changed', changes)
       Object.assign(window.opts, changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       if (('pageContext' in changes) || ('allContext' in changes)) await setupContextMenus(changes)
@@ -254,6 +254,10 @@ const init = async () => {
     }
     if (msg.refresh) {
       boss.refresh()
+    }
+    if (msg.import) {
+      const {lists} = msg.import
+      lists.forEach(list => listManger.addList(list))
     }
   })
   browser.runtime.onMessageExternal.addListener(commandHandler)
@@ -298,7 +302,7 @@ const init = async () => {
   })
   await migrate()
   await boss.refresh()
-  boss.initTimer()
+  await boss.initTimer()
 }
 
 init()
