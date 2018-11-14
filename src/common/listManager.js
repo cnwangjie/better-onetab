@@ -82,7 +82,8 @@ manager.modifiers = {
     return true
   },
   updateListById(lists, [listId, newList]) {
-    const normal = SYNCED_LIST_PROPS.some(k => Object.keys(newList).includes(k))
+    const normal = Object.keys(newList).some(k => SYNCED_LIST_PROPS.includes(k))
+    console.log(normal)
     for (const list of lists) {
       if (list._id !== listId) continue
       for (const [k, v] of Object.entries(newList)) {
@@ -114,7 +115,8 @@ const _startModifyWork = (lists, ops) => {
   saveStorage()
 }
 const applyChangesToStorage = async (method, args) => {
-  if (_readingStorage) return _modifyQueue.push([method, args])
+  _modifyQueue.push([method, args])
+  if (_readingStorage) return
   const {lists, ops} = await getStorage()
   _startModifyWork(lists, ops)
 }

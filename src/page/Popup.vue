@@ -28,6 +28,15 @@
 
   <v-layout
     :style="{minHeight: '100px'}"
+    v-if="!processed" align-center justify-center column fill-height>
+    <v-progress-circular
+      indeterminate
+      color="primary"
+    ></v-progress-circular>
+  </v-layout>
+
+  <v-layout
+    :style="{minHeight: '100px'}"
     v-if="processed && lists.length === 0" align-center justify-center column fill-height
   >
     <h3 class="display-2 grey--text" v-text="__('ui_no_list')"></h3>
