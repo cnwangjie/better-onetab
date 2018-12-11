@@ -30,9 +30,9 @@ More Beauty. More features.
  - [x] Data & Options syncing
  - [x] Import & Export function
  - [x] Option to add stored tabs to history
- - [x] I18N support (only English & Chinese currently)
+ - [x] I18N support (currently only available in English & Chinese)
 
-More details in [changelog](CHANGELOG.md)
+More details are available in [changelog](CHANGELOG.md)
 
 ### Next step
 
