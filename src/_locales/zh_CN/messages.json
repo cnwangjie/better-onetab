@@ -1,9 +1,9 @@
 {
   "ext_name": {
-    "message": "better-onetab"
+    "message": "Better-Onetab"
   },
   "ext_desc": {
-    "message": "一个更好的 OneTab 扩展"
+    "message": "更好的 Onetab 扩展"
   },
   "menu_STORE_SELECTED_TABS": {
     "message": "保存选中的标签页"

@@ -13,53 +13,54 @@
 
 [中文README](./README.zh.md)
 
-### A better onetab extension
+### The Better-Onetab extension
 
-More beautiful and more feature.
+More Beauty. More features.
 
 ### Features
 
 [Send us a feature request.](https://github.com/cnwangjie/better-onetab/issues/new)
 
- - [x] Basic feature of OneTab
- - [x] Popup page with simple list
- - [x] Pin tab list
- - [x] Keyboard shortcuts
- - [x] Options
+ - [x] Basic features of OneTab
+ - [x] Popup page with simple list of tabs
+ - [x] Pinned tabs list
+ - [x] Better Keyboard shortcuts
+ - [x] Options menu
  - [x] Drag and drop re-ordering
- - [x] Data & Options sync
- - [x] Import & Export
- - [x] Add stored tabs to history
- - [x] I18N support (only English & Chinese currently)
+ - [x] Data & Options syncing
+ - [x] Import & Export function
+ - [x] Option to add stored tabs to history
+ - [x] I18N support (currently only available in English & Chinese)
 
-More details in [changelog](CHANGELOG.md)
+More details are available in [changelog](CHANGELOG.md)
 
 ### Next step
 
-You can learn more about the next step of better onetab at [project page](https://github.com/cnwangjie/better-onetab/projects/1) and leave your comment in [issues page](https://github.com/cnwangjie/better-onetab/issues).
+You can learn more about the future of Better-Onetab at [our project page](https://github.com/cnwangjie/better-onetab/projects/1).
+If you have any comments or suggestions, create an [issue](https://github.com/cnwangjie/better-onetab/issues).
 
 ### Installation
 
-Install from [Google Extension Store](https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg)
+For Google Chrome, you can install Better-Onetab from the [Google Extension Store](https://chrome.google.com/webstore/detail/better-onetab/eookhngofldnbnidjlbkeecljkfpmfpg)
 
-Install from [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/better-onetab/) (not optimized)
+For Mozilla Firefox, you can install Better-Onetab as a [Firefox Add-on](https://addons.mozilla.org/firefox/addon/better-onetab/) (Note that this is not optimized)
 
-Download the released .crx file in [releases page](https://github.com/cnwangjie/better-onetab/releases) and drag it to chrome extensions page.
+Alternatively, you can download the released .crx file in [releases page](https://github.com/cnwangjie/better-onetab/releases) and drag it to chrome extensions page.
 
-Build your own from following steps：
+If you completely distrust us, you can build your own binaries from our source code by following these steps:
 
 ### Development
 
-0. Clone this repo
-0. Install dependencies (use `yarn` command)
-0. Auto reload (use `yarn dev` command)
-0. Click LOAD UNPACKED button and select ./dist path
-0. Build (use `yarn build` command)
+1. Clone this repo
+2. Install required dependencies (with `yarn`)
+3. Auto reload (with `yarn dev`)
+4. Select **Load Unpacked** and then the `./dist path`
+5. Build it (with `yarn build`)
 
-### Especially thanks
+### Special thanks to:
 
-Thanks for [@Yasujizr](https://github.com/Yasujizr) helped this project design new logo and banners.
+[@Yasujizr](https://github.com/Yasujizr) for designing new logos and banners for this project
 
 ### License
 
-MIT LICENSE
+[MIT LICENSE](https://choosealicense.com/licenses/mit/)
