@@ -1,153 +1,153 @@
 {
   "ext_name": {
-    "message": "better-onetab"
+    "message": "Better-Onetab"
   },
   "ext_desc": {
-    "message": "A better OneTab"
+    "message": "The Better-Onetab"
   },
   "menu_STORE_SELECTED_TABS": {
-    "message": "Store selected tabs"
+    "message": "Store all selected tabs"
   },
   "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
-    "message": "Store all tabs in current window"
+    "message": "Store all tabs in the current window"
   },
   "menu_SHOW_TAB_LIST": {
-    "message": "Show tab lists"
+    "message": "Show list of stored tabs"
   },
   "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
     "message": "Store all tabs in all windows"
   },
   "menu_EXTRA": {
-    "message": "Extra"
+    "message": "Extras"
   },
   "menu_STORE_LEFT_TABS": {
-    "message": "Store left tabs"
+    "message": "Store all tabs to the left"
   },
   "menu_STORE_RIGHT_TABS": {
-    "message": "Store right tabs"
+    "message": "Store all tabs to the right"
   },
   "menu_STORE_TWOSIDE_TABS": {
-    "message": "Store unselected tabs"
+    "message": "Store all unselected tabs"
   },
   "menu_STORE": {
-    "message": "store"
+    "message": "Store"
   },
   "menu_STORE_TO_TITLED_LIST": {
-    "message": "store into a titled list"
+    "message": "Store tabs into a titled list"
   },
   "cmd_store_selected_tabs": {
-    "message": "Store selected tabs"
+    "message": "Store all selected tabs"
   },
   "cmd_store_all_tabs": {
     "message": "Store all tabs"
   },
   "cmd_restore_lastest_list": {
-    "message": "Restore lastest tabs"
+    "message": "Restore recent tabs"
   },
   "cmd_open_lists": {
-    "message": "Open tab lists"
+    "message": "Open list of stored tabs"
   },
   "cmd_store_all_in_all_windows": {
     "message": "Store all tabs in all windows"
   },
   "opt_desc_browserAction": {
-    "message": "Behavior when icon is clicked"
+    "message": "Behavior when the icon is clicked"
   },
   "opt_desc_itemClickAction": {
-    "message": "Behavior when item in a list is clicked"
+    "message": "Behavior when an item in a list is clicked"
   },
   "opt_desc_itemDisplay": {
-    "message": "Contents of the items in a list"
+    "message": "Contents of all items in a list"
   },
   "opt_desc_hideFavicon": {
     "message": "Hide favicon of items in the list"
   },
   "opt_desc_removeItemBtnPos": {
-    "message": "The position of remove item button"
+    "message": "Position of the remove item button"
   },
   "opt_desc_popupItemClickAction": {
-    "message": "Behavior when item in simple list is clicked"
+    "message": "Behavior when an item in a simple list is clicked"
   },
   "opt_desc_defaultNightMode": {
-    "message": "Use night mode by default"
+    "message": "Change default to dark mode"
   },
   "opt_desc_fixedToolbar": {
-    "message": "Fixed toolbar"
+    "message": "Fix toolbar"
   },
   "opt_desc_addHistory": {
-    "message": "Add stored tab to history"
+    "message": "Add stored tabs to history"
   },
   "opt_desc_ignorePinned": {
-    "message": "Prevent store pinned tabs"
+    "message": "Don't store pinned tabs"
   },
   "opt_desc_pinNewList": {
-    "message": "Auto pin new list"
+    "message": "Auto-pin new list"
   },
   "opt_desc_pageContext": {
-    "message": "Enable context menu for page"
+    "message": "Enable context menu for the page"
   },
   "opt_desc_allContext": {
     "message": "Enable context menu for all elements"
   },
   "opt_desc_openTabListWhenNewTab": {
-    "message": "Always open tab list when clicking on the icon if current tab is a new tab. (Doesn't work if behavior is set to \"popup simple list\""
+    "message": "Always open list of tabs when clicking on the icon if the current tab is a new tab. (Doesn't work if the behavior is set to \"popup simple list\""
   },
   "opt_desc_syncOptions": {
-    "message": "Sync settings"
+    "message": "Sync all settings"
   },
   "opt_desc_syncList": {
-    "message": "Sync lists"
+    "message": "Sync all lists"
   },
   "opt_desc_useBoss": {
-    "message": "Use better onetab sync server (unlimited storage)"
+    "message": "Use the Better-Onetab sync server (unlimited storage)"
   },
   "opt_desc_alertRemoveList": {
-    "message": "Confirm to remove list"
+    "message": "Are you sure you want to remove this list?"
   },
   "opt_desc_excludeIllegalURL": {
-    "message": "Exclude illegal URL like about:* or chrome://*"
+    "message": "Exclude illegal URLs like about:* or chrome://*"
   },
   "opt_desc_removeDuplicate": {
-    "message": "Remove duplicate item in a list"
+    "message": "Remove all duplicate items in a list"
   },
   "opt_desc_enableSearch": {
-    "message": "Enable search in the detail list page"
+    "message": "Enable searching in the detailed list page"
   },
   "opt_desc_openEnd": {
-    "message": "When restore list open at the ending of tabs"
+    "message": "Open restore-list at the end of all tabs"
   },
   "opt_desc_openTabListNoTab": {
-    "message": "Open the tab list when store all tabs"
+    "message": "Open the list of all tabs when storing all tabs"
   },
   "opt_desc_listsPerPage": {
-    "message": "Number of lists per page"
+    "message": "Set the number of lists per page"
   },
   "opt_label_popup": {
     "message": "Popup simple list"
   },
   "opt_label_store_selected": {
-    "message": "Store selected tabs"
+    "message": "Store all selected tabs"
   },
   "opt_label_store_all": {
-    "message": "Store all tabs in current window"
+    "message": "Store all tabs in the current window"
   },
   "opt_label_show_list": {
-    "message": "Show list"
+    "message": "Show list of stored tabs"
   },
   "opt_label_none": {
     "message": "None"
   },
   "opt_label_open_and_remove": {
-    "message": "Open and remove"
+    "message": "Open tabs and remove them from list of stored tabs"
   },
   "opt_label_open": {
-    "message": "Open"
+    "message": "Open tab"
   },
   "opt_label_restore": {
-    "message": "Restore"
+    "message": "Restore tab"
   },
   "opt_label_restore_new_window": {
-    "message": "Restore in new window"
+    "message": "Restore tab in a new window"
   },
   "opt_label_left": {
     "message": "Left"
@@ -165,25 +165,25 @@
     "message": "URL"
   },
   "ui_nightmode": {
-    "message": "Night mode"
+    "message": "Dark mode"
   },
   "ui_tab": {
-    "message": "tabs"
+    "message": "Tabs"
   },
   "ui_created": {
     "message": "Created"
   },
   "ui_retitle_list": {
-    "message": "Retitle list"
+    "message": "Retitle list of tabs"
   },
   "ui_restore_all": {
-    "message": "Restore list"
+    "message": "Restore list of tabs"
   },
   "ui_restore_all_in_new_window": {
     "message": "Restore all in new window"
   },
   "ui_remove_list": {
-    "message": "Remove list"
+    "message": "Remove list of tabs"
   },
   "ui_pin": {
     "message": "Pin"
@@ -192,7 +192,7 @@
     "message": "Unpin"
   },
   "ui_list": {
-    "message": "list"
+    "message": "List of tabs"
   },
   "ui_create_issue": {
     "message": "Create an issue"
@@ -216,7 +216,7 @@
     "message": "Keyboard shortcuts"
   },
   "ui_export_import": {
-    "message": "Export / Import"
+    "message": "Import / Export"
   },
   "ui_github": {
     "message": "GitHub"
@@ -258,7 +258,7 @@
     "message": "Processing..."
   },
   "ui_main_error_occurred": {
-    "message": "Some errors occurred"
+    "message": "An error has occurred"
   },
   "ui_main_succeeded": {
     "message": "succeeded!"
@@ -267,13 +267,13 @@
     "message": "Changes saved!"
   },
   "ui_title_pin_btn": {
-    "message": "Pin list"
+    "message": "Pin list of tabs"
   },
   "ui_title_up_btn": {
-    "message": "Move list up"
+    "message": "Move list of tabs up"
   },
   "ui_title_down_btn": {
-    "message": "Move list down"
+    "message": "Move list of tabs down"
   },
   "ui_auth_with_google": {
     "message": "Authorize with Google account"
@@ -291,7 +291,7 @@
     "message": "Has authorized with uid:"
   },
   "ui_sync_exists_conflict_header": {
-    "message": "There is a conflict when sync with server."
+    "message": "Conflict when syncing with server."
   },
   "ui_sync_lists_failed": {
     "message": "Syncing tab lists failed"
@@ -300,13 +300,13 @@
     "message": "Syncing options failed"
   },
   "ui_sync_remote_time": {
-    "message": "Remote update time"
+    "message": "Sync with remote time"
   },
   "ui_sync_local_time": {
-    "message": "Local update time"
+    "message": "Sync with local time"
   },
   "ui_sync_lists_item": {
-    "message": "Remote lists items"
+    "message": "Sync remote tabs in remote list"
   },
   "ui_opts_diff": {
     "message": "Options difference"
@@ -336,7 +336,7 @@
     "message": "Sync error"
   },
   "ui_not_sync": {
-    "message": "Not sync yet"
+    "message": "Not synced yet"
   },
   "ui_deauth": {
     "message": "Deauthorize"
@@ -348,7 +348,7 @@
     "message": "Has authorized with:"
   },
   "ui_not_login": {
-    "message": "Not login"
+    "message": "Not logged in"
   },
   "ui_offline": {
     "message": "You are offline"
@@ -360,36 +360,36 @@
     "message": "Unauthorized"
   },
   "ui_beta_warn": {
-    "message": "This is a feature in the test, if you find any problem please send me a feedback."
+    "message": "This feature is in beta. Please send me feedback and notify me of any issues."
   },
   "ui_new_warn": {
-    "message": "This is a new feature in current version."
+    "message": "This is a new feature in this version."
   },
   "ui_save_to_gdrive": {
-    "message": "Save list to google drive"
+    "message": "Save list of tabs to google drive"
   },
   "ui_save_immediately": {
     "message": "Save immediately"
   },
   "ui_no_list": {
-    "message": "No list here"
+    "message": "No tab lists yet. Make one!"
   },
   "ui_no_list_tip": {
-    "message": "1. Select the tabs you want to store</br>2. Right click the extension icon</br>3. Click \"store selected tabs\"<p class=\"body-2\">Already used in other device? Authorizing with sync service could restore lists automatically.</p>"
+    "message": "1. Select the tabs you want to store</br>2. Right-click the extension icon</br>3. Click \"Store all selected tabs\"<p class=\"body-2\">Already using Better-Onetab elsewhere? Authorize the sync service and you can restore saved tab lists automatically.</p>"
   },
   "ui_untitled": {
-    "message": "untitled"
+    "message": "Add a title!"
   },
   "ui_updated_to_ver": {
-    "message": "Better Onetab has updated to"
+    "message": "Better-Onetab has updated to Version "
   },
   "ui_click_view_changelog": {
-    "message": "click to view detail changelog"
+    "message": "See the detailed changelog"
   },
   "ui_move_to": {
     "message": "Move to"
   },
   "ui_a_new_list": {
-    "message": "(a new list)"
+    "message": "(New list)"
   }
 }
