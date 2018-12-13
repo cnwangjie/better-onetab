@@ -10,14 +10,18 @@
   ></v-pagination>
 </div>
 
-<v-expansion-panel ref="panel" expand popout v-model="expandStatus" class="my-3">
+<v-expansion-panel
+  ref="panel" expand popout
+  :value="expandStatus"
+  @input="expandStatusChanged"
+  class="my-3"
+>
   <v-expansion-panel-content
+    v-for="list in inPageLists"
     hide-actions
-    v-for="(list, listIndex) in lists"
     class="tab-list"
-    :key="listIndex"
+    :key="list.index"
     ref="list"
-    v-if="inCurrentPage(listIndex)"
   >
     <v-layout slot="header" row spacer>
       <v-flex no-wrap xs10>
@@ -36,18 +40,20 @@
                 <div
                   class="color-selector lighten-3"
                   :class="color"
-                  @click.stop="changeColor(listIndex, color)"
+                  @click.stop="changeColor(list.index, color)"
                 ></div>
               </v-flex>
             </v-layout>
           </v-card>
         </v-menu>
         <strong class="grey--text date">{{ __('ui_created') }} <dynamic-time v-model="list.time"></dynamic-time></strong>
+      </v-flex>
+      <v-flex no-wrap md6 lg9 @keydown.enter="saveTitle(list.index)">
         <v-text-field
           class="title-editor"
           autofocus
           v-if="list.titleEditing"
-          @blur="saveTitle(listIndex)"
+          @blur="saveTitle(list.index)"
           @click.prevent.stop
           v-model="list.title"
           single-line
@@ -56,13 +62,13 @@
         <div class="list-title" v-else :class="list.color ? list.color + '--text' : ''">{{ list.title }}</div>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
-        <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
+        <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(list.index)" flat icon class="icon-in-title" :disabled="list.index === lists.length - 1">
           <v-icon color="gray" :style="{fontSize: '14px'}">fas fa-arrow-down</v-icon>
         </v-btn>
-        <v-btn :title="__('ui_title_up_btn')" @click.stop="moveListUp(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === 0">
+        <v-btn :title="__('ui_title_up_btn')" @click.stop="moveListUp(list.index)" flat icon class="icon-in-title" :disabled="list.index === 0">
           <v-icon color="gray" :style="{fontSize: '14px'}">fas fa-arrow-up</v-icon>
         </v-btn>
-        <v-btn :title="__('ui_title_pin_btn')" @click.stop="pinList(listIndex, !list.pinned)" flat icon class="icon-in-title">
+        <v-btn :title="__('ui_title_pin_btn')" @click.stop="pinList(list.index, !list.pinned)" flat icon class="icon-in-title">
           <v-icon :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
         </v-btn>
       </v-flex>
@@ -74,23 +80,23 @@
             hide-details
             class="checkbox"
             :value="list.tabs.some(tab => tab.selected)"
-            @click.self.stop="selectAllBtnClicked(listIndex)"
+            @click.self.stop="selectAllBtnClicked(list.index)"
             :indeterminate="list.tabs.some(tab => tab.selected) && list.tabs.some(tab => !tab.selected)"
           ></v-checkbox>
         </v-flex>
         <v-flex>
           <v-btn
-            :ref="'multi-op-' + listIndex"
-            flat small v-on:click="multiOpBtnClicked(listIndex, $event)"
+            :ref="'multi-op-' + list.index"
+            flat small v-on:click="multiOpBtnClicked(list.index, $event)"
             icon :disabled="list.tabs.every(tab => !tab.selected)"
           >
             <v-icon>more_vert</v-icon>
           </v-btn>
-          <v-btn flat small v-on:click="openChangeTitle(listIndex)">{{ __('ui_retitle_list') }}</v-btn>
-          <v-btn flat small v-on:click="restoreList(listIndex)">{{ __('ui_restore_all') }}</v-btn>
-          <v-btn flat small v-on:click="restoreList(listIndex, true)">{{ __('ui_restore_all_in_new_window') }}</v-btn>
-          <v-btn flat small color="error" v-on:click="removeList(listIndex)" :disabled="list.pinned">{{ __('ui_remove_list') }}</v-btn>
-          <v-btn flat small v-on:click="pinList(listIndex, !list.pinned)">{{ list.pinned ? __('ui_unpin') : __('ui_pin') }} {{ __('ui_list') }}</v-btn>
+          <v-btn flat small v-on:click="openChangeTitle(list.index)">{{ __('ui_retitle_list') }}</v-btn>
+          <v-btn flat small v-on:click="restoreList(list.index)">{{ __('ui_restore_all') }}</v-btn>
+          <v-btn flat small v-on:click="restoreList(list.index, true)">{{ __('ui_restore_all_in_new_window') }}</v-btn>
+          <v-btn flat small color="error" v-on:click="removeList(list.index)" :disabled="list.pinned">{{ __('ui_remove_list') }}</v-btn>
+          <v-btn flat small v-on:click="pinList(list.index, !list.pinned)">{{ list.pinned ? __('ui_unpin') : __('ui_pin') }} {{ __('ui_list') }}</v-btn>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -98,16 +104,16 @@
         <draggable
           v-model="list.tabs"
           :options="draggableOptions"
-          @change="tabMoved([listIndex])"
+          @change="tabMoved([list.index])"
         >
           <v-list-tile
             v-for="(tab, tabIndex) in list.tabs"
             :href="opts.itemClickAction !== 'none' ? tab.url : null"
             :target="opts.itemClickAction !== 'none' ? '_blank' : null"
-            @click.self="itemClicked(listIndex, tabIndex)"
-            @contextmenu="rightClicked(listIndex, tabIndex, $event)"
+            @click.self="itemClicked(list.index, tabIndex)"
+            @contextmenu="rightClicked(list.index, tabIndex, $event)"
             class="list-item"
-            :ref="'list-' + listIndex + '-tab'"
+            :ref="'list-' + list.index + '-tab'"
             :key="tabIndex"
             v-if="tabIndex < 10 || list.showAll"
           >
@@ -139,7 +145,7 @@
           </v-list-tile>
           <v-layout v-if="list.tabs.length > 10 && !list.showAll">
             <v-flex class="text-xs-center">
-              <v-btn small flat @click="showAll(listIndex)"><v-icon>more_horiz</v-icon></v-btn>
+              <v-btn small flat @click="showAll(list.index)"><v-icon>more_horiz</v-icon></v-btn>
             </v-flex>
           </v-layout>
         </draggable>
@@ -285,37 +291,20 @@ export default {
         animation: 150,
         handle: '.drag-indicator',
       },
+      expandStatus: [],
     }
   },
   watch: {
-    ['$route.query.p']() {
-      this.$forceUpdate()
-    },
+    '$route.query.p': 'updateExpandStatus',
   },
   computed: {
     ...mapState(['opts']),
     currentPage() {
       return +this.$route.query.p || 1
     },
-    expandStatus: {
-      get() {
-        // return this.lists.map(i => !!i.expand)
-        const listsInView = this.lists.slice(
-          (this.currentPage - 1) * this.opts.listsPerPage,
-          this.currentPage * this.opts.listsPerPage
-        )
-        console.log(listsInView)
-        const expandStatus = listsInView.map(i => !!i.expand)
-        console.log(expandStatus)
-        return expandStatus
-      },
-      set(newStatus) {
-        const changedListIndex = this.expandStatus.findIndex((s, i) => s !== newStatus[i])
-          + (this.currentPage - 1) * this.opts.listsPerPage
-        console.log(this.expandStatus, newStatus, changedListIndex)
-        const {expand} = this.lists[changedListIndex]
-        this.expandList(expand, changedListIndex)
-      },
+    inPageLists() {
+      return this.lists.map((list, index) => Object.assign({}, list, {index}))
+        .filter(({index}) => this.inCurrentPage(index))
     },
     pageLength() {
       return Math.ceil(this.lists.length / this.opts.listsPerPage)
@@ -378,9 +367,19 @@ export default {
         if (event.keyCode === 27) this.showMenu = false
       })
     },
+    getExpandStatus() {
+      return this.inPageLists.map(i => i.expand !== false)
+    },
+    expandStatusChanged(newStatus) {
+      const indexInPage = this.expandStatus.findIndex((s, i) => s !== newStatus[i])
+      if (!~indexInPage) return
+      const index = indexInPage + (this.currentPage - 1) * this.opts.listsPerPage
+      const expand = newStatus[indexInPage]
+      this.expandList(expand, index)
+    },
     async updateExpandStatus() {
-      console.log('update', this.expandStatus)
-      this.$refs.panel.updatePanels(this.expandStatus)
+      await this.$nextTick()
+      this.expandStatus = this.getExpandStatus()
     },
     removeList(listIndex) {
       const list = this.lists[listIndex]
@@ -444,6 +443,7 @@ export default {
       const list = this.lists[listIndex]
       if (list.expand === expand) return
       this.$set(list, 'expand', expand)
+      console.log('expand', expand)
       listManager.updateListById(list._id, {expand})
     },
     changeColor(listIndex, color) {
