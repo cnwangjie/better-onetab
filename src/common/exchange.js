@@ -10,7 +10,6 @@ const importFromText = (compatible, data) => new Promise((resolve, reject) => {
     if (!e.data || e.data.length == null) return
     exchanger.terminate()
     const lists = e.data.map(list.createNewTabList)
-    console.log(lists)
     resolve(lists)
   })
   exchanger.addEventListener('error', reject)

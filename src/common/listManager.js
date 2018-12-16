@@ -4,6 +4,10 @@ import {
   SYNCED_LIST_PROPS,
   END_FRONT,
   END_BACKGROUND,
+  ADD_LIST,
+  UPDATE_LIST_BY_ID,
+  REMOVE_LIST_BY_ID,
+  CHANGE_LIST_ORDER,
 } from './constants'
 import {isBackground} from './utils'
 
@@ -76,14 +80,13 @@ const saveStorage = _.debounce(async () => {
 const manager = {}
 // lists modifier (return true if need to add ops)
 manager.modifiers = {
-  addList(lists, [list]) {
+  [ADD_LIST](lists, [list]) {
     if (~lists.findIndex(i => i._id === list._id)) return
     lists.unshift(list)
     return true
   },
-  updateListById(lists, [listId, newList]) {
+  [UPDATE_LIST_BY_ID](lists, [listId, newList]) {
     const normal = Object.keys(newList).some(k => SYNCED_LIST_PROPS.includes(k))
-    console.log(normal)
     for (const list of lists) {
       if (list._id !== listId) continue
       for (const [k, v] of Object.entries(newList)) {
@@ -92,12 +95,12 @@ manager.modifiers = {
       return normal
     }
   },
-  removeListById(lists, [listId]) {
+  [REMOVE_LIST_BY_ID](lists, [listId]) {
     const index = lists.findIndex(list => list._id === listId)
     lists.splice(index, 1)
     return true
   },
-  changeListOrderRelatively(lists, [listId, diff]) {
+  [CHANGE_LIST_ORDER](lists, [listId, diff]) {
     const index = lists.findIndex(list => list._id === listId)
     const [list] = lists.splice(index, 1)
     lists.splice(index + diff, 0, list)
@@ -153,8 +156,18 @@ manager.receiveBackgroundModified = async lists => {
 manager.mapMutations = () => {
   const mutations = {}
   Object.entries(manager.modifiers).forEach(([method, fn]) => {
-    mutations[method] = (state, payload) => fn(state._, payload)
+    mutations[method] = (state, payload) => fn(state.lists, payload)
   })
   return mutations
+}
+manager.createVuexPlugin = () => store => {
+  addEventListener(END_BACKGROUND, (method, args) => {
+    store.commit(method, args)
+  })
+  store.subscribe(({type, payload}) => {
+    if (type in manager.modifiers) {
+      manager[type](...payload)
+    }
+  })
 }
 export default manager

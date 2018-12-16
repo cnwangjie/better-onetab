@@ -81,6 +81,7 @@
 <script>
 import __ from '@/common/i18n'
 import browser from 'webextension-polyfill'
+import { mapActions } from 'vuex'
 
 export default {
   data() {
@@ -95,6 +96,7 @@ export default {
     this.init()
   },
   methods: {
+    ...mapActions(['preloadLists']),
     __,
     async init() {
       try {
@@ -103,6 +105,7 @@ export default {
       } catch (e) {
         // ignored
       }
+      this.preloadLists()
     },
     async openShortcutPage() {
       await browser.tabs.create({url: 'chrome://extensions/shortcuts'})

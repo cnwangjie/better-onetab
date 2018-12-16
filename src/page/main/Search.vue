@@ -56,25 +56,25 @@ export default {
     q: 'search',
   },
   computed: {
-    ...mapState(['listColors']),
+    ...mapState(['listColors', 'lists']),
     q() {
       return this.$route.query.q
     },
   },
   created() {
     if (this.q) this.search()
-    else this.loadListColors()
+    else this.preloadLists()
   },
   activated() {
     if (this.q) this.search()
-    else this.loadListColors()
+    else this.preloadLists()
     if (this.card === 0) this.slideCard()
   },
   deactivated() {
     this.card = 0
   },
   methods: {
-    ...mapActions(['loadListColors']),
+    ...mapActions(['preloadLists']),
     slideCard() {
       if (this.card === 2) return
       this.toBeHide = this.card += 1
@@ -96,7 +96,7 @@ export default {
     },
     async search() {
       const {color, str} = this.parseQuery()
-      const lists = await storage.getLists()
+      const lists = this.lists
       const items = []
       lists.forEach((list, listIndex) => {
         const colorMatch = color == null || color === list.color

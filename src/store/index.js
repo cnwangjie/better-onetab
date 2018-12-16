@@ -5,18 +5,33 @@ import browser from 'webextension-polyfill'
 import storage from '@/common/storage'
 import options from '@/common/options'
 import boss from '@/common/service/boss'
+import listManager from '@/common/listManager'
+import {sleep} from '@/common/utils'
+
 import lists from './lists'
 
 Vue.use(Vuex)
+listManager.init()
 
 export default new Vuex.Store({
+  strict: true,
   state: {
     opts: options.getDefaultOptions(),    // all options
     hasToken: false,                      // whether token exists
     drawer: false,                        // drawer status
     nightmode: false,                     // nightmode status
     snackbar: { status: false, msg: '' }, // snackbar status
-    listColors: [],                       // be used colors of lists
+    ...lists.state,
+  },
+  getters: {
+    listColors(state) {
+      const colors = new Set()
+      state.lists.forEach(list => {
+        colors.add(list.color || '')
+      })
+      return colors
+    },
+    ...lists.getters,
   },
   mutations: {
     setOption(state, payload) {
@@ -33,13 +48,14 @@ export default new Vuex.Store({
     setNightmode(state, payload) {
       state.nightmode = payload
     },
-    showSnackbar(state, message) {
+    setSnackbar(state, message) {
       state.snackbar.msg = message
       state.snackbar.status = true
     },
-    setListColors(state, colors) {
-      state.listColors = colors
+    closeSnackbar(state) {
+      state.snackbar.status = false
     },
+    ...lists.mutations,
   },
   actions: {
     async loadOptions({commit}) {
@@ -66,16 +82,14 @@ export default new Vuex.Store({
       const window = await browser.runtime.getBackgroundPage()
       commit('setNightmode', window.nightmode = !state.nightmode)
     },
-    async loadListColors({commit}) {
-      const lists = await storage.getLists()
-      const colors = new Set()
-      lists.forEach(list => {
-        colors.add(list.color || '')
-      })
-      commit('setListColors', Array.from(colors))
+    async showSnackbar({commit}, message) {
+      commit('setSnackbar', message)
+      await sleep(2000)
+      commit('closeSnackbar')
     },
+    ...lists.actions,
   },
-  modules: {
-    lists,
-  }
+  plugins: [
+    listManager.createVuexPlugin(),
+  ],
 })

@@ -57,7 +57,8 @@ import __ from '@/common/i18n'
 import exchange from '@/common/exchange'
 import {readFile} from '@/common/utils'
 import gdrive from '@/common/service/gdrive'
-import {mapMutations} from 'vuex'
+import {mapMutations, mapActions} from 'vuex'
+import {ADD_LIST} from '@/common/constants'
 
 export default {
   data() {
@@ -72,7 +73,8 @@ export default {
   },
   methods: {
     __,
-    ...mapMutations(['showSnackbar']),
+    ...mapMutations([ADD_LIST]),
+    ...mapActions(['showSnackbar']),
     async exp(comp) {
       if (this.processing) return this.showSnackbar(__('ui_main_processing'))
       this.processing = true
@@ -93,7 +95,8 @@ export default {
       if (this.processing) return this.showSnackbar(__('ui_main_processing'))
       this.processing = true
       try {
-        await exchange.importFromText(comp, this.importData)
+        const lists = await exchange.importFromText(comp, this.importData)
+        lists.forEach(list => this[ADD_LIST]([list]))
         this.showSnackbar(__('ui_main_succeeded'))
         this.importData = ''
         this.$router.push('/app/list')
