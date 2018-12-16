@@ -18,6 +18,7 @@ module.exports = {
     index: ['./src/index.js'],
     background: './src/background.js',
     content: './src/content.js',
+    exchanger: './src/exchanger.js',
   },
   output: {
     path: resolve('dist'),

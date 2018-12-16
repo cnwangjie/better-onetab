@@ -14,11 +14,7 @@ export const createNewTabList = ({tabs, title, time, pinned, expand, color}) => 
   color: color || '',
 })
 
-export const validateList = list => {
-  if (list == null) return false
-  if (!Array.isArray(list.tabs)) return false
-  return true
-}
+export const validateList = list => list != null && Array.isArray(list.tabs)
 
 // Preserving the needed properties before store lists.
 export const normalizeList = list => {

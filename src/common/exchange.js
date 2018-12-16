@@ -3,20 +3,19 @@ import moment from 'moment'
 import download from 'downloadjs'
 import list from './list'
 import storage from './storage'
-import browser from 'webextension-polyfill'
 
-const importFromText = (compatible, data) => {
-  const lists = compatible ? data.split('\n\n')
-    .filter(i => i)
-    .map(i => i.split('\n')
-      .filter(j => j)
-      .map(j => j.split('|').map(k => k.trim()))
-      .map(([url, title]) => ({ url, title })))
-    .map(i => list.createNewTabList({tabs: i}))
-    : JSON.parse(data).map(i => list.createNewTabList(i))
-
-  return browser.runtime.sendMessage({import: {lists}})
-}
+const importFromText = (compatible, data) => new Promise((resolve, reject) => {
+  const exchanger = new Worker('exchanger.js')
+  exchanger.addEventListener('message', e => {
+    if (!e.data || e.data.length == null) return
+    exchanger.terminate()
+    const lists = e.data.map(list.createNewTabList)
+    console.log(lists)
+    resolve(lists)
+  })
+  exchanger.addEventListener('error', reject)
+  exchanger.postMessage({compatible, data})
+})
 
 const exportToText = async compatible => {
   const lists = await storage.getLists()

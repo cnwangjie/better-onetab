@@ -5,6 +5,7 @@ import browser from 'webextension-polyfill'
 import storage from '@/common/storage'
 import options from '@/common/options'
 import boss from '@/common/service/boss'
+import lists from './lists'
 
 Vue.use(Vuex)
 
@@ -73,5 +74,8 @@ export default new Vuex.Store({
       })
       commit('setListColors', Array.from(colors))
     },
+  },
+  modules: {
+    lists,
   }
 })

@@ -150,4 +150,11 @@ manager.receiveBackgroundModified = async lists => {
   receiver.push(lists)
   await addEventListener(END_BACKGROUND, (method, args) => manager.modifiers[method](lists, args))
 }
+manager.mapMutations = () => {
+  const mutations = {}
+  Object.entries(manager.modifiers).forEach(([method, fn]) => {
+    mutations[method] = (state, payload) => fn(state._, payload)
+  })
+  return mutations
+}
 export default manager

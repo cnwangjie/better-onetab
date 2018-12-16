@@ -342,8 +342,7 @@ export default {
     async getLists() {
       const lists = await storage.getLists()
       if (lists) {
-        this.lists.splice(0, this.lists.length)
-        lists.filter(i => Array.isArray(i.tabs)).forEach(i => this.lists.push(i))
+        this.lists = lists.filter(i => Array.isArray(i.tabs))
       }
       this.updateExpandStatus()
       if (!this.processed) {
