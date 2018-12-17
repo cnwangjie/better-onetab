@@ -26,7 +26,7 @@ import drawer from '@/component/main/Drawer'
 import toolbar from '@/component/main/Toolbar'
 import snackbar from '@/component/main/Snackbar'
 
-import {mapState, mapActions, mapMutations} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 export default {
   data() {

@@ -53,6 +53,11 @@ const router = new Router({
           name: 'detailList',
         },
         {
+          path: 'list/:tag',
+          component: DetailList,
+          name: 'taggedList'
+        },
+        {
           path: '*',
           redirect: { name: 'detailList' }
         },

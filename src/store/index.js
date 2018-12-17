@@ -14,13 +14,14 @@ Vue.use(Vuex)
 listManager.init()
 
 export default new Vuex.Store({
-  strict: true,
+  strict: DEBUG,
   state: {
     opts: options.getDefaultOptions(),    // all options
     hasToken: false,                      // whether token exists
     drawer: false,                        // drawer status
     nightmode: false,                     // nightmode status
     snackbar: { status: false, msg: '' }, // snackbar status
+    scrollY: 0,
     ...lists.state,
   },
   getters: {
@@ -29,7 +30,24 @@ export default new Vuex.Store({
       state.lists.forEach(list => {
         colors.add(list.color || '')
       })
-      return colors
+      return Array.from(colors)
+    },
+    taggedList(state) {
+      const tags = {}
+      state.lists.forEach(list => {
+        if (list.tags) {
+          list.tags.forEach(tag => {
+            tags[tag] = tags[tag] || []
+            tags[tag].push(list)
+          })
+        }
+      })
+      const sorted = {}
+      Object.keys(tags).sort().forEach(k => { sorted[k] = tags[k] })
+      return sorted
+    },
+    listWithTag(state, getters) {
+      return tag => getters.taggedList[tag]
     },
     ...lists.getters,
   },
@@ -54,6 +72,9 @@ export default new Vuex.Store({
     },
     closeSnackbar(state) {
       state.snackbar.status = false
+    },
+    setScrollY(state, v) {
+      state.scrollY = v
     },
     ...lists.mutations,
   },

@@ -1,5 +1,5 @@
 <template>
-<v-card >
+<v-card>
   <v-tabs
     color="cyan"
     dark
@@ -50,6 +50,14 @@
       </v-card>
     </v-tab-item>
   </v-tabs>
+
+
+  <v-fab-transition>
+    <v-btn v-if="scrollY > 100" color="pink" dark fab fixed bottom right @click="$vuetify.goTo(0)">
+      <v-icon>keyboard_arrow_up</v-icon>
+    </v-btn>
+  </v-fab-transition>
+
 </v-card>
 </template>
 <script>
@@ -57,7 +65,7 @@ import __ from '@/common/i18n'
 import exchange from '@/common/exchange'
 import {readFile} from '@/common/utils'
 import gdrive from '@/common/service/gdrive'
-import {mapMutations, mapActions} from 'vuex'
+import {mapMutations, mapActions, mapState} from 'vuex'
 import {ADD_LIST} from '@/common/constants'
 
 export default {
@@ -70,6 +78,9 @@ export default {
       file: null,
       saving: false,
     }
+  },
+  computed: {
+    ...mapState(['scrollY']),
   },
   methods: {
     __,

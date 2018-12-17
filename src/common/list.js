@@ -3,10 +3,11 @@ import {genObjectId} from './utils'
 import {normalizeTab} from './tab'
 import {PICKED_LIST_RPOPS} from './constants'
 
-export const createNewTabList = ({tabs, title, time, pinned, expand, color}) => ({
+export const createNewTabList = ({tabs, title, tags, time, pinned, expand, color}) => ({
   _id: genObjectId(),
   tabs: Array.isArray(tabs) ? tabs.map(normalizeTab) : [],
   title: title || '',
+  tags: tags || [],
   time: time || Date.now(),
   titleEditing: false,
   pinned: pinned === true, // default is false

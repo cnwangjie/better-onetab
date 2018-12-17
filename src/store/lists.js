@@ -39,6 +39,9 @@ export default {
     setLists(state, lists) {
       state.lists = lists.filter(validateList)
     },
+    setTitle(state, [listIndex, title]) {
+      state.lists[listIndex].title = title
+    },
     openChangeTitle(state, listIndex) {
       Vue.set(state.lists[listIndex], 'titleEditing', true)
     },
@@ -73,6 +76,9 @@ export default {
     },
     addTab(state, [listIndex, tab]) {
       state.lists[listIndex].tabs.push(normalizeTab(tab))
+    },
+    setTags(state, [listIndex, tags]) {
+      Vue.set(state.lists[listIndex], 'tags', tags)
     },
   },
   actions: {
@@ -153,6 +159,11 @@ export default {
         if (list.tabs.length === 0) commit(REMOVE_LIST_BY_ID, [list._id])
         else commit(UPDATE_LIST_BY_ID, [list._id, _.pick(list, 'tabs')])
       })
+    },
+    setTags({commit, state}, [listIndex, tags]) {
+      const list = state.lists[listIndex]
+      commit('setTags', [listIndex, tags])
+      commit(UPDATE_LIST_BY_ID, [list._id, {tags}])
     },
   },
 

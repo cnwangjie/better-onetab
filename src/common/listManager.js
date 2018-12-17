@@ -87,10 +87,10 @@ manager.modifiers = {
   },
   [UPDATE_LIST_BY_ID](lists, [listId, newList]) {
     const normal = Object.keys(newList).some(k => SYNCED_LIST_PROPS.includes(k))
-    for (const list of lists) {
-      if (list._id !== listId) continue
-      for (const [k, v] of Object.entries(newList)) {
-        list[k] = v
+    for (let i = 0; i < lists.length; i += 1) {
+      if (lists[i]._id !== listId) continue
+      for (const [k, v] in Object.entries(newList)) {
+        lists[i][k] = v
       }
       return normal
     }

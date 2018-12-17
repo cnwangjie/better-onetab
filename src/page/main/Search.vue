@@ -40,8 +40,7 @@
 <script>
 import _ from 'lodash'
 import __ from '@/common/i18n'
-import storage from '@/common/storage'
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions, mapGetters} from 'vuex'
 import {formatTime} from '@/common/utils'
 
 export default {
@@ -56,7 +55,8 @@ export default {
     q: 'search',
   },
   computed: {
-    ...mapState(['listColors', 'lists']),
+    ...mapGetters(['listColors']),
+    ...mapState(['lists']),
     q() {
       return this.$route.query.q
     },
@@ -94,11 +94,10 @@ export default {
       })
       return q
     },
-    async search() {
+    search() {
       const {color, str} = this.parseQuery()
-      const lists = this.lists
       const items = []
-      lists.forEach((list, listIndex) => {
+      this.lists.forEach((list, listIndex) => {
         const colorMatch = color == null || color === list.color
         const beMatch = [list.title || '', formatTime(list.time), list.color || '']
         const strMatch = str.every(i => beMatch.some(j => ~j.indexOf(i)))

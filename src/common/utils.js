@@ -1,5 +1,7 @@
+import _ from 'lodash'
 import __ from './i18n'
 import moment from 'moment'
+import {COLORS} from './constants'
 import browser from 'webextension-polyfill'
 
 moment.locale(__('@@ui_locale'))
@@ -51,3 +53,8 @@ export const formatSize = bytes => {
   return !bytes && '0 Bytes' || (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sufixes[i]
 }
 export const sleep = ms => new Promise(r => setTimeout(r, ms))
+
+export const getColorByHash = _.memoize(str => {
+  const hash = typeof str === 'string' ? str.split('').reduce((r, i) => i.charCodeAt(0) + r, 0) : 0
+  return COLORS[hash % COLORS.length]
+})

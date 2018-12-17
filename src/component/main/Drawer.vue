@@ -1,5 +1,6 @@
 <template>
 <v-navigation-drawer
+  class="app-drawer"
   v-model="value"
   fixed
   clipped
@@ -7,12 +8,20 @@
   floating
 >
   <v-list>
-    <v-list-tile :to="'/app/list'">
+    <v-list-tile :to="'/app/list'" exact>
       <v-list-tile-action>
         <v-icon>list</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         {{ __('ui_tab_list') }}
+      </v-list-tile-content>
+    </v-list-tile>
+    <v-list-tile v-for="(lists, tag) in taggedList" :key="tag" :to="'/app/list/' + tag">
+      <v-list-tile-action>
+        <v-icon>label</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        {{ tag }}
       </v-list-tile-content>
     </v-list-tile>
     <v-divider class="my-1"></v-divider>
@@ -81,13 +90,16 @@
 <script>
 import __ from '@/common/i18n'
 import browser from 'webextension-polyfill'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       isFirefox: false,
     }
+  },
+  computed: {
+    ...mapGetters(['taggedList']),
   },
   props: {
     value: Boolean,
@@ -114,7 +126,7 @@ export default {
 }
 </script>
 <style scoped>
-.v-navigation-drawer {
+.app-drawer {
   background: inherit !important;
 }
 </style>

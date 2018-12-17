@@ -45,7 +45,7 @@ export default {
     dynamicTime,
   },
   computed: {
-    ...mapState(['opts', 'hasToken', 'nightmode']),
+    ...mapState(['opts', 'hasToken', 'nightmode', 'scrollY']),
     tooltip() {
       return !this.online ? __('ui_offline') // eslint-disable-line
         : !this.hasToken ? __('ui_not_login') // eslint-disable-line
@@ -64,6 +64,7 @@ export default {
   },
   methods: {
     __,
+    ...mapMutations(['setScrollY']),
     ...mapActions(['switchNightmode', 'switchDrawer']),
     init() {
       this.onScroll()
@@ -82,7 +83,8 @@ export default {
       })
     },
     onScroll() {
-      this.flat = (window.pageYOffset || document.documentElement.scrollTop) === 0
+      this.setScrollY(window.pageYOffset || document.documentElement.scrollTop)
+      this.flat = this.scrollY === 0
     },
     syncBtnClicked() {
       if (this.uploadSuccess) return

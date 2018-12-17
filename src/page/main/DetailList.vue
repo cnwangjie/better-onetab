@@ -47,15 +47,19 @@
           </v-card>
         </v-menu>
         <strong class="grey--text date">{{ __('ui_created') }} <dynamic-time v-model="list.time"></dynamic-time></strong>
-      </v-flex>
-      <v-flex no-wrap md6 lg9 @keydown.enter="saveTitle(list.index)">
+        <v-chip v-for="tag in list.tags" :color="getColorByHash(tag)" class="lighten-3" :key="tag" label small>
+          {{ tag }}
+        </v-chip>
         <v-text-field
+          @keydown.enter="saveTitle(list.index)"
+          @blur="saveTitle(list.index)"
           class="title-editor"
           autofocus
           v-if="list.titleEditing"
-          @blur="saveTitle(list.index)"
+          full-width
           @click.prevent.stop
-          v-model="list.title"
+          :value="list.title"
+          @input="setTitle([list.index, $event])"
           single-line
           hide-details
         ></v-text-field>
@@ -97,6 +101,7 @@
           <v-btn flat small v-on:click="restoreList([list.index, true])">{{ __('ui_restore_all_in_new_window') }}</v-btn>
           <v-btn flat small color="error" v-on:click="removeList(list.index)" :disabled="list.pinned">{{ __('ui_remove_list') }}</v-btn>
           <v-btn flat small v-on:click="pinList([list.index, !list.pinned])">{{ list.pinned ? __('ui_unpin') : __('ui_pin') }} {{ __('ui_list') }}</v-btn>
+          <v-btn flat small v-on:click="editTag(list.index, $event)" :ref="'edit-tag-' + list.index">EDIT TAG</v-btn>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -123,7 +128,7 @@
                 hide-details
                 class="checkbox"
                 :value="tab.selected"
-                @click.prevent.stop.self="tabSelected(listIndex, tabIndex, !tab.selected)"
+                @click.prevent.stop.self="tabSelected([list.index, tabIndex, !tab.selected])"
               ></v-checkbox>
             </v-list-tile-action>
             <v-list-tile-content>
@@ -247,33 +252,85 @@
     </v-list-tile>
   </v-list>
 </v-menu>
+
+<v-fab-transition>
+  <v-btn :key="1" v-if="scrollY > 100" color="pink" dark fab fixed bottom right @click="$vuetify.goTo(0)">
+    <v-icon>keyboard_arrow_up</v-icon>
+  </v-btn>
+  <v-btn :key="2" v-else color="green" dark fab fixed bottom right title="fold all lists" @click="foldAll">
+    <v-icon>subject</v-icon>
+  </v-btn>
+</v-fab-transition>
+
+<v-menu
+  v-model="tag.editing"
+  :close-on-content-click="false"
+  :position-x="tag.x"
+  :position-y="tag.y"
+  absolute
+  offset-y
+>
+  <v-combobox
+    autofocus
+    v-model="tag.value"
+    @input="tagChanged"
+    :hide-no-data="!tag.input"
+    :items="Object.keys(taggedList)"
+    :search-input.sync="tag.input"
+    label="Search an existing tag"
+    multiple
+    small-chips
+    solo
+    hide-details
+    dense
+  >
+    <template slot="no-data">
+      <v-list-tile>
+        <span class="subheading">Create</span>
+        <v-chip label small>
+          {{ tag.input }}
+        </v-chip>
+      </v-list-tile>
+    </template>
+
+    <template slot="selection" slot-scope="{ item, parent, selected }">
+      <v-chip :selected="selected" :color="getColorByHash(item)" class="lighten-3" label small>
+        <span class="pr-2">{{ item }}</span>
+        <v-icon small @click="parent.selectItem(item)">close</v-icon>
+      </v-chip>
+    </template>
+
+    <!-- <template
+      slot="item"
+      slot-scope="{ index, item, parent }"
+    >
+      <v-list-tile-content>
+        <v-chip dark label small>{{ item }}</v-chip>
+      </v-list-tile-content>
+    </template> -->
+  </v-combobox>
+</v-menu>
+
 </div>
 </template>
 <script>
-import _ from 'lodash'
 import draggable from 'vuedraggable'
 
 import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import {createNewTabList} from '@/common/list'
-import storage from '@/common/storage'
 import listManager from '@/common/listManager'
-import {formatTime} from '@/common/utils'
+import {formatTime, getColorByHash} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
 import browser from 'webextension-polyfill'
-import {ADD_LIST} from '@/common/constants'
+import {COLORS, ADD_LIST} from '@/common/constants'
 import {mapState, mapActions, mapMutations, mapGetters} from 'vuex'
 if (DEBUG) window.listManager = listManager
-const colorList = [
-  '', 'red', 'pink', 'purple',
-  'indigo', 'blue', 'cyan', 'teal',
-  'green', 'yellow', 'orange', 'brown',
-]
-// TODO: collapse all list
+
 export default {
   data() {
     return {
-      colorList,
+      colorList: COLORS,
       processed: false, // if task to get list completed
       choice: null, // choice in search result
       showMenu: false, // item right click menu
@@ -291,14 +348,21 @@ export default {
         handle: '.drag-indicator',
       },
       expandStatus: [],
+      tag: {
+        editing: false,
+        listIndex: null,
+        x: NaN, y: NaN,
+        value: [],
+        input: '',
+      },
     }
   },
   watch: {
     '$route.query.p': 'updateExpandStatus',
   },
   computed: {
-    ...mapGetters(['inPageLists', 'pageLength', 'getExpandStatus']),
-    ...mapState(['opts', 'lists']),
+    ...mapGetters(['inPageLists', 'pageLength', 'getExpandStatus', 'taggedList']),
+    ...mapState(['opts', 'lists', 'scrollY']),
     currentPage() {
       return +this.$route.query.p || 1
     },
@@ -316,12 +380,16 @@ export default {
   methods: {
     __,
     formatTime,
-    ...mapMutations(['openChangeTitle', 'showAll', 'tabSelected', 'addTab', 'removeTabDirectly']),
+    getColorByHash,
+    ...mapMutations([
+      'openChangeTitle', 'showAll', 'tabSelected', 'addTab',
+      'removeTabDirectly', 'setTitle',
+    ]),
     ...mapActions([
       'showSnackbar', 'itemClicked', 'getLists', 'itemClicked',
       'removeList', 'removeTab', 'restoreList', 'saveTitle',
       'pinList', 'moveListUp', 'moveListDown', 'expandList',
-      'changeColor', 'tabMoved',
+      'changeColor', 'tabMoved', 'setTags',
     ]),
     init() {
       if (DEBUG) window.dl = this
@@ -454,7 +522,7 @@ export default {
       const list = this.lists[listIndex]
       const targetStatus = list.tabs.every(tab => !tab.selected)
       for (let i = 0; i < list.tabs.length; i += 1) {
-        this.tabSelected(listIndex, i, targetStatus)
+        this.tabSelected([listIndex, i, targetStatus])
       }
     },
     multiOpBtnClicked(listIndex, $event) {
@@ -483,6 +551,23 @@ export default {
       this.currentHighlightItem.$el.classList.add('elevation-20')
       this.$vuetify.goTo(this.currentHighlightItem, opt)
     },
+    async foldAll() {
+      this.inPageLists(this.currentPage).forEach(list => {
+        this.expandList([false, list.index])
+      })
+      await this.$nextTick()
+      return this.updateExpandStatus()
+    },
+    editTag(listIndex, $event) {
+      this.tag.listIndex = listIndex
+      this.tag.value = this.lists[listIndex].tags || []
+      this.tag.x = $event.x
+      this.tag.y = $event.y
+      this.tag.editing = true
+    },
+    tagChanged(tags) {
+      this.setTags([this.tag.listIndex, tags])
+    },
   }
 }
 </script>
@@ -510,15 +595,14 @@ export default {
   display: inline-flex;
   width: 80%;
   font-size: 12px;
-  :global(.v-input__control) {
-    padding: 0 !important;
-  }
+}
+.v-text-field.v-text-field--full-width .v-input__control {
+  padding: 0 !important;
 }
 .list-title {
-  display: inline-block;
-  font-size: 100%;
+  font-size: 12px;
   line-height: 34px;
-  padding: 0 12px;
+  padding-left: 20px;
 }
 .tab-list {
   .icon-in-title {
