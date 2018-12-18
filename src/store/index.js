@@ -25,30 +25,6 @@ export default new Vuex.Store({
     ...lists.state,
   },
   getters: {
-    listColors(state) {
-      const colors = new Set()
-      state.lists.forEach(list => {
-        colors.add(list.color || '')
-      })
-      return Array.from(colors)
-    },
-    taggedList(state) {
-      const tags = {}
-      state.lists.forEach(list => {
-        if (list.tags) {
-          list.tags.forEach(tag => {
-            tags[tag] = tags[tag] || []
-            tags[tag].push(list)
-          })
-        }
-      })
-      const sorted = {}
-      Object.keys(tags).sort().forEach(k => { sorted[k] = tags[k] })
-      return sorted
-    },
-    listWithTag(state, getters) {
-      return tag => getters.taggedList[tag]
-    },
     ...lists.getters,
   },
   mutations: {

@@ -17,7 +17,7 @@
   class="my-3"
 >
   <v-expansion-panel-content
-    v-for="list in inPageLists(currentPage)"
+    v-for="list in listsInView"
     hide-actions
     class="tab-list"
     :key="list.index"
@@ -355,16 +355,30 @@ export default {
         value: [],
         input: '',
       },
+      // tagInView: null,
     }
   },
   watch: {
     '$route.query.p': 'updateExpandStatus',
+    // '$route.params.tag': 'setTagInView'
   },
   computed: {
-    ...mapGetters(['inPageLists', 'pageLength', 'getExpandStatus', 'taggedList']),
+    ...mapGetters(['inPageLists', 'getPageLength', 'taggedList', 'indexedLists']),
     ...mapState(['opts', 'lists', 'scrollY']),
     currentPage() {
       return +this.$route.query.p || 1
+    },
+    tagInView() {
+      return this.$route.params.tag
+    },
+    listsToDisplay() {
+      return this.tagInView ? this.taggedList[this.tagInView] || [] : this.indexedLists
+    },
+    listsInView() {
+      return this.inPageLists(this.currentPage, this.listsToDisplay)
+    },
+    pageLength() {
+      return this.getPageLength(this.listsToDisplay.length)
     },
   },
   created() {
@@ -393,6 +407,7 @@ export default {
     ]),
     init() {
       if (DEBUG) window.dl = this
+      // this.setTagInView()
       this.getLists().then(() => {
         this.updateExpandStatus()
         if (!this.processed) {
@@ -412,6 +427,9 @@ export default {
         if (event.keyCode === 27) this.showMenu = false
       })
     },
+    getExpandStatus() {
+      return this.listsInView.map(i => i.expand !== false)
+    },
     expandStatusChanged(newStatus) {
       const indexInPage = this.expandStatus.findIndex((s, i) => s !== newStatus[i])
       if (!~indexInPage) return
@@ -421,7 +439,7 @@ export default {
     },
     async updateExpandStatus() {
       await this.$nextTick()
-      this.expandStatus = this.getExpandStatus(this.currentPage)
+      this.expandStatus = this.getExpandStatus()
     },
     openTab(listIndex, tabIndex) {
       tabs.openTab(this.lists[listIndex].tabs[tabIndex])
@@ -516,7 +534,8 @@ export default {
       this.tabMoved(changedLists)
     },
     changePage(page) {
-      this.$router.push({name: 'detailList', query: {p: page}})
+      const {path} = this.$route
+      this.$router.push({path, query: {p: page}})
     },
     selectAllBtnClicked(listIndex) {
       const list = this.lists[listIndex]
@@ -552,7 +571,7 @@ export default {
       this.$vuetify.goTo(this.currentHighlightItem, opt)
     },
     async foldAll() {
-      this.inPageLists(this.currentPage).forEach(list => {
+      this.listsInView.forEach(list => {
         this.expandList([false, list.index])
       })
       await this.$nextTick()
@@ -568,6 +587,9 @@ export default {
     tagChanged(tags) {
       this.setTags([this.tag.listIndex, tags])
     },
+    // setTagInView() {
+    //   this.tagInView = this.$route.params.tag
+    // }
   }
 }
 </script>

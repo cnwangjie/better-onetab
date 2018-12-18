@@ -21,17 +21,38 @@ export default {
     loaded: false,
   },
   getters: {
+    indexedLists(state) {
+      return state.lists.map((list, index) => Object.assign({}, list, {index}))
+    },
     inPageLists(state) {
-      return page => state.lists.map((list, index) => Object.assign({}, list, {index}))
-        .filter(({index}) => index >= (page - 1) * state.opts.listsPerPage
-          && index < page * state.opts.listsPerPage)
+      return (page, lists) => lists.slice(
+        (page - 1) * state.opts.listsPerPage,
+        page * state.opts.listsPerPage,
+      )
     },
-    getExpandStatus(state, getters) {
-      return page => getters.inPageLists(page)
-        .map(i => i.expand !== false)
+    listColors(state) {
+      const colors = new Set()
+      state.lists.forEach(list => {
+        colors.add(list.color || '')
+      })
+      return Array.from(colors)
     },
-    pageLength(state) {
-      return Math.ceil(state.lists.length / state.opts.listsPerPage)
+    taggedList(state, getters) {
+      const tags = {}
+      getters.indexedLists.forEach(list => {
+        if (list.tags) {
+          list.tags.forEach(tag => {
+            tags[tag] = tags[tag] || []
+            tags[tag].push(list)
+          })
+        }
+      })
+      const sorted = {}
+      Object.keys(tags).sort().forEach(k => { sorted[k] = tags[k] })
+      return sorted
+    },
+    getPageLength(state) {
+      return size => Math.ceil(size / state.opts.listsPerPage)
     },
   },
   mutations: {
