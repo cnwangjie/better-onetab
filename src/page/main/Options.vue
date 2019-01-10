@@ -8,11 +8,11 @@
         <v-card>
           <v-list>
             <template v-for="(option, optionIndex) in optionsList">
-              <v-list-tile>
+              <v-list-tile :key="optionIndex" class="free-height">
                 <v-list-tile-content>
                   <v-layout wrap row align-center style="width:100%">
                     <v-flex xs8>
-                      <v-subheader>
+                      <v-subheader style="height: 100%; padding:10px 16px;">
                         {{ option.desc }}
                         <v-tooltip top v-if="isNew(option)">
                           <v-chip slot="activator" outline color="red" small>NEW</v-chip>
@@ -45,7 +45,7 @@
                   </v-layout>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider v-if="optionIndex !== optionsList.length - 1"></v-divider>
+              <v-divider v-if="optionIndex !== optionsList.length - 1" :key="optionIndex"></v-divider>
             </template>
           </v-list>
         </v-card>
@@ -142,5 +142,11 @@ export default {
 <style lang="scss">
 .select-amend {
   padding: 4px 0 0;
+}
+
+.free-height > .v-list__tile {
+  height: initial;
+  min-height: 48px;
+  padding: 0 4px;
 }
 </style>
