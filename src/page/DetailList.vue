@@ -11,6 +11,7 @@
   item-value="value"
   :filter="searchItem"
   v-model="choice"
+  ref="autoc"
 >
   <template
     slot="item"
@@ -236,12 +237,16 @@ export default {
         offset: -50,
         easing: 'easeInOutCubic',
       }
+      this.expandList(true, item.listIndex)
       if (item.tabIndex) {
-        this.expandList(true, item.listIndex)
         this.$vuetify.goTo(this.$refs[`list-${item.listIndex}-tab`][item.tabIndex], opt)
       } else {
         this.$vuetify.goTo(this.$refs.list[item.listIndex], opt)
       }
+      setTimeout(() => {
+        this.$refs.autoc.blur()
+        alert(2)
+      }, 500)
     }
   },
   methods: {
