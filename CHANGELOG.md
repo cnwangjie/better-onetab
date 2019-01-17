@@ -1,3 +1,9 @@
+### v1.3.12 1/17/2018
+
+ - fix: search item clicked wont expanse list
+ - fix: context menus handler is not a function
+ - fix: date collision with title
+
 ### v1.3.11 10/13/2018
 
  - change: refine i18n strings

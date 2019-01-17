@@ -38,7 +38,7 @@
     ref="list"
   >
     <v-layout slot="header" row spacer>
-      <v-flex no-wrap md7 lg4>
+      <v-flex no-wrap xs10>
 
         <v-menu open-on-hover top offset-y>
           <v-chip
@@ -61,18 +61,19 @@
           </v-card>
         </v-menu>
         <strong class="grey--text date">{{ __('ui_created') }} <dynamic-time v-model="list.time"></dynamic-time></strong>
-      </v-flex>
-      <v-flex no-wrap md6 lg9 @keydown.enter="saveTitle(listIndex)">
         <v-text-field
           class="title-editor"
           autofocus
           v-if="list.titleEditing"
-          @blur="saveTitle(listIndex)"
+          @keydown.enter="saveTitle(listIndex)"
+          @click.prevent.stop
+          full-width
+          @b-lur="saveTitle(listIndex)"
           v-model="list.title"
           single-line
           hide-details
         ></v-text-field>
-        <strong class="list-title" v-else :class="list.color ? list.color + '--text' : ''">{{ list.title }}</strong>
+        <div class="list-title" v-else :class="list.color ? list.color + '--text' : ''">{{ list.title }}</div>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
         <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(listIndex)" flat icon class="icon-in-title" :disabled="listIndex === lists.length - 1">
@@ -236,11 +237,11 @@ export default {
         offset: -50,
         easing: 'easeInOutCubic',
       }
-      if (item.tabIndex) {
+      if (item.tabIndex == null) {
+        this.$vuetify.goTo(this.$refs.list[item.listIndex], opt)
+      } else {
         this.expandList(true, item.listIndex)
         this.$vuetify.goTo(this.$refs[`list-${item.listIndex}-tab`][item.tabIndex], opt)
-      } else {
-        this.$vuetify.goTo(this.$refs.list[item.listIndex], opt)
       }
     }
   },
@@ -401,10 +402,18 @@ export default {
 }
 .title-editor {
   padding: 0;
+  display: inline-flex;
+  width: 80%;
+  font-size: 12px;
+  :global(.v-input__control) {
+    padding: 0 !important;
+  }
 }
 .list-title {
+  display: inline-block;
   font-size: 100%;
   line-height: 34px;
+  padding: 0 12px;
 }
 .tab-list {
   .icon-in-title {
