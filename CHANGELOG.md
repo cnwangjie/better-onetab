@@ -1,4 +1,4 @@
-### v1.3.12 1/17/2018
+### v1.3.12 1/17/2019
 
  - fix: search item clicked wont expanse list
  - fix: context menus handler is not a function
