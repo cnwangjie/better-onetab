@@ -168,7 +168,7 @@
   ></v-pagination>
 </div>
 
-<v-layout v-if="processed && lists.length === 0" align-center justify-center column fill-height class="no-list-tip">
+<v-layout v-if="processed && listsToDisplay.length === 0" align-center justify-center column fill-height class="no-list-tip">
   <h3 class="display-3 grey--text" v-text="__('ui_no_list')"></h3>
   <p class="display-2 grey--text text--lighten-1" v-html="__('ui_no_list_tip')"></p>
 </v-layout>
@@ -363,7 +363,7 @@ export default {
     // '$route.params.tag': 'setTagInView'
   },
   computed: {
-    ...mapGetters(['inPageLists', 'getPageLength', 'taggedList', 'indexedLists']),
+    ...mapGetters(['inPageLists', 'getPageLength', 'taggedList', 'indexedLists', 'pinnedList']),
     ...mapState(['opts', 'lists', 'scrollY']),
     currentPage() {
       return +this.$route.query.p || 1
@@ -372,7 +372,9 @@ export default {
       return this.$route.params.tag
     },
     listsToDisplay() {
-      return this.tagInView ? this.taggedList[this.tagInView] || [] : this.indexedLists
+      return this.$route.name === 'pinnedList' ? this.pinnedList
+        : this.tagInView ? this.taggedList[this.tagInView] || []
+        : this.indexedLists
     },
     listsInView() {
       return this.inPageLists(this.currentPage, this.listsToDisplay)

@@ -194,6 +194,9 @@
   "ui_list": {
     "message": "列表"
   },
+  "ui_pinned": {
+    "message": "已固定"
+  },
   "ui_create_issue": {
     "message": "反馈问题"
   },

@@ -51,6 +51,9 @@ export default {
       Object.keys(tags).sort().forEach(k => { sorted[k] = tags[k] })
       return sorted
     },
+    pinnedList(state, getters) {
+      return getters.indexedLists.filter(list => list.pinned)
+    },
     getPageLength(state) {
       return size => Math.ceil(size / state.opts.listsPerPage)
     },

@@ -53,7 +53,12 @@ const router = new Router({
           name: 'detailList',
         },
         {
-          path: 'list/:tag',
+          path: 'list/pinned',
+          component: DetailList,
+          name: 'pinnedList',
+        },
+        {
+          path: 'list/tag/:tag',
           component: DetailList,
           name: 'taggedList'
         },

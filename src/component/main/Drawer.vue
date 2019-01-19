@@ -16,7 +16,15 @@
         {{ __('ui_tab_list') }}
       </v-list-tile-content>
     </v-list-tile>
-    <v-list-tile v-for="(lists, tag) in taggedList" :key="tag" :to="'/app/list/' + tag">
+    <v-list-tile :to="'/app/list/pinned'" exact>
+      <v-list-tile-action>
+        <v-icon>done</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        {{ __('ui_pinned') }}
+      </v-list-tile-content>
+    </v-list-tile>
+    <v-list-tile v-for="(lists, tag) in taggedList" :key="tag" :to="'/app/list/tag/' + tag">
       <v-list-tile-action>
         <v-icon>label</v-icon>
       </v-list-tile-action>

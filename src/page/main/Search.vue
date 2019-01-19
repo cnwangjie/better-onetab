@@ -17,7 +17,7 @@
         </div>
       </v-card>
     </v-flex>
-    <v-flex wrap xs12 sm6 offset-sm3 class="my-3 search-item" key="tag" v-if="card > 1">
+    <v-flex wrap xs12 sm6 offset-sm3 class="my-3 search-item" key="tag" v-if="card > 1 && hasTags">
       <v-card>
         <v-subheader>Tag</v-subheader>
 
@@ -78,6 +78,9 @@ export default {
     q() {
       return this.$route.query.q
     },
+    hasTags() {
+      return !_.isEmpty(this.taggedList)
+    },
   },
   created() {
     if (this.q) this.search()
@@ -92,6 +95,7 @@ export default {
     this.card = 0
   },
   methods: {
+    _,
     ...mapActions(['preloadLists']),
     slideCard() {
       if (this.card === 2) return
@@ -189,6 +193,7 @@ export default {
       transform: translate(-50%, -50%);
     }
     .tag-name {
+      color: black;
       font-size: 13px;
       width: 100%;
       word-wrap: break-word;
