@@ -17,11 +17,10 @@ const getStorage = async () => {
   if (_readingStorage) {
     await new Promise(resolve => {
       const interval = setInterval(() => {
-        console.log('await reading storage')
         if (_readingStorage) return
         clearInterval(interval)
         resolve()
-      }, 20)
+      }, 100)
     })
   }
   if (cache.lists && cache.ops) return cache
@@ -40,7 +39,7 @@ const compressOps = ops => {
   for (let i = ops.length - 1; i > -1; i -= 1) {
     const op = ops[i]
     // ignore all actions for the list if that list will be removed finally
-    if (op.args && typeof op.args[0] === 'object' && removed.includes(op.args[0]._id)
+    if (op.args && op.args[0] && removed.includes(op.args[0]._id)
       || typeof op.args[0] === 'string' && removed.includes(op.args[0])) continue
 
     if (op.method === 'removeListById') {
@@ -48,15 +47,16 @@ const compressOps = ops => {
       finalOps.unshift(op)
     } else if (op.method === 'updateListById') {
       // keep the final result of every property if a list will be updated
-      if (updated[op.args[0]]) {
-        for (const key in op.args[1]) {
-          if (key in updated[op.args[0]]) continue
-          updated[op.args[0]][key] = op.args[1][key]
+      const [listId, newList, time] = op.args
+      if (updated[listId]) {
+        for (const key in newList) {
+          if (key in updated[listId]) continue
+          updated[listId][key] = newList[key]
         }
         continue
       } else {
-        updated[op.args[0]] = Object.assign({}, op.args[1])
-        finalOps.unshift({method: 'updateListById', args: [op.args[0], updated[op.args[0]]]})
+        updated[listId] = Object.assign({}, newList)
+        finalOps.unshift({method: 'updateListById', args: [listId, updated[listId], time]})
       }
     } else if (op.method === 'changeListOrderRelatively') {
       // combine the value if a list is reordered continuously
@@ -83,28 +83,30 @@ manager.modifiers = {
   [ADD_LIST](lists, [list]) {
     if (~lists.findIndex(i => i._id === list._id)) return
     lists.unshift(list)
-    return true
+    return [list]
   },
-  [UPDATE_LIST_BY_ID](lists, [listId, newList]) {
+  [UPDATE_LIST_BY_ID](lists, [listId, newList, time = Date.now()]) {
     const normal = Object.keys(newList).some(k => SYNCED_LIST_PROPS.includes(k))
     for (let i = 0; i < lists.length; i += 1) {
       if (lists[i]._id !== listId) continue
-      for (const [k, v] in Object.entries(newList)) {
-        lists[i][k] = v
+      const list = lists[i]
+      for (const [k, v] of Object.entries(newList)) {
+        list[k] = v
       }
-      return normal
+      if (normal) list.updatedAt = time
+      return normal ? [listId, newList, time] : null
     }
   },
   [REMOVE_LIST_BY_ID](lists, [listId]) {
     const index = lists.findIndex(list => list._id === listId)
     lists.splice(index, 1)
-    return true
+    return [listId]
   },
   [CHANGE_LIST_ORDER](lists, [listId, diff]) {
     const index = lists.findIndex(list => list._id === listId)
     const [list] = lists.splice(index, 1)
     lists.splice(index + diff, 0, list)
-    return true
+    return [listId, diff]
   },
 }
 
@@ -113,7 +115,8 @@ const _modifyQueue = []
 const _startModifyWork = (lists, ops) => {
   while (_modifyQueue.length !== 0) {
     const [method, args] = _modifyQueue.shift()
-    if (manager.modifiers[method](lists, args)) ops.push({method, args, time: Date.now()})
+    const opArgs = manager.modifiers[method](lists, args)
+    if (opArgs) ops.push({method, args: opArgs, time: Date.now()})
   }
   saveStorage()
 }
@@ -170,4 +173,11 @@ manager.createVuexPlugin = () => store => {
     }
   })
 }
+manager.idle = () => new Promise(resolve => {
+  const interval = setInterval(() => {
+    if (cache.lists) return
+    clearInterval(interval)
+    resolve()
+  }, 100)
+})
 export default manager

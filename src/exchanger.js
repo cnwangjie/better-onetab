@@ -13,7 +13,7 @@ const parseLists = (compatible, data) => {
 
 addEventListener('message', msg => {
   const {compatible, data} = msg.data
-  if (!compatible || !data) return
+  if (compatible == null || !data) return
   const listsData = parseLists(compatible, data)
   postMessage(listsData)
 })

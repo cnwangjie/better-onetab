@@ -2,11 +2,15 @@ import {
   TOKEN_KEY,
   AUTH_HEADER,
   SYNC_SERVICE_URL,
+  SYNC_MAX_INTERVAL,
+  UPDATE_LIST_BY_ID,
 } from '../constants'
-import {isBackground} from '../utils'
+import _ from 'lodash'
+import storage from '../storage'
+import listManager from '../listManager'
+import {isBackground, timeout} from '../utils'
 import browser from 'webextension-polyfill'
-
-const apiUrl = SYNC_SERVICE_URL
+import io from 'socket.io-client'
 
 const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
 
@@ -18,7 +22,7 @@ const getToken = async () => {
 }
 
 const setToken = async token => {
-  await browser.storage.local.set({[TOKEN_KEY]: token})
+  await browser.storage.local.set({[TOKEN_KEY]: token, tokenIssued: Date.now()})
   await browser.storage.sync.set({[TOKEN_KEY]: token})
 }
 
@@ -47,30 +51,16 @@ const fetchData = async (uri = '', method = 'GET', data = {}) => {
     }).filter(i => i).join('&')
   }
 
-  return fetch(apiUrl + uri, option)
-    .then(async res => {
-      // use new token
-      if (res.headers.has(AUTH_HEADER)) {
-        const newToken = res.headers.get(AUTH_HEADER)
-        console.debug('[boss]: got new token', newToken)
-        await setToken(newToken)
-      }
-      return res
-    })
-    .then(res => res.json())
-    .then(res => {
-      if (res.status === 'error') throw new Error(res.message)
-      return res
-    })
-    .catch(async err => {
-      // remove expired token
-      if (err.status === 401) {
-        await removeToken()
-      } else {
-        console.error(err)
-        throw new Error('Internal Server Error')
-      }
-    })
+  const res = await fetch(SYNC_SERVICE_URL + uri, option)
+  if (res.headers.has(AUTH_HEADER)) {
+    const newToken = res.headers.get(AUTH_HEADER)
+    console.debug('[boss]: got new token', newToken)
+    await setToken(newToken)
+  }
+  if (res.ok) return res.json()
+  if (res.status === 401) await removeToken()
+  const err = await res.json()
+  throw new Error(err.message)
 }
 
 const getInfo = () => fetchData('/api/info').then(info => {
@@ -78,88 +68,142 @@ const getInfo = () => fetchData('/api/info').then(info => {
   info.listsUpdatedAt = Date.parse(info.listsUpdatedAt) || 0
   return info
 })
-const getLists = () => fetchData('/api/lists')
-const setLists = lists => fetchData('/api/lists', 'PUT', {lists})
-const getOpts = () => fetchData('/api/opts')
-const setOpts = opts => fetchData('/api/v2/opts', 'PUT', {opts})
-const changeListBulk = changes => fetchData('/api/v2/lists/bulk', 'POST', {changes})
 
-const uploadWholeLists = async () => {
-  const {lists} = await browser.storage.local.get('lists')
-  if (!lists) return
-  const result = await setLists(lists)
-  result.listsUpdatedAt = Date.parse(result.listsUpdatedAt)
-  await browser.storage.local.remove('ops')
-  return result
-}
-
-const uploadOperations = async () => {
-  const {ops} = await browser.storage.local.get('ops')
-  if (!ops) return
-  const time = Date.now()
-  const changes = ops.sort((a, b) => a.time - b.time).map(op => ([op.method, ...op.args]))
-  const result = await changeListBulk(changes)
-  if (result.status === 'success') {
-    const {ops} = await browser.storage.local.get('ops')
-    await browser.storage.local.set({ops: ops.filter(op => op.time > time)})
+const setWSToken = token => {
+  if (!window._socket) return
+  window._socket.io.opts.query = {
+    [AUTH_HEADER]: token,
   }
-  result.listsUpdatedAt = Date.parse(result.listsUpdatedAt)
-  return result
 }
 
-const applyRemoteLists = async () => {
-  const lists = await getLists()
-  await browser.storage.local.set({lists})
-  return getInfo()
+const uploadOpsViaWS = async () => {
+  const socket = window._socket
+  if (!socket || !socket.connected) throw new Error('socket not connected')
+  await listManager.idle() // wait for list manager idle
+  const {ops} = await browser.storage.local.get('ops')
+  await browser.storage.local.remove('ops')
+  if (ops) {
+    const changes = ops.sort((a, b) => a.time - b.time)
+    while (changes && changes.length) {
+      const change = changes.shift()
+      await new Promise(resolve => {
+        socket.emit('list.update', change, ({err}) => {
+          if (err) console.error(change, err)
+          resolve()
+        })
+      })
+    }
+  }
 }
 
-const uploadOpts = async () => {
-  const {opts} = await browser.storage.local.get('opts')
-  const result = await setOpts(opts)
-  result.optsUpdatedAt = Date.parse(result.optsUpdatedAt)
-  return result
+const downloadRemoteLists = async () => {
+  const socket = window._socket
+  if (!socket || !socket.connected) throw new Error('socket not connected')
+  const remoteTime = await new Promise(resolve => {
+    socket.emit('list.time', time => {
+      resolve(time)
+    })
+  })
+  const {listsUpdatedAt: localTime} = await browser.storage.local.get('listsUpdatedAt')
+  if (remoteTime === localTime) return
+  const remoteLists = await new Promise(resolve => {
+    socket.emit('list.all', lists => {
+      resolve(lists)
+    })
+  })
+  const localLists = _.keyBy(await storage.getLists(), list => list._id)
+  const finallyLists = []
+  const fetching = {}
+  remoteLists.forEach(list => {
+    if (!(list._id in localLists) || localLists.updatedAt < list.updatedAt) {
+      fetching[list._id] = new Promise(resolve => {
+        socket.emit('list.get', list._id, remoteList => {
+          resolve(remoteList)
+        })
+      })
+      finallyLists.push(list._id)
+    } else {
+      finallyLists.push(localLists[list._id])
+    }
+  })
+  console.log(finallyLists)
+  await Promise.all(Object.values(fetching))
+  for (let i = 0; i < finallyLists.length; i += 1) {
+    if (typeof finallyLists[i] === 'string') {
+      finallyLists[i] = await fetching[finallyLists[i]] // eslint-disable-line
+    }
+  }
+  console.log(finallyLists)
+  await storage.setLists(finallyLists)
+  await browser.storage.local.set({listsUpdatedAt: remoteTime})
 }
 
-const applyRemoteOpts = async () => {
-  const opts = await getOpts()
-  return browser.storage.local.set({opts})
+const syncLists = async () => {
+  await uploadOpsViaWS()
+  await downloadRemoteLists()
 }
 
+const getRemoteOptionsUpdatedTimeViaWS = () => new Promise(resolve => {
+  const socket = window._socket
+  socket.emit('opts.time', time => {
+    resolve(time)
+  })
+})
+
+const getRemoteOptions = () => new Promise(resolve => {
+  const socket = window._socket
+  socket.emit('opts.all', opts => {
+    resolve(opts)
+  })
+})
+
+const setRemoteOptions = (opts, time) => new Promise((resolve, reject) => {
+  const socket = window._socket
+  socket.emit('opts.set', ({opts, time}), ({err}) => {
+    if (err) reject(err)
+    resolve()
+  })
+})
+
+const syncOptions = async () => {
+  const remoteTime = await getRemoteOptionsUpdatedTimeViaWS()
+  const {optsUpdatedAt: localTime} = await browser.storage.local.get('optsUpdatedAt')
+  if (remoteTime > localTime) {
+    const opts = await getRemoteOptions()
+    await browser.storage.local.set({opts, optsUpdatedAt: remoteTime})
+  } else if (remoteTime < localTime) {
+    const opts = await storage.getOptions()
+    await setRemoteOptions(opts, localTime)
+  }
+}
+
+/**
+ * latest sync logic
+ * date: 2019-01-21
+ *
+ * options:
+ *  - record the time when options are changed
+ *  - get remote options updated time
+ *  - if local time is later than remote upload local options to remote and set remote time, else if local time is before than remote download the remote options and set local time
+ *
+ * lists:
+ *  - record each time of list be updated (UPDATE_LIST_BY_ID)
+ *  - upload local operations to remote (include the time and save in server storage)
+ *  - compare the latest updated time of each list
+ *  - if local time is before than remote download that remote list
+ *
+ */
 let _refreshing = false
 const refresh = async () => {
   if (_refreshing || !(await hasToken())) return
+
+  _refreshing = true
   await browser.runtime.sendMessage({refreshing: true})
   try {
-    const remoteInfo = await getInfo()
-    const localInfo = await browser.storage.local.get(['listsUpdatedAt', 'optsUpdatedAt'])
-    localInfo.listsUpdatedAt = localInfo.listsUpdatedAt || 0
-    localInfo.optsUpdatedAt = localInfo.optsUpdatedAt || 0
-
-    const {ops} = await browser.storage.local.get('ops')
-    if (remoteInfo.listsUpdatedAt === 0) {
-      const {listsUpdatedAt} = await uploadWholeLists()
-      await browser.storage.local.set({listsUpdatedAt})
-    } else if (ops && ops.length) {
-      // normal lists sync logic: apply local operations firstly
-      const {listsUpdatedAt} = await uploadOperations()
-      await browser.storage.local.set({listsUpdatedAt})
-    }
-    // apply remote lists if remote lists update time later than local
-    if (remoteInfo.listsUpdatedAt > localInfo.listsUpdatedAt) {
-      const {listsUpdatedAt} = await applyRemoteLists()
-      await browser.storage.local.set({listsUpdatedAt})
-    }
-
-    if (localInfo.optsUpdatedAt > remoteInfo.optsUpdatedAt) {
-      const {optsUpdatedAt} = await uploadOpts()
-      await browser.storage.local.set({optsUpdatedAt})
-    } else if (localInfo.optsUpdatedAt < remoteInfo.optsUpdatedAt) {
-      await applyRemoteOpts()
-      await browser.storage.local.set({optsUpdatedAt: remoteInfo.optsUpdatedAt})
-    }
+    await timeout(Promise.all([syncOptions(), syncLists()]), 20000)
     await browser.runtime.sendMessage({refreshed: {success: true}})
-  } catch (error) {
-    console.error(error)
+  } catch (err) {
+    console.error(err)
     await browser.runtime.sendMessage({refreshed: {success: false}})
   } finally {
     _refreshing = false
@@ -184,20 +228,50 @@ const login = async token => {
   await refresh()
 }
 
-const initTimer = async () => {
-  if (window._timerInited || !await isBackground()) return
-  window._timerInited = true
-  window.setInterval(() => {
-    if (!navigator.onLine) return
-    refresh()
-  }, 60000)
+const initTimer = () => {
+  window._nextSyncInterval = 6e4
+  window.addEventListener('offline', () => {
+    window._nextSyncInterval = SYNC_MAX_INTERVAL
+  })
+  window.addEventListener('online', () => {
+    window._nextSyncInterval = 6e4
+  })
+  const _nextTimer = () => {
+    setTimeout(() => {
+      _nextTimer()
+      getInfo() // for update token
+      if (window._socket && window._socket.connected) refresh()
+      else window._nextSyncInterval = Math.min(window._nextSyncInterval * 2, SYNC_MAX_INTERVAL)
+    }, window._nextSyncInterval)
+  }
+  _nextTimer()
+}
+
+const init = async () => {
+  if (window._socket || !await isBackground()) return
+  const socket = window._socket = io(SYNC_SERVICE_URL, {path: '/ws', autoConnect: false})
+  setWSToken(await getToken())
+  await listManager.init()
+  socket.on('list.update', ({method, args}) => {
+    listManager[method](...args)
+  })
+  socket.on('opts.set', async ({changes, time}) => {
+    const {opts} = await browser.storage.local.get('opts')
+    for (const [k, v] of Object.entries(changes)) {
+      opts[k] = v
+    }
+    await browser.storage.local.set({opts, optsUpdatedAt: time})
+  })
+  socket.on('connect', () => refresh())
+  socket.open()
+  initTimer()
 }
 
 export default {
-  hasToken,
-  removeToken,
-  refresh,
-  login,
-  initTimer,
   getInfo,
+  removeToken,
+  hasToken,
+  login,
+  init,
+  refresh,
 }

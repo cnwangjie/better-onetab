@@ -24,6 +24,8 @@ if (PRODUCTION) import(
 if (DEBUG) {
   window.tabs = tabs
   window.browser = browser
+  window.listManger = listManger
+  window.boss = boss
   browser.browserAction.setBadgeText({text: 'dev'})
 }
 
@@ -301,8 +303,7 @@ const init = async () => {
     }
   })
   await migrate()
-  await boss.refresh()
-  await boss.initTimer()
+  await boss.init()
 }
 
 init()

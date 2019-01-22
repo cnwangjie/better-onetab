@@ -17,6 +17,7 @@ export const END_FRONT = 'front'
 export const END_BACKGROUND = 'background'
 
 export const SYNC_SERVICE_URL = DEBUG ? 'http://127.0.0.1:3000' : 'https://boss.cnwangjie.com'
+export const SYNC_MAX_INTERVAL = 864e5
 
 export const ADD_LIST = 'addList'
 export const UPDATE_LIST_BY_ID = 'updateListById'

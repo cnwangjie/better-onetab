@@ -58,3 +58,9 @@ export const getColorByHash = _.memoize(str => {
   const hash = typeof str === 'string' ? str.split('').reduce((r, i) => i.charCodeAt(0) + r, 0) : 0
   return COLORS[hash % COLORS.length]
 })
+
+export const timeout = (promise, ms) => Promise.race([
+  promise, new Promise((resolve, reject) => setTimeout(() => {
+    reject(new Error('promise timeout'))
+  }, ms))
+])
