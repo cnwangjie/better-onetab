@@ -562,11 +562,11 @@ export default {
         offset: -100,
         easing: 'easeInOutCubic',
       }
-      if (item.tabIndex) {
+      if (item.tabIndex == null) {
+        this.currentHighlightItem = this.$refs.list[item.listIndex]
+      } else {
         this.expandList([true, item.listIndex])
         this.currentHighlightItem = this.$refs[`list-${item.listIndex}-tab`][item.tabIndex]
-      } else {
-        this.currentHighlightItem = this.$refs.list[item.listIndex]
       }
       console.log(this.currentHighlightItem)
       this.currentHighlightItem.$el.classList.add('elevation-20')
@@ -619,14 +619,18 @@ export default {
   display: inline-flex;
   width: 80%;
   font-size: 12px;
+  :global(.v-input__control) {
+    padding: 0 !important;
+  }
 }
 .v-text-field.v-text-field--full-width .v-input__control {
   padding: 0 !important;
 }
 .list-title {
+  display: inline-block;
   font-size: 12px;
   line-height: 34px;
-  padding-left: 20px;
+  padding: 0 12px;
 }
 .tab-list {
   .icon-in-title {

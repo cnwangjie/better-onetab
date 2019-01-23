@@ -136,7 +136,7 @@ export default {
       else commit(UPDATE_LIST_BY_ID, [list._id, {tabs}])
     },
     restoreList({commit, state}, [listIndex, inNewWindow = false]) {
-      const list = state.list[listIndex]
+      const list = state.lists[listIndex]
       if (inNewWindow) tabManager.restoreListInNewWindow(list)
       else tabManager.restoreList(list)
       if (list.pinned) return
