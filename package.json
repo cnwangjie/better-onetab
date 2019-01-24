@@ -16,6 +16,7 @@
     "prebuild": "yarn lint"
   },
   "dependencies": {
+    "@sentry/browser": "^4.5.3",
     "downloadjs": "^1.4.7",
     "lodash": "^4.17.10",
     "material-design-icons-iconfont": "^3.0.3",

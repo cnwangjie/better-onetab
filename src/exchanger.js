@@ -13,7 +13,8 @@ const parseLists = (compatible, data) => {
 
 addEventListener('message', msg => {
   const {compatible, data} = msg.data
-  if (compatible == null || !data) return
+  if (compatible == null || !data) throw new Error('wrong message')
   const listsData = parseLists(compatible, data)
+  if (!Array.isArray(listsData)) throw new Error('data must be an array')
   postMessage(listsData)
 })

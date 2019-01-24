@@ -126,7 +126,7 @@ export default {
       if ((list.tabs.length !== 0) && state.opts.alertRemoveList && !confirm(`${__('ui_remove_list')}:
         [${list.tabs.length}] ${list.title || __('ui_untitled')}
         ${__('ui_created')} ${formatTime(list.time)}`)) return
-      commit(REMOVE_LIST_BY_ID, [list._Id])
+      commit(REMOVE_LIST_BY_ID, [list._id])
     },
     removeTab({commit, state}, [listIndex, tabIndex]) {
       const list = state.lists[listIndex]
@@ -154,7 +154,6 @@ export default {
       commit(UPDATE_LIST_BY_ID, [list._id, {pinned}])
     },
     swapListItem({commit, state}, [a, b]) {
-      commit('swapListItem', [a, b])
       const list = state.lists[a]
       commit(CHANGE_LIST_ORDER, [list._id, b - a])
     },

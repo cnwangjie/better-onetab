@@ -66,13 +66,29 @@
         <div class="list-title" v-else :class="list.color ? list.color + '--text' : ''">{{ list.title }}</div>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
-        <v-btn :title="__('ui_title_down_btn')" @click.stop="moveListDown(list.index)" flat icon class="icon-in-title" :disabled="list.index === lists.length - 1">
+        <v-btn
+          :title="__('ui_title_down_btn')"
+          @click.stop="moveListDown(list.index)"
+          flat icon class="icon-in-title"
+          v-if="$route.name === 'detailList'"
+          :disabled="list.index === lists.length - 1"
+        >
           <v-icon color="gray" :style="{fontSize: '14px'}">fas fa-arrow-down</v-icon>
         </v-btn>
-        <v-btn :title="__('ui_title_up_btn')" @click.stop="moveListUp(list.index)" flat icon class="icon-in-title" :disabled="list.index === 0">
+        <v-btn
+          :title="__('ui_title_up_btn')"
+          @click.stop="moveListUp(list.index)"
+          flat icon class="icon-in-title"
+          v-if="$route.name === 'detailList'"
+          :disabled="list.index === 0"
+        >
           <v-icon color="gray" :style="{fontSize: '14px'}">fas fa-arrow-up</v-icon>
         </v-btn>
-        <v-btn :title="__('ui_title_pin_btn')" @click.stop="pinList([list.index, !list.pinned])" flat icon class="icon-in-title">
+        <v-btn
+          :title="__('ui_title_pin_btn')"
+          @click.stop="pinList([list.index, !list.pinned])"
+          flat icon class="icon-in-title"
+        >
           <v-icon :color="list.pinned ? 'blue' : 'gray'" :style="{fontSize: '14px'}">fas fa-thumbtack</v-icon>
         </v-btn>
       </v-flex>

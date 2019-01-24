@@ -11,8 +11,8 @@
     <v-tab-item key="import">
       <v-card flat>
         <v-card-text>
-          <v-btn :loading="processing" @click="imp(true)">{{ __('ui_import_comp') }}</v-btn>
-          <v-btn :loading="processing" @click="imp(false)">{{ __('ui_import_json') }}</v-btn>
+          <v-btn :loading="processing" @click="imp(true)" :disabled="!importData">{{ __('ui_import_comp') }}</v-btn>
+          <v-btn :loading="processing" @click="imp(false)" :disabled="!importData">{{ __('ui_import_json') }}</v-btn>
           <input ref="fileSelector" type="file" hidden @change="impFile"></input>
           <v-btn :loading="processing" @click="$refs.fileSelector.click()">
             {{ __('ui_import_from_file') }}
@@ -32,7 +32,7 @@
         <v-card-text>
           <v-btn @click="exp(true)">{{ __('ui_export_comp') }}</v-btn>
           <v-btn @click="exp(false)">{{ __('ui_export_json') }}</v-btn>
-          <v-btn @click="copy" :disabled="exportData.length === 0">{{ __('ui_copy') }}</v-btn>
+          <v-btn @click="copy" :disabled="!exportData">{{ __('ui_copy') }}</v-btn>
           <v-btn @click="save" :disabled="!exportType">{{ __('ui_save_as_file') }}</v-btn>
           <v-btn
             color="success" @click="saveToGdrive"
@@ -67,6 +67,7 @@ import {readFile} from '@/common/utils'
 import gdrive from '@/common/service/gdrive'
 import {mapMutations, mapActions, mapState} from 'vuex'
 import {ADD_LIST} from '@/common/constants'
+import logger from '@/common/logger'
 
 export default {
   data() {
@@ -95,7 +96,7 @@ export default {
         this.showSnackbar(__('ui_main_succeeded'))
         if (PRODUCTION) ga('send', 'event', 'IES', 'export', comp)
       } catch (e) {
-        console.error(e)
+        logger.error(e)
         this.showSnackbar(__('ui_main_error_occurred'))
         this.exportType = null
       } finally {
@@ -113,7 +114,7 @@ export default {
         this.$router.push('/app/list')
         if (PRODUCTION) ga('send', 'event', 'IES', 'import', comp)
       } catch (e) {
-        console.error(e)
+        logger.error(e)
         this.showSnackbar(__('ui_main_error_occurred'))
       } finally {
         this.processing = false
@@ -137,7 +138,7 @@ export default {
         this.showSnackbar(__('ui_main_succeeded'))
         if (PRODUCTION) ga('send', 'event', 'IES', 'download')
       } catch (e) {
-        console.error(e)
+        logger.error(e)
         this.showSnackbar(__('ui_main_error_occurred'))
       } finally {
         this.processing = false
@@ -149,7 +150,7 @@ export default {
         await gdrive.saveCurrentTabLists()
         this.showSnackbar(__('ui_main_succeeded'))
       } catch (e) {
-        console.error(e)
+        logger.error(e)
         this.showSnackbar(__('ui_main_error_occurred'))
         gdrive.clearToken()
       } finally {

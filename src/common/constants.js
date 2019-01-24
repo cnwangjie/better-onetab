@@ -24,3 +24,5 @@ export const ADD_LIST = 'addList'
 export const UPDATE_LIST_BY_ID = 'updateListById'
 export const REMOVE_LIST_BY_ID = 'removeListById'
 export const CHANGE_LIST_ORDER = 'changeListOrderRelatively'
+
+export const SENTRY_DSN = 'https://3a924dd322e24dbca1c28364de767ffc@sentry.io/1307154'

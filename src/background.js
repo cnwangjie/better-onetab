@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import __ from './common/i18n'
 import tabs from './common/tabs'
+import logger from './common/logger'
 import storage from './common/storage'
 import options from './common/options'
 import migrate from './common/migrate'
@@ -207,6 +208,7 @@ const commandHandler = command => {
 }
 
 const init = async () => {
+  logger.init()
   await listManager.init()
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())

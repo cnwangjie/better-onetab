@@ -2,11 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import logger from './common/logger'
 import Vuetify from 'vuetify/lib'
 import { Scroll } from 'vuetify/lib/directives'
 import VueClipboard from 'vue-clipboard2'
 import colors from 'vuetify/es5/util/colors'
 import 'vuetify/src/stylus/app.styl'
+
+logger.init({Vue})
 
 Vue.config.productionTip = false
 Vue.config.devtools = true

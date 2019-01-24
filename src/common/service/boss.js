@@ -11,6 +11,7 @@ import listManager from '../listManager'
 import {isBackground, timeout} from '../utils'
 import browser from 'webextension-polyfill'
 import io from 'socket.io-client'
+import logger from '../logger'
 
 const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
 
@@ -88,7 +89,10 @@ const uploadOpsViaWS = async () => {
       const change = changes.shift()
       await new Promise(resolve => {
         socket.emit('list.update', change, ({err}) => {
-          if (err) console.error(change, err)
+          if (err) {
+            logger.log(change)
+            logger.error(err)
+          }
           resolve()
         })
       })
@@ -203,7 +207,7 @@ const refresh = async () => {
     await timeout(Promise.all([syncOptions(), syncLists()]), 20000)
     await browser.runtime.sendMessage({refreshed: {success: true}})
   } catch (err) {
-    console.error(err)
+    logger.error(err)
     await browser.runtime.sendMessage({refreshed: {success: false}})
   } finally {
     _refreshing = false
