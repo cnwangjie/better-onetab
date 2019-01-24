@@ -74,7 +74,7 @@ const storeTabs = async (tabs, listIndex) => {
   } else {
     const list = lists[listIndex]
     tabs.forEach(tab => list.tabs.push(tab))
-    await storage.setLists(lists._id, _.pick(list, 'tabs'))
+    await listManager.updateListById(lists._id, _.pick(list, 'tabs'))
   }
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
@@ -143,6 +143,15 @@ const restoreListInNewWindow = async list => {
   })
 }
 
+const restoreLastestList = async () => {
+  const lists = await storage.getLists()
+  if (lists.length === 0) return true
+  const [lastest] = lists
+  await restoreList(lastest)
+  if (lastest.pinned) return true
+  return listManager.removeListById(lastest._id)
+}
+
 const openTab = tab => browser.tabs.create({ url: tab.url })
 
 export default {
@@ -156,6 +165,7 @@ export default {
   storeAllTabInAllWindows,
   restoreList,
   restoreListInNewWindow,
+  restoreLastestList,
   openTab,
   openTabLists,
   openAboutPage,

@@ -5,9 +5,8 @@ import storage from './common/storage'
 import options from './common/options'
 import migrate from './common/migrate'
 import boss from './common/service/boss'
-import listManger from './common/listManager'
+import listManager from './common/listManager'
 import browser from 'webextension-polyfill'
-
 
 /* eslint-disable-next-line */
 if (DEBUG && !MOZ) import(
@@ -24,7 +23,7 @@ if (PRODUCTION) import(
 if (DEBUG) {
   window.tabs = tabs
   window.browser = browser
-  window.listManger = listManger
+  window.listManager = listManager
   window.boss = boss
   browser.browserAction.setBadgeText({text: 'dev'})
 }
@@ -196,26 +195,19 @@ const setupContextMenus = _.debounce(async ({pageContext, allContext}) => {
   dynamicDisableMenu()
 }, 250)
 
-const commandHandler = async command => {
+const commandHandler = command => {
   console.log('received command', command)
   if (command === 'store-selected-tabs') tabs.storeSelectedTabs()
   else if (command === 'store-all-tabs') tabs.storeAllTabs()
   else if (command === 'store-all-in-all-windows') tabs.storeAllTabInAllWindows()
-  else if (command === 'restore-lastest-list') {
-    const lists = await storage.getLists()
-    if (lists.length === 0) return true
-    const [lastest] = lists
-    await tabs.restoreList(lastest)
-    if (lastest.pinned) return true
-    lists.shift()
-    return storage.setLists(lists)
-  } else if (command === 'open-lists') tabs.openTabLists()
+  else if (command === 'restore-lastest-list') tabs.restoreLastestList()
+  else if (command === 'open-lists') tabs.openTabLists()
   else return true
   if (PRODUCTION) ga('send', 'event', 'Command used', command)
 }
 
 const init = async () => {
-  await listManger.init()
+  await listManager.init()
   const opts = window.opts = await storage.getOptions() || {}
   _.defaults(opts, options.getDefaultOptions())
   await storage.setOptions(opts)
@@ -237,14 +229,14 @@ const init = async () => {
       const {restoreList} = msg
       const listIndex = restoreList.index
       const lists = await storage.getLists()
+      const list = lists[listIndex]
       if (restoreList.newWindow) {
-        tabs.restoreListInNewWindow(lists[listIndex])
+        tabs.restoreListInNewWindow(list)
       } else {
-        tabs.restoreList(lists[listIndex])
+        tabs.restoreList(list)
       }
-      if (!lists[listIndex].pinned) {
-        lists.splice(listIndex, 1)
-        storage.setLists(lists)
+      if (!list.pinned) {
+        listManager.removeListById(list._id)
       }
       if (PRODUCTION) ga('send', 'event', 'Popup item clicked')
     }
@@ -259,7 +251,7 @@ const init = async () => {
     }
     if (msg.import) {
       const {lists} = msg.import
-      lists.forEach(list => listManger.addList(list))
+      lists.forEach(list => listManager.addList(list))
     }
   })
   browser.runtime.onMessageExternal.addListener(commandHandler)

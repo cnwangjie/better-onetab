@@ -167,6 +167,9 @@ manager.createVuexPlugin = () => store => {
   addEventListener(END_BACKGROUND, (method, args) => {
     store.commit(method, args)
   })
+  browser.runtime.onMessage.addListener(({refreshed}) => {
+    if (refreshed && refreshed.success) store.dispatch('getLists')
+  })
   store.subscribe(({type, payload}) => {
     if (type in manager.modifiers) {
       manager[type](...payload)

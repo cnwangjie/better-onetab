@@ -3,7 +3,7 @@ import {
   AUTH_HEADER,
   SYNC_SERVICE_URL,
   SYNC_MAX_INTERVAL,
-  UPDATE_LIST_BY_ID,
+  SYNC_MIN_INTERVAL,
 } from '../constants'
 import _ from 'lodash'
 import storage from '../storage'
@@ -228,23 +228,33 @@ const login = async token => {
   await refresh()
 }
 
-const initTimer = () => {
-  window._nextSyncInterval = 6e4
-  window.addEventListener('offline', () => {
-    window._nextSyncInterval = SYNC_MAX_INTERVAL
-  })
-  window.addEventListener('online', () => {
-    window._nextSyncInterval = 6e4
-  })
-  const _nextTimer = () => {
-    setTimeout(() => {
-      _nextTimer()
-      getInfo() // for update token
-      if (window._socket && window._socket.connected) refresh()
-      else window._nextSyncInterval = Math.min(window._nextSyncInterval * 2, SYNC_MAX_INTERVAL)
-    }, window._nextSyncInterval)
+const initTimer = async () => {
+  if (window._syncTimer || !(await isBackground())) return
+
+  const _nextTimer = time => {
+    window._syncTimer = setTimeout(async () => {
+      if (await hasToken()) {
+        getInfo() // for update token
+        if (window._socket && window._socket.connected) {
+          refresh()
+          return _nextTimer(time)
+        }
+      }
+      _nextTimer(Math.min(time * 2, SYNC_MAX_INTERVAL))
+    }, time)
   }
-  _nextTimer()
+
+  const _refreshTimer = time => {
+    clearTimeout(window._syncTimer)
+    _nextTimer(time)
+  }
+
+  window.addEventListener('offline', () => _refreshTimer(SYNC_MAX_INTERVAL))
+  window.addEventListener('online', () => _refreshTimer(SYNC_MIN_INTERVAL))
+  browser.runtime.onMessage.addListener(({login, refreshed}) => {
+    if (login || refreshed && refreshed.success) window._nextSyncInterval = SYNC_MIN_INTERVAL
+  })
+  _nextTimer(SYNC_MIN_INTERVAL)
 }
 
 const init = async () => {

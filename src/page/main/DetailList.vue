@@ -319,13 +319,10 @@ import draggable from 'vuedraggable'
 import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import {createNewTabList} from '@/common/list'
-import listManager from '@/common/listManager'
 import {formatTime, getColorByHash} from '@/common/utils'
 import dynamicTime from '@/component/DynamicTime'
-import browser from 'webextension-polyfill'
-import {COLORS, ADD_LIST} from '@/common/constants'
+import {COLORS} from '@/common/constants'
 import {mapState, mapActions, mapMutations, mapGetters} from 'vuex'
-if (DEBUG) window.listManager = listManager
 
 export default {
   data() {
@@ -399,7 +396,7 @@ export default {
     getColorByHash,
     ...mapMutations([
       'openChangeTitle', 'showAll', 'tabSelected', 'addTab',
-      'removeTabDirectly', 'setTitle',
+      'removeTabDirectly', 'setTitle', 'addList',
     ]),
     ...mapActions([
       'showSnackbar', 'itemClicked', 'getLists', 'itemClicked',
@@ -416,10 +413,6 @@ export default {
           this.processed = true
           if (this.$route.query.listIndex != null) this.jumpTo(this.$route.query)
         }
-      })
-      listManager.init()
-      browser.runtime.onMessage.addListener(({refreshed}) => {
-        if (refreshed) this.getLists()
       })
       document.addEventListener('click', () => {
         if (!this.currentHighlightItem) return
@@ -489,7 +482,7 @@ export default {
 
       if (targetListIndex === -1) {
         const newList = createNewTabList({tabs})
-        this[ADD_LIST]([newList])
+        this.addList([newList])
         this.tabMoved(changedLists.map(i => i + 1)) // it will create a new list
       } else {
         tabs.forEach(tab => this.addTab([targetListIndex, tab]))

@@ -144,6 +144,7 @@ export default {
     },
     saveTitle({commit, state}, listIndex) {
       const list = state.lists[listIndex]
+      if (!list.titleEditing) return
       commit('closeChangeTitle', listIndex)
       commit(UPDATE_LIST_BY_ID, [list._id, _.pick(list, 'title')])
     },
