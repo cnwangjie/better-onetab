@@ -2,9 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib'
+import { Scroll } from 'vuetify/lib/directives'
 import VueClipboard from 'vue-clipboard2'
 import colors from 'vuetify/es5/util/colors'
+import 'vuetify/src/stylus/app.styl'
 
 Vue.config.productionTip = false
 Vue.config.devtools = true
@@ -12,6 +14,9 @@ Vue.use(VueClipboard)
 Vue.use(Vuetify, {
   theme: {
     primary: colors.lightBlue,
+  },
+  directives: {
+    Scroll, // TODO: remove this after the version of vuetify-loader containing https://github.com/vuetifyjs/vuetify-loader/pull/38 be published
   }
 })
 

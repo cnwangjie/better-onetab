@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
@@ -12,7 +13,7 @@ const config = require('./config')
 const resolve = (...paths) => path.join(__dirname, ...paths)
 const mode = process.env.NODE_ENV || 'development'
 const moz = process.env.MOZ
-module.exports = {
+const opts = module.exports = {
   mode,
   entry: {
     index: ['./src/index.js'],
@@ -25,6 +26,7 @@ module.exports = {
     filename : '[name].js',
   },
   plugins: [
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
     new webpack.DefinePlugin({
       DEBUG: mode === 'development',
       PRODUCTION: mode !== 'development',
@@ -51,18 +53,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html',
-      excludeChunks: ['background'],
+      excludeChunks: ['background', 'content', 'exchanger'],
       inject: true,
     }),
     new VueLoaderPlugin(),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        parallel: 4,
-        compress: {
-          drop_console: true,
-        }
-      }
-    }),
+    new VuetifyLoaderPlugin(),
   ],
   performance: {
     hints: false,
@@ -107,6 +102,14 @@ module.exports = {
         ]
       },
       {
+        test: /\.styl/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'stylus-loader'
+        ]
+      },
+      {
         test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
         loader: 'file-loader',
         options: {
@@ -126,4 +129,15 @@ module.exports = {
       },
     ]
   }
+}
+
+if (opts.mode === 'production') {
+  opts.plugins.push(new UglifyJsPlugin({
+    uglifyOptions: {
+      parallel: 4,
+      compress: {
+        drop_console: true,
+      }
+    }
+  }))
 }

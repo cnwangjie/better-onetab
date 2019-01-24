@@ -4,7 +4,6 @@
 </div>
 </template>
 <script>
-import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import './assets/css/fontawesome-all.min.css'
 

@@ -1,7 +1,7 @@
 <template>
 <div>
   <transition-group
-    tag="v-layout" name="slide" class="wrap"
+    tag="div" name="slide" class="wrap"
     v-if="!q"
   >
     <v-flex wrap xs12 sm6 offset-sm3 class="my-3 search-item" key="color" v-if="card > 0">
@@ -95,7 +95,6 @@ export default {
     this.card = 0
   },
   methods: {
-    _,
     ...mapActions(['preloadLists']),
     slideCard() {
       if (this.card === 2) return
