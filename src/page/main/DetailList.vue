@@ -12,6 +12,7 @@
 
 <v-expansion-panel
   ref="panel" expand popout
+  :readonly="opts.disableExpansion"
   :value="expandStatus"
   @input="expandStatusChanged"
   class="my-3"
@@ -62,8 +63,16 @@
           @input="setTitle([list.index, $event])"
           single-line
           hide-details
+          :class="'font-size-' + opts.titleFontSize"
         ></v-text-field>
-        <div class="list-title" v-else :class="list.color ? list.color + '--text' : ''">{{ list.title }}</div>
+        <div
+          class="list-title"
+          v-else
+          :class="[
+            'font-size-' + opts.titleFontSize,
+            list.color ? list.color + '--text' : '',
+          ]"
+        >{{ list.title }}</div>
       </v-flex>
       <v-flex xs2 class="text-xs-right">
         <v-btn
@@ -372,7 +381,8 @@ export default {
     }
   },
   watch: {
-    '$route.query.p': 'updateExpandStatus',
+    // '$route.query.p': 'updateExpandStatus',
+    'listsToDisplay': 'updateExpandStatus',
     // '$route.params.tag': 'setTagInView'
   },
   computed: {
@@ -450,7 +460,10 @@ export default {
     },
     async updateExpandStatus() {
       await this.$nextTick()
-      this.expandStatus = this.getExpandStatus()
+      if (this.opts.disableExpansion)
+        this.expandStatus = this.listsToDisplay.map(_ => true)
+      else
+        this.expandStatus = this.getExpandStatus()
     },
     openTab(listIndex, tabIndex) {
       tabs.openTab(this.lists[listIndex].tabs[tabIndex])
@@ -625,22 +638,32 @@ export default {
 }
 .title-editor {
   padding: 0;
+  position: absolute;
   display: inline-flex;
   width: 80%;
-  font-size: 12px;
-  :global(.v-input__control) {
-    padding: 0 !important;
+  /deep/ .v-input__slot {
+    min-height: 32px !important;
+  }
+  /deep/ input {
+    margin-top: 0 !important;
   }
 }
-.v-text-field.v-text-field--full-width .v-input__control {
-  padding: 0 !important;
-}
 .list-title {
+  position: absolute;
   display: inline-block;
-  font-size: 12px;
   line-height: 34px;
   padding: 0 12px;
 }
+.font-size-12px {
+  font-size: 12px;
+}
+.font-size-18px {
+  font-size: 18px;
+}
+.font-size-24px {
+  font-size: 24px;
+}
+
 .tab-list {
   .icon-in-title {
     margin: 0 0 0 auto;

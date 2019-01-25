@@ -50,77 +50,95 @@
   "cmd_store_all_in_all_windows": {
     "message": "Store all tabs in all windows"
   },
-  "opt_desc_browserAction": {
+  "opt_name_browserAction": {
     "message": "Behavior when icon is clicked"
   },
-  "opt_desc_itemClickAction": {
+  "opt_name_itemClickAction": {
     "message": "Behavior when item in a list is clicked"
   },
-  "opt_desc_itemDisplay": {
+  "opt_name_itemDisplay": {
     "message": "Contents of the items in a list"
   },
-  "opt_desc_hideFavicon": {
+  "opt_name_hideFavicon": {
     "message": "Hide favicon of items in the list"
   },
-  "opt_desc_removeItemBtnPos": {
+  "opt_name_removeItemBtnPos": {
     "message": "The position of remove item button"
   },
-  "opt_desc_popupItemClickAction": {
+  "opt_name_popupItemClickAction": {
     "message": "Behavior when item in simple list is clicked"
   },
-  "opt_desc_defaultNightMode": {
+  "opt_name_defaultNightMode": {
     "message": "Use night mode by default"
   },
-  "opt_desc_fixedToolbar": {
+  "opt_name_fixedToolbar": {
     "message": "Fixed toolbar"
   },
-  "opt_desc_addHistory": {
+  "opt_name_addHistory": {
     "message": "Add stored tab to history"
   },
-  "opt_desc_ignorePinned": {
+  "opt_name_ignorePinned": {
     "message": "Prevent store pinned tabs"
   },
-  "opt_desc_pinNewList": {
+  "opt_name_pinNewList": {
     "message": "Auto pin new list"
   },
-  "opt_desc_pageContext": {
+  "opt_name_pageContext": {
     "message": "Enable context menu for page"
   },
-  "opt_desc_allContext": {
+  "opt_name_allContext": {
     "message": "Enable context menu for all elements"
+  },
+  "opt_name_openTabListWhenNewTab": {
+    "message": "Open tab list when new tab"
   },
   "opt_desc_openTabListWhenNewTab": {
     "message": "Always open tab list when clicking on the icon if current tab is a new tab. (Doesn't work if behavior is set to \"popup simple list\""
   },
-  "opt_desc_syncOptions": {
+  "opt_name_syncOptions": {
     "message": "Sync settings"
   },
-  "opt_desc_syncList": {
+  "opt_name_syncList": {
     "message": "Sync lists"
   },
-  "opt_desc_useBoss": {
+  "opt_name_useBoss": {
     "message": "Use better onetab sync server (unlimited storage)"
   },
-  "opt_desc_alertRemoveList": {
+  "opt_name_alertRemoveList": {
     "message": "Confirm to remove list"
   },
-  "opt_desc_excludeIllegalURL": {
+  "opt_name_excludeIllegalURL": {
     "message": "Exclude illegal URL like about:* or chrome://*"
   },
-  "opt_desc_removeDuplicate": {
+  "opt_name_removeDuplicate": {
     "message": "Remove duplicate item in a list"
   },
-  "opt_desc_enableSearch": {
+  "opt_name_enableSearch": {
     "message": "Enable search in the detail list page"
   },
-  "opt_desc_openEnd": {
+  "opt_name_openEnd": {
     "message": "When restore list open at the ending of tabs"
   },
-  "opt_desc_openTabListNoTab": {
+  "opt_name_openTabListNoTab": {
     "message": "Open the tab list when store all tabs"
   },
-  "opt_desc_listsPerPage": {
+  "opt_name_listsPerPage": {
     "message": "Number of lists per page"
+  },
+  "opt_name_titleFontSize": {
+    "message": "Font size of list title"
+  },
+  "opt_name_disableDynamicMenu": {
+    "message": "Disable dynamic menus update"
+  },
+  "opt_name_disableExpansion": {
+    "message": "Disable expansion in list page"
+  },
+  "opt_name_disableTransition": {
+    "message": "Disable all CSS transition animation"
+  },
+  "opt_name_disableSearch": {
+    "message": "Disable search feature"
   },
   "opt_label_popup": {
     "message": "Popup simple list"
@@ -208,6 +226,9 @@
   },
   "ui_options_appearance": {
     "message": "Appearance"
+  },
+  "ui_options_performance": {
+    "message": "Performance"
   },
   "ui_options_sync": {
     "message": "Sync"

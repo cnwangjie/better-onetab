@@ -141,6 +141,7 @@ const setupContextMenus = _.debounce(async ({pageContext, allContext}) => {
   const lists = await storage.getLists()
   const createMenus = async (obj, parent) => {
     if (obj === menus.STORE_TO_TITLED_LIST) {
+      if (window.opts.disableDynamicMenu) return
       for (let listIndex = 0; listIndex < lists.length; listIndex += 1) {
         if (!lists[listIndex].title) continue
         const prop = {
@@ -223,7 +224,7 @@ const init = async () => {
       console.debug('options changed', changes)
       Object.assign(window.opts, changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
-      if (('pageContext' in changes) || ('allContext' in changes)) await setupContextMenus(changes)
+      if (['pageContext', 'allContext', 'disableDynamicMenu'].some(k => k in changes)) await setupContextMenus(changes)
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options changed', key, changes[key]))
     }
@@ -284,16 +285,18 @@ const init = async () => {
   browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action))
   browser.contextMenus.onClicked.addListener(info => window.contextMenusClickedHandler(info))
   browser.tabs.onActivated.addListener(_.debounce(activeInfo => {
+    if (window.opts.disableDynamicMenu) return
     window.coverBrowserAction(activeInfo)
     dynamicDisableMenu(activeInfo)
   }, 200))
-  browser.storage.onChanged.addListener(async changes => {
-    console.log(changes)
+  browser.storage.onChanged.addListener(changes => {
+    console.debug('[storage changed]', changes)
     if (changes.boss_token) {
       window.boss_token = changes.boss_token
     }
     if (changes.lists) {
-      setupContextMenus(await storage.getOptions())
+      if (window.opts.disableDynamicMenu) return
+      setupContextMenus(window.opts)
     }
   })
   await migrate()

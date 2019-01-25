@@ -4,14 +4,13 @@ import __ from '@/common/i18n'
 const cate = {
   BEHAVIOUR: 'behaviour',
   APPEARANCE: 'appearance',
-  // SYNC: 'sync',
+  PERFOREMANCE: 'performance',
 }
 
 export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'browserAction',
-    desc: __('opt_desc_browserAction'),
     type: String,
     default: 'show-list',
     items: [
@@ -40,7 +39,6 @@ export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'itemClickAction',
-    desc: __('opt_desc_itemClickAction'),
     type: String,
     default: 'open-and-remove',
     items: [
@@ -61,7 +59,6 @@ export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'popupItemClickAction',
-    desc: __('opt_desc_popupItemClickAction'),
     type: String,
     default: 'restore',
     items: [
@@ -82,7 +79,6 @@ export const optionsList = [
   {
     cate: cate.APPEARANCE,
     name: 'removeItemBtnPos',
-    desc: __('opt_desc_removeItemBtnPos'),
     type: String,
     default: 'left',
     items: [
@@ -100,14 +96,12 @@ export const optionsList = [
   {
     cate: cate.APPEARANCE,
     name: 'defaultNightMode',
-    desc: __('opt_desc_defaultNightMode'),
     type: Boolean,
     default: false,
   },
   {
     cate: cate.APPEARANCE,
     name: 'itemDisplay',
-    desc: __('opt_desc_itemDisplay'),
     type: String,
     default: 'title-and-url',
     items: [
@@ -128,14 +122,12 @@ export const optionsList = [
   {
     cate: cate.APPEARANCE,
     name: 'hideFavicon',
-    desc: __('opt_desc_hideFavicon'),
     type: Boolean,
     default: false,
   },
   {
     cate: cate.APPEARANCE,
     name: 'fixedToolbar',
-    desc: __('opt_desc_fixedToolbar'),
     type: Boolean,
     default: false,
     deprecated: '1.4',
@@ -143,58 +135,52 @@ export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'addHistory',
-    desc: __('opt_desc_addHistory'),
     type: Boolean,
     default: true,
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'ignorePinned',
-    desc: __('opt_desc_ignorePinned'),
     type: Boolean,
     default: false,
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'pinNewList',
-    desc: __('opt_desc_pinNewList'),
     type: Boolean,
     default: false,
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'pageContext',
-    desc: __('opt_desc_pageContext'),
     type: Boolean,
     default: true,
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'allContext',
-    desc: __('opt_desc_allContext'),
     type: Boolean,
     default: false,
-    deps: 'pageContext',
+    deps: ({pageContext}) => pageContext,
     new: '1.3.6',
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'openTabListWhenNewTab',
-    desc: __('opt_desc_openTabListWhenNewTab'),
+    desc: true,
+    deps: ({disableDynamicMenu}) => !disableDynamicMenu,
     type: Boolean,
     default: false,
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'alertRemoveList',
-    desc: __('opt_desc_alertRemoveList'),
     type: Boolean,
     default: false,
   },
   {
     cate: cate.BEHAVIOUR,
     name: 'excludeIllegalURL',
-    desc: __('opt_desc_excludeIllegalURL'),
     type: Boolean,
     default: true,
     new: '1.3.6',
@@ -202,7 +188,6 @@ export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'removeDuplicate',
-    desc: __('opt_desc_removeDuplicate'),
     type: Boolean,
     default: false,
     new: '1.3.6',
@@ -210,7 +195,6 @@ export const optionsList = [
   {
     cate: cate.APPEARANCE,
     name: 'enableSearch',
-    desc: __('opt_desc_enableSearch'),
     type: Boolean,
     default: true,
     new: '1.3.7',
@@ -219,7 +203,6 @@ export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'openEnd',
-    desc: __('opt_desc_openEnd'),
     type: Boolean,
     default: true,
     new: '1.3.9',
@@ -227,7 +210,6 @@ export const optionsList = [
   {
     cate: cate.BEHAVIOUR,
     name: 'openTabListNoTab',
-    desc: __('opt_desc_openTabListNoTab'),
     type: Boolean,
     default: true,
     new: '1.4.0',
@@ -235,7 +217,6 @@ export const optionsList = [
   {
     cate: cate.APPEARANCE,
     name: 'listsPerPage',
-    desc: __('opt_desc_listsPerPage'),
     type: String,
     default: 10,
     items: [
@@ -252,6 +233,55 @@ export const optionsList = [
         label: 15,
       },
     ],
+    new: '1.4.0',
+  },
+  {
+    cate: cate.APPEARANCE,
+    name: 'titleFontSize',
+    type: String,
+    default: '12px',
+    items: [
+      {
+        value: '12px',
+        label: '12px',
+      },
+      {
+        value: '18px',
+        label: '18px',
+      },
+      {
+        value: '24px',
+        label: '24px',
+      },
+    ],
+    new: '1.4.0',
+  },
+  {
+    cate: cate.PERFOREMANCE,
+    name: 'disableDynamicMenu',
+    type: Boolean,
+    default: false,
+    new: '1.4.0',
+  },
+  {
+    cate: cate.PERFOREMANCE,
+    name: 'disableExpansion',
+    type: Boolean,
+    default: false,
+    new: '1.4.0',
+  },
+  {
+    cate: cate.PERFOREMANCE,
+    name: 'disableTransition',
+    type: Boolean,
+    default: false,
+    new: '1.4.0',
+  },
+  {
+    cate: cate.PERFOREMANCE,
+    name: 'disableSearch',
+    type: Boolean,
+    default: false,
     new: '1.4.0',
   },
 ]

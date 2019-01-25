@@ -1,9 +1,9 @@
 <template>
 <v-toolbar app clipped-left :color="nightmode ? null : 'primary'" :flat="flat" v-scroll="onScroll">
   <v-toolbar-side-icon dark @click="switchDrawer"></v-toolbar-side-icon>
-  <v-toolbar-title class="white--text">OneTab</v-toolbar-title>
+  <v-toolbar-title class="white--text">Better OneTab</v-toolbar-title>
   <v-spacer></v-spacer>
-  <search-form></search-form>
+  <search-form v-if="!opts.disableSearch"></search-form>
   <v-spacer></v-spacer>
 
   <v-tooltip left>
@@ -35,7 +35,6 @@ export default {
     return {
       flat: false,
       syncing: false,
-      // lastUpdated: NaN,
       online: navigator.onLine,
       uploadSuccess: false,
     }

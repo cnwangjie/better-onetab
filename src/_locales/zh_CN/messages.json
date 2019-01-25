@@ -50,77 +50,95 @@
   "cmd_store_all_in_all_windows": {
     "message": "保存所有窗口的所有标签页"
   },
-  "opt_desc_browserAction": {
+  "opt_name_browserAction": {
     "message": "图标被点击的行为"
   },
-  "opt_desc_itemClickAction": {
+  "opt_name_itemClickAction": {
     "message": "列表中的某一项被点击的行为"
   },
-  "opt_desc_itemDisplay": {
+  "opt_name_itemDisplay": {
     "message": "列表中的项显示的内容"
   },
-  "opt_desc_hideFavicon": {
+  "opt_name_hideFavicon": {
     "message": "列表中不显示图标"
   },
-  "opt_desc_removeItemBtnPos": {
+  "opt_name_removeItemBtnPos": {
     "message": "移除标签页的按钮位置"
   },
-  "opt_desc_popupItemClickAction": {
+  "opt_name_popupItemClickAction": {
     "message": "弹出列表中的项被点击的行为"
   },
-  "opt_desc_defaultNightMode": {
+  "opt_name_defaultNightMode": {
     "message": "默认使用夜间模式"
   },
-  "opt_desc_fixedToolbar": {
+  "opt_name_fixedToolbar": {
     "message": "固定顶部工具栏"
   },
-  "opt_desc_addHistory": {
+  "opt_name_addHistory": {
     "message": "保存的标签页添加到历史记录"
   },
-  "opt_desc_ignorePinned": {
+  "opt_name_ignorePinned": {
     "message": "不保存已固定的标签页"
   },
-  "opt_desc_pinNewList": {
+  "opt_name_pinNewList": {
     "message": "自动固定新的列表"
   },
-  "opt_desc_pageContext": {
+  "opt_name_pageContext": {
     "message": "出现在页面的右键菜单中"
   },
-  "opt_desc_allContext": {
+  "opt_name_allContext": {
     "message": "出现在所有元素的右键菜单中"
+  },
+  "opt_name_openTabListWhenNewTab": {
+    "message": "当新标签页时打开标签列表"
   },
   "opt_desc_openTabListWhenNewTab": {
     "message": "当前页面为新标签页的时候点击图标时显示标签页列表 (不会覆盖弹出简易列表的行为)"
   },
-  "opt_desc_syncOptions": {
+  "opt_name_syncOptions": {
     "message": "同步设置"
   },
-  "opt_desc_syncList": {
+  "opt_name_syncList": {
     "message": "同步列表"
   },
-  "opt_desc_useBoss": {
+  "opt_name_useBoss": {
     "message": "使用better onetab同步服务（不限制保存空间）"
   },
-  "opt_desc_alertRemoveList": {
+  "opt_name_alertRemoveList": {
     "message": "删除列表时确认"
   },
-  "opt_desc_excludeIllegalURL": {
+  "opt_name_excludeIllegalURL": {
     "message": "排除非标准 URL，例如 about:* 和 chrome://*"
   },
-  "opt_desc_removeDuplicate": {
+  "opt_name_removeDuplicate": {
     "message": "列表中避免重复"
   },
-  "opt_desc_enableSearch": {
+  "opt_name_enableSearch": {
     "message": "详细列表中启用搜索功能"
   },
-  "opt_desc_openEnd": {
+  "opt_name_openEnd": {
     "message": "恢复列表时标签页在末尾打开"
   },
-  "opt_desc_openTabListNoTab": {
+  "opt_name_openTabListNoTab": {
     "message": "当储存所有标签时打开标签列表"
   },
-  "opt_desc_listsPerPage": {
+  "opt_name_listsPerPage": {
     "message": "每页的列表数量"
+  },
+  "opt_name_titleFontSize": {
+    "message": "列表标题的字体大小"
+  },
+  "opt_name_disableDynamicMenu": {
+    "message": "禁用动态更新菜单"
+  },
+  "opt_name_disableExpansion": {
+    "message": "禁用可展开的列表"
+  },
+  "opt_name_disableTransition": {
+    "message": "禁用所有 CSS 过渡动画"
+  },
+  "opt_name_disableSearch": {
+    "message": "禁用搜索功能"
   },
   "opt_label_popup": {
     "message": "弹出简单列表"
@@ -208,6 +226,9 @@
   },
   "ui_options_appearance": {
     "message": "外观"
+  },
+  "ui_options_performance": {
+    "message": "性能"
   },
   "ui_options_sync": {
     "message": "同步"

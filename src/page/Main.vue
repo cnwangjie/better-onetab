@@ -1,5 +1,5 @@
 <template>
-<v-app :dark="nightmode">
+<v-app :dark="nightmode" :class="{'no-transition': opts.disableTransition}">
   <drawer :value="drawer"></drawer>
   <toolbar></toolbar>
   <v-content>
@@ -42,7 +42,7 @@ export default {
     snackbar,
   },
   computed: {
-    ...mapState(['drawer', 'nightmode']),
+    ...mapState(['drawer', 'nightmode', 'opts']),
   },
   created() {
     this.init()
@@ -59,3 +59,8 @@ export default {
   }
 }
 </script>
+<style>
+.no-transition * {
+  transition: none !important;
+}
+</style>
