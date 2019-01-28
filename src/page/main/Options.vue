@@ -99,7 +99,7 @@ import options from '@/common/options'
 import __ from '@/common/i18n'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
-import {formatTime} from '@/common/utils'
+import {formatTime, sendMessage} from '@/common/utils'
 import {mapState, mapMutations} from 'vuex'
 
 const currentVersion = browser.runtime.getManifest().version
@@ -131,7 +131,7 @@ export default {
       await storage.setOptions(this.opts) // eslint-disable-line
       await storage.setOptions(this.opts) // eslint-disable-line
       console.log(2)
-      chrome.runtime.sendMessage({optionsChanged: {[key]: value}})
+      await sendMessage({optionsChanged: {[key]: value}})
     }, 100),
     optionsChanged(key, value) {
       this.setOption({[key]: value})

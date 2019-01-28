@@ -293,7 +293,7 @@ if (DEBUG) {
   window.printOptionsMap = () => console.debug(availableOptionsList.map(i => i.name + ': ' + i.type.name + ',').join('\n'))
 }
 
-
-const getDefaultOptions = () => _.mapValues(_.keyBy(availableOptionsList, 'name'), i => i.default)
+const _defaultOptions = _.mapValues(_.keyBy(availableOptionsList, 'name'), i => i.default)
+const getDefaultOptions = () => _defaultOptions
 
 export default {getDefaultOptions, optionsList: availableOptionsList}

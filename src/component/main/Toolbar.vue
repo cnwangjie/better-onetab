@@ -29,6 +29,7 @@ import dynamicTime from '@/component/DynamicTime'
 import browser from 'webextension-polyfill'
 import {SYNC_SERVICE_URL} from '@/common/constants'
 import {mapState, mapActions, mapMutations} from 'vuex'
+import {sendMessage} from '@/common/utils'
 
 export default {
   data() {
@@ -88,7 +89,7 @@ export default {
     syncBtnClicked() {
       if (this.uploadSuccess) return
       if (!this.hasToken) return browser.tabs.create({url: SYNC_SERVICE_URL + '/login'})
-      return browser.runtime.sendMessage({refresh: true})
+      return sendMessage({refresh: true})
     },
   }
 }

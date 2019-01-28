@@ -46,7 +46,7 @@
 <script>
 import __ from '@/common/i18n'
 import storage from '@/common/storage'
-import {formatTime} from '@/common/utils'
+import {formatTime, sendMessage} from '@/common/utils'
 import browser from 'webextension-polyfill'
 
 export default {
@@ -88,17 +88,15 @@ export default {
       this.processed = true
     },
     clicked(index) {
-      if (['restore', 'restore-new-window'].includes(this.action)) {
-        chrome.runtime.sendMessage({restoreList: {
-          index,
-          newWindow: this.action === 'restore-new-window',
-        }})
-      } else return
+      if (!['restore', 'restore-new-window'].includes(this.action)) return
 
-      if (!this.lists[index].pinned) this.lists.splice(index, 1)
+      sendMessage({restoreList: {
+        index,
+        newWindow: this.action === 'restore-new-window',
+      }})
     },
     storeInto(index) {
-      browser.runtime.sendMessage({storeInto: {index}})
+      sendMessage({storeInto: {index}})
     },
   }
 }

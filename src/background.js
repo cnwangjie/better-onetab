@@ -8,6 +8,7 @@ import migrate from './common/migrate'
 import boss from './common/service/boss'
 import listManager from './common/listManager'
 import browser from 'webextension-polyfill'
+import {sendMessage} from './common/utils'
 
 /* eslint-disable-next-line */
 if (DEBUG && !MOZ) import(
@@ -27,6 +28,10 @@ if (DEBUG) {
   window.listManager = listManager
   window.boss = boss
   browser.browserAction.setBadgeText({text: 'dev'})
+  import(
+    /* webpackChunkName: "helper", webpackMode: "lazy" */
+    '@/common/helper'
+  ).then(helper => { window.helper = helper })
 }
 
 const getBrowserActionHandler = action => {
@@ -225,7 +230,7 @@ const init = async () => {
       Object.assign(window.opts, changes)
       if (changes.browserAction) updateBrowserAction(changes.browserAction)
       if (['pageContext', 'allContext', 'disableDynamicMenu'].some(k => k in changes)) await setupContextMenus(changes)
-      await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'})
+      await sendMessage({optionsChangeHandledStatus: 'success'})
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options changed', key, changes[key]))
     }
     if (msg.restoreList) {

@@ -64,3 +64,24 @@ export const timeout = (promise, ms) => Promise.race([
     reject(new Error('promise timeout'))
   }, ms))
 ])
+
+export const compareVersion = (a, b) => {
+  if (a === b) return 0
+  const [ap, bp] = [a, b].map(i => i || '0').map(i => i.split('.').map(j => +j))
+  const len = Math.min(ap.length, bp.length)
+  for (let i = 0; i < len; i += 1) {
+    if (ap[i] !== bp[i]) return ap[i] - bp[i]
+  }
+  return ap.length - bp.length
+}
+
+export const sendMessage = async msg => {
+  try {
+    await browser.runtime.sendMessage(msg)
+  } catch (err) {
+    if (err.message === 'Could not establish connection. Receiving end does not exist.') {
+      return console.warn('error ignored', err.message)
+    }
+    throw err
+  }
+}

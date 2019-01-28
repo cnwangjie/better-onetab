@@ -382,7 +382,7 @@ export default {
   },
   watch: {
     // '$route.query.p': 'updateExpandStatus',
-    'listsToDisplay': 'updateExpandStatus',
+    listsToDisplay: 'updateExpandStatus',
     // '$route.params.tag': 'setTagInView'
   },
   computed: {
@@ -460,10 +460,11 @@ export default {
     },
     async updateExpandStatus() {
       await this.$nextTick()
-      if (this.opts.disableExpansion)
-        this.expandStatus = this.listsToDisplay.map(_ => true)
-      else
+      if (this.opts.disableExpansion) {
+        this.expandStatus = this.listsToDisplay.map(() => true)
+      } else {
         this.expandStatus = this.getExpandStatus()
+      }
     },
     openTab(listIndex, tabIndex) {
       tabs.openTab(this.lists[listIndex].tabs[tabIndex])

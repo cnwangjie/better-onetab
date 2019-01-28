@@ -57,7 +57,7 @@
         {{ __('ui_export_import') }}
       </v-list-tile-content>
     </v-list-tile>
-    <v-list-tile @click="openShortcutPage" :disabled="isFirefox">
+    <v-list-tile @click="openShortcutPage" :disabled="isLowFirefox">
       <v-list-tile-action>
         <v-icon>keyboard</v-icon>
       </v-list-tile-action>
@@ -104,6 +104,7 @@ export default {
   data() {
     return {
       isFirefox: false,
+      isLowFirefox: false,
     }
   },
   computed: {
@@ -120,15 +121,19 @@ export default {
     __,
     async init() {
       try {
-        const {name} = await browser.runtime.getBrowserInfo()
-        if (name === 'Firefox') this.isFirefox = true
+        const {name, version} = await browser.runtime.getBrowserInfo()
+        if (name === 'Firefox') {
+          this.isFirefox = true
+          if (version < '66') this.isLowFirefox = true
+        }
       } catch (e) {
         // ignored
       }
       this.preloadLists()
     },
     async openShortcutPage() {
-      await browser.tabs.create({url: 'chrome://extensions/shortcuts'})
+      if (this.isFirefox) await browser.tabs.create({url: 'about:addons'})
+      else await browser.tabs.create({url: 'chrome://extensions/shortcuts'})
     },
   }
 }

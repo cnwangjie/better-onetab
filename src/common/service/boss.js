@@ -8,7 +8,7 @@ import {
 import _ from 'lodash'
 import storage from '../storage'
 import listManager from '../listManager'
-import {isBackground, timeout} from '../utils'
+import {isBackground, timeout, sendMessage} from '../utils'
 import browser from 'webextension-polyfill'
 import io from 'socket.io-client'
 import logger from '../logger'
@@ -202,13 +202,13 @@ const refresh = async () => {
   if (_refreshing || !(await hasToken())) return
 
   _refreshing = true
-  await browser.runtime.sendMessage({refreshing: true})
+  await sendMessage({refreshing: true})
   try {
     await timeout(Promise.all([syncOptions(), syncLists()]), 20000)
-    await browser.runtime.sendMessage({refreshed: {success: true}})
+    await sendMessage({refreshed: {success: true}})
   } catch (err) {
     logger.error(err)
-    await browser.runtime.sendMessage({refreshed: {success: false}})
+    await sendMessage({refreshed: {success: false}})
   } finally {
     _refreshing = false
   }
@@ -218,7 +218,7 @@ const login = async token => {
   if (await hasToken()) return
   await setToken(token)
   const {uid} = await getInfo()
-  browser.runtime.sendMessage({logged: {uid}})
+  await sendMessage({logged: {uid}})
   const loginNotificationId = 'login'
   browser.notifications.create(loginNotificationId, {
     type: 'basic',

@@ -9,7 +9,7 @@ import {
   REMOVE_LIST_BY_ID,
   CHANGE_LIST_ORDER,
 } from './constants'
-import {isBackground} from './utils'
+import {isBackground, sendMessage} from './utils'
 
 const cache = { lists: null, ops: null }
 let _readingStorage = false
@@ -75,7 +75,7 @@ const saveStorage = _.debounce(async () => {
   cache.ops = compressOps(cache.ops)
   await browser.storage.local.set(cache)
   cache.lists = cache.ops = null
-  await browser.runtime.sendMessage({refresh: true})
+  await sendMessage({refresh: true})
 }, 5000)
 const manager = {}
 // lists modifier (return true if need to add ops)
@@ -136,10 +136,10 @@ const genMethods = isBackground => {
     manager[method] = isBackground ? async (...args) => { // for background
       console.debug('[list manager] modify list:', method, ...args)
       await applyChangesToStorage(method, args)
-      await browser.runtime.sendMessage({listModifed: {method, args}, from: END_BACKGROUND})
+      await sendMessage({listModifed: {method, args}, from: END_BACKGROUND})
     } : async (...args) => { // for front end
       console.debug('[list manager] call to modify list:', name, ...args)
-      await browser.runtime.sendMessage({listModifed: {method, args}, from: END_FRONT})
+      await sendMessage({listModifed: {method, args}, from: END_FRONT})
     }
   })
 }
@@ -150,22 +150,19 @@ manager.init = async () => {
   if (_isBackground) await addEventListener(END_FRONT, applyChangesToStorage)
   genMethods(_isBackground)
 }
-const receiver = []
-manager.receiveBackgroundModified = async lists => {
-  if (receiver.includes(lists)) return
-  receiver.push(lists)
-  await addEventListener(END_BACKGROUND, (method, args) => manager.modifiers[method](lists, args))
-}
 manager.mapMutations = () => {
   const mutations = {}
   Object.entries(manager.modifiers).forEach(([method, fn]) => {
     mutations[method] = (state, payload) => fn(state.lists, payload)
   })
+  mutations.receiveData = (state, {method, args}) => {
+    manager.modifiers[method](state.lists, args)
+  }
   return mutations
 }
 manager.createVuexPlugin = () => store => {
   addEventListener(END_BACKGROUND, (method, args) => {
-    store.commit(method, args)
+    store.commit('receiveData', {method, args})
   })
   browser.runtime.onMessage.addListener(({refreshed}) => {
     if (refreshed && refreshed.success) store.dispatch('getLists')

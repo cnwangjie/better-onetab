@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import {normalizeList} from '@/common/list'
 import browser from 'webextension-polyfill'
+import options from './options'
 
 const get = key => browser.storage.local.get(key)
 
@@ -24,7 +25,10 @@ const setLists = async lists => {
 const getOptions = () => get('opts')
   .then(({opts}) => opts)
 
-const setOptions = opts => set({opts, optsUpdatedAt: Date.now()})
+const setOptions = opts => set({
+  opts: _.pick(opts, _.keys(options.getDefaultOptions())),
+  optsUpdatedAt: Date.now(),
+})
 
 export default {
   getLists,
