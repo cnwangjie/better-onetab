@@ -54,6 +54,16 @@ OneTab 的标签页储存和标签页分组功能是一个非常实用的功能�
 0. 点击 `加载已解压的扩展程序` 按钮并选择 `./dist` 目录
 0. 编译并打包 (使用 `yarn build` 命令)
 
+### 捐助
+
+开发 Better Onetab 花费了很多时间，并且每月需要为同步服务器支付费用。如果你觉得有所帮助可以通过下面的方式进行捐助。
+
+ - [PayPal](https://paypal.me/wangjie0)
+ - [DigitalOcean 邀请链接](https://m.do.co/c/4c053a482508)
+ - BTC 1ABQECfxBGLvjZqaxTm1io3CFPbKhMaSQ1
+ - ETH 0x43D361928BF8f0a58c977b152dabfF47f68c6767
+ - BCC qpqe7kcrc6lhwltd536j26j8gyk4ws3f3uehj5tql8
+
 ### 许可
 
 MIT LICENSE
