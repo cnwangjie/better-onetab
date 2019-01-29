@@ -525,7 +525,7 @@ export default {
       const changedLists = []
       items.forEach(({listIndex, tabIndex}) => {
         changedLists.push(listIndex)
-        this.addTab([listIndex, tabIndex, this.lists[listIndex].tabs[tabIndex]])
+        this.addTab([listIndex, this.lists[listIndex].tabs[tabIndex]])
       })
       this.tabMoved(changedLists)
     },

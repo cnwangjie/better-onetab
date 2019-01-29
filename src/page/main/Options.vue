@@ -128,8 +128,9 @@ export default {
       console.log(1)
       console.log(key, value)
       // when type of option is string options can not be set correctly after first storage.setOptions() called
-      await storage.setOptions(this.opts) // eslint-disable-line
-      await storage.setOptions(this.opts) // eslint-disable-line
+      const opts = _.clone(this.opts) // eslint-disable-line
+      await storage.setOptions(opts)
+      await storage.setOptions(opts)
       console.log(2)
       await sendMessage({optionsChanged: {[key]: value}})
     }, 100),

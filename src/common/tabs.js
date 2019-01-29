@@ -69,7 +69,6 @@ const storeTabs = async (tabs, listIndex) => {
   if (listIndex == null) {
     const newList = createNewTabList({tabs})
     if (opts.pinNewList) newList.pinned = true
-    lists.unshift(newList)
     await listManager.addList(newList)
   } else {
     const list = lists[listIndex]

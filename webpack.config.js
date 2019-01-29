@@ -21,6 +21,7 @@ const opts = module.exports = {
     content: './src/content.js',
     exchanger: './src/exchanger.js',
   },
+  devtool: 'source-map',
   output: {
     path: resolve('dist'),
     filename : '[name].js',
@@ -67,6 +68,7 @@ const opts = module.exports = {
       name: true,
       minChunks: Infinity,
     },
+    minimizer: [],
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -132,12 +134,10 @@ const opts = module.exports = {
 }
 
 if (opts.mode === 'production') {
-  opts.plugins.push(new UglifyJsPlugin({
+  opts.optimization.minimizer.push(new UglifyJsPlugin({
     uglifyOptions: {
-      parallel: 4,
-      compress: {
-        drop_console: true,
-      }
+      parallel: true,
+      cache: true,
     }
   }))
 }

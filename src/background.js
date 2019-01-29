@@ -6,6 +6,7 @@ import storage from './common/storage'
 import options from './common/options'
 import migrate from './common/migrate'
 import boss from './common/service/boss'
+import {normalizeList} from './common/list'
 import listManager from './common/listManager'
 import browser from 'webextension-polyfill'
 import {sendMessage} from './common/utils'
@@ -213,6 +214,14 @@ const commandHandler = command => {
   if (PRODUCTION) ga('send', 'event', 'Command used', command)
 }
 
+const fixDirtyData = async () => {
+  const {lists} = await browser.storage.local.get('lists')
+  if (lists) {
+    const cleanLists = lists.filter(_.isPlainObject).map(normalizeList)
+    await browser.storage.local.set({lists: cleanLists})
+  }
+}
+
 const init = async () => {
   logger.init()
   await listManager.init()
@@ -305,6 +314,7 @@ const init = async () => {
     }
   })
   await migrate()
+  await fixDirtyData()
   await boss.init()
 }
 

@@ -71,12 +71,12 @@ const compressOps = ops => {
   console.debug('[listManager] compress ops: (after)', finalOps)
   return finalOps
 }
-const saveStorage = _.debounce(async () => {
+const saveStorage = _.throttle(async () => {
   cache.ops = compressOps(cache.ops)
   await browser.storage.local.set(cache)
   cache.lists = cache.ops = null
   await sendMessage({refresh: true})
-}, 5000)
+}, 1000)
 const manager = {}
 // lists modifier (return true if need to add ops)
 manager.modifiers = {
