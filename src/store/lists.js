@@ -98,6 +98,9 @@ export default {
     removeTabDirectly(state, [listIndex, tabIndex]) {
       state.lists[listIndex].tabs.splice(tabIndex, 1)
     },
+    setTabs(state, [listIndex, tabs]) {
+      state.lists[listIndex].tabs = tabs
+    },
     addTab(state, [listIndex, tab]) {
       state.lists[listIndex].tabs.push(normalizeTab(tab))
     },

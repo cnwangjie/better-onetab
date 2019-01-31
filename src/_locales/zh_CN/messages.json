@@ -215,6 +215,18 @@
   "ui_pinned": {
     "message": "已固定"
   },
+  "ui_duplicate": {
+    "message": "复制"
+  },
+  "ui_copy_link": {
+    "message": "复制链接"
+  },
+  "ui_copy_title": {
+    "message": "复制标题"
+  },
+  "ui_remove": {
+    "message": "删除"
+  },
   "ui_create_issue": {
     "message": "反馈问题"
   },

@@ -1,3 +1,20 @@
+### v1.4.1 1/31/2019
+
+ - fix: drag and drop not work
+ - fix: missing i18n fields
+
+### v1.4.0 1/29/2019
+
+ - feat: detail list pagination
+ - feat: hide too much items in detail list
+ - refactor: search feature can be used in every page
+ - refactor: use drawer
+ - refactor: change authorize way of sync service
+ - depracate: some options have be depracated
+ - feat: allow set tags of list and filter tags
+ - feat: add a new option 'titleFontSize' to allow user change the font size of list title
+ - feat: add 4 new options to allow user disable some feature to improve appearance
+
 ### v1.3.12 1/17/2019
 
  - fix: search item clicked wont expanse list

@@ -132,7 +132,8 @@
       <v-divider></v-divider>
       <v-list dense class="my-1">
         <draggable
-          v-model="list.tabs"
+          :value="list.tabs"
+          @input="setTabs([list.index, $event])"
           :options="draggableOptions"
           @change="tabMoved([list.index])"
         >
@@ -243,7 +244,7 @@
         <v-icon small>content_copy</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        Duplicate
+        {{ __('ui_duplicate') }}
       </v-list-tile-content>
     </v-list-tile>
 
@@ -252,7 +253,7 @@
         <v-icon small>link</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        Copy link
+        {{ __('ui_copy_link') }}
       </v-list-tile-content>
     </v-list-tile>
 
@@ -261,7 +262,7 @@
         <v-icon small>title</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        Copy title
+        {{ __('ui_copy_title') }}
       </v-list-tile-content>
     </v-list-tile>
 
@@ -272,7 +273,7 @@
         <v-icon small>delete</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        Remove
+        {{ __('ui_remove') }}
       </v-list-tile-content>
     </v-list-tile>
   </v-list>
@@ -422,7 +423,7 @@ export default {
     getColorByHash,
     ...mapMutations([
       'openChangeTitle', 'showAll', 'tabSelected', 'addTab',
-      'removeTabDirectly', 'setTitle', 'addList',
+      'removeTabDirectly', 'setTitle', 'addList', 'setTabs',
     ]),
     ...mapActions([
       'showSnackbar', 'itemClicked', 'getLists', 'itemClicked',

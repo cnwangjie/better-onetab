@@ -215,6 +215,18 @@
   "ui_pinned": {
     "message": "pinned"
   },
+  "ui_duplicate": {
+    "message": "Duplicate"
+  },
+  "ui_copy_link": {
+    "message": "Copy link"
+  },
+  "ui_copy_title": {
+    "message": "Copy title"
+  },
+  "ui_remove": {
+    "message": "Remove"
+  },
   "ui_create_issue": {
     "message": "Create an issue"
   },
