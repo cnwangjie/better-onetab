@@ -1,3 +1,9 @@
+### v1.4.2 2/2/2019
+
+ - fix: store into a titled list broken
+ - fix: wrong charset when export to file
+ - fix: can remove item of list when click
+
 ### v1.4.1 1/31/2019
 
  - fix: drag and drop not work

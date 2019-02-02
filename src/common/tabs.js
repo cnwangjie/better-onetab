@@ -73,7 +73,7 @@ const storeTabs = async (tabs, listIndex) => {
   } else {
     const list = lists[listIndex]
     tabs.forEach(tab => list.tabs.push(tab))
-    await listManager.updateListById(lists._id, _.pick(list, 'tabs'))
+    await listManager.updateListById(list._id, _.pick(list, 'tabs'))
   }
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {

@@ -141,7 +141,7 @@
             v-for="(tab, tabIndex) in list.tabs"
             :href="opts.itemClickAction !== 'none' ? tab.url : null"
             :target="opts.itemClickAction !== 'none' ? '_blank' : null"
-            @click.self="itemClicked([list.index, tabIndex])"
+            @click.stop="itemClicked([list.index, tabIndex])"
             @contextmenu="rightClicked(list.index, tabIndex, $event)"
             class="list-item"
             :ref="'list-' + list.index + '-tab'"
@@ -426,10 +426,10 @@ export default {
       'removeTabDirectly', 'setTitle', 'addList', 'setTabs',
     ]),
     ...mapActions([
-      'showSnackbar', 'itemClicked', 'getLists', 'itemClicked',
-      'removeList', 'removeTab', 'restoreList', 'saveTitle',
-      'pinList', 'moveListUp', 'moveListDown', 'expandList',
-      'changeColor', 'tabMoved', 'setTags',
+      'showSnackbar', 'itemClicked', 'getLists', 'removeList',
+      'removeTab', 'restoreList', 'saveTitle', 'pinList',
+      'moveListUp', 'moveListDown', 'expandList', 'changeColor',
+      'tabMoved', 'setTags',
     ]),
     init() {
       if (DEBUG) window.dl = this

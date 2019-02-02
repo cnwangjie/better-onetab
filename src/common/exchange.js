@@ -24,12 +24,13 @@ const exportToText = async compatible => {
 
 const exportToFile = (text, {type, suffix}) => {
   const name = 'BetterOnetab_backup_' + moment().format('L') + suffix
-  download(text, name, type)
+  const blob = new Blob(['\ufeff' + text], {type})
+  download(blob, name, type)
 }
 
 const types = {
-  JSON: { type: 'application/json', suffix: '.json' },
-  TEXT: { type: 'plain/text', suffix: '.txt' },
+  JSON: { type: 'application/json; charset=utf-8', suffix: '.json' },
+  TEXT: { type: 'plain/text; charset=utf-8', suffix: '.txt' },
 }
 
 export default {
