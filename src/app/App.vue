@@ -5,7 +5,7 @@
 </template>
 <script>
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import './assets/css/fontawesome-all.min.css'
+import '@/assets/css/fontawesome-all.min.css'
 
 export default {
   name: 'app',

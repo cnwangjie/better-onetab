@@ -16,7 +16,7 @@ const moz = process.env.MOZ
 const opts = module.exports = {
   mode,
   entry: {
-    index: ['./src/index.js'],
+    app: ['./src/app/index.js'],
     background: './src/background.js',
     content: './src/content.js',
     exchanger: './src/exchanger.js',
@@ -53,7 +53,7 @@ const opts = module.exports = {
     ]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/index.html',
+      template: 'src/app/index.html',
       excludeChunks: ['background', 'content', 'exchanger'],
       inject: true,
     }),

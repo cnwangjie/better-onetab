@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-const Popup = () => import(/* webpackChunkName: "popup" */ '@/page/Popup')
-const Main = () => import(/* webpackChunkName: "main" */ '@/page/Main')
-const SyncInfo = () => import(/* webpackChunkName: "main" */ '@/page/main/SyncInfo')
-const Options = () => import(/* webpackChunkName: "main" */ '@/page/main/Options')
-const About = () => import(/* webpackChunkName: "main" */ '@/page/main/About')
-const ImportExport = () => import(/* webpackChunkName: "main" */ '@/page/main/ImportExport')
-const Search = () => import(/* webpackChunkName: "main" */ '@/page/main/Search')
-const DetailList = () => import(/* webpackChunkName: "main" */ '@/page/main/DetailList')
+const Popup = () => import(/* webpackChunkName: "popup" */ '@/app/page/Popup')
+const Main = () => import(/* webpackChunkName: "main" */ '@/app/page/Main')
+const SyncInfo = () => import(/* webpackChunkName: "main" */ '@/app/page/main/SyncInfo')
+const Options = () => import(/* webpackChunkName: "main" */ '@/app/page/main/Options')
+const About = () => import(/* webpackChunkName: "main" */ '@/app/page/main/About')
+const ImportExport = () => import(/* webpackChunkName: "main" */ '@/app/page/main/ImportExport')
+const Search = () => import(/* webpackChunkName: "main" */ '@/app/page/main/Search')
+const DetailList = () => import(/* webpackChunkName: "main" */ '@/app/page/main/DetailList')
 
 Vue.use(Router)
 

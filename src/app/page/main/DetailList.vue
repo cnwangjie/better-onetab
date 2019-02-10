@@ -346,7 +346,7 @@ import __ from '@/common/i18n'
 import tabs from '@/common/tabs'
 import {createNewTabList} from '@/common/list'
 import {formatTime, getColorByHash} from '@/common/utils'
-import dynamicTime from '@/component/DynamicTime'
+import dynamicTime from '@/app/component/DynamicTime'
 import {COLORS} from '@/common/constants'
 import {mapState, mapActions, mapMutations, mapGetters} from 'vuex'
 

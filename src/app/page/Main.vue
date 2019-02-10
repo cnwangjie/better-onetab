@@ -22,9 +22,9 @@
 <script>
 import __ from '@/common/i18n'
 
-import drawer from '@/component/main/Drawer'
-import toolbar from '@/component/main/Toolbar'
-import snackbar from '@/component/main/Snackbar'
+import drawer from '@/app/component/main/Drawer'
+import toolbar from '@/app/component/main/Toolbar'
+import snackbar from '@/app/component/main/Snackbar'
 
 import {mapState, mapActions} from 'vuex'
 
