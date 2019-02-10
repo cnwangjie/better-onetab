@@ -101,7 +101,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .list-item-btn-hover {
   display: none;
 }

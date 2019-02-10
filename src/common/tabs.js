@@ -64,7 +64,6 @@ const storeTabs = async (tabs, listIndex) => {
   if (opts.ignorePinned) tabs = tabs.filter(i => !i.pinned)
   if (opts.excludeIllegalURL) tabs = tabs.filter(i => isLegalURL(i.url))
   if (tabs.length === 0) return
-  browser.tabs.remove(tabs.map(i => i.id))
   const lists = await storage.getLists()
   if (listIndex == null) {
     const newList = createNewTabList({tabs})
@@ -85,6 +84,7 @@ const storeTabs = async (tabs, listIndex) => {
       }
     }
   }
+  return browser.tabs.remove(tabs.map(i => i.id))
 }
 
 const storeLeftTabs = async listIndex => storeTabs((await groupTabsInCurrentWindow()).left, listIndex)
@@ -109,10 +109,12 @@ const storeAllTabInAllWindows = async () => {
   const windows = await browser.windows.getAll()
   const opts = await storage.getOptions()
   if (opts.openTabListNoTab) await openTabLists()
+  const tasks = []
   for (const window of windows) {
-    const tabs = await getAllInWindow(window.id)
-    await storeTabs(tabs)
+    const task = getAllInWindow(window.id).then(storeTabs)
+    tasks.push(task)
   }
+  return Promise.all(tasks)
 }
 
 const restoreList = async (list, windowId) => {

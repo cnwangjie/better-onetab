@@ -139,7 +139,10 @@ export default {
 }
 </script>
 <style scoped>
-.app-drawer {
-  background: inherit !important;
+.theme--light.app-drawer {
+  background: #fafafa !important;
+}
+.theme--dark.app-drawer {
+  background: rgb(48, 48, 48) !important;
 }
 </style>
