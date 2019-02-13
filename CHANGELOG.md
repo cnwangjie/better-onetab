@@ -1,3 +1,10 @@
+### v1.4.3 2/13/2019
+
+ - fix: transparent drawer
+ - fix: always displayed list button
+ - fix: confirm remove list not work when restore
+ - fix: import list order wrong
+
 ### v1.4.2 2/2/2019
 
  - fix: store into a titled list broken

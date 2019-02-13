@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__EXT_NAME__",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "default_locale": "en",
   "description": "__MSG_ext_desc__",
   "author": "WangJie <doudou19758@gmail.com>",

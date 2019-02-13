@@ -108,7 +108,8 @@ export default {
       this.processing = true
       try {
         const lists = await exchange.importFromText(comp, this.importData)
-        lists.forEach(list => this[ADD_LIST]([list]))
+        // reverse for keeping the order
+        lists.reverse().forEach(list => this[ADD_LIST]([list]))
         this.showSnackbar(__('ui_main_succeeded'))
         this.importData = ''
         this.$router.push('/app/list')

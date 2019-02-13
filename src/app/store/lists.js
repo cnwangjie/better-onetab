@@ -131,19 +131,19 @@ export default {
         ${__('ui_created')} ${formatTime(list.time)}`)) return
       commit(REMOVE_LIST_BY_ID, [list._id])
     },
-    removeTab({commit, state}, [listIndex, tabIndex]) {
+    removeTab({commit, state, dispatch}, [listIndex, tabIndex]) {
       const list = state.lists[listIndex]
       const tabs = list.tabs.slice()
       tabs.splice(tabIndex, 1)
-      if (tabs.length === 0) commit(REMOVE_LIST_BY_ID, [list._id])
+      if (tabs.length === 0) dispatch('removeList', listIndex)
       else commit(UPDATE_LIST_BY_ID, [list._id, {tabs}])
     },
-    restoreList({commit, state}, [listIndex, inNewWindow = false]) {
+    restoreList({state, dispatch}, [listIndex, inNewWindow = false]) {
       const list = state.lists[listIndex]
       if (inNewWindow) tabManager.restoreListInNewWindow(list)
       else tabManager.restoreList(list)
       if (list.pinned) return
-      commit(REMOVE_LIST_BY_ID, [list._id])
+      dispatch('removeList', listIndex)
     },
     saveTitle({commit, state}, listIndex) {
       const list = state.lists[listIndex]
