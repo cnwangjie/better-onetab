@@ -1,11 +1,16 @@
 const parseLists = (compatible, data) => {
   const lists = compatible ? data.split('\n\n')
-    .filter(i => i)
+    .filter(i => i.trim())
     .map(i => i.split('\n')
       .filter(j => j)
-      .map(j => j.split('|').map(k => k.trim()))
-      .map(([url, title]) => ({ url, title })))
-    .map(i => ({tabs: i}))
+      .map(j => {
+        const [url, ...title] = j.split('|')
+        return {
+          url: url.trim(),
+          title: title.join().trim(),
+        }
+      }))
+    .map(tabs => ({tabs}))
     : JSON.parse(data)
 
   return lists
