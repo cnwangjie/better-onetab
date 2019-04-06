@@ -17,7 +17,7 @@ const opts = module.exports = {
   mode,
   entry: {
     app: ['./src/app/index.js'],
-    background: './src/background.js',
+    background: ['./src/background/index.js'],
     content: './src/content.js',
     exchanger: './src/exchanger.js',
   },
