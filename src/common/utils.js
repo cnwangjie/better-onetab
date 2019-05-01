@@ -85,3 +85,86 @@ export const sendMessage = async msg => {
     throw err
   }
 }
+
+/**
+ * this a helper function like Lodash.throttle but could be used for async function
+ * and the function will be restricted (cannot be executed concurrently)
+ *
+ * @param {Function} fn
+ * @param {Number} ms
+ */
+export const throttle = (fn, ms) => {
+  let executing
+  let next
+  let nextArgs
+  let timeout
+  let lastTime // actual execute time
+  return async function throttled(...args) {
+    const now = Date.now()
+    if (now - lastTime < ms) {
+      next = true
+      nextArgs = args
+      if (timeout) clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        throttled(...args)
+      })
+      return
+    }
+
+    // ignore this called and retry after the function finished if it is executing
+    if (executing) {
+      next = true
+      nextArgs = args
+      return
+    }
+
+    // set the status when the function executed actually
+    executing = true
+    lastTime = now
+
+    let re // save the result of function
+    try {
+      re = await fn.apply(this, args) // eslint-disable-line
+    } catch (error) {
+      throw error
+    } finally {
+      executing = false
+      if (next) {
+        if (Date.now() - now > ms) {
+          next = false
+          if (timeout) clearTimeout(timeout)
+          throttled(...nextArgs)
+        }
+      }
+    }
+    return re
+  }
+}
+
+// for restrict access storage concurrently
+// refer: https://balpha.de/2012/03/javascript-concurrency-and-locking-the-html5-localstorage/
+// refer: https://github.com/mgtitimoli/await-mutex/blob/master/src/mutex.js
+export class Mutex {
+  constructor() {
+    this._locking = Promise.resolve()
+    this._locks = 0
+  }
+
+  isLocked() {
+    return this._locks > 0
+  }
+
+  lock() {
+    this._locks += 1
+    let unlockNext
+    const willLock = new Promise(resolve => {
+      unlockNext = () => {
+        this._locks -= 1
+        resolve()
+      }
+    })
+    const willUnlock = this._locking.then(() => unlockNext)
+    this._locking = this._locking.then(() => willLock)
+    return willUnlock
+  }
+}

@@ -80,7 +80,6 @@ const setWSToken = token => {
 const uploadOpsViaWS = async () => {
   const socket = window._socket
   if (!socket || !socket.connected) throw new Error('socket not connected')
-  await listManager.idle() // wait for list manager idle
   const {ops} = await browser.storage.local.get('ops')
   await browser.storage.local.remove('ops')
   if (ops) {
@@ -143,8 +142,15 @@ const downloadRemoteLists = async () => {
 }
 
 const syncLists = async () => {
-  await uploadOpsViaWS()
-  await downloadRemoteLists()
+  const unlock = await listManager.RWLock.lock()
+  try {
+    await uploadOpsViaWS()
+    await downloadRemoteLists()
+  } catch (error) {
+    throw error
+  } finally {
+    await unlock()
+  }
 }
 
 const getRemoteOptionsUpdatedTimeViaWS = () => new Promise(resolve => {

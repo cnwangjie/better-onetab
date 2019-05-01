@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import browser from 'webextension-polyfill'
 import {
   SYNCED_LIST_PROPS,
@@ -9,26 +8,17 @@ import {
   REMOVE_LIST_BY_ID,
   CHANGE_LIST_ORDER,
 } from './constants'
-import {isBackground, sendMessage} from './utils'
+import {isBackground, sendMessage, throttle, Mutex} from './utils'
 
 const cache = { lists: null, ops: null }
-let _readingStorage = false
+const RWLock = new Mutex()
 const getStorage = async () => {
-  if (_readingStorage) {
-    await new Promise(resolve => {
-      const interval = setInterval(() => {
-        if (_readingStorage) return
-        clearInterval(interval)
-        resolve()
-      }, 100)
-    })
-  }
+  const unlockRW = await RWLock.lock()
   if (cache.lists && cache.ops) return cache
-  _readingStorage = true
   const {lists, ops} = await browser.storage.local.get(['lists', 'ops'])
   cache.lists = lists || []
   cache.ops = ops || []
-  _readingStorage = false
+  await unlockRW()
   return cache
 }
 const compressOps = ops => {
@@ -71,12 +61,7 @@ const compressOps = ops => {
   console.debug('[listManager] compress ops: (after)', finalOps)
   return finalOps
 }
-const saveStorage = _.throttle(async () => {
-  cache.ops = compressOps(cache.ops)
-  await browser.storage.local.set(cache)
-  cache.lists = cache.ops = null
-  await sendMessage({refresh: true})
-}, 1000)
+
 const manager = {}
 // lists modifier (return true if need to add ops)
 manager.modifiers = {
@@ -110,21 +95,44 @@ manager.modifiers = {
   },
 }
 
+// use myself throttle function to replace Lodash.throttle to make sure
+// this function cannot be executed concurrently
+const saveStorage = async (lists, ops) => {
+  const unlock = await RWLock.lock()
+  const data = {
+    lists,
+    ops: compressOps(ops)
+  }
+  await browser.storage.local.set(data)
+  cache.lists = cache.ops = null
+  await sendMessage({refresh: true})
+  await unlock()
+}
 // avoid getting storage at the same time
 const _modifyQueue = []
-const _startModifyWork = (lists, ops) => {
-  while (_modifyQueue.length !== 0) {
+const _startModifyWork = (lists, ops) => new Promise(resolve => {
+  while (_modifyQueue.length) {
     const [method, args] = _modifyQueue.shift()
     const opArgs = manager.modifiers[method](lists, args)
     if (opArgs) ops.push({method, args: opArgs, time: Date.now()})
   }
-  saveStorage()
-}
+  setTimeout(() => {
+    if (_modifyQueue.length) _startModifyWork(lists, ops).then(resolve)
+    else resolve()
+  }, 100)
+})
+
+let _working = false
 const applyChangesToStorage = async (method, args) => {
   _modifyQueue.push([method, args])
-  if (_readingStorage) return
+  // not need to start work if modify work is processing
+  if (_working) return
+  _working = true
   const {lists, ops} = await getStorage()
-  _startModifyWork(lists, ops)
+  await _startModifyWork(lists, ops)
+  // from here won't modify data if do not call start function
+  _working = false
+  await saveStorage(lists, ops)
 }
 const addEventListener = (receiveFrom, callback) => browser.runtime.onMessage.addListener(({listModifed, from}) => {
   if (receiveFrom !== from || !listModifed) return
@@ -135,8 +143,9 @@ const genMethods = isBackground => {
   Object.keys(manager.modifiers).forEach(method => {
     manager[method] = isBackground ? async (...args) => { // for background
       console.debug('[list manager] modify list:', method, ...args)
-      await applyChangesToStorage(method, args)
       await sendMessage({listModifed: {method, args}, from: END_BACKGROUND})
+      // no need to await changes applied for close tabs immediately
+      applyChangesToStorage(method, args)
     } : async (...args) => { // for front end
       console.debug('[list manager] call to modify list:', name, ...args)
       await sendMessage({listModifed: {method, args}, from: END_FRONT})
@@ -173,11 +182,6 @@ manager.createVuexPlugin = () => store => {
     }
   })
 }
-manager.idle = () => new Promise(resolve => {
-  const interval = setInterval(() => {
-    if (cache.lists) return
-    clearInterval(interval)
-    resolve()
-  }, 100)
-})
+manager.RWLock = RWLock
+manager.isWorking = () => _working
 export default manager
