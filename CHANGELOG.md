@@ -1,3 +1,8 @@
+### v1.4.4 5/2/2019
+
+ - fix: parse title from compatible format by mistake when it include `|`
+ - fix: a possible case to cause data missing
+
 ### v1.4.3 2/13/2019
 
  - fix: transparent drawer

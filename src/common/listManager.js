@@ -8,7 +8,7 @@ import {
   REMOVE_LIST_BY_ID,
   CHANGE_LIST_ORDER,
 } from './constants'
-import {isBackground, sendMessage, throttle, Mutex} from './utils'
+import {isBackground, sendMessage, Mutex} from './utils'
 
 const cache = { lists: null, ops: null }
 const RWLock = new Mutex()
