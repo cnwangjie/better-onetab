@@ -92,7 +92,7 @@ const init = async () => {
     browser.runtime.onMessage.addListener(messageHandler),
     browser.runtime.onUpdateAvailable.addListener(detail => { window.update = detail.version }),
     browser.runtime.onInstalled.addListener(installedEventHandler),
-    browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action)),
+    browser.browserAction.onClicked.addListener(() => window.browswerActionClickedHandler()),
     browser.contextMenus.onClicked.addListener(info => window.contextMenusClickedHandler(info)),
     browser.tabs.onActivated.addListener(_.debounce(tabsChangedHandler, 200)),
     browser.storage.onChanged.addListener(storageChangedHandler),
