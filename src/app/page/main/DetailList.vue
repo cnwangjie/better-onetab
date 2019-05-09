@@ -199,85 +199,7 @@
   <p class="display-2 grey--text text--lighten-1" v-html="__('ui_no_list_tip')"></p>
 </v-layout>
 
-<v-menu
-  v-model="showMenu"
-  :position-x="x"
-  :position-y="y"
-  min-width="200"
-  absolute
-  offset-y
->
-  <v-list dense>
-    <!-- <v-subheader>{{ __('ui_move_to') }}</v-subheader> -->
-    <v-menu offset-x open-on-hover>
-      <v-list-tile @click="init" slot="activator">
-        <v-list-tile-action>
-          <v-icon small>move_to_inbox</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          {{ __('ui_move_to') }}
-        </v-list-tile-content>
-        <v-list-tile-action>
-          <v-icon :style="{transform: 'rotate(-90deg)'}">arrow_drop_down</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-      <v-list dense>
-        <v-list-tile
-          v-for="(list, listIndex) in lists"
-          :key="listIndex"
-          @click="moveSelectedItemsTo(listIndex)"
-          v-if="list.title"
-          :color="list.color"
-        >
-          <v-list-tile-title>{{ list.title }}</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile @click="moveSelectedItemsTo(-1)">
-          <v-list-tile-title>{{ __('ui_a_new_list') }}</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-menu>
-
-    <v-divider class="my-1"></v-divider>
-
-    <v-list-tile @click="duplicateSelectedItems">
-      <v-list-tile-action>
-        <v-icon small>content_copy</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        {{ __('ui_duplicate') }}
-      </v-list-tile-content>
-    </v-list-tile>
-
-    <v-list-tile @click="copyLinksOfSelectedItems">
-      <v-list-tile-action>
-        <v-icon small>link</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        {{ __('ui_copy_link') }}
-      </v-list-tile-content>
-    </v-list-tile>
-
-    <v-list-tile @click="copyTitleOfSelectedItems">
-      <v-list-tile-action>
-        <v-icon small>title</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        {{ __('ui_copy_title') }}
-      </v-list-tile-content>
-    </v-list-tile>
-
-    <v-divider class="my-1"></v-divider>
-
-    <v-list-tile @click="removeSelectedItems">
-      <v-list-tile-action>
-        <v-icon small>delete</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        {{ __('ui_remove') }}
-      </v-list-tile-content>
-    </v-list-tile>
-  </v-list>
-</v-menu>
+<context-menu v-model="showMenu" ref="contextMenu" @click="contextMenuClicked"></context-menu>
 
 <v-fab-transition>
   <v-btn :key="1" v-if="scrollY > 100" color="pink" dark fab fixed bottom right @click="$vuetify.goTo(0)">
@@ -347,6 +269,7 @@ import tabs from '@/common/tabs'
 import {createNewTabList} from '@/common/list'
 import {formatTime, getColorByHash} from '@/common/utils'
 import dynamicTime from '@/app/component/DynamicTime'
+import contextMenu from '@/app/component/main/detailList/ContextMenu'
 import {COLORS} from '@/common/constants'
 import {mapState, mapActions, mapMutations, mapGetters} from 'vuex'
 
@@ -357,9 +280,7 @@ export default {
       processed: false, // if task to get list completed
       choice: null, // choice in search result
       showMenu: false, // item right click menu
-      x: NaN, y: NaN, // menu position
-      rightClickedItem: null, // if right click on an item
-      multiOpBtnClickedListIndex: null,
+      rightClickedListIndex: null,
       currentHighlightItem: null, // after jump to an item
       draggableOptions: {
         group: {
@@ -416,8 +337,10 @@ export default {
   components: {
     draggable,
     dynamicTime,
+    contextMenu,
   },
   methods: {
+    log: console.log,
     __,
     formatTime,
     getColorByHash,
@@ -467,9 +390,6 @@ export default {
         this.expandStatus = this.getExpandStatus()
       }
     },
-    openTab(listIndex, tabIndex) {
-      tabs.openTab(this.lists[listIndex].tabs[tabIndex])
-    },
     getDomain(url) {
       try {
         return new URL(url).hostname
@@ -477,32 +397,43 @@ export default {
         return ''
       }
     },
+    async contextMenuClicked(func, ...args) {
+      await this[func](...args)
+      this.showMenu = false
+    },
     rightClicked(listIndex, tabIndex, $event) {
       $event.preventDefault()
       this.showMenu = false
-      this.rightClickedItem = {listIndex, tabIndex}
-      this.multiOpBtnClickedListIndex = null
-      this.x = $event.clientX
-      this.y = $event.clientY
+      this.rightClickedListIndex = listIndex
+
+      // refer gmail behaviour: unselect all except it if clicked item is not selected
+      if (!this.lists[listIndex].tabs[tabIndex].selected) {
+        for (let i = 0; i < this.lists[listIndex].tabs.length; i += 1) {
+          this.tabSelected([listIndex, i, i === tabIndex])
+        }
+      }
+
+      this.$refs.contextMenu.x = $event.clientX
+      this.$refs.contextMenu.y = $event.clientY
       this.$nextTick(() => {
         this.showMenu = true
       })
     },
     getSelectedItems() {
-      if (this.rightClickedItem) return [this.rightClickedItem]
-      else if (isFinite(this.multiOpBtnClickedListIndex)) {
-        const listIndex = this.multiOpBtnClickedListIndex
-        const list = this.lists[listIndex]
-        const selectedItems = []
-        list.tabs.forEach((tab, tabIndex) => {
-          if (tab.selected) selectedItems.push({listIndex, tabIndex})
+      const list = this.lists[this.rightClickedListIndex]
+      const selectedItems = []
+      list.tabs.forEach((tab, tabIndex) => {
+        if (tab.selected) selectedItems.push({
+          // for avoid to change old functions
+          listIndex: this.rightClickedListIndex,
+          tabIndex,
         })
-        return selectedItems
-      }
+      })
+      return selectedItems
     },
     moveSelectedItemsTo(targetListIndex) {
       const items = this.getSelectedItems()
-      if (!items) return
+      if (!(items && items.length)) return
       const changedLists = [targetListIndex]
       const tabs = items.map(({listIndex, tabIndex}) => {
         changedLists.push(listIndex)
@@ -520,9 +451,15 @@ export default {
         this.tabMoved(changedLists)
       }
     },
+    openSelectedItems() {
+      const items = this.getSelectedItems()
+      if (!(items && items.length)) return
+      const toRestoredTabs = items.map(({listIndex, tabIndex}) => this.lists[listIndex].tabs[tabIndex])
+      return tabs.restoreTabs(toRestoredTabs)
+    },
     duplicateSelectedItems() {
       const items = this.getSelectedItems()
-      if (!items) return
+      if (!(items && items.length)) return
       const changedLists = []
       items.forEach(({listIndex, tabIndex}) => {
         changedLists.push(listIndex)
@@ -532,7 +469,7 @@ export default {
     },
     async copyLinksOfSelectedItems() {
       const items = this.getSelectedItems()
-      if (!items) return
+      if (!(items && items.length)) return
       const text = items.map(({listIndex, tabIndex}) => {
         const tab = this.lists[listIndex].tabs[tabIndex]
         return tab.url
@@ -541,7 +478,7 @@ export default {
     },
     async copyTitleOfSelectedItems() {
       const items = this.getSelectedItems()
-      if (!items) return
+      if (!(items && items.length)) return
       const text = items.map(({listIndex, tabIndex}) => {
         const tab = this.lists[listIndex].tabs[tabIndex]
         return tab.title
@@ -550,7 +487,7 @@ export default {
     },
     removeSelectedItems() {
       const items = this.getSelectedItems()
-      if (!items) return
+      if (!(items && items.length)) return
       const changedLists = []
       items.sort((a, b) => b.tabIndex - a.tabIndex)
         .forEach(({listIndex, tabIndex}) => {
@@ -574,8 +511,9 @@ export default {
       this.x = $event.x
       this.y = $event.y
       this.multiOpBtnClickedListIndex = listIndex
-      this.rightClickedItem = null
-      this.showMenu = true
+      this.$nextTick(() => {
+        this.showMenu = true
+      })
     },
     async jumpTo(item) {
       const page = item.listIndex / this.opts.listsPerPage << 0
