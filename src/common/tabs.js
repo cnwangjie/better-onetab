@@ -117,7 +117,7 @@ const storeAllTabInAllWindows = async () => {
   return Promise.all(tasks)
 }
 
-const restoreList = async (list, windowId) => {
+const restoreTabs = async (tabs, windowId) => {
   const opts = await storage.getOptions()
   let indexOffset = 0
   if (opts.openEnd) {
@@ -125,8 +125,8 @@ const restoreList = async (list, windowId) => {
     const {index} = tabs.pop()
     indexOffset = index + 1
   }
-  for (let i = 0; i < list.tabs.length; i += 1) {
-    const tab = list.tabs[i]
+  for (let i = 0; i < tabs.length; i += 1) {
+    const tab = tabs[i]
     const createdTab = await browser.tabs.create({
       url: tab.url,
       pinned: tab.pinned,
@@ -136,6 +136,8 @@ const restoreList = async (list, windowId) => {
     if (tab.muted) browser.tabs.update(createdTab.id, {muted: true})
   }
 }
+
+const restoreList = (list, windowId) => restoreTabs(list.tabs, windowId)
 
 const restoreListInNewWindow = async list => {
   const createdWindow = await browser.windows.create({url: list.tabs.map(i => i.url)})
@@ -153,8 +155,6 @@ const restoreLastestList = async () => {
   return listManager.removeListById(lastest._id)
 }
 
-const openTab = tab => browser.tabs.create({ url: tab.url })
-
 export default {
   getSelectedTabs,
   groupTabsInCurrentWindow,
@@ -164,10 +164,10 @@ export default {
   storeTwoSideTabs,
   storeAllTabs,
   storeAllTabInAllWindows,
+  restoreTabs,
   restoreList,
   restoreListInNewWindow,
   restoreLastestList,
-  openTab,
   openTabLists,
   openAboutPage,
 }

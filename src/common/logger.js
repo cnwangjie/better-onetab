@@ -20,9 +20,11 @@ const genMethods = () => {
 
 logger.init = (opts = {}) => {
   genMethods()
-  window.onerror = window.onunhandledrejection = err => {
-    Sentry.captureException(err)
+  if (DEBUG) {
+    window.Sentry = Sentry
+    return
   }
+
   const {Vue} = opts
   const integrations = Sentry.defaultIntegrations
   if (Vue) integrations.push(new Sentry.Integrations.Vue({Vue}))
@@ -37,8 +39,6 @@ logger.init = (opts = {}) => {
   Sentry.configureScope(async scope => {
     scope.setTag('background', await isBackground())
   })
-
-  if (DEBUG) window.Sentry = Sentry
 }
 
 export default logger

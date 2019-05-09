@@ -227,6 +227,9 @@
   "ui_remove": {
     "message": "删除"
   },
+  "ui_open": {
+    "message": "打开"
+  },
   "ui_create_issue": {
     "message": "反馈问题"
   },

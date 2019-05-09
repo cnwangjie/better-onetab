@@ -227,6 +227,9 @@
   "ui_remove": {
     "message": "Remove"
   },
+  "ui_open": {
+    "message": "Open"
+  },
   "ui_create_issue": {
     "message": "Create an issue"
   },

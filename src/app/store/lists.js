@@ -54,6 +54,9 @@ export default {
     pinnedList(state, getters) {
       return getters.indexedLists.filter(list => list.pinned)
     },
+    titledList(state, getters) {
+      return getters.indexedLists.filter(list => list.title)
+    },
     getPageLength(state) {
       return size => Math.ceil(size / state.opts.listsPerPage)
     },
