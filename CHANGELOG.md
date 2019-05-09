@@ -1,3 +1,9 @@
+### v1.4.5 5/9/2019
+
+ - fix: browser action broken in v1.4.4
+ - feat: open selected tabs in tab list
+ - change: right click apply for all selected tabs in the list currently
+
 ### v1.4.4 5/2/2019
 
  - fix: parse title from compatible format by mistake when it include `|`
