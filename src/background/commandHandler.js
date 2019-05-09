@@ -1,6 +1,6 @@
 import tabs from '../common/tabs'
 
-const commands = {
+export const commands = {
   'store-selected-tabs': tabs.storeSelectedTabs,
   'store-all-tabs': tabs.storeAllTabs,
   'store-all-in-all-windows': tabs.storeAllTabInAllWindows,
