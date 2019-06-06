@@ -11,10 +11,11 @@ const path = require('path')
 const config = require('./config')
 
 const resolve = (...paths) => path.join(__dirname, ...paths)
-const mode = process.env.NODE_ENV || 'development'
-const moz = process.env.MOZ
+const { NODE_ENV, MOZ } = process.env
+const mode = NODE_ENV === 'development' ? 'development' : 'production'
 const opts = module.exports = {
   mode,
+  cache: true,
   entry: {
     app: ['./src/app/index.js'],
     background: ['./src/background/index.js'],
@@ -30,8 +31,9 @@ const opts = module.exports = {
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
     new webpack.DefinePlugin({
       DEBUG: mode === 'development',
-      PRODUCTION: mode !== 'development',
-      MOZ: moz,
+      PRODUCTION: mode === 'production',
+      TEST: NODE_ENV === 'test',
+      MOZ,
     }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([

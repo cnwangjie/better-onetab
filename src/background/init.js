@@ -3,6 +3,7 @@ import logger from '../common/logger'
 import options from '../common/options'
 import storage from '../common/storage'
 import migrate from '../common/migrate'
+import tabs from '../common/tabs'
 import boss from '../common/service/boss'
 import {normalizeList} from '../common/list'
 import commandHandler from './commandHandler'
@@ -26,10 +27,12 @@ if (PRODUCTION) import(
   '../common/tracker'
 ).then(({tracker}) => tracker())
 
+window.browser = browser
+window.listManager = listManager
+window.boss = boss
+window.tabs = tabs
+
 if (DEBUG) {
-  window.browser = browser
-  window.listManager = listManager
-  window.boss = boss
   browser.browserAction.setBadgeText({text: 'dev'})
   import(
     /* webpackChunkName: "helper", webpackMode: "lazy" */

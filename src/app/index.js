@@ -6,6 +6,8 @@ import logger from '../common/logger'
 import Vuetify from 'vuetify/lib'
 import VueClipboard from 'vue-clipboard2'
 import colors from 'vuetify/es5/util/colors'
+import browser from 'webextension-polyfill'
+
 import 'vuetify/src/stylus/app.styl'
 
 logger.init({Vue})
@@ -27,11 +29,10 @@ const app = new Vue({
   components: { App }
 })
 
+window.app = app
+window.browser = window.browser || browser
+
 if (DEBUG) {
-  window.app = app
-  import('webextension-polyfill').then(browser => {
-    window.browser = browser.default
-  })
   import('@/common/service/gdrive').then(gt => {
     window.gt = gt
     window.gdrive = gt.default

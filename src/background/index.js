@@ -1,3 +1,8 @@
 import init from './init'
 
-init()
+if (TEST) {
+  window.init = init
+} else {
+  init()
+}
+
