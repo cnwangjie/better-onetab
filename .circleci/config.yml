@@ -2,7 +2,7 @@ version: 2
 jobs:
   install_dependencies:
     docker:
-      - image: circleci/node:8.11.3-jessie
+      - image: circleci/node:10.10-jessie
     working_directory: ~/ext
     steps:
       - checkout
@@ -19,7 +19,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/node:8.11.3-jessie
+      - image: circleci/node:10.10-jessie
     working_directory: ~/ext
     steps:
       - restore_cache:
@@ -29,9 +29,23 @@ jobs:
           key: build-{{ .Environment.CIRCLE_SHA1 }}
           paths: ~/ext
 
+  release_sentry:
+    docker:
+      - image: getsentry/sentry-cli
+    working_directory: ~/ext
+    steps:
+      - restore_cache:
+          key: build-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: release sentry
+          command: |
+            sentry-cli releases new ${CIRCLE_TAG}
+            sentry-cli releases files ${CIRCLE_TAG} upload-sourcemaps dist
+            sentry-cli releases finalize ${CIRCLE_TAG}
+
   publish_chrome:
     docker:
-      - image: circleci/node:8.11.3-jessie
+      - image: circleci/node:10.10-jessie
     working_directory: ~/ext
     steps:
       - restore_cache:
@@ -45,7 +59,7 @@ jobs:
 
   publish_firefox:
     docker:
-      - image: circleci/node:8.11.3-jessie
+      - image: circleci/node:10.10-jessie
     working_directory: ~/ext
     steps:
       - restore_cache:
@@ -91,7 +105,16 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+      - release_sentry:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - publish_chrome:
+          type: approval
           requires:
             - build
           filters:
@@ -100,6 +123,7 @@ workflows:
             branches:
               ignore: /.*/
       - publish_firefox:
+          type: approval
           requires:
             - build
           filters:

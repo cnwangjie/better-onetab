@@ -530,7 +530,6 @@ export default {
         this.expandList([true, item.listIndex])
         this.currentHighlightItem = this.$refs[`list-${item.listIndex}-tab`][item.tabIndex]
       }
-      console.log(this.currentHighlightItem)
       this.currentHighlightItem.$el.classList.add('elevation-20')
       this.$vuetify.goTo(this.currentHighlightItem, opt)
     },
