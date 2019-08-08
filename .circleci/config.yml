@@ -31,7 +31,7 @@ jobs:
 
   release_sentry:
     docker:
-      - image: getsentry/sentry-cli
+      - image: circleci/node:10.10-jessie
     working_directory: ~/ext
     steps:
       - restore_cache:
@@ -39,6 +39,8 @@ jobs:
       - run:
           name: release sentry
           command: |
+            yarn global add @sentry/cli
+            export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
             sentry-cli releases new ${CIRCLE_TAG}
             sentry-cli releases files ${CIRCLE_TAG} upload-sourcemaps dist
             sentry-cli releases finalize ${CIRCLE_TAG}

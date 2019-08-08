@@ -1,3 +1,9 @@
+### v1.4.6 8/8/2019
+
+ - fix: crash when click item of search result
+ - fix: data changes cannot be stored
+ - fix: multi-operation button cannot be clicked
+
 ### v1.4.5 5/9/2019
 
  - fix: browser action broken in v1.4.4
