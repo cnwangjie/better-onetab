@@ -115,7 +115,24 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+      - check_chrome:
+          type: approval
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - publish_chrome:
+          requires:
+            - check_chrome
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - check_firefox:
           type: approval
           requires:
             - build
@@ -125,9 +142,8 @@ workflows:
             branches:
               ignore: /.*/
       - publish_firefox:
-          type: approval
           requires:
-            - build
+            - check_firefox
           filters:
             tags:
               only: /^v.*/
