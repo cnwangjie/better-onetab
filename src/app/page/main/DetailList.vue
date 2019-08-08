@@ -508,8 +508,9 @@ export default {
       }
     },
     multiOpBtnClicked(listIndex, $event) {
-      this.x = $event.x
-      this.y = $event.y
+      this.showMenu = false
+      this.$refs.contextMenu.x = $event.x
+      this.$refs.contextMenu.y = $event.y
       this.multiOpBtnClickedListIndex = listIndex
       this.$nextTick(() => {
         this.showMenu = true
