@@ -40,10 +40,10 @@
   <v-card v-if="q && items && items.length">
     <v-list>
       <v-list-tile
-        v-for="(item, index) in items" :key="index" :color="item.color"
+        v-for="(item, index) in items" :key="index"
         :to="{name: 'detailList', query: item.value}"
       >
-        <v-list-tile-content>
+        <v-list-tile-content :class="item.color + '--text'">
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
           <v-list-tile-sub-title v-text="item.subtitle"></v-list-tile-sub-title>
         </v-list-tile-content>
