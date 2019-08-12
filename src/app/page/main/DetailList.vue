@@ -517,12 +517,12 @@ export default {
       })
     },
     async jumpTo(item) {
-      const page = item.listIndex / this.opts.listsPerPage << 0
+      const page = (item.listIndex / this.opts.listsPerPage << 0) + 1
       this.$router.replace({name: 'detailList', query: {p: page}})
       await this.$nextTick()
       const opt = {
         duration: 500,
-        offset: -100,
+        offset: 100,
         easing: 'easeInOutCubic',
       }
       if (item.tabIndex == null) {
@@ -531,8 +531,11 @@ export default {
         this.expandList([true, item.listIndex])
         this.currentHighlightItem = this.$refs[`list-${item.listIndex}-tab`][item.tabIndex]
       }
-      this.currentHighlightItem.$el.classList.add('elevation-20')
-      this.$vuetify.goTo(this.currentHighlightItem, opt)
+      await this.$nextTick()
+      setTimeout(() => {
+        this.$vuetify.goTo(this.currentHighlightItem, opt)
+        this.currentHighlightItem.$el.classList.add('elevation-20')
+      }, 0)
     },
     async foldAll() {
       this.listsInView.forEach(list => {
