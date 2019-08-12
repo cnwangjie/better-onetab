@@ -15,6 +15,7 @@ module.exports = merge(common, {
         uglifyOptions: {
           compress: {
             drop_debugger: false,
+            inline: false,
           },
         },
       }),

@@ -11,7 +11,7 @@
     "dev:moz": "cross-env MOZ=1 yarn dev",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
     "postbuild": "yarn run package",
-    "package": "rm -f dist.zip && cd dist && zip -r ../dist.zip ./*",
+    "package": "rm -f dist.zip && cd dist && zip -r ../dist.zip ./* -x *.map",
     "lint": "eslint src --ext js,vue",
     "prebuild": "yarn lint"
   },
