@@ -1,3 +1,10 @@
+### v1.4.7 8/24/2019
+
+ - fix: display error when import anything
+ - fix: increase import filesize limit from 32KB to 1MB
+ - fix: won't scroll to search result item
+ - fix: remove item before open link
+
 ### v1.4.6 8/8/2019
 
  - fix: crash when click item of search result
