@@ -87,7 +87,6 @@ const uploadOpsViaWS = async () => {
   const socket = window._socket
   if (!socket || !socket.connected) throw new Error('socket not connected')
   const {ops} = await browser.storage.local.get('ops')
-  await browser.storage.local.remove('ops')
   if (ops) {
     const changes = ops.sort((a, b) => a.time - b.time)
     while (changes && changes.length) {
@@ -95,6 +94,7 @@ const uploadOpsViaWS = async () => {
       await _socketEmitTimeout(socket, 'list.update', change)
     }
   }
+  await browser.storage.local.remove('ops')
 }
 
 const downloadRemoteLists = async () => {
