@@ -1,11 +1,13 @@
 version: 2
+
 jobs:
   install_dependencies:
     docker:
       - image: circleci/node:10.10-jessie
-    working_directory: ~/ext
+    working_directory: ~/ext/packages/better-onetab
     steps:
-      - checkout
+      - checkout:
+          path: ~/ext
       - restore_cache:
           key: deps-{{ checksum "yarn.lock" }}
       - run:
@@ -20,7 +22,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.10-jessie
-    working_directory: ~/ext
+    working_directory: ~/ext/packages/better-onetab
     steps:
       - restore_cache:
           key: code-{{ .Environment.CIRCLE_SHA1 }}
@@ -32,7 +34,7 @@ jobs:
   release_sentry:
     docker:
       - image: circleci/node:10.10-jessie
-    working_directory: ~/ext
+    working_directory: ~/ext/packages/better-onetab
     steps:
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_SHA1 }}
@@ -48,7 +50,7 @@ jobs:
   publish_chrome:
     docker:
       - image: circleci/node:10.10-jessie
-    working_directory: ~/ext
+    working_directory: ~/ext/packages/better-onetab
     steps:
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_SHA1 }}
@@ -62,7 +64,7 @@ jobs:
   publish_firefox:
     docker:
       - image: circleci/node:10.10-jessie
-    working_directory: ~/ext
+    working_directory: ~/ext/packages/better-onetab
     steps:
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_SHA1 }}
