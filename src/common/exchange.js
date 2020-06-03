@@ -18,8 +18,9 @@ const importFromText = (compatible, data) => new Promise((resolve, reject) => {
 
 const exportToText = async compatible => {
   const lists = await storage.getLists()
+  console.log(lists)
   if (compatible) return lists.map(list => list.tabs.map(tab => tab.url + ' | ' + tab.title).join('\n')).join('\n\n')
-  return JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time'])), null, 4)
+  return JSON.stringify(lists.map(i => _.pick(i, ['tabs', 'title', 'time','tags','expand','pinned',])), null, 4)
 }
 
 const exportToFile = (text, {type, suffix}) => {
