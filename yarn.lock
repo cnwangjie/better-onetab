@@ -6260,10 +6260,10 @@ vuetify-loader@^1.2.1:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^1.4.3:
-  version "1.5.18"
-  resolved "https://registry.npmjs.org/vuetify/-/vuetify-1.5.18.tgz#1522d7ef7686b4473bb67b274ae8bb7bca514d13"
-  integrity sha512-TLtVYBlajKk+I99rUvQ7c/qlSJ3gqZZKkBaVWXy5bIDFzUyIChIIcaZM7k+J/JumxQYJqnJ9H24rAjddemWalQ==
+vuetify@^1.5.24:
+  version "1.5.24"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-1.5.24.tgz#d5cf6e7289570d5d05f8832a097cd435d36d37df"
+  integrity sha1-1c9ucolXDV0F+IMqCXzUNdNtN98=
 
 vuex@^3.0.1:
   version "3.1.1"

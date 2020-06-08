@@ -23,6 +23,11 @@ export default {
   },
 }
 </script>
+<style>
+html{
+  overflow-y: hidden !important;
+}
+</style>
 <style lang="scss">
 </style>
 
