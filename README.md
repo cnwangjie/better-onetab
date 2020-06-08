@@ -56,16 +56,6 @@ Build your own from following steps：
 0. Click LOAD UNPACKED button and select ./dist path
 0. Build (use `yarn build` command)
 
-### Donation
-
-It took me a lot of time to develop Better Onetab and need to pay for the sync server every month. If my work helps you, you can donate it in the following way.
-
- - [PayPal](https://paypal.me/wangjie0)
- - [DigitalOcean Invitation Link](https://m.do.co/c/4c053a482508)
- - BTC 1ABQECfxBGLvjZqaxTm1io3CFPbKhMaSQ1
- - ETH 0x43D361928BF8f0a58c977b152dabfF47f68c6767
- - BCC qpqe7kcrc6lhwltd536j26j8gyk4ws3f3uehj5tql8
-
 ### Especially thanks
 
 Thanks for [@Yasujizr](https://github.com/Yasujizr) helped this project design new logo and banners.
