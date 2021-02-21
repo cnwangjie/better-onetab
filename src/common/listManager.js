@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+import storage from './storage'
 import {
   SYNCED_LIST_PROPS,
   END_FRONT,
@@ -15,7 +16,7 @@ const RWLock = new Mutex()
 const getStorage = async () => {
   const unlockRW = await RWLock.lock()
   if (cache.lists && cache.ops) return cache
-  const {lists, ops} = await browser.storage.local.get(['lists', 'ops'])
+  const {lists, ops} = await storage.get(['lists', 'ops'])
   cache.lists = lists || []
   cache.ops = ops || []
   await unlockRW()
@@ -103,7 +104,7 @@ const saveStorage = async (lists, ops) => {
     lists,
     ops: compressOps(ops)
   }
-  await browser.storage.local.set(data)
+  await storage.set(data)
   cache.lists = cache.ops = null
   await sendMessage({refresh: true})
   await unlock()

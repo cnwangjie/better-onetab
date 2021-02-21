@@ -13,23 +13,19 @@ import browser from 'webextension-polyfill'
 import io from 'socket.io-client'
 import logger from '../logger'
 
-const hasToken = async () => TOKEN_KEY in await browser.storage.local.get(TOKEN_KEY)
+const hasToken = async () => TOKEN_KEY in await storage.get(TOKEN_KEY)
 
 const getToken = async () => {
-  const {token: localToken} = await browser.storage.local.get(TOKEN_KEY)
-  if (localToken) return localToken
-  const {token: remoteToken} = await browser.storage.sync.get(TOKEN_KEY)
+  const {token: remoteToken} = await storage.get(TOKEN_KEY)
   if (remoteToken) return remoteToken
 }
 
 const setToken = async token => {
-  await browser.storage.local.set({[TOKEN_KEY]: token, tokenIssued: Date.now()})
-  await browser.storage.sync.set({[TOKEN_KEY]: token})
+  await storage.set({[TOKEN_KEY]: token})
 }
 
 const removeToken = async () => {
-  await browser.storage.local.remove(TOKEN_KEY)
-  await browser.storage.sync.remove(TOKEN_KEY)
+  await storage.remove(TOKEN_KEY)
 }
 
 const fetchData = async (uri = '', method = 'GET', data = {}) => {
@@ -86,7 +82,7 @@ const _socketEmitTimeout = (socket, event, arg) => timeout(new Promise((resolve,
 const uploadOpsViaWS = async () => {
   const socket = window._socket
   if (!socket || !socket.connected) throw new Error('socket not connected')
-  const {ops} = await browser.storage.local.get('ops')
+  const {ops} = await storage.get('ops')
   if (ops) {
     const changes = ops.sort((a, b) => a.time - b.time)
     while (changes && changes.length) {
@@ -94,14 +90,14 @@ const uploadOpsViaWS = async () => {
       await _socketEmitTimeout(socket, 'list.update', change)
     }
   }
-  await browser.storage.local.remove('ops')
+  await storage.remove('ops')
 }
 
 const downloadRemoteLists = async () => {
   const socket = window._socket
   if (!socket || !socket.connected) throw new Error('socket not connected')
   const remoteTime = await _socketEmitTimeout(socket, 'list.time')
-  const {listsUpdatedAt: localTime} = await browser.storage.local.get('listsUpdatedAt')
+  const {listsUpdatedAt: localTime} = await storage.get('listsUpdatedAt')
   if (remoteTime === localTime) return
   const remoteLists = await _socketEmitTimeout(socket, 'list.all')
   const localLists = _.keyBy(await storage.getLists(), list => list._id)
@@ -124,7 +120,7 @@ const downloadRemoteLists = async () => {
   }
   console.log(finallyLists)
   await storage.setLists(finallyLists)
-  await browser.storage.local.set({listsUpdatedAt: remoteTime})
+  await storage.set({listsUpdatedAt: remoteTime})
 }
 
 const syncLists = async () => {
@@ -147,10 +143,10 @@ const setRemoteOptions = (opts, time) => _socketEmitTimeout(window._socket, 'opt
 
 const syncOptions = async () => {
   const remoteTime = await getRemoteOptionsUpdatedTimeViaWS()
-  const {optsUpdatedAt: localTime} = await browser.storage.local.get('optsUpdatedAt')
+  const {optsUpdatedAt: localTime} = await storage.get('optsUpdatedAt')
   if (remoteTime > localTime) {
     const opts = await getRemoteOptions()
-    await browser.storage.local.set({opts, optsUpdatedAt: remoteTime})
+    await storage.set({opts, optsUpdatedAt: remoteTime})
   } else if (remoteTime < localTime) {
     const opts = await storage.getOptions()
     await setRemoteOptions(opts, localTime)
@@ -246,11 +242,11 @@ const init = async () => {
     listManager[method](...args)
   })
   socket.on('opts.set', async ({changes, time}) => {
-    const {opts} = await browser.storage.local.get('opts')
+    const {opts} = await storage.get('opts')
     for (const [k, v] of Object.entries(changes)) {
       opts[k] = v
     }
-    await browser.storage.local.set({opts, optsUpdatedAt: time})
+    await storage.set({opts, optsUpdatedAt: time})
   })
   socket.on('connect', () => refresh())
   socket.open()

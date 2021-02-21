@@ -72,10 +72,10 @@ const tabsChangedHandler = activeInfo => {
 
 const fixDirtyData = async () => {
   const unlock = await listManager.RWLock.lock()
-  const {lists} = await browser.storage.local.get('lists')
+  const {lists} = await storage.get('lists')
   if (lists) {
     const cleanLists = lists.filter(_.isPlainObject).map(normalizeList)
-    await browser.storage.local.set({lists: cleanLists})
+    await storage.set({lists: cleanLists})
   }
   await unlock()
 }

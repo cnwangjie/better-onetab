@@ -3,9 +3,11 @@ import {normalizeList} from '@/common/list'
 import browser from 'webextension-polyfill'
 import options from './options'
 
-const get = key => browser.storage.local.get(key)
+const get = key => browser.storage.sync.get(key)
 
-const set = obj => browser.storage.local.set(obj)
+const set = obj => browser.storage.sync.set(obj)
+
+const remove = keys => browser.storage.sync.remove(keys)
 
 const getLists = () => get('lists')
   .then(({lists}) => lists || [])
@@ -35,4 +37,7 @@ export default {
   setLists,
   getOptions,
   setOptions,
+  get,
+  set,
+  remove,
 }

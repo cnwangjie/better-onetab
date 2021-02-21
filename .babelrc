@@ -10,6 +10,9 @@
   ],
   "plugins": [
     "@babel/plugin-syntax-dynamic-import",
-    "lodash"
+    "lodash",
+    ["@babel/transform-runtime", {
+      "regenerator": true
+    }]
   ]
 }

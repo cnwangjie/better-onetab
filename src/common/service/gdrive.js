@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import browser from 'webextension-polyfill'
+import storage from '../storage'
 
 const GOOGLE_ACCESS_TOKEN_KEY = 'at'
 const STORAGE_FOLDER_NAME = 'better-onetab-storage'
@@ -162,7 +162,7 @@ const forceSaveFile = async (data, filename) => {
 }
 
 const saveCurrentTabLists = async () => {
-  const {lists} = await browser.storage.local.get('lists')
+  const {lists} = await storage.get('lists')
   if (_.isEmpty(lists)) return
   const filename = 'list_save_' + new Date().toISOString() + '.json'
   return forceSaveFile(lists, filename)
