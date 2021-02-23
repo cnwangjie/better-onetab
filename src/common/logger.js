@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser'
+import * as Integrations from '@sentry/integrations'
 import {SENTRY_DSN} from './constants'
 import {isBackground} from './utils'
 import manifest from '../manifest.json'
@@ -27,10 +28,10 @@ logger.init = (opts = {}) => {
 
   const {Vue} = opts
   const integrations = Sentry.defaultIntegrations
-  if (Vue) integrations.push(new Sentry.Integrations.Vue({Vue}))
+  if (Vue) integrations.push(new Integrations.Vue({Vue}))
   Sentry.init({
     environment: DEBUG ? 'dev' : 'production',
-    release: manifest.version,
+    release: 'v' + manifest.version,
     dsn: SENTRY_DSN,
     debug: DEBUG,
     integrations,

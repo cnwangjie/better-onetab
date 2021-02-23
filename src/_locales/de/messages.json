@@ -1,0 +1,446 @@
+{
+   "cmd_open_lists": {
+     "message":"Öffne die Tab-Liste"
+   },
+   "cmd_restore_lastest_list": {
+     "message":"Letzte Tabs wiederherstellen"
+   },
+   "cmd_store_all_in_all_windows": {
+     "message":"Speichere alle Tabs in allen Fenstern"
+   },
+   "cmd_store_all_tabs": {
+     "message":"Speichere alle Tabs"
+   },
+   "cmd_store_selected_tabs": {
+     "message":"Speichere die ausgewählten Tabs"
+   },
+   "ext_desc": {
+     "message":"Ein besseres OneTab"
+   },
+   "ext_name": {
+     "message":"better-onetab"
+   },
+   "menu_EXTRA": {
+     "message":"Extra"
+   },
+   "menu_SHOW_TAB_LIST": {
+     "message":"Zeige die Tab-Liste"
+   },
+   "menu_STORE": {
+     "message":"Speichern"
+   },
+   "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
+     "message":"Speichere alle Tabs in allen Fenstern"
+   },
+   "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
+     "message":"Speichere alle Tabs im aktuellen Fenster"
+   },
+   "menu_STORE_LEFT_TABS": {
+     "message":"Speichere die linken Tabs"
+   },
+   "menu_STORE_RIGHT_TABS": {
+     "message":"Speichere die rechten Tabs"
+   },
+   "menu_STORE_SELECTED_TABS": {
+     "message":"Speichere ausgewählte Tabs"
+   },
+   "menu_STORE_TO_TITLED_LIST": {
+     "message":"Speichere in benannte Liste"
+   },
+   "menu_STORE_TWOSIDE_TABS": {
+     "message":"Speichere nicht ausgewählte Tabs"
+   },
+   "opt_desc_openTabListWhenNewTab": {
+     "message":"Öffne die Registerkartenliste immer beim Klicken auf das Symbol, wenn die aktuelle Registerkarte eine neue Registerkarte ist. (Funktioniert nicht, wenn das Verhalten auf \"einfache Popup-Liste\" eingestellt ist."
+   },
+   "opt_label_left": {
+     "message":"Links"
+   },
+   "opt_label_none": {
+     "message":"Keine"
+   },
+   "opt_label_open": {
+     "message":"Öffnen"
+   },
+   "opt_label_open_and_remove": {
+     "message":"Öffnen und Entfernen"
+   },
+   "opt_label_popup": {
+     "message":"Einfache Popup Liste"
+   },
+   "opt_label_restore": {
+     "message":"Wiederherstellen"
+   },
+   "opt_label_restore_new_window": {
+     "message":"Wiederherstellen in neuem Fenster"
+   },
+   "opt_label_right": {
+     "message":"Rechts"
+   },
+   "opt_label_show_list": {
+     "message":"Zeige Liste"
+   },
+   "opt_label_store_all": {
+     "message":"Speichere alle Tabs im aktuellen Fenster"
+   },
+   "opt_label_store_selected": {
+     "message":"Speichere ausgewählte Tabs"
+   },
+   "opt_label_title": {
+     "message":"Titel"
+   },
+   "opt_label_title_and_url": {
+     "message":"Titel und URL"
+   },
+   "opt_label_url": {
+     "message":"URL"
+   },
+   "opt_name_addHistory": {
+     "message":"Gespeicherten Tab zum Verlauf hinzufügen"
+   },
+   "opt_name_alertRemoveList": {
+     "message":"Bestätigen, um die Liste zu entfernen"
+   },
+   "opt_name_allContext": {
+     "message":"Kontextmenü für alle Elemente aktivieren"
+   },
+   "opt_name_browserAction": {
+     "message":"Verhalten beim Anklicken des Symbols"
+   },
+   "opt_name_defaultNightMode": {
+     "message":"Nachtmodus standardmäßig verwenden"
+   },
+   "opt_name_disableDynamicMenu": {
+     "message":"Aktualisierung dynamischer Menüs deaktivieren"
+   },
+   "opt_name_disableExpansion": {
+     "message":"Aufklappen in der Listenseite deaktivieren"
+   },
+   "opt_name_disableSearch": {
+     "message":"Suchfunktion deaktivieren"
+   },
+   "opt_name_disableTransition": {
+     "message":"Alle CSS-Übergangsanimationen deaktivieren"
+   },
+   "opt_name_enableSearch": {
+     "message":"Suche auf der detaillierten Listenseite aktivieren"
+   },
+   "opt_name_excludeIllegalURL": {
+     "message":"Ausschließen illegaler URLs wie about:* oder chrome://*"
+   },
+   "opt_name_fixedToolbar": {
+     "message":"Feste Symbolleiste"
+   },
+   "opt_name_hideFavicon": {
+     "message":"Favicon von Elementen in der Liste ausblenden"
+   },
+   "opt_name_ignorePinned": {
+     "message":"Angepinnte Tabs nicht speichern"
+   },
+   "opt_name_itemClickAction": {
+     "message":"Verhalten beim Anklicken von Elementen in einer Liste"
+   },
+   "opt_name_itemDisplay": {
+     "message":"Inhalt der Elemente in einer Liste"
+   },
+   "opt_name_listsPerPage": {
+     "message":"Anzahl der Listen pro Seite"
+   },
+   "opt_name_openEnd": {
+     "message":"Wenn die Wiederherstellungsliste am Ende der Registerkarten geöffnet ist"
+   },
+   "opt_name_openTabListNoTab": {
+     "message":"Die Tab-Liste öffen, beim Speichern aller Registerkarten"
+   },
+   "opt_name_openTabListWhenNewTab": {
+     "message":"Die Tab-Liste bei neuem Tab öffen"
+   },
+   "opt_name_pageContext": {
+     "message":"Kontextmenü für die Seite aktivieren"
+   },
+   "opt_name_pinNewList": {
+     "message":"Neue Liste automatisch anheften"
+   },
+   "opt_name_popupItemClickAction": {
+     "message":"Verhalten beim Anklicken von Elementen in der einfachen Liste"
+   },
+   "opt_name_removeDuplicate": {
+     "message":"Duplikat in einer Liste entfernen"
+   },
+   "opt_name_removeItemBtnPos": {
+     "message":"Die Position der Schaltfläche zum Entfernen von Elementen"
+   },
+   "opt_name_syncList": {
+     "message":"Syncronisierte Listen"
+   },
+   "opt_name_syncOptions": {
+     "message":"Synchronisierungseinstellungen"
+   },
+   "opt_name_titleFontSize": {
+     "message":"Schriftgröße des Listentitels"
+   },
+   "opt_name_useBoss": {
+     "message":"Verwenden Sie einen besseren OneTab Sync-Server (unbegrenzter Speicherplatz)"
+   },
+   "ui_a_new_list": {
+     "message":"(eine neue Liste)"
+   },
+   "ui_about": {
+     "message":"Über"
+   },
+   "ui_auth": {
+     "message":"Zulassen"
+   },
+   "ui_auth_with_github": {
+     "message":"Zulassen mit Github Account"
+   },
+   "ui_auth_with_google": {
+     "message":"Zulassen mit Google Account"
+   },
+   "ui_beta_warn": {
+     "message":"Dieses Merkmal wird momentan getestet. Wenn Sie ein Problem finden, senden Sie mir bitte ein Feedback."
+   },
+   "ui_boss": {
+     "message":"Better-OneTab Sync-Server (unbegrenzter Speicherplatz)"
+   },
+   "ui_click_view_changelog": {
+     "message":"Klicken Sie hier, um das Änderungsprotokoll anzuzeigen"
+   },
+   "ui_conflict": {
+     "message":"Konflikt"
+   },
+   "ui_copied": {
+     "message":"Kopiert!"
+   },
+   "ui_copy": {
+     "message":"Kopieren"
+   },
+   "ui_copy_link": {
+     "message":"Link kopieren"
+   },
+   "ui_copy_title": {
+     "message":"Titel kopieren"
+   },
+   "ui_create_issue": {
+     "message":"Ein Problem erstellen"
+   },
+   "ui_created": {
+     "message":"angelegt"
+   },
+   "ui_deauth": {
+     "message":"Zulassen aufheben"
+   },
+   "ui_duplicate": {
+     "message":"Duplizieren"
+   },
+   "ui_export": {
+     "message":"Exportieren"
+   },
+   "ui_export_comp": {
+     "message":"Export (OneTab kompatibel)"
+   },
+   "ui_export_import": {
+     "message":"Export / Import"
+   },
+   "ui_export_json": {
+     "message":"Export im JSON Format"
+   },
+   "ui_github": {
+     "message":"Github"
+   },
+   "ui_import": {
+     "message":"Import"
+   },
+   "ui_import_comp": {
+     "message":"Import (OneTab kompatibel)"
+   },
+   "ui_import_from_file": {
+     "message":"Import von Datei"
+   },
+   "ui_import_json": {
+     "message":"Import von JSON Datei"
+   },
+   "ui_keyboard_shortcuts": {
+     "message":"Tastenkombinationen"
+   },
+   "ui_list": {
+     "message":"Liste"
+   },
+   "ui_logged_uid": {
+     "message":"Hat sich autorisiert mit uid:"
+   },
+   "ui_login": {
+     "message":"Login"
+   },
+   "ui_main_error_occurred": {
+     "message":"Einige Fehler sind aufgetreten"
+   },
+   "ui_main_processing": {
+     "message":"Verarbeitung....."
+   },
+   "ui_main_succeeded": {
+     "message":"erfolgreich!"
+   },
+   "ui_manage_account": {
+     "message":"Konto verwalten"
+   },
+   "ui_move_to": {
+     "message":"Verschieben nach"
+   },
+   "ui_new_warn": {
+     "message":"Dies ist ein neues Merkmal in der aktuellen Version."
+   },
+   "ui_nightmode": {
+     "message":"Nacht-Modus"
+   },
+   "ui_no_list": {
+     "message":"Keine Liste hier"
+   },
+   "ui_no_list_tip": {
+     "message":"1. Wählen Sie die Registerkarten aus, die Sie speichern möchten\u003C/br>2. Klicken Sie mit der rechten Maustaste auf das Erweiterungssymbol\u003C/br>3. Klicken Sie auf \"ausgewählte Registerkarten speichern\"\u003Cp class=\"body-2\">Bereits in anderen Geräten verwendet?  Die Autorisierung mit dem Synchronisierungsdienst kann die Listen automatisch wiederherstellen.\u003C/p>"
+   },
+   "ui_not_login": {
+     "message":"Nicht eingeloggt"
+   },
+   "ui_not_sync": {
+     "message":"Noch nicht synchronisiert"
+   },
+   "ui_offline": {
+     "message":"Sie sind offline"
+   },
+   "ui_open": {
+     "message":"Öffnen"
+   },
+   "ui_opt_changes_saved": {
+     "message":"Änderungen gespeichert!"
+   },
+   "ui_options": {
+     "message":"Optionen"
+   },
+   "ui_options_appearance": {
+     "message":"Aussehen"
+   },
+   "ui_options_behaviour": {
+     "message":"Verhalten"
+   },
+   "ui_options_performance": {
+     "message":"Leistung"
+   },
+   "ui_options_sync": {
+     "message":"Syncronisierung"
+   },
+   "ui_opts_diff": {
+     "message":"Optionsunterschiede"
+   },
+   "ui_pin": {
+     "message":"Pin"
+   },
+   "ui_pinned": {
+     "message":"Angepinnt"
+   },
+   "ui_refresh": {
+     "message":"Aktualisieren"
+   },
+   "ui_remove": {
+     "message":"Entfernen"
+   },
+   "ui_remove_list": {
+     "message":"Liste entfernen"
+   },
+   "ui_restore_all": {
+     "message":"Liste wiederherstellen"
+   },
+   "ui_restore_all_in_new_window": {
+     "message":"Alle in neuem Fenster wiederherstellen"
+   },
+   "ui_retitle_list": {
+     "message":"Liste umbenennen"
+   },
+   "ui_save_as_file": {
+     "message":"Als Datei speichern"
+   },
+   "ui_save_immediately": {
+     "message":"Sofort speichern"
+   },
+   "ui_save_to_gdrive": {
+     "message":"Liste auf Google-Drive speichern"
+   },
+   "ui_sync_authed_with": {
+     "message":"Hat sich autorisiert mit:"
+   },
+   "ui_sync_exists_conflict_header": {
+     "message":"Es gibt einen Konflikt bei der Synchronisation mit dem Server."
+   },
+   "ui_sync_keep_both": {
+     "message":"Beide behalten"
+   },
+   "ui_sync_keep_local": {
+     "message":"Lokale behalten"
+   },
+   "ui_sync_keep_remote": {
+     "message":"Remote behalten"
+   },
+   "ui_sync_lists_failed": {
+     "message":"Die Synchronisierung der Tab-Listen ist fehlgeschlagen."
+   },
+   "ui_sync_lists_item": {
+     "message":"Listenelemente Remote"
+   },
+   "ui_sync_local_time": {
+     "message":"Aktualisierungszeit Lokal"
+   },
+   "ui_sync_opts_failed": {
+     "message":"Syncronisationsoptionen fehlgeschlagen"
+   },
+   "ui_sync_remote_time": {
+     "message":"Aktualisierungszeit Remote"
+   },
+   "ui_sync_setting": {
+     "message":"Syncronisationseinstellungen"
+   },
+   "ui_sync_use_local": {
+     "message":"Benutze Lokale"
+   },
+   "ui_sync_use_remote": {
+     "message":"Benutze Remote"
+   },
+   "ui_syncing": {
+     "message":"Syncronisiere"
+   },
+   "ui_tab": {
+     "message":"Tabs"
+   },
+   "ui_tab_list": {
+     "message":"Tab-Listen"
+   },
+   "ui_title_down_btn": {
+     "message":"Liste nach unten verschieben"
+   },
+   "ui_title_pin_btn": {
+     "message":"Liste anpinnen"
+   },
+   "ui_title_up_btn": {
+     "message":"Liste nach oben verschieben"
+   },
+   "ui_turn_off": {
+     "message":"Ausschalten"
+   },
+   "ui_unauth": {
+     "message":"Nicht zugelassen"
+   },
+   "ui_unpin": {
+     "message":"Abpinnen"
+   },
+   "ui_untitled": {
+     "message":"Unbenannt"
+   },
+   "ui_updated_to_ver": {
+     "message":"Better OneTab wurde aktualisiert zu"
+   },
+   "ui_upload_error": {
+     "message":"Syncronisationsfehler"
+   },
+   "ui_use_boss": {
+     "message":"Benutze Better-OneTab Sync-Service (unbegrenzter Speicherplatz)"
+   }
+}

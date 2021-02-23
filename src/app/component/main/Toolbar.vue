@@ -88,7 +88,11 @@ export default {
     },
     syncBtnClicked() {
       if (this.uploadSuccess) return
-      if (!this.hasToken) return browser.tabs.create({url: SYNC_SERVICE_URL + '/login'})
+      if (!this.hasToken) {
+        // TODO: temporarily hide the login shortcut
+        return this.$router.push('/app/options/sync')
+        // return browser.tabs.create({url: SYNC_SERVICE_URL + '/login'})
+      }
       return sendMessage({refresh: true})
     },
   }
