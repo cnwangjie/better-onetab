@@ -1,0 +1,4 @@
+singleQuote: true
+trailing-comma: all
+arrowParens: avoid
+semi: false

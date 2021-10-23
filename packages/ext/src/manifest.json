@@ -1,0 +1,75 @@
+{
+  "manifest_version": 2,
+  "name": "__EXT_NAME__",
+  "version": "2.0.0",
+  "default_locale": "en",
+  "description": "__MSG_ext_desc__",
+  "author": "WangJie <doudou19758@gmail.com>",
+  "icons": {
+    "16": "assets/icons/icon_16.png",
+    "48": "assets/icons/icon_48.png",
+    "128": "assets/icons/icon_128.png"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "commands": {
+    "store-selected-tabs": {
+      "description": "__MSG_cmd_store_selected_tabs__",
+      "global": true
+    },
+    "store-all-tabs": {
+      "description": "__MSG_cmd_store_all_tabs__",
+      "global": true
+    },
+    "restore-lastest-list": {
+      "description": "__MSG_cmd_restore_lastest_list__",
+      "global": true
+    },
+    "open-lists": {
+      "description": "__MSG_cmd_open_lists__",
+      "global": true
+    },
+    "store-all-in-all-windows": {
+      "description": "__MSG_cmd_store_all_in_all_windows__",
+      "global": true
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["__CONTENT_SCRIPTS_MATCHES__"],
+      "js": ["content.js"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": {
+      "16": "assets/icons/icon_16.png",
+      "24": "assets/icons/icon_48.png",
+      "32": "assets/icons/icon_128.png"
+    }
+  },
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "tabs",
+    "history",
+    "identity",
+    "notifications"
+  ],
+  "homepage_url": "https://github.com/cnwangjie/better-onetab",
+  "oauth2": {
+    "client_id": "__CLIENT_ID__",
+    "scopes": [
+      "https://www.googleapis.com/auth/drive"
+    ]
+  },
+  "offline_enabled": true,
+  "options_page": "index.html#/app/options",
+  "options_ui": {
+    "page": "index.html#/app/options",
+    "open_in_tab": true
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com https://apis.google.com __DEV_CSP__; object-src 'self'"
+}
