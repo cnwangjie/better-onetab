@@ -1,3 +1,4 @@
+import { BrowserAction } from '../constants'
 import { __ } from '../util/i18n'
 import { OptionKey, Options } from './types'
 
@@ -29,34 +30,36 @@ interface OptionConfig {
   deprecated?: string
 }
 
+export const browserActionConfigItems = [
+  {
+    value: BrowserAction.Popup,
+    label: __('opt_label_popup'),
+  },
+  {
+    value: BrowserAction.StoreSelected,
+    label: __('opt_label_store_selected'),
+  },
+  {
+    value: BrowserAction.StoreAll,
+    label: __('opt_label_store_all'),
+  },
+  {
+    value: BrowserAction.ShowList,
+    label: __('opt_label_show_list'),
+  },
+  {
+    value: BrowserAction.None,
+    label: __('opt_label_none'),
+  },
+]
+
 export const optionsList: OptionConfig[] = [
   {
     category: Category.behavior,
     name: 'browserAction',
     type: Type.string,
     default: 'show-list',
-    items: [
-      {
-        value: 'popup',
-        label: __('opt_label_popup'),
-      },
-      {
-        value: 'store-selected',
-        label: __('opt_label_store_selected'),
-      },
-      {
-        value: 'store-all',
-        label: __('opt_label_store_all'),
-      },
-      {
-        value: 'show-list',
-        label: __('opt_label_show_list'),
-      },
-      {
-        value: 'none',
-        label: __('opt_label_none'),
-      },
-    ],
+    items: browserActionConfigItems,
   },
   {
     category: Category.behavior,

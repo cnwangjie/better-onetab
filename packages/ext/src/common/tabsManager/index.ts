@@ -59,11 +59,12 @@ const addTabsToHistory = async (tabs: BrowserTabs) => {
     try {
       await browser.history.addUrl({
         url: tab.url!,
-        title: tab.title,
-        visitTime: tab.lastAccessed,
+        // dont use title to avoid [Error in invocation of history.addUrl(history.UrlDetails details, optional function callback): Error at parameter 'details': Unexpected property: 'title'.]
+        // title: tab.title,
+        // visitTime: tab.lastAccessed,
       })
     } catch (e) {
-      console.debug(`${tab.url} cannot be added to history`)
+      console.debug(`${tab.url} cannot be added to history with error ${e}`)
     }
   }
 }
@@ -97,6 +98,8 @@ const storeTabs = async (tabs: BrowserTabs, listId?: string) => {
     if (opts.pinNewList && !listId) {
       await storage.lists.updateList(list.id, { pinned: true })
     }
+
+    await storage.tabs.createTabs(validTabs, list.id)
   }
 
   if (opts.addHistory) addTabsToHistory(validTabs)
@@ -184,6 +187,10 @@ const restoreLatestList = async () => {
   await restoreList(list.id)
 }
 
+const openTabList = async () => {
+  throw new Error('not implemented')
+}
+
 export const tabsManager = {
   getSelectedTabs,
   groupTabsInCurrentWindow,
@@ -197,4 +204,5 @@ export const tabsManager = {
   restoreList,
   restoreListInNewWindow,
   restoreLatestList,
+  openTabList,
 }

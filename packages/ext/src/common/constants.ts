@@ -14,3 +14,23 @@ export const IllegalUrlPrefixes = [
   'ws:',
   'wss:',
 ]
+
+export const BrowserAction = {
+  Popup: 'popup',
+  StoreSelected: 'store-selected',
+  StoreAll: 'store-all',
+  ShowList: 'show-list',
+  None: 'none',
+}
+
+export const Commands = {
+  StoreSelectedTabs: 'store-selected-tabs',
+  StoreAllTabs: 'store-all-tabs',
+  StoreAllInAllWindows: 'store-all-in-all-windows',
+  RestoreLatestList: 'restore-latest-list',
+  OpenList: 'open-list',
+}
+
+export const NewTabs = ['about:home', 'about:newtab', 'chrome://newtab/']
+
+export const StoreToTitledList = 'STORE_TO_TITLED_LIST'

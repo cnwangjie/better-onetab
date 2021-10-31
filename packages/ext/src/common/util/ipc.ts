@@ -1,4 +1,4 @@
-import { once } from 'lodash'
+import { isFunction, mapValues, once } from 'lodash'
 import { browser } from 'webextension-polyfill-ts'
 import { isBackground } from '.'
 
@@ -61,4 +61,18 @@ export const wrapBackgroundCommunication = <T extends (...args: any[]) => any>(
   }
 
   return wrapped as any as T
+}
+
+export const wrapBackgroundCommunicationDeeply = <T extends Record<string, any>>(objects: T): T => {
+  return mapValues(objects, (fn, name) => {
+    if (isFunction(fn)) return wrapBackgroundCommunication(fn, name)
+    return wrapBackgroundCommunicationDeeply(fn)
+  }) as any as T
+}
+
+export const registerIpcHandlerDeeply = <T extends Record<string, any>>(objects: T) => {
+  Object.entries(objects).map(([name, fn]) => {
+    if (isFunction(fn)) return registerIpcHandler(fn, name)
+    return registerIpcHandlerDeeply(fn)
+  })
 }

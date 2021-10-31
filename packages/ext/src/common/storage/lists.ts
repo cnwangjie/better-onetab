@@ -1,5 +1,6 @@
 import { RxDocument } from "rxdb";
 import { genId } from "../util";
+import { paginate, PaginateOpt } from "../util/paginate";
 import { getDB } from "./db";
 
 export interface List {
@@ -73,6 +74,11 @@ const getLatestList = async () => {
   return list
 }
 
+const listList = async (opt?: PaginateOpt) => {
+  const db = await getDB()
+  return paginate(db.lists)(opt)
+}
+
 export const listStorage = {
   getListById,
   getOrCreateList,
@@ -80,4 +86,5 @@ export const listStorage = {
   updateList,
   deleteList,
   getLatestList,
+  listList,
 }

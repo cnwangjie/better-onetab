@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "__EXT_NAME__",
+  "name": "Better OneTab v2 dev",
   "version": "2.0.0",
   "default_locale": "en",
   "description": "__MSG_ext_desc__",
@@ -25,7 +25,7 @@
       "global": true
     },
     "restore-lastest-list": {
-      "description": "__MSG_cmd_restore_lastest_list__",
+      "description": "__MSG_cmd_restore_latest_list__",
       "global": true
     },
     "open-lists": {
@@ -37,12 +37,6 @@
       "global": true
     }
   },
-  "content_scripts": [
-    {
-      "matches": ["__CONTENT_SCRIPTS_MATCHES__"],
-      "js": ["content.js"]
-    }
-  ],
   "browser_action": {
     "default_icon": {
       "16": "assets/icons/icon_16.png",

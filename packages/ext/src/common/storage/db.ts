@@ -7,9 +7,11 @@ import memoize from 'lodash/memoize'
 
 addPouchPlugin(require('pouchdb-adapter-idb'))
 
+const DatabaseName = 'bodb'
+
 export const getDB = memoize(async () => {
   const db = await createRxDatabase({
-    name: 'better-onetab',
+    name: DatabaseName,
     storage: getRxStoragePouch('idb'),
   })
 

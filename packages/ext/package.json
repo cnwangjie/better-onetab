@@ -6,7 +6,7 @@
   "author": "cnwangjie",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config webpack.common.js"
+    "dev": "cross-env NODE_ENV=development webpack --watch --config webpack.common.js"
   },
   "dependencies": {
     "@emotion/react": "^11.5.0",
@@ -29,6 +29,7 @@
     "@types/react-dom": "^17.0.10",
     "@types/react-router-dom": "^5.3.1",
     "autoprefixer": "^10.3.7",
+    "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.4.0",

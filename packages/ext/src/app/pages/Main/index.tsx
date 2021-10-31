@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import AppLayout from 'src/app/layout/AppLayout'
+import AppLayout from '../../layout/AppLayout'
 import DetailList from './DetailList'
 
 const Main = () => {

@@ -15,5 +15,8 @@
     "incremental": true,
     "skipLibCheck": true,
     "jsx": "react"
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
 }
