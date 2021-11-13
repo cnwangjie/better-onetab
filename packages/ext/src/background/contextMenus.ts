@@ -4,7 +4,7 @@ import { Options } from 'src/common/options/types'
 import storage from 'src/common/storage'
 import { tabsManager } from 'src/common/tabsManager'
 import { __ } from 'src/common/util/i18n'
-import { browser, Menus } from 'webextension-polyfill-ts'
+import browser, { Menus } from 'webextension-polyfill'
 
 const SHOW_TAB_LIST = 'SHOW_TAB_LIST'
 const STORE_SELECTED_TABS = 'STORE_SELECTED_TABS'

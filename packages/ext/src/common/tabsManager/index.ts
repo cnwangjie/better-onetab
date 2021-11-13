@@ -1,11 +1,10 @@
-import { browser } from "webextension-polyfill-ts";
-import type * as Browser from "webextension-polyfill-ts";
+import browser, { Tabs } from "webextension-polyfill";
 import { IllegalUrlPrefixes } from "../constants";
 import { getOptions } from "../options";
 import storage from "../storage";
 import { Tab } from "../storage/tabs";
 
-type BrowserTab = Browser.Tabs.Tab;
+type BrowserTab = Tabs.Tab;
 type BrowserTabs = BrowserTab[]
 
 export const getAllInWindow = (windowId: number) => browser.tabs.query({ windowId })
@@ -126,7 +125,7 @@ const storeSelectedTabs = async (listId?: string) => {
   ])
 
   if (tabs.length === allTabs?.length) {
-    // TODO: open tab lists
+    openTabList()
   }
 
   await storeTabs(tabs, listId)
@@ -137,7 +136,7 @@ const storeAllTabs = async (listId?: string) => {
   if (!tabs) return
   const opts = await getOptions()
   if (opts.openTabListNoTab) {
-    // TODO: open tab lists
+    openTabList()
   }
   return storeTabs(tabs, listId)
 }
@@ -188,7 +187,26 @@ const restoreLatestList = async () => {
 }
 
 const openTabList = async () => {
-  throw new Error('not implemented')
+  const window = await browser.runtime.getBackgroundPage()
+  const appTabIds = window.appTabIds = window.appTabIds || {}
+  const currentWindow = await browser.windows.getCurrent()
+  const windowId = currentWindow.id
+  const tabListsUrl = browser.runtime.getURL('index.html#/app/')
+  if (!windowId) return
+  const existAppTabId = appTabIds[windowId]
+  if (existAppTabId) {
+    const tabs = await getAllInWindow(windowId)
+    const tab = tabs.find(tab => tab.id === existAppTabId)
+    if (tab) {
+      if (tab.url?.startsWith(tabListsUrl)) {
+        return browser.tabs.update(tab.id, { active: true })
+      }
+      delete window.appTabIds[windowId]
+    }
+  }
+  const createdTab = await browser.tabs.create({ url: tabListsUrl })
+  if (!createdTab.id) return
+  window.appTabIds[windowId] = createdTab.id
 }
 
 export const tabsManager = {

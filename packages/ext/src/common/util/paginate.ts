@@ -8,13 +8,19 @@ export interface PaginateOpt {
   query?: any
 }
 
+export interface PaginationResult<T> {
+  result: T[]
+  hasNext: boolean
+  next?: string
+}
+
 export const paginate = <T = any>(col: RxCollection<T>) => async ({
   after,
   before,
   limit = 10,
   sort = {},
   query = {},
-}: PaginateOpt = {}) => {
+}: PaginateOpt = {}): Promise<PaginationResult<T>> => {
   const lastId = before || after
   const last: any =
     lastId && (await col.findOne({ selector: { id: lastId } }).exec())

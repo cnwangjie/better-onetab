@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@mui/material'
 import React, { FC, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const drawerWidth = 240
 
@@ -112,7 +113,19 @@ const StyledListItemButton = styled(ListItemButton, {
       }),
 }))
 
-const AppLayout: FC = ({ children }) => {
+interface Tab {
+  key: string
+  icon: string
+  label: string
+  to: string
+}
+
+interface AppLayoutProps {
+  tabs: Tab[]
+  activeTab: string
+}
+
+const AppLayout: FC<AppLayoutProps> = ({ tabs, activeTab, children }) => {
   const [open, setOpen] = useState(false)
 
   // TODO: hide shadow scroll Y is 0
@@ -137,27 +150,27 @@ const AppLayout: FC = ({ children }) => {
         <DrawerHeader />
 
         <List>
-          <StyledListItemButton open={open} selected>
-            <ListItemIcon>
-              <Icon icon="mdi:view-list" fontSize={24} />
-            </ListItemIcon>
-            <ListItemText primary="Tab lists" />
-          </StyledListItemButton>
-
-          <StyledListItemButton open={open}>
-            <ListItemIcon>
-              <Icon icon="mdi:pin-outline" fontSize={24} />
-            </ListItemIcon>
-            <ListItemText primary="Pinned" />
-          </StyledListItemButton>
+          {tabs.map(tab => {
+            return (
+              <Link to={tab.to} key={tab.key}>
+                <StyledListItemButton
+                  open={open}
+                  selected={tab.key === activeTab}
+                >
+                  <ListItemIcon>
+                    <Icon icon={tab.icon} fontSize={24} />
+                  </ListItemIcon>
+                  <ListItemText primary={tab.label} />
+                </StyledListItemButton>
+              </Link>
+            )
+          })}
         </List>
         <Divider />
       </StyledDrawer>
 
       <div className="flex-1 mt-[64px] p-8">
-        <Container>
-          {children}
-        </Container>
+        <Container>{children}</Container>
       </div>
     </div>
   )

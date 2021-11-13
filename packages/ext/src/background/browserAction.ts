@@ -2,7 +2,7 @@ import { noop } from 'lodash'
 import { BrowserAction, NewTabs } from 'src/common/constants'
 import { browserActionConfigItems, optionsList } from 'src/common/options/list'
 import { tabsManager } from 'src/common/tabsManager'
-import { browser } from 'webextension-polyfill-ts'
+import browser from 'webextension-polyfill'
 
 const actions = {
   [BrowserAction.StoreSelected]: tabsManager.storeSelectedTabs,

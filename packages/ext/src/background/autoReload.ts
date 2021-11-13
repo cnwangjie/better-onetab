@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts'
+import browser from 'webextension-polyfill'
 
 const filesInDirectory = (dir: any) =>
   new Promise(resolve => {

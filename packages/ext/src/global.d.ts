@@ -1,4 +1,4 @@
-import type Browser, { browser, Menus } from "webextension-polyfill-ts"
+import type Browser, { Menus } from "webextension-polyfill"
 import type { Options } from "./common/options/types"
 import type { tabsManager } from "./common/tabsManager"
 import type storage from './common/storage'
@@ -9,6 +9,7 @@ declare global {
   const DEBUG: boolean
   const PRODUCTION: boolean
 
+  // background page store
   interface Window {
     currentBrowserAction: string
     coverBrowserAction: (activeInfo: Browser.Tabs.OnActivatedActiveInfoType) => any
@@ -18,6 +19,7 @@ declare global {
     update?: string
     tabsManager?: typeof tabsManager
     storage?: typeof storage
-    browser?: typeof browser
+    browser?: typeof Browser
+    appTabIds?: Record<number, number>
   }
 }

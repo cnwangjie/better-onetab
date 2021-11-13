@@ -1,6 +1,6 @@
 import { sortBy } from "lodash";
 import { RxDocument } from "rxdb";
-import type * as Browser from "webextension-polyfill-ts";
+import type { Tabs } from "webextension-polyfill";
 import { genId } from "../util";
 import { getDB } from "./db";
 
@@ -30,7 +30,7 @@ const initTabs = (tabs: any[], listId: string): Tab[] => {
   })
 }
 
-const createTabs = async (tabs: Browser.Tabs.Tab[], listId: string) => {
+const createTabs = async (tabs: Tabs.Tab[], listId: string) => {
   const db = await getDB()
   const tabsDocs = initTabs(tabs, listId)
   const result = await db.tabs.bulkInsert(tabsDocs)
@@ -39,7 +39,7 @@ const createTabs = async (tabs: Browser.Tabs.Tab[], listId: string) => {
   }
 }
 
-const getTabsByList = async (listId: string) => {
+const getTabsByList = async (listId: string): Promise<Tab[]> => {
   const db = await getDB()
   const tabs = await db.tabs.find({ selector: { listId } }).exec()
   return tabs

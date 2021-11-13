@@ -1,6 +1,6 @@
 import storage from 'src/common/storage'
 import { tabsManager } from 'src/common/tabsManager'
-import { browser } from 'webextension-polyfill-ts'
+import browser from 'webextension-polyfill'
 import init from './init'
 
 if (DEBUG) {

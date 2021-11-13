@@ -76,7 +76,7 @@ const getLatestList = async () => {
 
 const listList = async (opt?: PaginateOpt) => {
   const db = await getDB()
-  return paginate(db.lists)(opt)
+  return paginate<List>(db.lists)(opt)
 }
 
 export const listStorage = {

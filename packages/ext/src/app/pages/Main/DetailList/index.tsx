@@ -1,16 +1,16 @@
 import React from 'react'
 import ListGroup from './ListGroup'
+import { useLists } from '../../../service'
 
 const DetailList = () => {
-  const [lists, setLists] = React.useState([
-    1,2,3,4
-  ])
+  const { data } = useLists()
 
   return (
     <div>
       {
-        lists.map(list => {
-          return <ListGroup key={list} />
+        data?.result.map(list => {
+          console.log(list)
+          return <ListGroup key={list.id} list={list} />
         })
       }
     </div>
