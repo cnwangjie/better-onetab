@@ -4,8 +4,6 @@ import {
   Checkbox,
   Chip,
   IconButton,
-  styled,
-  Tooltip,
 } from '@mui/material'
 import React, { FC } from 'react'
 import __ from 'src/common/util/i18n'
@@ -14,14 +12,7 @@ import { formatTime } from 'src/common/util/formatDate'
 import { Icon } from '@iconify/react'
 import { Droppable } from 'react-beautiful-dnd'
 import Tab from './Tab'
-
-// TODO: Decrease the distance between element and tooltip. Not working here.
-// unsolved ref: https://github.com/mui-org/material-ui/issues/19848
-const StyledTooltip = styled(Tooltip)(() => ({
-  [`& .MuiTooltip-tooltipPlacementBottom`]: {
-    marginTop: 0,
-  },
-}))
+import IconTooltip from 'src/app/component/IconTooltip'
 
 const ListGroup: FC<{ list: any }> = ({ list }) => {
   const { data: tabs } = useListTabs(list.id)
@@ -68,27 +59,33 @@ const ListGroup: FC<{ list: any }> = ({ list }) => {
             className="hidden gap-1 group-hover:flex"
             onClick={e => e.stopPropagation()}
           >
-            <IconButton size="small">
-              <Icon icon="mdi:arrow-up" />
-            </IconButton>
-            <IconButton size="small">
-              <Icon icon="mdi:arrow-down" />
-            </IconButton>
-            <IconButton size="small">
-              <Icon icon="mdi:pin" />
-            </IconButton>
+            <IconTooltip title="move up">
+              <IconButton size="small">
+                <Icon icon="mdi:arrow-up" />
+              </IconButton>
+            </IconTooltip>
+            <IconTooltip title="move down">
+              <IconButton size="small">
+                <Icon icon="mdi:arrow-down" />
+              </IconButton>
+            </IconTooltip>
+            <IconTooltip title="pin list">
+              <IconButton size="small">
+                <Icon icon="mdi:pin" />
+              </IconButton>
+            </IconTooltip>
           </div>
         </div>
       </AccordionSummary>
-      <div className="flex border-b h-10 items-center pl-9">
+      <div className="flex border-b h-10 items-center pl-5">
         <Checkbox />
         {buttons.map(({ title, icon }) => {
           return (
-            <StyledTooltip title={title} key={title}>
+            <IconTooltip title={title} key={title}>
               <IconButton>
                 <Icon icon={icon} />
               </IconButton>
-            </StyledTooltip>
+            </IconTooltip>
           )
         })}
       </div>

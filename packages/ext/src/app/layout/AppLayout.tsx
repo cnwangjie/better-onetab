@@ -16,9 +16,11 @@ import {
   Theme,
   Toolbar,
   Typography,
+  useTheme,
 } from '@mui/material'
 import React, { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useColorModeContext } from '../component/ColorMode'
 
 const drawerWidth = 240
 
@@ -127,11 +129,13 @@ interface AppLayoutProps {
 
 const AppLayout: FC<AppLayoutProps> = ({ tabs, activeTab, children }) => {
   const [open, setOpen] = useState(false)
+  const { mode, toggleColorMode } = useColorModeContext()
+  const theme = useTheme()
 
   // TODO: hide shadow scroll Y is 0
   return (
     <div className="flex">
-      <StyledAppBar position="fixed" color="transparent">
+      <StyledAppBar position="fixed" color="inherit">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -143,6 +147,14 @@ const AppLayout: FC<AppLayoutProps> = ({ tabs, activeTab, children }) => {
             <Icon icon="mdi:menu" />
           </IconButton>
           <Typography variant="h6">Better OneTab</Typography>
+          <div className="flex-1" />
+          <IconButton onClick={toggleColorMode} color="inherit">
+            {mode === 'dark' ? (
+              <Icon icon="mdi:brightness-7" />
+            ) : (
+              <Icon icon="mdi:brightness-4" />
+            )}
+          </IconButton>
         </Toolbar>
       </StyledAppBar>
 
@@ -169,7 +181,12 @@ const AppLayout: FC<AppLayoutProps> = ({ tabs, activeTab, children }) => {
         <Divider />
       </StyledDrawer>
 
-      <div className="flex-1 mt-[64px] p-8">
+      <div
+        className="flex-1 mt-[64px] p-8"
+        style={{
+          background: theme.palette.background.default,
+        }}
+      >
         <Container>{children}</Container>
       </div>
     </div>

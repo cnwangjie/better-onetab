@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import { Tab } from 'src/common/storage/tabs'
 import { getDefaultFavIcon } from 'src/common/util'
 import { Draggable } from 'react-beautiful-dnd'
+import './style.css'
 
 const Tab: FC<{ tab: Tab; index: number }> = ({ tab, index }) => {
   return (
@@ -14,9 +15,9 @@ const Tab: FC<{ tab: Tab; index: number }> = ({ tab, index }) => {
             ref={innerRef}
             {...draggableProps}
             key={tab.id}
-            className="flex h-10 w-full items-center pl-3"
+            className="list-tab-item flex h-10 w-full items-center pl-1"
           >
-            <div {...dragHandleProps}>
+            <div {...dragHandleProps} className="drag-indicator w-4">
               <Icon icon="mdi:drag-vertical" width="24" height="24" />
             </div>
             <Checkbox />

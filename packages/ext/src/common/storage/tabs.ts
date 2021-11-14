@@ -56,9 +56,30 @@ const getSortedTabsByList = async (listId: string) => {
   return sortBy(tabs, 'order')
 }
 
+type TabMutableFields = 'order' | 'listId'
+
+const updateTab = async (id: string, opt: Partial<Pick<Tab, TabMutableFields>>) => {
+  const db = await getDB()
+  const tab: TabDoc = await db.tabs.findOne({ selector: { id } }).exec()
+
+  if (!tab) return
+
+  return tab.atomicUpdate(doc => {
+    return { ...doc, ...opt }
+  })
+}
+
+const getTabById = async (id: string) => {
+  const db = await getDB()
+  const tab = await db.tabs.findOne({ selector: { id } }).exec()
+  return tab
+}
+
 export const tabsStorage = {
   createTabs,
   getTabsByList,
   getSortedTabsByList,
   removeTabsByList,
+  updateTab,
+  getTabById,
 }

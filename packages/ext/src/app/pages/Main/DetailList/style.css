@@ -1,0 +1,10 @@
+.list-tab-item {
+  .drag-indicator {
+    opacity: 0;
+  }
+  &:hover {
+    .drag-indicator {
+      opacity: 1;
+    }
+  }
+}

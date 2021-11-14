@@ -1,7 +1,10 @@
 import storage from 'src/common/storage'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : never
+
+const getKey = (prefix: string, requireArgs = false) => (...args: any[]) =>
+  requireArgs && args.every(i => !i) ? null : [prefix, ...args]
 
 const createSWR = <
   F extends (...args: any[]) => Promise<T>,
@@ -11,13 +14,25 @@ const createSWR = <
   fn: F,
   requireArgs = false,
 ) => (...args: any[]) => {
-  const key = requireArgs && args.every(i => !i) ? null : [prefix, ...args]
+  const key = getKey(prefix, requireArgs)(...args)
 
   return useSWR<T>(key, (_, ...args: any) => {
     return fn(...args)
   })
 }
 
+const createMutator = (prefix: string) => (
+  args: any[],
+  data?: any,
+  shouldRevalidate?: boolean,
+) => mutate([prefix, ...args], data, shouldRevalidate)
+
 export const useLists = createSWR('lists', storage.lists.listList)
 
-export const useListTabs = createSWR('listTab', storage.tabs.getSortedTabsByList, true)
+export const useListTabs = createSWR(
+  'listTab',
+  storage.tabs.getSortedTabsByList,
+  true,
+)
+
+export const mutateListTabs = createMutator('listTab')
