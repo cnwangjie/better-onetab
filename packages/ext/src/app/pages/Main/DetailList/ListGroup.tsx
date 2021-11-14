@@ -12,7 +12,8 @@ import __ from 'src/common/util/i18n'
 import { useListTabs } from 'src/app/service'
 import { formatTime } from 'src/common/util/formatDate'
 import { Icon } from '@iconify/react'
-import { getDefaultFavIcon } from 'src/common/util'
+import { Droppable } from 'react-beautiful-dnd'
+import Tab from './Tab'
 
 // TODO: Decrease the distance between element and tooltip. Not working here.
 // unsolved ref: https://github.com/mui-org/material-ui/issues/19848
@@ -53,7 +54,11 @@ const ListGroup: FC<{ list: any }> = ({ list }) => {
   ]
 
   return (
-    <Accordion className="group" TransitionProps={{ unmountOnExit: true }} expanded>
+    <Accordion
+      className="group"
+      TransitionProps={{ unmountOnExit: true }}
+      expanded
+    >
       <AccordionSummary>
         <div className="flex items-center gap-4 w-full h-7">
           <Chip size="small" label={`${tabs?.length || 0} ${__('ui_tab')}`} />
@@ -79,7 +84,7 @@ const ListGroup: FC<{ list: any }> = ({ list }) => {
         <Checkbox />
         {buttons.map(({ title, icon }) => {
           return (
-            <StyledTooltip title={title} key={title} open>
+            <StyledTooltip title={title} key={title}>
               <IconButton>
                 <Icon icon={icon} />
               </IconButton>
@@ -88,24 +93,18 @@ const ListGroup: FC<{ list: any }> = ({ list }) => {
         })}
       </div>
       <div className="py-1">
-        {tabs?.map((tab, index) => {
-          return (
-            <div key={tab.id} className="flex h-10 w-full items-center pl-3">
-              <Icon icon="mdi:drag-vertical" width="24" height="24" />
-              <Checkbox />
-              <div className="pl-1">
-                <div className="flex items-center gap-1">
-                  <img
-                    className="w-4 h-4"
-                    src={tab.favIconUrl || getDefaultFavIcon(tab.url)}
-                  />
-                  {tab.title}
-                </div>
-                <div className="text-opacity-50">{tab.url}</div>
+        <Droppable droppableId={list.id}>
+          {({ droppableProps, innerRef, placeholder }) => {
+            return (
+              <div ref={innerRef} {...droppableProps}>
+                {tabs?.map((tab, index) => {
+                  return <Tab key={tab.id} tab={tab} index={index} />
+                })}
+                {placeholder}
               </div>
-            </div>
-          )
-        })}
+            )
+          }}
+        </Droppable>
       </div>
     </Accordion>
   )
