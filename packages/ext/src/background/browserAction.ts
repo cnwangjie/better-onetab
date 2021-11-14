@@ -14,7 +14,8 @@ const getBrowserActionHandler = (action: string) => {
   return actions[action] || noop
 }
 
-export const updateBrowserAction = async (action: string, tmp = false) => {
+export const updateBrowserAction = async (action?: string, tmp = false) => {
+  if (!action) return
   if (!tmp) window.currentBrowserAction = action
   window.coverBrowserAction = () => {}
   const { label } = browserActionConfigItems.find(({ value }) => value === action) || {}
@@ -37,5 +38,11 @@ export const updateBrowserAction = async (action: string, tmp = false) => {
       }
     }
   }
+}
 
+export const registerBrowserActionListener = async (initialAction?: string) => {
+  return Promise.all([
+    updateBrowserAction(initialAction),
+    browser.browserAction.onClicked.addListener(() => window.browserActionClickedHandler?.()),
+  ])
 }

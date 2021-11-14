@@ -13,8 +13,8 @@ declare global {
   interface Window {
     currentBrowserAction: string
     coverBrowserAction: (activeInfo: Browser.Tabs.OnActivatedActiveInfoType) => any
-    browserActionClickedHandler: () => any
-    contextMenusClickedHandler: (info: Menus.OnClickData) => any
+    browserActionClickedHandler?: () => any
+    contextMenusClickedHandler?: (info: Menus.OnClickData) => any
     opts: Options
     update?: string
     tabsManager?: typeof tabsManager

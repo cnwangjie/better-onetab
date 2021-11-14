@@ -4,9 +4,9 @@ import storage from 'src/common/storage'
 import { composeListeners } from 'src/common/util/composeListener'
 import { createIpcListener, registerIpcHandlerDeeply } from 'src/common/util/ipc'
 import browser, { Tabs } from 'webextension-polyfill'
-import { updateBrowserAction } from './browserAction'
+import { registerBrowserActionListener } from './browserAction'
 import commandHandler from './commandHandler'
-import { dynamicDisableMenu, setupContextMenus } from './contextMenus'
+import { dynamicDisableMenu, registerContextMenusClickedHandler } from './contextMenus'
 import messageHandler from './messageHandler'
 
 const tabsChangedHandler = (activeInfo: Tabs.OnActivatedActiveInfoType) => {
@@ -29,14 +29,13 @@ const init = async () => {
 
   const opts = window.opts = await getOptions()
   console.log(opts)
-  await updateBrowserAction(opts.browserAction)
-  await setupContextMenus(opts)
   await Promise.all([
+    registerBrowserActionListener(opts.browserAction),
     browser.commands.onCommand.addListener(commandHandler),
     browser.runtime.onMessageExternal.addListener(commandHandler),
     registerRuntimeMessageListener(),
     browser.runtime.onUpdateAvailable.addListener(detail => { window.update = detail.version }),
-    browser.contextMenus.onClicked.addListener(info => window.contextMenusClickedHandler(info)),
+    registerContextMenusClickedHandler(opts),
     browser.tabs.onActivated.addListener(debounce(tabsChangedHandler, 200)),
   ])
 }

@@ -25,3 +25,15 @@ export const attemptParseJSON = (value: any) => {
     return
   }
 }
+
+export const getDomain = (url: string) => {
+  try {
+    return new URL(url).hostname
+  } catch (e) {
+    return ''
+  }
+}
+
+export const getDefaultFavIcon = (url: string) => {
+  return `https://www.google.com/s2/favicons?domain=${getDomain(url)}`
+}

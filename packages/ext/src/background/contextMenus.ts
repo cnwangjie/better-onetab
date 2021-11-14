@@ -189,3 +189,10 @@ export const setupContextMenus = async ({
   console.groupEnd()
   dynamicDisableMenu(lists.result)
 }
+
+export const registerContextMenusClickedHandler = (opts: Options) => {
+  return Promise.all([
+    setupContextMenus(opts),
+    browser.contextMenus.onClicked.addListener(info => window.contextMenusClickedHandler?.(info)),
+  ])
+}
