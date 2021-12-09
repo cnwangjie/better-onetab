@@ -29,6 +29,8 @@ const createMutator = (prefix: string) => (
 
 export const useLists = createSWR('lists', storage.lists.listList)
 
+export const mutateLists = createMutator('lists')
+
 export const useListTabs = createSWR(
   'listTab',
   storage.tabs.getSortedTabsByList,

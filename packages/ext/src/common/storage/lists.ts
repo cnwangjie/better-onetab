@@ -49,7 +49,9 @@ const createList = async () => {
 
 type ListMutableFields = 'color' | 'title' | 'pinned' | 'order'
 
-const updateList = async (id: string, opt: Partial<Pick<List, ListMutableFields>>) => {
+export type UpdateListOpt = Partial<Pick<List, ListMutableFields>>
+
+const updateList = async (id: string, opt: UpdateListOpt) => {
   const db = await getDB()
   const list: ListDoc = await db.lists.findOne({ selector: { id } }).exec()
 
