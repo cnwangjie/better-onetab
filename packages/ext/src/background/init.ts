@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { getOptions } from 'src/common/options'
+import options from 'src/common/options'
 import storage from 'src/common/storage'
 import { composeListeners } from 'src/common/util/composeListener'
 import { createIpcListener, registerIpcHandlerDeeply } from 'src/common/util/ipc'
@@ -26,8 +26,9 @@ const registerRuntimeMessageListener = async () => {
 
 const init = async () => {
   registerIpcHandlerDeeply({ storage })
+  registerIpcHandlerDeeply(options)
 
-  const opts = window.opts = await getOptions()
+  const opts = window.opts = await options.getOptions()
   console.log(opts)
   await Promise.all([
     registerBrowserActionListener(opts.browserAction),

@@ -1,13 +1,14 @@
-import _, { fromPairs, keyBy } from 'lodash'
+import { fromPairs, keyBy, zip } from 'lodash'
 import { optionsList, Type } from './list'
 import { attemptParseJSON } from 'src/common/util'
 import { OptionKey, Options } from './types'
+import { wrapBackgroundCommunicationDeeply } from '../util/ipc'
 
 const OptionsMap = keyBy(optionsList, 'name')
 const OptionsKeys = Object.keys(OptionsMap) as OptionKey[]
 const getOptionStoreKey = (name: string) => `opt_${name}`
 
-export const getOption = (name: OptionKey): any => {
+const getOption = async (name: OptionKey): Promise<any> => {
   const storeKey = getOptionStoreKey(name)
   const rawValue = localStorage.getItem(storeKey)
   const config = OptionsMap[name]
@@ -20,18 +21,14 @@ export const getOption = (name: OptionKey): any => {
   return value
 }
 
-export const getOptions = () => {
-  const optionsPairs = OptionsKeys.map(
-    (name) => {
-      const value = getOption(name)
-      return [name, value]
-    },
-  )
+const getOptions = async () => {
+  const optionsValues = await Promise.all(OptionsKeys.map(getOption))
+  const optionsPairs = zip(OptionsKeys, optionsValues)
 
   return fromPairs(optionsPairs) as Options
 }
 
-export const setOption = (name: string, value: any) => {
+const setOption = async (name: string, value: any) => {
   const storeKey = getOptionStoreKey(name)
   const config = OptionsMap[name]
   if (!config) return
@@ -39,3 +36,11 @@ export const setOption = (name: string, value: any) => {
   const rawValue = type === Type.boolean ? JSON.stringify(value) : value
   localStorage.setItem(storeKey, rawValue)
 }
+
+const options = {
+  getOption,
+  getOptions,
+  setOption,
+}
+
+export default wrapBackgroundCommunicationDeeply(options)

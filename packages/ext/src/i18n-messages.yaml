@@ -1,0 +1,623 @@
+ext_name:
+  en: better-onetab
+  zh_CN: better-onetab
+  de: better-onetab
+ext_desc:
+  en: A better OneTab
+  zh_CN: 一个更好的 OneTab 扩展
+  de: Ein besseres OneTab
+menu_STORE_SELECTED_TABS:
+  en: Store selected tabs
+  zh_CN: 保存选中的标签页
+  de: Speichere ausgewählte Tabs
+menu_STORE_ALL_TABS_IN_CURRENT_WINDOW:
+  en: Store all tabs in current window
+  zh_CN: 保存当前窗口的所有标签页
+  de: Speichere alle Tabs im aktuellen Fenster
+menu_SHOW_TAB_LIST:
+  en: Show tab lists
+  zh_CN: 显示标签页列表
+  de: Zeige die Tab-Liste
+menu_STORE_ALL_TABS_IN_ALL_WINDOWS:
+  en: Store all tabs in all windows
+  zh_CN: 保存所有窗口的所有标签页
+  de: Speichere alle Tabs in allen Fenstern
+menu_EXTRA:
+  en: Extra
+  zh_CN: 额外功能
+  de: Extra
+menu_STORE_LEFT_TABS:
+  en: Store left tabs
+  zh_CN: 保存左侧标签页
+  de: Speichere die linken Tabs
+menu_STORE_RIGHT_TABS:
+  en: Store right tabs
+  zh_CN: 保存右侧标签页
+  de: Speichere die rechten Tabs
+menu_STORE_TWO_SIDES_TABS:
+  en: Store unselected tabs
+  zh_CN: 保存未选中标签页
+  de: Speichere nicht ausgewählte Tabs
+menu_STORE:
+  en: store
+  zh_CN: 储存
+  de: Speichern
+menu_STORE_TO_TITLED_LIST:
+  en: store into a titled list
+  zh_CN: 储存至
+  de: Speichere in benannte Liste
+cmd_store_selected_tabs:
+  en: Store selected tabs
+  zh_CN: 保存已选中标签页
+  de: Speichere die ausgewählten Tabs
+cmd_store_all_tabs:
+  en: Store all tabs
+  zh_CN: 保存所有标签页
+  de: Speichere alle Tabs
+cmd_restore_latest_list:
+  en: Restore lastest tabs
+  zh_CN: 恢复最后的列表
+  de: Letzte Tabs wiederherstellen
+cmd_open_lists:
+  en: Open tab lists
+  zh_CN: 打开标签页列表
+  de: Öffne die Tab-Liste
+cmd_store_all_in_all_windows:
+  en: Store all tabs in all windows
+  zh_CN: 保存所有窗口的所有标签页
+  de: Speichere alle Tabs in allen Fenstern
+opt_name_browserAction:
+  en: Behavior when icon is clicked
+  zh_CN: 图标被点击的行为
+  de: Verhalten beim Anklicken des Symbols
+opt_name_itemClickAction:
+  en: Behavior when item in a list is clicked
+  zh_CN: 列表中的某一项被点击的行为
+  de: Verhalten beim Anklicken von Elementen in einer Liste
+opt_name_itemDisplay:
+  en: Contents of the items in a list
+  zh_CN: 列表中的项显示的内容
+  de: Inhalt der Elemente in einer Liste
+opt_name_hideFavicon:
+  en: Hide favicon of items in the list
+  zh_CN: 列表中不显示图标
+  de: Favicon von Elementen in der Liste ausblenden
+opt_name_removeItemBtnPos:
+  en: The position of remove item button
+  zh_CN: 移除标签页的按钮位置
+  de: Die Position der Schaltfläche zum Entfernen von Elementen
+opt_name_popupItemClickAction:
+  en: Behavior when item in simple list is clicked
+  zh_CN: 弹出列表中的项被点击的行为
+  de: Verhalten beim Anklicken von Elementen in der einfachen Liste
+opt_name_defaultNightMode:
+  en: Use night mode by default
+  zh_CN: 默认使用夜间模式
+  de: Nachtmodus standardmäßig verwenden
+opt_name_fixedToolbar:
+  en: Fixed toolbar
+  zh_CN: 固定顶部工具栏
+  de: Feste Symbolleiste
+opt_name_addHistory:
+  en: Add stored tab to history
+  zh_CN: 保存的标签页添加到历史记录
+  de: Gespeicherten Tab zum Verlauf hinzufügen
+opt_name_ignorePinned:
+  en: Prevent store pinned tabs
+  zh_CN: 不保存已固定的标签页
+  de: Angepinnte Tabs nicht speichern
+opt_name_pinNewList:
+  en: Auto pin new list
+  zh_CN: 自动固定新的列表
+  de: Neue Liste automatisch anheften
+opt_name_pageContext:
+  en: Enable context menu for page
+  zh_CN: 出现在页面的右键菜单中
+  de: Kontextmenü für die Seite aktivieren
+opt_name_allContext:
+  en: Enable context menu for all elements
+  zh_CN: 出现在所有元素的右键菜单中
+  de: Kontextmenü für alle Elemente aktivieren
+opt_name_openTabListWhenNewTab:
+  en: Open tab list when new tab
+  zh_CN: 当新标签页时打开标签列表
+  de: Die Tab-Liste bei neuem Tab öffen
+opt_desc_openTabListWhenNewTab:
+  en: >-
+    Always open tab list when clicking on the icon if current tab is a new tab.
+    (Doesn't work if behavior is set to "popup simple list"
+  zh_CN: 当前页面为新标签页的时候点击图标时显示标签页列表 (不会覆盖弹出简易列表的行为)
+  de: >-
+    Öffne die Registerkartenliste immer beim Klicken auf das Symbol, wenn die
+    aktuelle Registerkarte eine neue Registerkarte ist. (Funktioniert nicht,
+    wenn das Verhalten auf "einfache Popup-Liste" eingestellt ist.
+opt_name_syncOptions:
+  en: Sync settings
+  zh_CN: 同步设置
+  de: Synchronisierungseinstellungen
+opt_name_syncList:
+  en: Sync lists
+  zh_CN: 同步列表
+  de: Syncronisierte Listen
+opt_name_useBoss:
+  en: Use better onetab sync server (unlimited storage)
+  zh_CN: 使用better onetab同步服务（不限制保存空间）
+  de: Verwenden Sie einen besseren OneTab Sync-Server (unbegrenzter Speicherplatz)
+opt_name_alertRemoveList:
+  en: Confirm to remove list
+  zh_CN: 删除列表时确认
+  de: Bestätigen, um die Liste zu entfernen
+opt_name_excludeIllegalURL:
+  en: Exclude illegal URL like about:* or chrome://*
+  zh_CN: 排除非标准 URL，例如 about:* 和 chrome://*
+  de: Ausschließen illegaler URLs wie about:* oder chrome://*
+opt_name_removeDuplicate:
+  en: Remove duplicate item in a list
+  zh_CN: 列表中避免重复
+  de: Duplikat in einer Liste entfernen
+opt_name_enableSearch:
+  en: Enable search in the detail list page
+  zh_CN: 详细列表中启用搜索功能
+  de: Suche auf der detaillierten Listenseite aktivieren
+opt_name_openEnd:
+  en: When restore list open at the ending of tabs
+  zh_CN: 恢复列表时标签页在末尾打开
+  de: Wenn die Wiederherstellungsliste am Ende der Registerkarten geöffnet ist
+opt_name_openTabListNoTab:
+  en: Open the tab list when store all tabs
+  zh_CN: 当储存所有标签时打开标签列表
+  de: Die Tab-Liste öffen, beim Speichern aller Registerkarten
+opt_name_listsPerPage:
+  en: Number of lists per page
+  zh_CN: 每页的列表数量
+  de: Anzahl der Listen pro Seite
+opt_name_titleFontSize:
+  en: Font size of list title
+  zh_CN: 列表标题的字体大小
+  de: Schriftgröße des Listentitels
+opt_name_disableDynamicMenu:
+  en: Disable dynamic menus update
+  zh_CN: 禁用动态更新菜单
+  de: Aktualisierung dynamischer Menüs deaktivieren
+opt_name_disableExpansion:
+  en: Disable expansion in list page
+  zh_CN: 禁用可展开的列表
+  de: Aufklappen in der Listenseite deaktivieren
+opt_name_disableTransition:
+  en: Disable all CSS transition animation
+  zh_CN: 禁用所有 CSS 过渡动画
+  de: Alle CSS-Übergangsanimationen deaktivieren
+opt_name_disableSearch:
+  en: Disable search feature
+  zh_CN: 禁用搜索功能
+  de: Suchfunktion deaktivieren
+opt_label_popup:
+  en: Popup simple list
+  zh_CN: 弹出简单列表
+  de: Einfache Popup Liste
+opt_label_store_selected:
+  en: Store selected tabs
+  zh_CN: 保存选中的标签页
+  de: Speichere ausgewählte Tabs
+opt_label_store_all:
+  en: Store all tabs in current window
+  zh_CN: 保存当前窗口的所有标签页
+  de: Speichere alle Tabs im aktuellen Fenster
+opt_label_show_list:
+  en: Show list
+  zh_CN: 显示完整标签页列表
+  de: Zeige Liste
+opt_label_none:
+  en: None
+  zh_CN: 无动作
+  de: Keine
+opt_label_open_and_remove:
+  en: Open and remove
+  zh_CN: 打开并移除
+  de: Öffnen und Entfernen
+opt_label_open:
+  en: Open
+  zh_CN: 打开
+  de: Öffnen
+opt_label_restore:
+  en: Restore
+  zh_CN: 恢复
+  de: Wiederherstellen
+opt_label_restore_new_window:
+  en: Restore in new window
+  zh_CN: 恢复至新的窗口
+  de: Wiederherstellen in neuem Fenster
+opt_label_left:
+  en: Left
+  zh_CN: 标签页左侧
+  de: Links
+opt_label_right:
+  en: Right
+  zh_CN: 标签页右侧
+  de: Rechts
+opt_label_title_and_url:
+  en: Title and URL
+  zh_CN: 标题和地址
+  de: Titel und URL
+opt_label_title:
+  en: Title
+  zh_CN: 标题
+  de: Titel
+opt_label_url:
+  en: URL
+  zh_CN: 地址
+  de: URL
+opt_label_off:
+  en: 'Off'
+  zh_CN: 关闭
+  de: 'Aus'
+opt_label_on:
+  en: 'On'
+  zh_CN: 开启
+  de: 'An'
+opt_label_auto:
+  en: 'Auto'
+  zh_CN: 自动
+  de: 'Automatisch'
+ui_nightmode:
+  en: Night mode
+  zh_CN: 夜间模式
+  de: Nacht-Modus
+ui_tab:
+  en: tabs
+  zh_CN: 个标签页
+  de: Tabs
+ui_created:
+  en: Created
+  zh_CN: 创建于
+  de: angelegt
+ui_retitle_list:
+  en: Retitle list
+  zh_CN: 列表更名
+  de: Liste umbenennen
+ui_restore_all:
+  en: Restore list
+  zh_CN: 列表还原
+  de: Liste wiederherstellen
+ui_restore_all_in_new_window:
+  en: Restore all in new window
+  zh_CN: 列表还原至新窗口
+  de: Alle in neuem Fenster wiederherstellen
+ui_remove_list:
+  en: Remove list
+  zh_CN: 删除列表
+  de: Liste entfernen
+ui_pin:
+  en: Pin
+  zh_CN: 固定
+  de: Pin
+ui_unpin:
+  en: Unpin
+  zh_CN: 取消固定
+  de: Abpinnen
+ui_list:
+  en: list
+  zh_CN: 列表
+  de: Liste
+ui_pinned:
+  en: pinned
+  zh_CN: 已固定
+  de: Angepinnt
+ui_duplicate:
+  en: Duplicate
+  zh_CN: 复制
+  de: Duplizieren
+ui_copy_link:
+  en: Copy link
+  zh_CN: 复制链接
+  de: Link kopieren
+ui_copy_title:
+  en: Copy title
+  zh_CN: 复制标题
+  de: Titel kopieren
+ui_remove:
+  en: Remove
+  zh_CN: 删除
+  de: Entfernen
+ui_open:
+  en: Open
+  zh_CN: 打开
+  de: Öffnen
+ui_create_issue:
+  en: Create an issue
+  zh_CN: 反馈问题
+  de: Ein Problem erstellen
+ui_options:
+  en: Options
+  zh_CN: 选项
+  de: Optionen
+ui_options_behaviour:
+  en: Behaviour
+  zh_CN: 行为
+  de: Verhalten
+ui_options_appearance:
+  en: Appearance
+  zh_CN: 外观
+  de: Aussehen
+ui_options_performance:
+  en: Performance
+  zh_CN: 性能
+  de: Leistung
+ui_options_sync:
+  en: Sync
+  zh_CN: 同步
+  de: Syncronisierung
+ui_about:
+  en: About
+  zh_CN: 关于
+  de: Über
+ui_keyboard_shortcuts:
+  en: Keyboard shortcuts
+  zh_CN: 键盘快捷键
+  de: Tastenkombinationen
+ui_export_import:
+  en: Export / Import
+  zh_CN: 导出 / 导入
+  de: Export / Import
+ui_github:
+  en: GitHub
+  zh_CN: 代码仓库
+  de: Github
+ui_tab_list:
+  en: Tab Lists
+  zh_CN: 标签页列表
+  de: Tab-Listen
+ui_export:
+  en: Export
+  zh_CN: 导出
+  de: Exportieren
+ui_import:
+  en: Import
+  zh_CN: 导入
+  de: Import
+ui_export_comp:
+  en: Export (compatible with OneTab)
+  zh_CN: 导出 (兼容 OneTab)
+  de: Export (OneTab kompatibel)
+ui_export_json:
+  en: Export to JSON
+  zh_CN: 导出至 JSON
+  de: Export im JSON Format
+ui_save_as_file:
+  en: Save as file
+  zh_CN: 保存为文件
+  de: Als Datei speichern
+ui_copy:
+  en: Copy
+  zh_CN: 复制
+  de: Kopieren
+ui_copied:
+  en: Copied!
+  zh_CN: 复制成功!
+  de: Kopiert!
+ui_import_from_file:
+  en: Import from file
+  zh_CN: 导入文件
+  de: Import von Datei
+ui_import_comp:
+  en: Import (compatible with OneTab)
+  zh_CN: 导入 (兼容 OneTab)
+  de: Import (OneTab kompatibel)
+ui_import_json:
+  en: Import from JSON
+  zh_CN: 从 JSON 中导入
+  de: Import von JSON Datei
+ui_main_processing:
+  en: Processing...
+  zh_CN: 处理中...
+  de: Verarbeitung.....
+ui_main_error_occurred:
+  en: Some errors occurred
+  zh_CN: 发生了一些错误
+  de: Einige Fehler sind aufgetreten
+ui_main_succeeded:
+  en: succeeded!
+  zh_CN: 成功！
+  de: erfolgreich!
+ui_opt_changes_saved:
+  en: Changes saved!
+  zh_CN: 修改已保存！
+  de: Änderungen gespeichert!
+ui_title_pin_btn:
+  en: Pin list
+  zh_CN: 固定列表
+  de: Liste anpinnen
+ui_title_up_btn:
+  en: Move list up
+  zh_CN: 上移列表
+  de: Liste nach oben verschieben
+ui_title_down_btn:
+  en: Move list down
+  zh_CN: 下移列表
+  de: Liste nach unten verschieben
+ui_auth_with_google:
+  en: Authorize with Google account
+  zh_CN: 通过 Google 账号授权
+  de: Zulassen mit Google Account
+ui_auth_with_github:
+  en: Authorize with Github account
+  zh_CN: 通过 Github 账号授权
+  de: Zulassen mit Github Account
+ui_boss:
+  en: Better-Onetab Sync Server (unlimited storage)
+  zh_CN: Better Onetab 同步服务器 (不限制保存容量)
+  de: Better-OneTab Sync-Server (unbegrenzter Speicherplatz)
+ui_use_boss:
+  en: Use Better-Onetab Sync Service (unlimited storage)
+  zh_CN: 使用 Better Onetab 同步服务 (无限容量)
+  de: Benutze Better-OneTab Sync-Service (unbegrenzter Speicherplatz)
+ui_logged_uid:
+  en: 'Has authorized with uid:'
+  zh_CN: '已授权 UID: '
+  de: 'Hat sich autorisiert mit uid:'
+ui_sync_exists_conflict_header:
+  en: There is a conflict when sync with server.
+  zh_CN: 同步时发生冲突。
+  de: Es gibt einen Konflikt bei der Synchronisation mit dem Server.
+ui_sync_lists_failed:
+  en: Syncing tab lists failed
+  zh_CN: 同步列表失败
+  de: Die Synchronisierung der Tab-Listen ist fehlgeschlagen.
+ui_sync_opts_failed:
+  en: Syncing options failed
+  zh_CN: 同步设置失败
+  de: Syncronisationsoptionen fehlgeschlagen
+ui_sync_remote_time:
+  en: Remote update time
+  zh_CN: 远程更新时间
+  de: Aktualisierungszeit Remote
+ui_sync_local_time:
+  en: Local update time
+  zh_CN: 本地更新时间
+  de: Aktualisierungszeit Lokal
+ui_sync_lists_item:
+  en: Remote lists items
+  zh_CN: 远程列表
+  de: Listenelemente Remote
+ui_opts_diff:
+  en: Options difference
+  zh_CN: 远程设置
+  de: Optionsunterschiede
+ui_sync_keep_local:
+  en: Keep local
+  zh_CN: 保留本地
+  de: Lokale behalten
+ui_sync_keep_remote:
+  en: Keep remote
+  zh_CN: 保留远程
+  de: Remote behalten
+ui_sync_keep_both:
+  en: Keep both
+  zh_CN: 同时保留
+  de: Beide behalten
+ui_sync_use_local:
+  en: Use local
+  zh_CN: 使用本地
+  de: Benutze Lokale
+ui_sync_use_remote:
+  en: Use remote
+  zh_CN: 使用远程
+  de: Benutze Remote
+ui_syncing:
+  en: Syncing
+  zh_CN: 同步中
+  de: Syncronisiere
+ui_conflict:
+  en: Conflict
+  zh_CN: 冲突
+  de: Konflikt
+ui_upload_error:
+  en: Sync error
+  zh_CN: 同步错误
+  de: Syncronisationsfehler
+ui_not_sync:
+  en: Not sync yet
+  zh_CN: 未同步
+  de: Noch nicht synchronisiert
+ui_deauth:
+  en: Deauthorize
+  zh_CN: 取消授权
+  de: Zulassen aufheben
+ui_auth:
+  en: Authorize
+  zh_CN: 授权
+  de: Zulassen
+ui_sync_authed_with:
+  en: 'Has authorized with:'
+  zh_CN: 授权账户：
+  de: 'Hat sich autorisiert mit:'
+ui_not_login:
+  en: Not login
+  zh_CN: 未登录
+  de: Nicht eingeloggt
+ui_offline:
+  en: You are offline
+  de: Sie sind offline
+ui_refresh:
+  en: Refresh
+  de: Aktualisieren
+ui_unauth:
+  en: Unauthorized
+  zh_CN: 未授权
+  de: Nicht zugelassen
+ui_turn_off:
+  en: Turn off
+  zh_CN: 停用
+  de: Ausschalten
+ui_sync_setting:
+  en: Sync Setting
+  zh_CN: 同步设置
+  de: Syncronisationseinstellungen
+ui_manage_account:
+  en: Manage Account
+  zh_CN: 管理账户
+  de: Konto verwalten
+ui_login:
+  en: Login
+  zh_CN: 登录
+  de: Login
+ui_beta_warn:
+  en: >-
+    This is a feature in the test, if you find any problem please send me a
+    feedback.
+  zh_CN: 这是一个测试中的功能，如果遇到了任何问题请向我反馈。
+  de: >-
+    Dieses Merkmal wird momentan getestet. Wenn Sie ein Problem finden, senden
+    Sie mir bitte ein Feedback.
+ui_new_warn:
+  en: This is a new feature in current version.
+  zh_CN: 这是当前版本的新特性。
+  de: Dies ist ein neues Merkmal in der aktuellen Version.
+ui_save_to_gdrive:
+  en: Save list to google drive
+  zh_CN: 将列表保存至 Google Drive
+  de: Liste auf Google-Drive speichern
+ui_save_immediately:
+  en: Save immediately
+  zh_CN: 立即保存
+  de: Sofort speichern
+ui_no_list:
+  en: No list here
+  zh_CN: 没有标签页
+  de: Keine Liste hier
+ui_no_list_tip:
+  en: >-
+    1. Select the tabs you want to store</br>2. Right click the extension
+    icon</br>3. Click "store selected tabs"<p class="body-2">Already used in
+    other device? Authorizing with sync service could restore lists
+    automatically.</p>
+  zh_CN: >-
+    1. 选中你想保存的标签页</br>2. 右键点击扩展图标</br>3. 点击 "保存选中的标签页"<p
+    class="body-2">在其他设备使用过？ 授权同步服务可以自动恢复列表。</p>
+  de: >-
+    1. Wählen Sie die Registerkarten aus, die Sie speichern möchten</br>2.
+    Klicken Sie mit der rechten Maustaste auf das Erweiterungssymbol</br>3.
+    Klicken Sie auf "ausgewählte Registerkarten speichern"<p
+    class="body-2">Bereits in anderen Geräten verwendet?  Die Autorisierung mit
+    dem Synchronisierungsdienst kann die Listen automatisch
+    wiederherstellen.</p>
+ui_untitled:
+  en: untitled
+  zh_CN: 未命名
+  de: Unbenannt
+ui_updated_to_ver:
+  en: Better Onetab has updated to
+  zh_CN: Better Onetab 已更新至
+  de: Better OneTab wurde aktualisiert zu
+ui_click_view_changelog:
+  en: click to view detail changelog
+  zh_CN: 点击查看详细更新日志
+  de: Klicken Sie hier, um das Änderungsprotokoll anzuzeigen
+ui_move_to:
+  en: Move to
+  zh_CN: 移动至
+  de: Verschieben nach
+ui_a_new_list:
+  en: (a new list)
+  zh_CN: (一个新列表)
+  de: (eine neue Liste)

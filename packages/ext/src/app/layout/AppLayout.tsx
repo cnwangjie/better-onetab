@@ -18,7 +18,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import React, { FC, useState } from 'react'
+import React, { FC, Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useColorModeContext } from '../component/ColorMode'
 
@@ -115,7 +115,7 @@ const StyledListItemButton = styled(ListItemButton, {
       }),
 }))
 
-interface Tab {
+export interface TabConfig {
   key: string
   icon: string
   label: string
@@ -123,7 +123,7 @@ interface Tab {
 }
 
 interface AppLayoutProps {
-  tabs: Tab[]
+  tabs: TabConfig[][]
   activeTab: string
 }
 
@@ -161,24 +161,32 @@ const AppLayout: FC<AppLayoutProps> = ({ tabs, activeTab, children }) => {
       <StyledDrawer variant="permanent" open={open}>
         <DrawerHeader />
 
-        <List>
-          {tabs.map(tab => {
-            return (
-              <Link to={tab.to} key={tab.key}>
-                <StyledListItemButton
-                  open={open}
-                  selected={tab.key === activeTab}
-                >
-                  <ListItemIcon>
-                    <Icon icon={tab.icon} fontSize={24} />
-                  </ListItemIcon>
-                  <ListItemText primary={tab.label} />
-                </StyledListItemButton>
-              </Link>
-            )
-          })}
-        </List>
-        <Divider />
+        {tabs.map((tab, index) => {
+          return (
+            <Fragment key={index}>
+              {index === 0 || (
+                <Divider key={`divider-${index}`} />
+              )}
+              <List>
+                {tab.map(tab => {
+                  return (
+                    <Link to={tab.to} key={tab.key}>
+                      <StyledListItemButton
+                        open={open}
+                        selected={tab.key === activeTab}
+                      >
+                        <ListItemIcon>
+                          <Icon icon={tab.icon} fontSize={24} />
+                        </ListItemIcon>
+                        <ListItemText primary={tab.label} />
+                      </StyledListItemButton>
+                    </Link>
+                  )
+                })}
+              </List>
+            </Fragment>
+          )
+        })}
       </StyledDrawer>
 
       <div

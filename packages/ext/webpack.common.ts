@@ -1,27 +1,25 @@
-const path = require('path')
-const { ProgressPlugin, DefinePlugin, ProvidePlugin } = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+import type { Configuration } from 'webpack'
+import path from 'path'
+import { ProgressPlugin, DefinePlugin, ProvidePlugin } from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import YamlLocalesWebpackPlugin from 'yaml-locales-webpack-plugin'
 
-const resolve = (...paths) => path.join(__dirname, ...paths)
+const resolve = (...paths: string[]) => path.join(__dirname, ...paths)
 
-const mode = process.env.NODE_ENV || 'development'
+const mode: any = process.env.NODE_ENV || 'development'
 
 /**
  * @type {import('webpack').Configuration}
  */
-module.exports = {
+const config: Configuration = {
   entry: {
     app: './src/app/main.tsx',
     background: './src/background/index.ts',
   },
   mode,
   devtool: 'eval-source-map',
-  devServer: {
-    static: resolve('dist'),
-    port: 'auto',
-  },
   output: {
     path: resolve('dist'),
     filename: '[name].js',
@@ -43,7 +41,6 @@ module.exports = {
           to: 'manifest.json',
         },
         { from: 'src/assets/icons', to: 'assets/icons' },
-        { from: 'src/_locales', to: '_locales' },
       ],
     }),
     new HtmlWebpackPlugin({
@@ -52,6 +49,7 @@ module.exports = {
       excludeChunks: ['background', 'content', 'exchanger'],
       inject: true,
     }),
+    new YamlLocalesWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -76,3 +74,5 @@ module.exports = {
     ],
   },
 }
+
+export default config

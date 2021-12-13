@@ -6,7 +6,7 @@ type ThenArg<T> = T extends PromiseLike<infer U> ? U : never
 const getKey = (prefix: string, requireArgs = false) => (...args: any[]) =>
   requireArgs && args.every(i => !i) ? null : [prefix, ...args]
 
-const createSWR = <
+export const createSWR = <
   F extends (...args: any[]) => Promise<T>,
   T = ThenArg<ReturnType<F>>
 >(
@@ -21,7 +21,7 @@ const createSWR = <
   })
 }
 
-const createMutator = (prefix: string) => (
+export const createMutator = (prefix: string) => (
   args: any[],
   data?: any,
   shouldRevalidate?: boolean,

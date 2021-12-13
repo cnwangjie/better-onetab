@@ -1,15 +1,17 @@
-import browser, { Tabs } from "webextension-polyfill";
-import { IllegalUrlPrefixes } from "../constants";
-import { getOptions } from "../options";
-import storage from "../storage";
-import { Tab } from "../storage/tabs";
+import browser, { Tabs } from 'webextension-polyfill'
+import { IllegalUrlPrefixes } from '../constants'
+import options from '../options'
+import storage from '../storage'
+import { Tab } from '../storage/tabs'
 
-type BrowserTab = Tabs.Tab;
+type BrowserTab = Tabs.Tab
 type BrowserTabs = BrowserTab[]
 
-export const getAllInWindow = (windowId: number) => browser.tabs.query({ windowId })
+export const getAllInWindow = (windowId: number) =>
+  browser.tabs.query({ windowId })
 
-export const getSelectedTabs = () => browser.tabs.query({ highlighted: true, currentWindow: true })
+export const getSelectedTabs = () =>
+  browser.tabs.query({ highlighted: true, currentWindow: true })
 
 export const getAllTabsInCurrentWindow = async () => {
   const currentWindow = await browser.windows.getCurrent()
@@ -46,7 +48,8 @@ export const groupTabsInCurrentWindow = async () => {
   }
 }
 
-const isLegalURL = (url: string) => IllegalUrlPrefixes.every(prefix => !url.startsWith(prefix))
+const isLegalURL = (url: string) =>
+  IllegalUrlPrefixes.every(prefix => !url.startsWith(prefix))
 
 const AppUrl = browser.runtime.getURL('')
 
@@ -69,7 +72,7 @@ const addTabsToHistory = async (tabs: BrowserTabs) => {
 }
 
 const storeTabs = async (tabs: BrowserTabs, listId?: string) => {
-  const opts = await getOptions()
+  const opts = await options.getOptions()
 
   const validTabs = tabs.filter(tab => {
     if (!tab.url) return false
@@ -106,7 +109,9 @@ const storeTabs = async (tabs: BrowserTabs, listId?: string) => {
   await browser.tabs.remove(tabs.map(tab => tab.id).filter(i => i) as number[])
 }
 
-const createStoreMethodForGroupedTabs = (side: 'left' | 'right' | 'twoSides') => {
+const createStoreMethodForGroupedTabs = (
+  side: 'left' | 'right' | 'twoSides',
+) => {
   return async (listId?: string) => {
     const groups = await groupTabsInCurrentWindow()
     if (!groups) return
@@ -134,7 +139,7 @@ const storeSelectedTabs = async (listId?: string) => {
 const storeAllTabs = async (listId?: string) => {
   const tabs = await getAllTabsInCurrentWindow()
   if (!tabs) return
-  const opts = await getOptions()
+  const opts = await options.getOptions()
   if (opts.openTabListNoTab) {
     openTabList()
   }
@@ -153,7 +158,7 @@ const storeAllTabsInAllWindows = async () => {
 }
 
 const restoreTabs = async (tabs: Tab[], windowId?: number) => {
-  const opts = await getOptions()
+  const opts = await options.getOptions()
   let indexOffset = 0
   if (opts.openEnd) {
     const allTabs = await getAllTabsInCurrentWindow()
@@ -188,7 +193,7 @@ const restoreLatestList = async () => {
 
 const openTabList = async () => {
   const window = await browser.runtime.getBackgroundPage()
-  const appTabIds = window.appTabIds = window.appTabIds || {}
+  const appTabIds = (window.appTabIds = window.appTabIds || {})
   const currentWindow = await browser.windows.getCurrent()
   const windowId = currentWindow.id
   const tabListsUrl = browser.runtime.getURL('index.html#/app/')
