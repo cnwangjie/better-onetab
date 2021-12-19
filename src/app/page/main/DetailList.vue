@@ -648,7 +648,7 @@ export default {
   opacity: 0;
 }
 .list-item {
-  padding-bottom: .5rem
+  padding-bottom: 20px;
   .checkbox {
     margin-left: 20px;
   }
