@@ -17,7 +17,7 @@ const StyledSelect = styled(Select)(() => {
 })
 
 const Options = () => {
-  const { data: opts } = useOptions()
+  const opts = useOptions()
 
   const { enqueueSnackbar } = useSnackbar()
 
@@ -57,29 +57,31 @@ const Options = () => {
                       {__('opt_name_' + option.name) || '!!! ' + option.name}
                     </div>
 
-                    {option.items && (
-                      <StyledSelect
-                        value={opts?.[option.name] || ''}
-                        onChange={handleChange(option.name)}
-                      >
-                        {option.items.map(item => {
-                          return (
-                            <MenuItem key={item.label} value={item.value}>
-                              {item.label}
-                            </MenuItem>
-                          )
-                        })}
-                      </StyledSelect>
-                    )}
+                    <div className="select-none">
+                      {option.items && (
+                        <StyledSelect
+                          value={opts?.[option.name] || ''}
+                          onChange={handleChange(option.name)}
+                        >
+                          {option.items.map(item => {
+                            return (
+                              <MenuItem key={item.label} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            )
+                          })}
+                        </StyledSelect>
+                      )}
 
-                    {option.type === Type.boolean && (
-                      <Switch
-                        checked={(opts?.[option.name] as boolean) ?? false}
-                        onChange={(e, checked) => {
-                          handleChange(option.name)(checked)
-                        }}
-                      />
-                    )}
+                      {option.type === Type.boolean && (
+                        <Switch
+                          checked={(opts?.[option.name] as boolean) ?? false}
+                          onChange={(e, checked) => {
+                            handleChange(option.name)(checked)
+                          }}
+                        />
+                      )}
+                    </div>
                   </div>
                 )
               })}

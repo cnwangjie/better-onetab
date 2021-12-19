@@ -21,5 +21,6 @@ declare global {
     storage?: typeof storage
     browser?: typeof Browser
     appTabIds?: Record<number, number>
+    getDB?: () => Promise<any>
   }
 }

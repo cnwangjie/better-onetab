@@ -1,40 +1,33 @@
-import {
-  Accordion,
-  AccordionSummary,
-  Checkbox,
-  Chip,
-  IconButton,
-} from '@mui/material'
-import React, {
-  FC,
-} from 'react'
+import { Accordion, AccordionSummary, Chip } from '@mui/material'
+import React, { FC } from 'react'
 import __ from 'src/common/util/i18n'
 import { useListTabs } from 'src/app/service'
 import { formatTime } from 'src/common/util/formatDate'
-import { Icon } from '@iconify/react'
 import { Droppable } from 'react-beautiful-dnd'
 import TabItem from '../TabItem'
-import IconTooltip from 'src/app/component/IconTooltip'
 import useChecked from './useChecked'
 import useChangeableListTitle from './useChangeableListTitle'
+import StyledIconButton from 'src/app/component/StyledIconButton'
+import type { List } from 'src/common/storage/lists'
+import useHandler from './useHandler'
 
-const ListGroup: FC<{ list: any }> = ({ list }) => {
+const ListGroup: FC<{ list: List }> = ({ list }) => {
   const { data: tabs } = useListTabs(list.id)
 
-  const {
-    checked,
-    handleCheckedChange,
-    someChecked,
-    allChecked,
-    indeterminate,
-    handleCheckAll,
-  } = useChecked(tabs)
+  const { checked, handleCheckedChange, someChecked, checkAllBox } = useChecked(
+    tabs,
+  )
 
   const { title, handleChangeListTitle } = useChangeableListTitle(list)
 
+  const {
+    handleRestoreAll,
+    removeList,
+  } = useHandler(list, tabs)
+
   const buttons = [
     {
-      title: 'bulk operation',
+      title: __('ui_bulk_operation'),
       icon: 'mdi:dots-vertical',
       disabled: !someChecked,
     },
@@ -46,17 +39,20 @@ const ListGroup: FC<{ list: any }> = ({ list }) => {
     {
       title: __('ui_restore_all'),
       icon: 'mdi:restore',
+      onClick: handleRestoreAll(),
     },
     {
       title: __('ui_restore_all_in_new_window'),
       icon: 'mdi:window-restore',
+      onClick: handleRestoreAll(true),
     },
     {
       title: __('ui_remove_list'),
       icon: 'mdi:playlist-remove',
+      onClick: removeList,
     },
     {
-      title: 'edit tag',
+      title: __('ui_edit_tag'),
       icon: 'mdi:tag-text',
     },
   ]
@@ -76,38 +72,28 @@ const ListGroup: FC<{ list: any }> = ({ list }) => {
             className="hidden gap-1 group-hover:flex"
             onClick={e => e.stopPropagation()}
           >
-            <IconTooltip title="move up">
-              <IconButton size="small">
-                <Icon icon="mdi:arrow-up" />
-              </IconButton>
-            </IconTooltip>
-            <IconTooltip title="move down">
-              <IconButton size="small">
-                <Icon icon="mdi:arrow-down" />
-              </IconButton>
-            </IconTooltip>
-            <IconTooltip title="pin list">
-              <IconButton size="small">
-                <Icon icon="mdi:pin" />
-              </IconButton>
-            </IconTooltip>
+            <StyledIconButton
+              title={__('ui_move_up')}
+              size="small"
+              icon="mdi:arrow-up"
+            />
+            <StyledIconButton
+              title={__('ui_move_down')}
+              size="small"
+              icon="mdi:arrow-down"
+            />
+            <StyledIconButton
+              title={__('ui_pin_list')}
+              size="small"
+              icon="mdi:pin"
+            />
           </div>
         </div>
       </AccordionSummary>
       <div className="flex border-b h-10 items-center pl-5">
-        <Checkbox
-          checked={!!allChecked}
-          indeterminate={!!indeterminate}
-          onChange={handleCheckAll}
-        />
-        {buttons.map(({ title, icon, disabled, onClick }) => {
-          return (
-            <IconTooltip title={title} key={title}>
-              <IconButton disabled={disabled} onClick={onClick}>
-                <Icon icon={icon} />
-              </IconButton>
-            </IconTooltip>
-          )
+        {checkAllBox}
+        {buttons.map((props, index) => {
+          return <StyledIconButton key={index} {...props} />
         })}
       </div>
       <div className="py-1">

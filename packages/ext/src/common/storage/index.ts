@@ -12,4 +12,6 @@ export const { storage } = wrapBackgroundCommunicationDeeply({
   },
 })
 
+window['storage'] = storage
+
 export default storage

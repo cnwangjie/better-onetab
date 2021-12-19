@@ -1,16 +1,16 @@
-import { RxDocument } from "rxdb";
-import { genId } from "../util";
-import { paginate, PaginateOpt } from "../util/paginate";
-import { getDB } from "./db";
+import { RxDocument } from 'rxdb'
+import { genId } from '../util'
+import { paginate, PaginateOpt } from '../util/paginate'
+import { getDB } from './db'
 
 export interface List {
-  id: string,
-  title: string,
-  pinned: boolean,
-  color: string,
-  order: number,
-  createdAt: number,
-  updatedAt: number,
+  id: string
+  title: string
+  pinned: boolean
+  color: string
+  order: number
+  createdAt: number
+  updatedAt: number
 }
 
 export type ListDoc = RxDocument<List>
@@ -70,9 +70,12 @@ const deleteList = async (id: string) => {
 
 const getLatestList = async () => {
   const db = await getDB()
-  const list: ListDoc = await db.lists.findOne().sort({
-    order: 'desc',
-  }).exec()
+  const list: ListDoc = await db.lists
+    .findOne()
+    .sort({
+      order: 'desc',
+    })
+    .exec()
   return list
 }
 

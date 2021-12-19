@@ -191,6 +191,10 @@ opt_name_disableSearch:
   en: Disable search feature
   zh_CN: 禁用搜索功能
   de: Suchfunktion deaktivieren
+opt_name_nightMode:
+  en: Night Mode
+  zh_CN: 黑色模式
+  de: Nachtmodus
 opt_label_popup:
   en: Popup simple list
   zh_CN: 弹出简单列表
@@ -331,8 +335,8 @@ ui_options:
   en: Options
   zh_CN: 选项
   de: Optionen
-ui_options_behaviour:
-  en: Behaviour
+ui_options_behavior:
+  en: Behavior
   zh_CN: 行为
   de: Verhalten
 ui_options_appearance:
@@ -621,3 +625,23 @@ ui_a_new_list:
   en: (a new list)
   zh_CN: (一个新列表)
   de: (eine neue Liste)
+ui_confirm_remove_list_title:
+  en: Are you sure to remove this list?
+  zh_CN: 确认删除列表？
+  de: Sind Sie sicher, dass Sie diese Liste entfernen möchten?
+ui_confirm_remove_list_description:
+  en: Restore will remove the list by default. You can change this behavior in options page or pin the list.
+  zh_CN: 恢复将默认删除列表。你可以在选项页面中更改此行为或者将列表锁定。
+  de: Die Wiederherstellung wird die Liste standardmäßig entfernen. Sie können diese Einstellung in der Optionen-Seite ändern oder die Liste fixieren.
+ui_tab_num:
+  en: Number of tabs
+  zh_CN: 标签页数量
+  de: Anzahl der Registerkarten
+ui_confirm:
+  en: Confirm
+  zh_CN: 确认
+  de: Bestätigen
+ui_cancel:
+  en: Cancel
+  zh_CN: 取消
+  de: Abbrechen

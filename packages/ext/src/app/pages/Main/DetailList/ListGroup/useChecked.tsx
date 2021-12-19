@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Tab } from 'src/common/storage/tabs'
 import { pick, fromPairs } from 'lodash/fp'
+import React from 'react'
+import { Checkbox } from '@mui/material'
 
 const useChecked = (tabs?: Tab[]) => {
   const [checked, setChecked] = useState<Record<string, boolean>>({})
@@ -40,13 +42,19 @@ const useChecked = (tabs?: Tab[]) => {
       : setChecked(fromPairs(tabs?.map(tab => [tab.id, true]) ?? []))
   }, [allChecked, indeterminate, tabs])
 
+  const checkAllBox = (
+    <Checkbox
+      checked={!!allChecked}
+      indeterminate={!!indeterminate}
+      onChange={handleCheckAll}
+    />
+  )
+
   return {
     checked,
     handleCheckedChange,
     someChecked,
-    allChecked,
-    indeterminate,
-    handleCheckAll,
+    checkAllBox,
   }
 }
 

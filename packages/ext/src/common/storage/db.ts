@@ -102,3 +102,5 @@ export const getDB = memoize(async () => {
 
   return collections
 })
+
+window['getDB'] = getDB
