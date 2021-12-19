@@ -77,53 +77,39 @@ const setWSToken = token => {
   }
 }
 
+const _socketEmitTimeout = (socket, event, arg) => timeout(new Promise((resolve, reject) => {
+  const cb = result => result && result.err ? reject(result.err) : resolve(result)
+  if (arg) socket.emit(event, arg, cb)
+  else socket.emit(event, cb)
+}), 5000)
+
 const uploadOpsViaWS = async () => {
   const socket = window._socket
   if (!socket || !socket.connected) throw new Error('socket not connected')
   const {ops} = await browser.storage.local.get('ops')
-  await browser.storage.local.remove('ops')
   if (ops) {
     const changes = ops.sort((a, b) => a.time - b.time)
     while (changes && changes.length) {
       const change = changes.shift()
-      await new Promise(resolve => {
-        socket.emit('list.update', change, ({err}) => {
-          if (err) {
-            logger.log(change)
-            logger.error(err)
-          }
-          resolve()
-        })
-      })
+      await _socketEmitTimeout(socket, 'list.update', change)
     }
   }
+  await browser.storage.local.remove('ops')
 }
 
 const downloadRemoteLists = async () => {
   const socket = window._socket
   if (!socket || !socket.connected) throw new Error('socket not connected')
-  const remoteTime = await new Promise(resolve => {
-    socket.emit('list.time', time => {
-      resolve(time)
-    })
-  })
+  const remoteTime = await _socketEmitTimeout(socket, 'list.time')
   const {listsUpdatedAt: localTime} = await browser.storage.local.get('listsUpdatedAt')
   if (remoteTime === localTime) return
-  const remoteLists = await new Promise(resolve => {
-    socket.emit('list.all', lists => {
-      resolve(lists)
-    })
-  })
+  const remoteLists = await _socketEmitTimeout(socket, 'list.all')
   const localLists = _.keyBy(await storage.getLists(), list => list._id)
   const finallyLists = []
   const fetching = {}
   remoteLists.forEach(list => {
     if (!(list._id in localLists) || localLists.updatedAt < list.updatedAt) {
-      fetching[list._id] = new Promise(resolve => {
-        socket.emit('list.get', list._id, remoteList => {
-          resolve(remoteList)
-        })
-      })
+      fetching[list._id] = _socketEmitTimeout(socket, 'list.get', list._id)
       finallyLists.push(list._id)
     } else {
       finallyLists.push(localLists[list._id])
@@ -153,27 +139,11 @@ const syncLists = async () => {
   }
 }
 
-const getRemoteOptionsUpdatedTimeViaWS = () => new Promise(resolve => {
-  const socket = window._socket
-  socket.emit('opts.time', time => {
-    resolve(time)
-  })
-})
+const getRemoteOptionsUpdatedTimeViaWS = () => _socketEmitTimeout(window._socket, 'opts.time')
 
-const getRemoteOptions = () => new Promise(resolve => {
-  const socket = window._socket
-  socket.emit('opts.all', opts => {
-    resolve(opts)
-  })
-})
+const getRemoteOptions = () => _socketEmitTimeout(window._socket, 'opts.all')
 
-const setRemoteOptions = (opts, time) => new Promise((resolve, reject) => {
-  const socket = window._socket
-  socket.emit('opts.set', ({opts, time}), ({err}) => {
-    if (err) reject(err)
-    resolve()
-  })
-})
+const setRemoteOptions = (opts, time) => _socketEmitTimeout(window._socket, 'opts.set', { opts, time })
 
 const syncOptions = async () => {
   const remoteTime = await getRemoteOptionsUpdatedTimeViaWS()

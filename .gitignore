@@ -5,3 +5,4 @@ dist.zip
 .sonar*
 .scanner*
 stats.json
+.DS_Store
