@@ -281,6 +281,7 @@ export default {
       choice: null, // choice in search result
       showMenu: false, // item right click menu
       rightClickedListIndex: null,
+      foldBtnClick: false,
       currentHighlightItem: null, // after jump to an item
       draggableOptions: {
         group: {
@@ -423,11 +424,13 @@ export default {
       const list = this.lists[this.rightClickedListIndex]
       const selectedItems = []
       list.tabs.forEach((tab, tabIndex) => {
-        if (tab.selected) selectedItems.push({
+        if (tab.selected) {
+          selectedItems.push({
           // for avoid to change old functions
-          listIndex: this.rightClickedListIndex,
-          tabIndex,
-        })
+            listIndex: this.rightClickedListIndex,
+            tabIndex,
+          })
+        }
       })
       return selectedItems
     },
@@ -539,8 +542,9 @@ export default {
     },
     async foldAll() {
       this.listsInView.forEach(list => {
-        this.expandList([false, list.index])
+        this.expandList([this.foldBtnClick, list.index])
       })
+      this.foldBtnClick = !this.foldBtnClick
       await this.$nextTick()
       return this.updateExpandStatus()
     },
