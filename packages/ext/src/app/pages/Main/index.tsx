@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
 import { matchPath, Route, Switch, useRouteMatch } from 'react-router-dom'
-import AppLayout, { DividerIdentifier, TabConfig } from '../../layout/AppLayout'
+import AppLayout, { TabConfig } from '../../layout/AppLayout'
 import DetailList from './DetailList'
 import { history } from '../../App'
 import Options from './Options'
+import __ from 'src/common/util/i18n'
+import ImportExport from './ImportExport'
 
 interface RouteConfig {
   key: string
@@ -16,14 +18,14 @@ interface RouteConfig {
 const routes: RouteConfig[] = [
   {
     key: 'Tab lists',
-    label: 'Tab lists',
+    label: __('ui_tab_list'),
     icon: 'mdi:view-list',
     path: '/app/list',
     exact: true,
   },
   {
     key: 'Pinned',
-    label: 'Pinned',
+    label: __('ui_pinned'),
     icon: 'mdi:pin-outline',
     path: '/app/list/pinned',
   },
@@ -32,11 +34,18 @@ const routes: RouteConfig[] = [
 const extraRoutes: RouteConfig[] = [
   {
     key: 'Options',
-    label: 'Options',
+    label: __('ui_options'),
     icon: 'mdi:cog',
     path: '/app/options',
     exact: true,
-  }
+  },
+  {
+    key: 'ImportExport',
+    label: __('ui_export_import'),
+    icon: 'mdi:swap-vertical',
+    path: '/app/swap',
+    exact: true,
+  },
 ]
 
 const createTab = ({ key, label, icon, path }: RouteConfig): TabConfig => {
@@ -81,6 +90,9 @@ const Main = () => {
         </Route>
         <Route path="/app/list">
           <DetailList />
+        </Route>
+        <Route path={['/app/swap', '/app/import-export']}>
+          <ImportExport />
         </Route>
       </Switch>
     </AppLayout>

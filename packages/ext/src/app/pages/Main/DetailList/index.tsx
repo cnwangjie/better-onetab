@@ -4,6 +4,7 @@ import { mutateListTabs, useLists } from '../../../service'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { reorderTab, reorderTabLocally } from 'src/app/service/reorder'
 import type { KeyedMutator } from 'swr/dist/types'
+import __ from 'src/common/util/i18n'
 
 const DetailListContext = createContext<{
   mutate?: KeyedMutator<any>
@@ -42,10 +43,18 @@ const DetailList = () => {
             mutateListTabs([destination.droppableId])
           }}
         >
-          {data?.result.map(list => {
-            console.log(list)
-            return <ListGroup key={list.id} list={list} />
-          })}
+          {data &&
+            (data.result.length ? (
+              data?.result.map(list => {
+                console.log(list)
+                return <ListGroup key={list.id} list={list} />
+              })
+            ) : (
+              <div className="flex flex-col items-center text-gray-500">
+                <h3 className="text-4xl my-4">{__('ui_no_list')}</h3>
+                <p className="text-lg" dangerouslySetInnerHTML={{ __html: __('ui_no_list_tip') }} />
+              </div>
+            ))}
         </DragDropContext>
       </div>
     </DetailListContext.Provider>

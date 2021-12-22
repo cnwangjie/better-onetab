@@ -41,9 +41,9 @@ const getOrCreateList = async (listId?: string) => {
   return createList()
 }
 
-const createList = async () => {
+const createList = async (opt?: Partial<List>) => {
   const db = await getDB()
-  const list = initList()
+  const list = { ...initList(), ...opt }
   return db.lists.insert(list)
 }
 

@@ -1,9 +1,11 @@
+import type { ItemDisplayOption } from './enums'
+
 export interface Options {
   browserAction: string
   itemClickAction: string
   popupItemClickAction: string
   nightMode: string
-  itemDisplay: string
+  itemDisplay: ItemDisplayOption
   hideFavicon: boolean
   addHistory: boolean
   ignorePinned: boolean

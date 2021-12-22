@@ -1,5 +1,6 @@
 import { BrowserAction } from '../constants'
 import { __ } from '../util/i18n'
+import { ItemClickActionOption, ItemDisplayOption } from './enums'
 import { OptionKey, Options } from './types'
 
 export enum Category {
@@ -65,18 +66,18 @@ export const optionsList: OptionConfig[] = [
     category: Category.behavior,
     name: 'itemClickAction',
     type: Type.string,
-    default: 'open-and-remove',
+    default: ItemClickActionOption.OpenAndRemove,
     items: [
       {
-        value: 'open-and-remove',
+        value: ItemClickActionOption.OpenAndRemove,
         label: __('opt_label_open_and_remove'),
       },
       {
-        value: 'open',
+        value: ItemClickActionOption.Open,
         label: __('opt_label_open'),
       },
       {
-        value: 'none',
+        value: ItemClickActionOption.None,
         label: __('opt_label_none'),
       },
     ],
@@ -125,18 +126,18 @@ export const optionsList: OptionConfig[] = [
     category: Category.appearance,
     name: 'itemDisplay',
     type: Type.string,
-    default: 'title-and-url',
+    default: ItemDisplayOption.TitleAndUrl,
     items: [
       {
-        value: 'title-and-url',
+        value: ItemDisplayOption.TitleAndUrl,
         label: __('opt_label_title_and_url'),
       },
       {
-        value: 'title',
+        value: ItemDisplayOption.Title,
         label: __('opt_label_title'),
       },
       {
-        value: 'url',
+        value: ItemDisplayOption.Url,
         label: __('opt_label_url'),
       },
     ],

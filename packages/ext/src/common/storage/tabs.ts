@@ -16,11 +16,11 @@ export interface Tab {
 
 export type TabDoc = RxDocument<Tab>
 
-const initTabs = (tabs: any[], listId: string): Tab[] => {
+const initTabs = (tabs: Tabs.Tab[], listId: string): Tab[] => {
   return tabs.filter(tab => tab.url).map((tab, index) => {
     return {
       id: genId(),
-      url: tab.url,
+      url: tab.url!,
       title: tab.title || '',
       favIconUrl: tab.favIconUrl || '',
       pinned: tab.pinned || false,

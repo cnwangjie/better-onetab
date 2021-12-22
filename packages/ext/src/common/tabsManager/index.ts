@@ -168,7 +168,7 @@ const restoreTabs = async (tabs: Tab[], windowId?: number) => {
   for (const tab of tabs) {
     await browser.tabs.create({
       url: tab.url,
-      index: tab.order + indexOffset,
+      index: indexOffset,
       pinned: tab.pinned,
       windowId,
     })
