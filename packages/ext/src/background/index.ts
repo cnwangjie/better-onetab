@@ -10,7 +10,7 @@ if (DEBUG) {
 
   window.tabsManager = tabsManager
   window.browser = browser
-  browser.browserAction.setBadgeText({text: 'dev'})
+  browser.browserAction.setBadgeText({ text: 'dev' })
 }
 
 init()

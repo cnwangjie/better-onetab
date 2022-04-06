@@ -18,7 +18,8 @@ export const updateBrowserAction = async (action?: string, tmp = false) => {
   if (!action) return
   if (!tmp) window.currentBrowserAction = action
   window.coverBrowserAction = () => {}
-  const { label } = browserActionConfigItems.find(({ value }) => value === action) || {}
+  const { label } =
+    browserActionConfigItems.find(({ value }) => value === action) || {}
   console.log('action is: ', action, 'set title as: ', label)
   if (!label) return
   await browser.browserAction.setTitle({ title: label })
@@ -43,6 +44,8 @@ export const updateBrowserAction = async (action?: string, tmp = false) => {
 export const registerBrowserActionListener = async (initialAction?: string) => {
   return Promise.all([
     updateBrowserAction(initialAction),
-    browser.browserAction.onClicked.addListener(() => window.browserActionClickedHandler?.()),
+    browser.browserAction.onClicked.addListener(() =>
+      window.browserActionClickedHandler?.(),
+    ),
   ])
 }

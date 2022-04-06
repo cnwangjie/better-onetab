@@ -56,6 +56,9 @@ const config: Configuration = {
     alias: {
       src: resolve('src'),
     },
+    fallback: {
+      fs: false,
+    },
   },
   module: {
     rules: [

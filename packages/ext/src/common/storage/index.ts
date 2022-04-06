@@ -1,16 +1,21 @@
-import { wrapBackgroundCommunicationDeeply } from '../util/ipc'
+import { wrapCommunicationDeeply } from '../util/ipc'
 import { listStorage } from './lists'
 import { tabsStorage } from './tabs'
 
 export const lists = listStorage
 export const tabs = tabsStorage
 
-export const { storage } = wrapBackgroundCommunicationDeeply({
-  storage: {
-    lists,
-    tabs,
+export const { storage } = wrapCommunicationDeeply(
+  {
+    storage: {
+      lists,
+      tabs,
+    },
   },
-})
+  {
+    allowCurrentExtension: true,
+  },
+)
 
 window['storage'] = storage
 

@@ -15,12 +15,12 @@ export interface List {
 
 export type ListDoc = RxDocument<List>
 
-const initList = (): List => {
+const initList = ({ id, title, pinned, color }: Partial<List> = {}): List => {
   return {
-    id: genId(),
-    title: '',
-    pinned: false,
-    color: '',
+    id: id || genId(),
+    title: title || '',
+    pinned: pinned ?? false,
+    color: color || '',
     order: Date.now(),
     createdAt: Date.now(),
     updatedAt: Date.now(),
@@ -43,7 +43,7 @@ const getOrCreateList = async (listId?: string) => {
 
 const createList = async (opt?: Partial<List>) => {
   const db = await getDB()
-  const list = { ...initList(), ...opt }
+  const list = initList(opt)
   return db.lists.insert(list)
 }
 
@@ -84,6 +84,16 @@ const listList = async (opt?: PaginateOpt) => {
   return paginate<List>(db.lists)(opt)
 }
 
+const _importRxDBLists = async (data: any) => {
+  const db = await getDB()
+  await db.lists.importJSON(data)
+}
+
+const _exportRxDBLists = async () => {
+  const db = await getDB()
+  return db.lists.exportJSON()
+}
+
 export const listStorage = {
   getListById,
   getOrCreateList,
@@ -92,4 +102,6 @@ export const listStorage = {
   deleteList,
   getLatestList,
   listList,
+  _importRxDBLists,
+  _exportRxDBLists,
 }

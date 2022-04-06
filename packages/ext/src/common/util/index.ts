@@ -1,3 +1,4 @@
+import { memoize } from 'lodash'
 import browser from 'webextension-polyfill'
 
 export const genId = () => {
@@ -12,11 +13,15 @@ export const genId = () => {
   )
 }
 
-export const isBackground = async () => {
+export const isBackground = memoize(async () => {
   if (!browser.runtime.getBackgroundPage) return false
   const bg = await browser.runtime.getBackgroundPage()
   return bg === window
-}
+})
+
+export const isCurrentExtension = memoize(() => {
+  return window.location.href.startsWith(browser.runtime.getURL(''))
+})
 
 export const attemptParseJSON = (value: any) => {
   try {

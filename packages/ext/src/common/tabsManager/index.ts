@@ -138,7 +138,7 @@ const storeSelectedTabs = async (listId?: string) => {
 
 const storeAllTabs = async (listId?: string) => {
   const tabs = await getAllTabsInCurrentWindow()
-  if (!tabs) return
+  if (!tabs) return console.error('unexpected empty result of get tabs in current window')
   const opts = await options.getOptions()
   if (opts.openTabListNoTab) {
     openTabList()

@@ -1,4 +1,4 @@
-import { isObject } from 'lodash'
+import { get, isObject } from 'lodash'
 import { StoreToTitledList } from 'src/common/constants'
 import { Options } from 'src/common/options/types'
 import storage from 'src/common/storage'
@@ -37,7 +37,7 @@ const menus = {
 
 const getMenuLabel = (key: string) => __(`menu_${key}`)
 
-const getHandler = (key: any) => (menus as any)[key + '']
+const getHandler = (key: any) => get(menus, key)
 
 export const dynamicDisableMenu = async (lists?: any[]) => {
   const groupedTabs = await tabsManager.groupTabsInCurrentWindow()
@@ -180,6 +180,7 @@ export const setupContextMenus = async ({
 
       // TODO: report
     } else {
+      console.log(getHandler(info.menuItemId))
       getHandler(info.menuItemId)?.()
     }
   }

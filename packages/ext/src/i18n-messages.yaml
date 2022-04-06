@@ -645,3 +645,19 @@ ui_cancel:
   en: Cancel
   zh_CN: 取消
   de: Abbrechen
+ui_success_import_lists:
+  en: Successfully imported $1 lists!
+  zh_CN: 成功导入 $1 个列表！
+  de: '$1 Listen erfolgreich importiert!'
+ui_error_import_lists:
+  en: Failed to import lists, please check content format.
+  zh_CN: 导入列表失败，请检查内容格式。
+  de: Die Listen konnten nicht importiert werden, bitte prüfen Sie die Inhaltsformat.
+ui_prev_page:
+  en: Previous page
+  zh_CN: 上一页
+  de: Vorherige Seite
+ui_next_page:
+  en: Next page
+  zh_CN: 下一页
+  de: Nächste Seite

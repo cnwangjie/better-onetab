@@ -1,5 +1,7 @@
 import { Button, Card, Tab, Tabs, TextField } from '@mui/material'
+import { useSnackbar } from 'notistack'
 import React, { FC, useCallback, useRef, useState } from 'react'
+import { importFromText } from 'src/app/service/swap'
 import withDefaultProps from 'src/app/util/withDefaultProps'
 import __ from 'src/common/util/i18n'
 
@@ -28,13 +30,35 @@ const ImportExport = () => {
   const [exportData, setExportData] = useState('')
   const processing = useRef(false)
 
-  const exportList = useCallback(
-    async (compatible = false) => {
-      if (processing.current) return
+  const { enqueueSnackbar } = useSnackbar()
 
-    },
-    [],
-  )
+  const exportList = useCallback(async (compatible = false) => {
+    if (processing.current) return
+  }, [])
+
+  const importList = useCallback(async (compatible = false) => {
+    if (processing.current) return
+    processing.current = true
+    const data = await new Promise<string>(resolve =>
+      setImportData(data => {
+        resolve(data)
+        return data
+      }),
+    )
+    if (!data) return
+    try {
+      const results = await importFromText(data, compatible)
+      enqueueSnackbar(__('ui_success_import_lists', [results.length]), {
+        variant: 'success',
+      })
+    } catch (e) {
+      enqueueSnackbar(__('ui_error_import_lists'), {
+        variant: 'error',
+      })
+    } finally {
+      processing.current = false
+    }
+  }, [])
 
   return (
     <Card>
@@ -48,11 +72,19 @@ const ImportExport = () => {
       </Tabs>
       <TabPanel value={currentTab} index={0}>
         <div className="flex gap-4 p-4">
-          <Button variant="outlined">{__('ui_import_comp')}</Button>
-          <Button variant="outlined">{__('ui_import_json')}</Button>
+          <Button variant="outlined" onClick={() => importList(true)}>
+            {__('ui_import_comp')}
+          </Button>
+          <Button variant="outlined" onClick={() => importList()}>
+            {__('ui_import_json')}
+          </Button>
         </div>
         <div className="px-4 pb-4">
-          <DataField placeholder={__('ui_import_field_placeholder')} />
+          <DataField
+            value={importData}
+            onChange={e => setImportData(e.target.value)}
+            placeholder={__('ui_import_field_placeholder')}
+          />
         </div>
       </TabPanel>
       <TabPanel value={currentTab} index={1}>
@@ -61,7 +93,11 @@ const ImportExport = () => {
           <Button variant="outlined">{__('ui_export_json')}</Button>
         </div>
         <div className="px-4 pb-4">
-          <DataField placeholder={__('ui_export_field_placeholder')} />
+          <DataField
+            value={exportData}
+            onChange={e => setExportData(e.target.value)}
+            placeholder={__('ui_export_field_placeholder')}
+          />
         </div>
       </TabPanel>
     </Card>

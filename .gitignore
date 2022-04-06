@@ -6,3 +6,4 @@ dist.zip
 .scanner*
 stats.json
 .DS_Store
+tmp

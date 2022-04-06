@@ -1,19 +1,31 @@
-import {
-  addPouchPlugin,
-  createRxDatabase,
-  getRxStoragePouch,
-} from 'rxdb'
-import memoize from 'lodash/memoize'
+import { addRxPlugin, createRxDatabase } from 'rxdb/plugins/core'
+import { getRxStorageLoki } from 'rxdb/plugins/lokijs'
+import { RxDBJsonDumpPlugin } from 'rxdb/plugins/json-dump'
+import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
+import { memoize } from 'lodash'
 
-addPouchPlugin(require('pouchdb-adapter-idb'))
+addRxPlugin(RxDBValidatePlugin)
+addRxPlugin(RxDBJsonDumpPlugin)
+
+if (DEBUG) {
+  import('rxdb/plugins/dev-mode').then(({ RxDBDevModePlugin }) => {
+    addRxPlugin(RxDBDevModePlugin)
+  })
+}
+
+const LokiIncrementalIndexedDBAdapter = require('lokijs/src/incremental-indexeddb-adapter')
 
 const DatabaseName = 'bodb'
 
 export const getDB = memoize(async () => {
-  const db = await createRxDatabase({
+  console.log('init db')
+
+  const db = (window.db = await createRxDatabase({
     name: DatabaseName,
-    storage: getRxStoragePouch('idb'),
-  })
+    storage: getRxStorageLoki({
+      adapter: new LokiIncrementalIndexedDBAdapter(),
+    }),
+  }))
 
   const collections = db.addCollections({
     lists: {
@@ -44,9 +56,7 @@ export const getDB = memoize(async () => {
             type: 'number',
           },
         },
-        indexes: [
-          'order',
-        ]
+        indexes: ['order', 'createdAt', 'updatedAt', 'color'],
       },
     },
     tabs: {
@@ -77,10 +87,7 @@ export const getDB = memoize(async () => {
             type: 'number',
           },
         },
-        indexes: [
-          'listId',
-          'order',
-        ]
+        indexes: ['listId', 'order'],
       },
     },
     tags: {
@@ -103,4 +110,4 @@ export const getDB = memoize(async () => {
   return collections
 })
 
-window['getDB'] = getDB
+window.getDB

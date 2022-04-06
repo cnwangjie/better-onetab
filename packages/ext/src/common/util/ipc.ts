@@ -1,6 +1,6 @@
 import { isFunction, mapValues, once } from 'lodash'
 import browser from 'webextension-polyfill'
-import { isBackground } from '.'
+import { isBackground, isCurrentExtension } from '.'
 import { RuntimeOnMessageListener } from './composeListener'
 
 const handlers: Record<string, (...args: any) => Promise<any>> = {}
@@ -40,13 +40,34 @@ export const createIpcListener = once(
   },
 )
 
-export const wrapBackgroundCommunication = <T extends (...args: any[]) => any>(
+export interface WrapOption {
+  allowCurrentExtension?: boolean
+}
+
+export const wrapCommunication = <T extends (...args: any[]) => any>(
   fn: T,
   name: string,
+  { allowCurrentExtension }: WrapOption = {},
 ): T => {
   const wrapped = async (...args: any[]) => {
-    if (await isBackground()) {
-      return fn(...args)
+    if (
+      (allowCurrentExtension && isCurrentExtension()) ||
+      (await isBackground())
+    ) {
+      const start = Date.now()
+      const result = await fn(...args)
+      const time = Date.now() - start
+      if (time > 100) {
+        console.warn(
+          'execute locally too slow',
+          `(took ${time}ms)`,
+          'name:',
+          name,
+          'args:',
+          ...args,
+        )
+      }
+      return result
     }
 
     const ipcCall = { name, args }
@@ -70,17 +91,16 @@ export const wrapBackgroundCommunication = <T extends (...args: any[]) => any>(
   return wrapped as T
 }
 
-export const wrapBackgroundCommunicationDeeply = <
-  T extends Record<string, any>
->(
+export const wrapCommunicationDeeply = <T extends Record<string, any>>(
   objects: T,
+  opt: WrapOption = {},
   path = '',
 ): T => {
-  return (mapValues(objects, (fn, name) => {
+  return mapValues(objects, (fn, name) => {
     const fullName = path ? path + '.' + name : name
-    if (isFunction(fn)) return wrapBackgroundCommunication(fn, fullName)
-    return wrapBackgroundCommunicationDeeply(fn, fullName)
-  }) as any) as T
+    if (isFunction(fn)) return wrapCommunication(fn, fullName, opt)
+    return wrapCommunicationDeeply(fn, opt, fullName)
+  }) as any as T
 }
 
 export const registerIpcHandlerDeeply = <T extends Record<string, any>>(

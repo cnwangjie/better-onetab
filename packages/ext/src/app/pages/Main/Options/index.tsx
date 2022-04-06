@@ -25,12 +25,7 @@ const Options = () => {
     return async (e: any) => {
       const value = e.target?.value ?? e
       await setOption(name, value)
-      enqueueSnackbar(__('ui_opt_changes_saved'), {
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center',
-        }
-      })
+      enqueueSnackbar(__('ui_opt_changes_saved'))
     }
   }, [])
 

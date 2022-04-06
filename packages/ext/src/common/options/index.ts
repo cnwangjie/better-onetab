@@ -2,7 +2,7 @@ import { fromPairs, keyBy, zip } from 'lodash'
 import { optionsList, Type } from './list'
 import { attemptParseJSON } from 'src/common/util'
 import { OptionKey, Options } from './types'
-import { wrapBackgroundCommunicationDeeply } from '../util/ipc'
+import { wrapCommunicationDeeply } from '../util/ipc'
 
 const OptionsMap = keyBy(optionsList, 'name')
 const OptionsKeys = Object.keys(OptionsMap) as OptionKey[]
@@ -43,4 +43,6 @@ const options = {
   setOption,
 }
 
-export default wrapBackgroundCommunicationDeeply(options)
+const allowCurrentExtension = true
+
+export default wrapCommunicationDeeply(options, { allowCurrentExtension })

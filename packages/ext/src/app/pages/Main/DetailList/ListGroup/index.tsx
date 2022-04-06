@@ -1,7 +1,7 @@
 import { Accordion, AccordionSummary, Chip } from '@mui/material'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import __ from 'src/common/util/i18n'
-import { useListTabs } from 'src/app/service'
+// import { useListTabs } from 'src/app/service'
 import { formatTime } from 'src/common/util/formatDate'
 import { Droppable } from 'react-beautiful-dnd'
 import TabItem from '../TabItem'
@@ -10,20 +10,27 @@ import useChangeableListTitle from './useChangeableListTitle'
 import StyledIconButton from 'src/app/component/StyledIconButton'
 import type { List } from 'src/common/storage/lists'
 import useHandler from './useHandler'
+import { SortableContext, useSortable } from '@dnd-kit/sortable'
+import { useListTabs } from 'src/app/store'
+import { fetchListTabs } from 'src/app/service'
 
 const ListGroup: FC<{ list: List }> = ({ list }) => {
-  const { data: tabs } = useListTabs(list.id)
+  // const { data: tabs } = useListTabs(list.id)
 
-  const { checked, handleCheckedChange, someChecked, checkAllBox } = useChecked(
-    tabs,
-  )
+  const tabs = useListTabs(list.id)
+
+  useEffect(() => {
+    fetchListTabs(list.id)
+  }, [list.id])
+
+  const { checked, handleCheckedChange, someChecked, checkAllBox } =
+    useChecked(tabs)
 
   const { title, handleChangeListTitle } = useChangeableListTitle(list)
 
-  const {
-    handleRestoreAll,
-    removeList,
-  } = useHandler(list, tabs)
+  const { handleRestoreAll, removeList } = useHandler(list, tabs)
+
+  return null
 
   const buttons = [
     {
@@ -56,6 +63,24 @@ const ListGroup: FC<{ list: List }> = ({ list }) => {
       icon: 'mdi:tag-text',
     },
   ]
+
+  const dndKit = tabs && (
+    <SortableContext items={tabs}>
+      <div>
+        {tabs.map((tab, index) => {
+          return (
+            <TabItem
+              key={tab.id}
+              tab={tab}
+              index={index}
+              checked={!!checked[tab.id]}
+              onCheckedChange={handleCheckedChange(tab.id)}
+            />
+          )
+        })}
+      </div>
+    </SortableContext>
+  )
 
   return (
     <Accordion
@@ -96,28 +121,7 @@ const ListGroup: FC<{ list: List }> = ({ list }) => {
           return <StyledIconButton key={index} {...props} />
         })}
       </div>
-      <div className="py-1">
-        <Droppable droppableId={list.id}>
-          {({ droppableProps, innerRef, placeholder }) => {
-            return (
-              <div ref={innerRef} {...droppableProps}>
-                {tabs?.map((tab, index) => {
-                  return (
-                    <TabItem
-                      key={tab.id}
-                      tab={tab}
-                      index={index}
-                      checked={!!checked[tab.id]}
-                      onCheckedChange={handleCheckedChange(tab.id)}
-                    />
-                  )
-                })}
-                {placeholder}
-              </div>
-            )
-          }}
-        </Droppable>
-      </div>
+      <div className="py-1">{dndKit}</div>
     </Accordion>
   )
 }
