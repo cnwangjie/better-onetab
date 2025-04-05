@@ -3,7 +3,7 @@
   <drawer :value="drawer"></drawer>
   <toolbar></toolbar>
   <v-content>
-    <v-container>
+    <v-container class="sub-container">
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
@@ -60,6 +60,10 @@ export default {
 }
 </script>
 <style>
+.sub-container{
+    height:calc(100vh - 120px);
+    overflow-y: scroll;
+}
 .no-transition * {
   transition: none !important;
 }

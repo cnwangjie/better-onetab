@@ -232,6 +232,18 @@ export const optionsList = [
         value: 15,
         label: 15,
       },
+      {
+        value: 30,
+        label: 30,
+      },
+      {
+        value: 50,
+        label: 50,
+      },
+      {
+        value: 100,
+        label: 100,
+      },
     ],
     new: '1.4.0',
   },
