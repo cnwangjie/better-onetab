@@ -19,7 +19,7 @@
     "@sentry/browser": "^5.5.0",
     "@sentry/integrations": "^5.5.0",
     "downloadjs": "^1.4.7",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "material-design-icons-iconfont": "^3.0.3",
     "moment": "^2.22.1",
     "socket.io-client": "^2.2.0",
