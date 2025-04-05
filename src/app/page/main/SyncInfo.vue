@@ -15,8 +15,12 @@
           <v-list>
             <v-list-tile>
               <v-list-tile-content>
-                <v-list-tile-title>
+                <v-list-tile-title :style="{ height: '30px' }">
                   {{ __('ui_boss') }}
+                  <v-tooltip top>
+                    <v-chip slot="activator" outline color="red" small :style="{ margin: 0 }">BETA</v-chip>
+                    <span>{{ __('ui_beta_warn') }}</span>
+                  </v-tooltip>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ bossSubtitle }}

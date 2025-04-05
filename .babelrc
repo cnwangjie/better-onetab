@@ -3,6 +3,7 @@
     [
       "@babel/preset-env",
       {
+        "modules": false,
         "targets": "last 1 years"
       }
     ]

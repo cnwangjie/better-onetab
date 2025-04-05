@@ -508,20 +508,21 @@ export default {
       }
     },
     multiOpBtnClicked(listIndex, $event) {
-      this.x = $event.x
-      this.y = $event.y
+      this.showMenu = false
+      this.$refs.contextMenu.x = $event.x
+      this.$refs.contextMenu.y = $event.y
       this.multiOpBtnClickedListIndex = listIndex
       this.$nextTick(() => {
         this.showMenu = true
       })
     },
     async jumpTo(item) {
-      const page = item.listIndex / this.opts.listsPerPage << 0
+      const page = (item.listIndex / this.opts.listsPerPage << 0) + 1
       this.$router.replace({name: 'detailList', query: {p: page}})
       await this.$nextTick()
       const opt = {
         duration: 500,
-        offset: -100,
+        offset: 100,
         easing: 'easeInOutCubic',
       }
       if (item.tabIndex == null) {
@@ -530,9 +531,11 @@ export default {
         this.expandList([true, item.listIndex])
         this.currentHighlightItem = this.$refs[`list-${item.listIndex}-tab`][item.tabIndex]
       }
-      console.log(this.currentHighlightItem)
-      this.currentHighlightItem.$el.classList.add('elevation-20')
-      this.$vuetify.goTo(this.currentHighlightItem, opt)
+      await this.$nextTick()
+      setTimeout(() => {
+        this.$vuetify.goTo(this.currentHighlightItem, opt)
+        this.currentHighlightItem.$el.classList.add('elevation-20')
+      }, 0)
     },
     async foldAll() {
       this.listsInView.forEach(list => {
@@ -645,6 +648,7 @@ export default {
   opacity: 0;
 }
 .list-item {
+  padding-bottom: 20px;
   .checkbox {
     margin-left: 20px;
   }

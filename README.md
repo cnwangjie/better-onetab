@@ -1,3 +1,11 @@
+> [!NOTE]
+>
+> The [OneTab](https://chromewebstore.google.com/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall) extension seems to have been sold. The new owner has registered a trademark for it and notified me by email about the removal from Chrome Web Store.
+>
+> I myself have not maintained this project for a long time. Therefore, this project is archived.
+> Currently, Chrome's built-in tab management features are powerful enough that there is no need to use extensions to manage tabs anymore. And you can try new browser projects like [Arc](https://arc.net/).
+
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/36993664/44917039-f208ad80-ad3f-11e8-85e9-e29489f0ffb4.png">
 </p>
@@ -10,8 +18,6 @@
 <img src="https://img.shields.io/github/last-commit/cnwangjie/better-onetab.svg?style=flat-square" alt="GitHub last commit">
 <a href="https://gitter.im/better-onetab/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://img.shields.io/gitter/room/better-onetab/Lobby.svg?style=flat-square" alt="Join the chat at https://gitter.im/better-onetab/Lobby"></a>
 </p>
-
-[中文README](./README.zh.md)
 
 ### A better onetab extension
 
@@ -61,10 +67,6 @@ Build your own from following steps：
 It took me a lot of time to develop Better Onetab and need to pay for the sync server every month. If my work helps you, you can donate it in the following way.
 
  - [PayPal](https://paypal.me/wangjie0)
- - [DigitalOcean Invitation Link](https://m.do.co/c/4c053a482508)
- - BTC 1ABQECfxBGLvjZqaxTm1io3CFPbKhMaSQ1
- - ETH 0x43D361928BF8f0a58c977b152dabfF47f68c6767
- - BCC qpqe7kcrc6lhwltd536j26j8gyk4ws3f3uehj5tql8
 
 ### Especially thanks
 

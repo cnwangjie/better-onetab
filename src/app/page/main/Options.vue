@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex xs12 sm8 offset-sm2>
 
     <v-card>
       <v-card-text>
@@ -65,10 +65,6 @@
 
               <v-subheader>
                 Sync
-                <v-tooltip top>
-                  <v-chip slot="activator" outline color="red" small>BETA</v-chip>
-                  <span>{{ __('ui_beta_warn') }}</span>
-                </v-tooltip>
               </v-subheader>
             </v-list-tile-content>
             <v-list-tile-action>

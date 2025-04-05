@@ -123,8 +123,8 @@ export default {
     },
     async impFile(event) {
       const [file] = event.target.files
-      // the biggest file size is 32KB & unrestricted file type
-      if (file.size > (1 << 15)) return
+      // the biggest file size is 1MB & unrestricted file type
+      if (file.size > (1 << 20)) return
       const text = await readFile(file)
       this.importData = text
     },
